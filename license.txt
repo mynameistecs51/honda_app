@@ -25,6 +25,7 @@ the following conditions are met:
    they are derived from CodeIgniter in their documentation and/or other
    materials provided with the distribution.
 
+
 6. Products derived from the Software may not be called "CodeIgniter",
    nor may "CodeIgniter" appear in their name, without prior written
    permission from EllisLab, Inc.
@@ -49,3 +50,4 @@ WITH THE SOFTWARE. LICENSE HOLDERS ARE SOLELY RESPONSIBLE FOR DETERMINING THE
 APPROPRIATENESS OF USE AND ASSUME ALL RISKS ASSOCIATED WITH ITS USE, INCLUDING
 BUT NOT LIMITED TO THE RISKS OF PROGRAM ERRORS, DAMAGE TO EQUIPMENT, LOSS OF
 DATA OR SOFTWARE PROGRAMS, OR UNAVAILABILITY OR INTERRUPTION OF OPERATIONS.
+INSERT NEW ROW
