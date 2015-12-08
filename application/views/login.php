@@ -15,7 +15,7 @@ echo form_open('authen/', $attibutes); ?>
    <div class="head_login"></div>
  		<div class="input">
 		<br>
-			<input type="text" name="username" class="textbox" placeholder=" ชื่อผู้ใช้">
+			<input type="text" name="username" class="textbox" placeholder=" ชื่อผู้ใช้" autofocus>
 		<br><br>
 			<input type="password" name="password" class="textbox" placeholder=" รหัสผ่าน">
 			<br><br>
