@@ -45,24 +45,24 @@
 | the active record class
 */
 
-$active_group = 'sms';
+$active_group = 'default';
 $active_record = TRUE;
 
-$db['sms']['hostname'] = 'svr002';
-$db['sms']['username'] = 'thainology';
-$db['sms']['password'] = 'thainology';
-$db['sms']['database'] = 'sms';
-$db['sms']['dbdriver'] = 'mysql';
-$db['sms']['dbprefix'] = '';
-$db['sms']['pconnect'] = TRUE;
-$db['sms']['db_debug'] = TRUE;
-$db['sms']['cache_on'] = FALSE;
-$db['sms']['cachedir'] = '';
-$db['sms']['char_set'] = 'utf8';
-$db['sms']['dbcollat'] = 'utf8_unicode_ci';
-$db['sms']['swap_pre'] = '';
-$db['sms']['autoinit'] = TRUE;
-$db['sms']['stricton'] = FALSE;
+$db['default']['hostname'] = 'localhost';
+$db['default']['username'] = 'root';
+$db['default']['password'] = '';
+$db['default']['database'] = 'sms';
+$db['default']['dbdriver'] = 'mysql';
+$db['default']['dbprefix'] = '';
+$db['default']['pconnect'] = TRUE;
+$db['default']['db_debug'] = TRUE;
+$db['default']['cache_on'] = FALSE;
+$db['default']['cachedir'] = '';
+$db['default']['char_set'] = 'utf8';
+$db['default']['dbcollat'] = 'utf8_general_ci';
+$db['default']['swap_pre'] = '';
+$db['default']['autoinit'] = TRUE;
+$db['default']['stricton'] = FALSE;
 
 
 /* End of file database.php */

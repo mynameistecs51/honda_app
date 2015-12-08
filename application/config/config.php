@@ -14,7 +14,7 @@
 | path to your installation.
 |
 */
-$config['base_url']	= 'http://localhost/sms/';
+$config['base_url']	= 'http://localhost/honda_app/';
 
 /*
 |--------------------------------------------------------------------------
@@ -225,7 +225,7 @@ $config['cache_path'] = '';
 | MUST set an encryption key.  See the user guide for info.
 |
 */
-$config['encryption_key'] = 'sms';
+$config['encryption_key'] = 'honda_app';
 
 /*
 |--------------------------------------------------------------------------
