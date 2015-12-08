@@ -253,15 +253,9 @@ if ( ! function_exists('get_config'))
 				}
 			}
 		}
-<<<<<<< HEAD
 		
 		$_config[0] =& $config;
 		return $_config[0];
-=======
-
-		 $_config[0] =& $config;
-		 return $_config[0];
->>>>>>> origin/master
 	}
 }
 
