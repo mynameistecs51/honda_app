@@ -48,9 +48,9 @@
 $active_group = 'sms';
 $active_record = TRUE;
 
-$db['sms']['hostname'] = 'svr002';
-$db['sms']['username'] = 'thainology';
-$db['sms']['password'] = 'thainology';
+$db['sms']['hostname'] = 'localhost';
+$db['sms']['username'] = 'root';
+$db['sms']['password'] = '';
 $db['sms']['database'] = 'sms';
 $db['sms']['dbdriver'] = 'mysql';
 $db['sms']['dbprefix'] = '';
