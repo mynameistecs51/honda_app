@@ -3,31 +3,29 @@
    {
       public function __construct()
       {
-		parent::__construct();
-		$this->load->database("sms");
+		parent::__construct(); 
       }
 
- public function getMenu($level,$id_mpst){
+ public function getMenu($level,$id_mposition){
 	  $sql = "
 	SELECT
-		a.id_mmnu,
-		a.name_en,
-		a.name_th,
+		a.id_mmenu,
+		a.mmenu_name,
 		a.id_parent,
 		a.level,
 		a.filelocation
 		FROM
-		mmnu a
-		INNER JOIN cmmnu_mpst b ON a.id_mmnu=b.id_mmnu
-		INNER JOIN mpst c ON b.id_mpst=c.id_mpst
+		mmenu a
+		INNER JOIN cusersetting b ON a.id_mmenu=b.id_mmenu
+		INNER JOIN mposition c ON b.id_mposition=c.id_mposition
 		WHERE
 		a.level ='$level' 
-		AND b.id_mpst='$id_mpst'
+		AND b.id_mposition='$id_mposition'
 		AND a.status=1
 		AND b.status=1 
 		ORDER BY a.id_order" ;
- //   echo $sql;
-         $query = $this->db->query($sql);
+// echo "<pre>".$sql;
+        $query = $this->db->query($sql);
 		$num_row = $query->num_rows();
 		$result = $query->result();
 		$data = array(
@@ -37,21 +35,20 @@
 		return $data;
 	  }
 
-public function CheckAuthen($id_mpst,$ctl){
+public function CheckAuthen($id_mposition,$ctl){
 	  $sql = "
 	SELECT
-		a.id_mmnu,
-		a.name_en,
-		a.name_th,
+		a.id_mmenu,
+		a.mmenu_name,
 		a.id_parent,
 		a.level,
 		a.filelocation
 		FROM
-		mmnu a
-		INNER JOIN cmmnu_mpst b ON a.id_mmnu=b.id_mmnu
-		INNER JOIN mpst c ON b.id_mpst=c.id_mpst
+		mmenu a
+		INNER JOIN cusersetting b ON a.id_mmenu=b.id_mmenu
+		INNER JOIN mposition c ON b.id_mposition=c.id_mposition
 		WHERE 		
-			b.id_mpst='$id_mpst'
+			b.id_mposition='$id_mposition'
 		AND a.status=1
 		AND b.status=1 
 		AND a.filelocation='$ctl' ";
@@ -65,12 +62,11 @@ public function CheckAuthen($id_mpst,$ctl){
 		}
  	  }
 
-public function getBtn($id_mpst,$ctl){
+public function getBtn($id_mposition,$ctl){
 	  $sql = "
 		SELECT
-			a.id_mmnu,
-			a.name_en,
-			a.name_th,
+			a.id_mmenu,
+			a.mmenu_name,
 			a.id_parent,
 			a.level,
 			a.filelocation,
@@ -80,11 +76,11 @@ public function getBtn($id_mpst,$ctl){
 			b.can_edit,
 			b.can_print
 		FROM
-			mmnu a
-			INNER JOIN cmmnu_mpst b ON a.id_mmnu=b.id_mmnu
-			INNER JOIN mpst c ON b.id_mpst=c.id_mpst
+			mmenu a
+			INNER JOIN cusersetting b ON a.id_mmenu=b.id_mmenu
+			INNER JOIN mposition c ON b.id_mposition=c.id_mposition
 		WHERE 		
-			b.id_mpst='$id_mpst'
+			b.id_mposition='$id_mposition'
 		AND a.status=1
 		AND b.status=1 
 		AND a.filelocation='$ctl' "; 
@@ -103,16 +99,16 @@ public function getScreenName($filelocation)
  {
  	$sql ="
  	SELECT
-			CONCAT(UCASE(parent.name_en),' ','>',' ',mmnu.name_th) as screenname
+			CONCAT(UCASE(parent.mmenu_name),' ','>',' ',mmenu.mmenu_name) as screenname
 			FROM
-				mmnu
+				mmenu
 			JOIN (SELECT
-					id_mmnu,
-					name_en
+					id_mmenu,
+					mmenu_name
 				  FROM
-					mmnu) AS parent ON mmnu.id_parent = parent.id_mmnu
+					mmenu) AS parent ON mmenu.id_parent = parent.id_mmenu
 			WHERE
-				mmnu.filelocation = '".$filelocation."'";
+				mmenu.filelocation = '".$filelocation."'";
 	$query = $this->db->query($sql);
 	if($query->num_rows() > 0)
 	{
@@ -127,11 +123,11 @@ public function getScreenName($filelocation)
  {
  	$sql ="
  	SELECT
-			mmnu.name_th as pagename
+			mmenu.mmenu_name
 			FROM
-				mmnu
+				mmenu
 			WHERE
-				mmnu.filelocation = '".$filelocation."'";
+				mmenu.filelocation = '".$filelocation."'";
 	$query = $this->db->query($sql);
 	if($query->num_rows() > 0)
 	{

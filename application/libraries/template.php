@@ -6,7 +6,7 @@ class Template{
 		$this->CI =& get_instance();
 		$this->CI->load->model('mdl_menu');
 	}
-   public function getHeader($base_url,$SCREENNAME,$memp_name,$lastLogin,$id_memp)
+   public function getHeader($base_url,$SCREENNAME,$mmember_name,$lastLogin,$id_mposition,$mbranch_name)
    {
         return "
  <!DOCTYPE html>
@@ -50,15 +50,15 @@ class Template{
 	<body>
 	<center>
 	<div class='template_Header'>
-		<div class='logo'><img src='".$base_url."images/logo-sms.png' height='60px;'></div>
-		<div class='user_login'><img src='".$base_url."images/company.PNG' height='20px'> 
-		CHUPHOTIC <img src='".$base_url."images/user.png' height='20px'> ".$memp_name." 
+		<div class='logo'><img src='".$base_url."images/Honda_logo.png' height='60px;'></div>
+		<div class='user_login'><img src='".$base_url."images/company.PNG' height='20px'> ".$mbranch_name."
+		<img src='".$base_url."images/user.png' height='20px'> ".$mmember_name." 
 		<img src='".$base_url."images/lastlogin.png' height='20px'> ".$lastLogin." 
 		<img src='".$base_url."images/setting.png' class='setting' title='แก้ไขรหัสผ่าน' height='20px'></div>
 	</div>
 	<div class='template_menu'>
 		<div id='cssmenu'>
-			".$this->menu($base_url,$id_memp)."  
+			".$this->menu($base_url,$id_mposition)."  
 		</div>
 	</div>
 	";
@@ -71,41 +71,28 @@ class Template{
 	</body>
 	</html>
 	";
-	/*
-      return "
-	</div>
-	<div class='template_footer'>
-		Copyright © Thainology and Solutions Co.,Ltd. <br/>
-		This copy is licensed to chuphotic <br/>
-		www.thainology.com
-	</div>
-	</center>
-	</body>
-	</html>
-	";
-	*/
    }
 
-   public function checkBtnAuthen($id_mpst,$ctl){ 
-		$btn=$this->CI->mdl_menu->getBtn($id_mpst,$ctl);
+   public function checkBtnAuthen($id_mposition,$ctl){ 
+		$btn=$this->CI->mdl_menu->getBtn($id_mposition,$ctl);
 		return $btn;
     }
 
-public function menu($base_url,$id_memp)
+public function menu($base_url,$id_mposition)
 { 
-	$lavle1=  $this->CI->mdl_menu->getMenu('1',$id_memp);
-	$lavle2=  $this->CI->mdl_menu->getMenu('2',$id_memp); 
+	$lavle1=  $this->CI->mdl_menu->getMenu('1',$id_mposition);
+	$lavle2=  $this->CI->mdl_menu->getMenu('2',$id_mposition); 
 	$menu ="<ul>";
 	$menu .="<li><a href='".$base_url."dashboard/'>HOME</a>";
 	foreach ($lavle1["result"] as $row)
 	{ 
-		$menu .="<li class='active'><a href='#'>". $row->name_th."</a>";
+		$menu .="<li class='active'><a href='#'>". $row->mmenu_name."</a>";
 		$menu .="<ul>";
 				foreach ($lavle2["result"] as $row2)
 				{ 
-					if($row->id_mmnu==$row2->id_parent){
+					if($row->id_mmenu==$row2->id_parent){
 
-						$menu .="<li class='active' style='text-align:left;'><a href='".$base_url.$row2->filelocation."'>".$row2->name_th."</a></li>";
+						$menu .="<li class='active' style='text-align:left;'><a href='".$base_url.$row2->filelocation."'>".$row2->mmenu_name."</a></li>";
  					}
 				}
 		$menu .="</ul>";
@@ -118,9 +105,9 @@ public function menu($base_url,$id_memp)
 	return $menu;
 }
 
-public function CheckAuthen($id_mpst,$ctl)
+public function CheckAuthen($id_mposition,$ctl)
 {
-	return $this->CI->mdl_menu->CheckAuthen($id_mpst,$ctl);
+	return $this->CI->mdl_menu->CheckAuthen($id_mposition,$ctl);
 }
 
 public function getScreenName($ctl_name)

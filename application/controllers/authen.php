@@ -13,11 +13,11 @@ class Authen extends CI_Controller
 
 public function index()
    {
-	if($this->session->userdata("id_memp")==""){
+	if($this->session->userdata("id_mmember")==""){
       if($this->input->post("btnOk") != null)
       {
          $this->data = array  (
-         "username"     => $this->input->post('username'),
+         "username" => $this->input->post('username'),
          "password" => $this->input->post('password')
                            );
          $this->doCheckLogin($this->data);
@@ -36,14 +36,14 @@ public function index()
 
 	public function logout()
    {
-      if ( $this->session->userdata("id_memp") != null )
+      if ( $this->session->userdata("id_mmember") != null )
       {
-		 $this->session->unset_userdata("id_memp");
+		 $this->session->unset_userdata("id_mmember");
 		 $this->session->unset_userdata("email");
-		 $this->session->unset_userdata("memp_code");
-		 $this->session->unset_userdata("memp_name");
-		 $this->session->unset_userdata("id_mpst");
-		 $this->session->unset_userdata("mpst_name");
+		 $this->session->unset_userdata("mmember_code");
+		 $this->session->unset_userdata("mmember_name");
+		 $this->session->unset_userdata("id_mposition");
+		 $this->session->unset_userdata("mposition_name");
       }
       $screenID = "login";
       $this->data['base_url'] = $this->config->item('base_url');
@@ -63,29 +63,29 @@ public function index()
    { 
       if ( $this->mdl_authen->doCheckValidUserLogin($this->data["username"], $this->data["password"]) )
       {
-        $this->data["id_memp"]   = $this->mdl_authen->getMempID($this->data["username"]);
-        $result   = $this->mdl_authen->getDataUser($this->data["id_memp"]); 
+        $this->data["id_mmember"]   = $this->mdl_authen->getmmemberID($this->data["username"]);
+        $result   = $this->mdl_authen->getDataUser($this->data["id_mmember"]); 
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok'));
 		$loginData = array(
-			"id_memp" => $this->data["id_memp"],
+			"id_mmember" => $this->data["id_mmember"],
 			"is_login"  => '1',
 			"id_create" => '1',
 			"dt_create" => $now->format('Y-m-d H:i:s')
 		 );
 		 $this->mdl_authen->doInsert('tlog_lgn', $loginData);
 		 
-		 $this->data["lastLogin"] = $this->mdl_authen->getLastLogin($this->data["id_memp"]);
+		 $this->data["lastLogin"] = $this->mdl_authen->getLastLogin($this->data["id_mmember"]);
 		 $this->loginSession = array(
-			"id_memp"    => $result->id_memp,
-			"memp_code"  => $result->memp_code,
-			"email"   	 => $result->email,
-			"memp_name"  => $result->name_th,
-			"id_mpst"  	 => $result->id_mpst,
-			"mpst_name"  => $result->mpst_name,
-			"lastLogin"  => $this->data["lastLogin"]
+			"id_mmember"     => $result->id_mmember,
+			"mmember_code"   => $result->mmember_code,
+			"email"   	 	 => $result->email,
+			"mmember_name"   => $result->mmember_name,
+			"id_mposition"   => $result->id_mposition,
+			"mbranch_name"	 => $result->mbranch_name,
+			"mposition_name" => $result->mposition_name,
+			"lastLogin"  	 => $this->data["lastLogin"]
 		); 
 		$this->session->set_userdata($this->loginSession);
-
 
 		redirect('dashboard/');
 

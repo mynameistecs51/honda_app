@@ -8,10 +8,14 @@ class dashboard extends CI_Controller
 		parent::__construct();
 		$this->load->model('mdl_menu');
 		$this->load->library('template');
+		$this->ctl="dashboard"; 
 		date_default_timezone_set('Asia/Bangkok');
-		if($this->session->userdata("id_memp")==""){
+		if($this->session->userdata("id_mmember")==""){
 			redirect('authen/');
 		}
+		$this->mposition  = $this->session->userdata("id_mposition");
+		$this->id_mmember = $this->session->userdata("id_mmember");
+		$this->mbranch_name = $this->session->userdata("mbranch_name");
 	}
 
 public function index()
@@ -24,13 +28,9 @@ public function index()
 
 public function mainpage($SCREENNAME)
 {
- 		$ctl="memp";
-		$this->data['base_url'] = $this->config->item('base_url');
-		$this->data['memp_name'] = $this->session->userdata("memp_name");
-		$this->data["lastLogin"] = $this->session->userdata('lastLogin');
-		$this->data["id_memp"] =$this->session->userdata("id_memp");
-		$this->data["id_mpst"] =$this->session->userdata("id_mpst");
-		$this->data["header"]=$this->template->getHeader($this->data['base_url'],$SCREENNAME,$this->data['memp_name'],$this->data["lastLogin"],$this->data["id_mpst"]);
+		$this->data['mmember_name'] = $this->session->userdata("mmember_name");
+		$this->data["lastLogin"] = $this->session->userdata('lastLogin'); 
+		$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->mposition,$this->mbranch_name);
 		$this->data["footer"] = $this->template->getFooter();
 }
 

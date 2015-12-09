@@ -1,13 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class cmmnu_mpst extends CI_Controller 
+class Usersetting extends CI_Controller 
 { 
 public function __construct()
 {
 	parent::__construct();
-	$this->ctl="cmmnu_mpst";
-	$this->load->model('mdl_cmmnu_mpst');
-	$this->load->library('template');
-	$this->load->library('datatables');
+	$this->ctl="usersetting";
+	$this->load->model('mdl_cmmnu_mpst'); 
 	date_default_timezone_set('Asia/Bangkok');
 	$now = new DateTime(null, new DateTimeZone('Asia/Bangkok')); 
 	$this->dt_now = $now->format('Y-m-d H:i:s');
