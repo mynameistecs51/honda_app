@@ -66,17 +66,17 @@ function rundatatable(){
                       "mRender": function(data, type, full) { 
                         var html ='';
                         if($('#btn_view').val()==1){ 
-                            html +='<img src="<?php echo base_url(); ?>images/list_view.png"   title="รายละเอียด" class="btnopt view" data-idview="' + full['id_mmember'] + '"></img>';
+                            html +='<img src="<?php echo base_url(); ?>images/list_view.png"   title="รายละเอียด" class="btnopt view" data-idview="' + full['id_mmember'] + '" />';
                         }else{ 
-                            html +='<img src="<?php echo base_url(); ?>images/un_list_view.png"   title="ไม่ได้รับสิทธิ์ดูรายละเอียด" class="btnoptUnclick" data-idview="' + full['id_mmember'] + '"></img>';
+                            html +='<img src="<?php echo base_url(); ?>images/un_list_view.png"   title="ไม่ได้รับสิทธิ์ดูรายละเอียด" class="btnoptUnclick" data-idview="' + full['id_mmember'] + '" />';
                         } 
                         if($('#btn_edit').val()==1){ 
-                            html +='<img src="<?php echo base_url(); ?>images/list_edit.png"   title="แก้ไข" class="btnopt edit" data-idedit="' + full['id_mmember'] + '"></img>';
+                            html +='<img src="<?php echo base_url(); ?>images/list_edit.png"   title="แก้ไข" class="btnopt edit" data-idedit="' + full['id_mmember'] + '" />';
                         }else{ 
-                            html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="ไม่ได้รับสิทธิ์แก้ไขข้อมูล" class="btnoptUnclick" data-idedit="' + full['id_mmember'] + '"></img>';
+                            html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="ไม่ได้รับสิทธิ์แก้ไขข้อมูล" class="btnoptUnclick" data-idedit="' + full['id_mmember'] + '" />';
                         } 
                     
-                            html +='<input type="hidden" ID="id_mmember' + full['id_mmember'] + '" value="' + full['id_mmember'] + '">';
+                            html +='<input type="hidden" ID="id_mmember' + full['id_mmember'] + '" value="' + full['id_mmember'] + '" />';
                         return html;
                       }
                     }]
@@ -156,6 +156,7 @@ function view(num)
             }).modal({backdrop: 'static',keyboard: true});
       setInterval(function(){$('#ajaxLoaderModal').remove()},5000);
     }
+     
 function fromprint(num,idx){ 
     window.location = $('#baseurl_print').val()+num; 
 }
@@ -168,7 +169,7 @@ function modal_form(n,screenname)
     div+='<div class="modal modal-wide fade" id="myModal'+n+'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
     div+='<div class="modal-dialog">';
     div+='<div class="modal-content">';
-    div+='<div class="modal-header" style="background:#B40404;color:#FFFFFF;">';
+    div+='<div class="modal-header" style="background:#d9534f;color:#FFFFFF;">';
     div+='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
     div+='<h4 class="modal-title">'+screenname+'</h4>';
     div+='</div>';
@@ -214,7 +215,7 @@ function modal_form_view(n,screenname)
 <div class="nev_url"><?php echo $NAV; ?> </div>
 <?php if($btn['add']==1){ echo "<div class='add' ID='add'>+ เพิ่มรายการ</div>"; }else{ echo "<div class='noneadd' title='ไม่ได้รับสิทธิ์เพิ่มรายการ'>+ เพิ่มรายการ</div>";} ?>
 <div class="search">ค้นหา : 
-    <input type="text" data-column="0"  class="search-input-text" placeholder="--รหัสพนักงาน--"> 
+    <input type="text" data-column="0"  class="search-input-text" placeholder="--รหัสพนักงาน--">
     <input type="text" data-column="1"  class="search-input-text" placeholder="--ชื่อ-สกุล--"> 
     <input type="text" data-column="2"  class="search-input-text" placeholder="--ชื่อเข้าใช้ระบบ--"> 
     <input type="text" data-column="3"  class="search-input-text" placeholder="--เบอร์มือถือ--">

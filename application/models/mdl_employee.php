@@ -59,22 +59,18 @@
         return $data;
 	  }
 
-public function getmmember($id){
+public function getemployee($id){
 	  $sql = "
 			SELECT
 				a.id_mmember,
 				a.id_mposition,
-				a.id_mdept,
+				c.id_mbranch,
 				a.sex,
-				a.mmember_code,
-				a.status_marriaged,
+				a.mmember_code, 
 				a.id_mmember_tit,
-				concat(a.firstname_th,' ',a.lastname_th) AS name_th,
-				concat(a.firstname_en,' ',a.lastname_en) AS name_en,
-				a.firstname_th,
-				a.lastname_th,
-				a.firstname_en,
-				a.lastname_en,
+				concat(a.firstname,' ',a.lastname) AS mmember_name, 
+				a.firstname,
+				a.lastname,
 				CONCAT(DATE_FORMAT(a.birthdate,'%d/'),DATE_FORMAT(a.birthdate,'%m/'),DATE_FORMAT(a.birthdate,'%Y')+543) as birthdate,
 				CONCAT(DATE_FORMAT(a.startdate,'%d/'),DATE_FORMAT(a.startdate,'%m/'),DATE_FORMAT(a.startdate,'%Y')+543) as startdate,
 				CONCAT(DATE_FORMAT(a.resigndate,'%d/'),DATE_FORMAT(a.resigndate,'%m/'),DATE_FORMAT(a.resigndate,'%Y')+543) as resigndate,
@@ -89,16 +85,16 @@ public function getmmember($id){
 				a.adr_line1,
 				a.adr_line2,
 				a.comment,
-				c.name_th AS name_mposition,
-				d.name_th AS name_mdept,
-				concat(i.firstname_th,' ',i.lastname_th) AS name_create,
-				concat(i2.firstname_th,' ',i2.lastname_th) AS name_update,
+				c.mposition_name,
+				d.mbranch_name,
+				concat(i.firstname,' ',i.lastname) AS name_create,
+				concat(i2.firstname,' ',i2.lastname) AS name_update,
 				DATE_FORMAT(a.dt_create,'%d/%m/%Y %H:%i:%s') AS dt_create,
 				DATE_FORMAT(a.dt_update,'%d/%m/%Y %H:%i:%s') AS dt_update
 				FROM
 					mmember a
 				LEFT JOIN mposition c ON a.id_mposition=c.id_mposition
-				LEFT JOIN mdept d ON a.id_mdept=d.id_mdept 
+				LEFT JOIN mbranch d ON c.id_mbranch=d.id_mbranch 
 				LEFT JOIN mmember i ON a.id_create=i.id_mmember
 				LEFT JOIN mmember i2 ON a.id_update=i2.id_mmember  
 				";
@@ -122,7 +118,7 @@ public function getmposition(){
 			return  $query->result();
  	  }
 
-public function getMdept(){
+public function getMbranch(){
 	  $sql = "
 				SELECT
 				a.id_mbranch,a.mbranch_name

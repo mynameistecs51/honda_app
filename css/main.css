@@ -9,7 +9,7 @@ body{
  }
  .table th{
  	font-size: 12px;
- 	background-color:#B40404;
+ 	background-color:#d9534f;
  	border-right: 1px solid #E6E6E6;
  	color: #ffffff;
  }
@@ -72,8 +72,8 @@ body{
 	width:50%;
 	height:30px; 
 	padding:5px;
-	background-color:#B40404;
-	border:1px solid #B40404;
+	background-color:#d9534f;
+	border:1px solid #d9534f;
 	color:#FFFFFF; 
 	font-size:16px;
 }
@@ -144,15 +144,15 @@ body{
 	margin-top: 10px;
 	float:left;
 	font-size: 14px;
-	color:#B40404;
+	color:#d9534f;
 	cursor:pointer;
-	border: 1px solid #B40404;
+	border: 1px solid #d9534f;
 	padding:5px; 
 }
 .add:hover{ 
 	color:#FFFFFF;
 	border: 1px solid #FFFFFF;
-	background-color: #B40404;
+	background-color: #d9534f;
 }
 .noneadd{   
 	margin-top: 10px;
@@ -175,9 +175,10 @@ body{
 .search input{ 
 	font-size: 14px;
 	color:#424242; 
-	border: 1px solid #B40404;
+	border: 1px solid #d9534f;
 	padding:5px; 
 	margin-bottom: 10px;
+	border-radius: 5px;
 }
 .search input#datefrom{  
 	width:182px;
@@ -196,9 +197,10 @@ body{
 .search select{ 
 	font-size: 14px;
 	color:#424242; 
-	border: 1px solid #B40404;
+	border: 1px solid #d9534f;
 	padding:6px;  
 	width:182px; 
+	height: 32px;
 }
 .search .lable{
 	position: absolute; 
@@ -222,7 +224,7 @@ body{
 	padding:3px; 
 	float: left; 
 	width:25px; 
-	border: 1px solid #B40404;  
+	border: 1px solid #d9534f;  
 	border-radius: 25px;
 	margin-left:3px;
 	margin-top:0px;
@@ -241,7 +243,7 @@ body{
 	font-size:10px;
 	color:#FF0000;
 	line-height:20px;
-	border: 1px solid #B40404;
+	border: 1px solid #d9534f;
 	text-align:center;
 	text-decoration:none;
 	background:#ffffff; 
@@ -258,8 +260,8 @@ body{
 	line-height:20px;
 	text-align:center;
 	text-decoration:none;
-	background:#B40404;
-	border: 1px solid #B40404;
+	background:#d9534f;
+	border: 1px solid #d9534f;
 }
 .clickView:hover{ 
 	cursor:pointer;
@@ -276,7 +278,7 @@ body{
 	margin-bottom:-5px;
 }
 .btn-modal{   
-	background:#B40404;  
+	background:#d9534f;  
 	color:#fff;
 }
 .btn-modal:hover{ 
@@ -434,12 +436,12 @@ div.dataTables_info {
 }
 
 div.dataTables_paginate ul li a { 
-	color:#B40404; 
+	color:#d9534f; 
 }
 div.dataTables_paginate ul li.paginate_button.active a { 
 	color:#FFFFFF; 
-	background:#B40404;
-	border: 1px solid #B40404;
+	background:#d9534f;
+	border: 1px solid #d9534f;
 }
 div.dataTables_paginate ul li a:hover{ 
 	color:#2E2E2E;  
@@ -524,7 +526,7 @@ legend {
 .table-fixedcols  thead th {
 	position:absolute;
 	font-size: 12px;
-	background-color:#B40404;
+	background-color:#d9534f;
 	border-right: 1px solid #E6E6E6;
 	color: #ffffff;
 	right:0;	
@@ -532,13 +534,13 @@ legend {
 }
 .table-fixedcols thead td,th {
  	font-size: 12px;
- 	background-color:#B40404;
+ 	background-color:#d9534f;
  	border-right: 1px solid #E6E6E6;
  	color: #ffffff;
     font-weight: bold;
  }
 .table-fixedcols thead tr:hover td,th { 
- 	background-color: #B40404; 
+ 	background-color: #d9534f; 
  }
  .table-fixedcols tbody tr:hover td,th { 
  	background-color: #F6CECE; 
