@@ -121,7 +121,7 @@ function add()
             modal.on('show.bs.modal', function () {
             modalBody.load(url);
             }).modal({backdrop: 'static',keyboard: true});
-      setInterval(function(){$('#ajaxLoaderModal').remove()},1024,700);
+      setInterval(function(){$('#ajaxLoaderModal').remove()},5100);
       });
     }
 
@@ -159,52 +159,53 @@ function view(num)
 function fromprint(num,idx){ 
     window.location = $('#baseurl_print').val()+num; 
 }
+
 function modal_form(n,screenname)
    {
-   	var div='';
-   	div+='<form name="main" role="form" data-toggle="validator" id="form" method="post">';
+    var div='';
+    div+='<form name="main" role="form" data-toggle="validator" id="form" method="post">';
     div+='<!-- Modal -->';
-  	div+='<div class="modal fade" id="myModal'+n+'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-  	div+='<div class="modal-dialog">';
-  	div+='<div class="modal-content">';
-  	div+='<div class="modal-header" style="background:#B40404;color:#FFFFFF;">';
-  	div+='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-  	div+='<h4 class="modal-title">'+screenname+'</h4>';
-  	div+='</div>';
-  	div+='<div class="modal-body">';
-  	div+='</div>';
-  	div+='<div class="modal-footer" style="text-align:center; background:#F6CECE;">';
-  	div+='<button type="submit" id="save" class="btn btn-modal"><span class="   glyphicon glyphicon-floppy-saved"> บันทึก</span></button>';
-  	div+='<button type="reset" class="btn btn-modal" data-dismiss="modal"><span class="   glyphicon glyphicon-floppy-remove"> ยกเลิก</span></button>';
-  	div+='</div>';
-  	div+='</div><!-- /.modal-content -->';
-  	div+='</div><!-- /.modal-dialog -->';
-  	div+='</div><!-- /.modal -->';
+    div+='<div class="modal modal-wide fade" id="myModal'+n+'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+    div+='<div class="modal-dialog">';
+    div+='<div class="modal-content">';
+    div+='<div class="modal-header" style="background:#B40404;color:#FFFFFF;">';
+    div+='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+    div+='<h4 class="modal-title">'+screenname+'</h4>';
+    div+='</div>';
+    div+='<div class="modal-body">';
+    div+='</div>';
+    div+='<div class="modal-footer" style="text-align:center; background:#F6CECE;">';
+    div+='<button type="submit" id="save" class="btn btn-modal"><span class="   glyphicon glyphicon-floppy-saved"> บันทึก</span></button>';
+    div+='<button type="reset" class="btn btn-modal" data-dismiss="modal"><span class="   glyphicon glyphicon-floppy-remove"> ยกเลิก</span></button>';
+    div+='</div>';
+    div+='</div><!-- /.modal-content -->';
+    div+='</div><!-- /.modal-dialog -->';
+    div+='</div><!-- /.modal -->';
     div+='</form>';
-	$('.div_modal').html(div);
+  $('.div_modal').html(div);
    }
 function modal_form_view(n,screenname)
    {
-   	var div='';
-   	div+='<form name="main" role="form" data-toggle="validator" id="form" method="post">';
+    var div='';
+    div+='<form name="main" role="form" data-toggle="validator" id="form" method="post">';
     div+='<!-- Modal -->';
-  	div+='<div class="modal  fade" id="myModal'+n+'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-  	div+='<div class="modal-dialog">';
-  	div+='<div class="modal-content">';
-  	div+='<div class="modal-header" style="background:#B40404;color:#FFFFFF;">';
-  	div+='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-  	div+='<h4 class="modal-title">'+screenname+'</h4>';
-  	div+='</div>';
-  	div+='<div class="modal-body">';
-  	div+='</div>';
-  	div+='<div class="modal-footer" style="text-align:center; background:#F6CECE;">';
-  	div+='<button type="reset" class="btn btn-modal" data-dismiss="modal"><span class="   glyphicon glyphicon-floppy-remove"> ปิด </span></button>';
-  	div+='</div>';
-  	div+='</div><!-- /.modal-content -->';
-  	div+='</div><!-- /.modal-dialog -->';
-  	div+='</div><!-- /.modal -->';
+    div+='<div class="modal modal-wide fade" id="myModal'+n+'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+    div+='<div class="modal-dialog">';
+    div+='<div class="modal-content">';
+    div+='<div class="modal-header" style="background:#B40404;color:#FFFFFF;">';
+    div+='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+    div+='<h4 class="modal-title">'+screenname+'</h4>';
+    div+='</div>';
+    div+='<div class="modal-body">';
+    div+='</div>';
+    div+='<div class="modal-footer" style="text-align:center; background:#F6CECE;">';
+    div+='<button type="reset" class="btn btn-modal" data-dismiss="modal"><span class="   glyphicon glyphicon-floppy-remove"> ปิด </span></button>';
+    div+='</div>';
+    div+='</div><!-- /.modal-content -->';
+    div+='</div><!-- /.modal-dialog -->';
+    div+='</div><!-- /.modal -->';
     div+='</form>';
-	$('.div_modal').html(div);
+  $('.div_modal').html(div);
    }
 	
 </script>
