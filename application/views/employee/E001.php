@@ -94,7 +94,7 @@ function updateMemp()
 }
 </script>
 <?php  foreach ($listMemp as $detail) { ?>
-<input type="hidden"  name="base_url" ID="base_url" value="<?php echo $base_url; ?>">
+<input type="hidden"  name="base_url" ID="base_url" value="<?php echo base_url(); ?>">
 <input type="hidden"  ID="idx" value="<?php echo $idx; ?>" >
 <div class="form_input">
 	<p>รหัสพนักงาน</p>

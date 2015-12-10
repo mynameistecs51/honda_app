@@ -16,7 +16,7 @@ class Template{
 		<meta name='viewport' content='width=device-width, initial-scale=1'>
 		<meta http-equiv='X-UA-Compatible' content='IE=edge'>
 		<title> .:: CHUPHOTIC ::.</title>
-		<link rel='icon' href='".$base_url."images/logo.ico' type='image/x-icon'> 
+		<link rel='icon' href='".$base_url."images/honda.ico' type='image/x-icon'> 
 		<link rel='stylesheet' href='".$base_url."css/styles.css'>
 		<link rel='stylesheet' media='all' type='text/css' href='".$base_url."js/jquerydatepicker/jquery-ui.css' />
 		<script src='".$base_url."js/jquery-latest.min.js' type='text/javascript'></script>
@@ -40,10 +40,6 @@ class Template{
 		<script type='text/javascript' language='javascript' src='".$base_url."js/dataTables.tableTools.min.js'></script>
 		<script type='text/javascript' language='javascript' src='".$base_url."js/dataTables.fixedHeader.js'></script>
 		<script type='text/javascript' language='javascript' src='".$base_url."js/dataTables.fixedColumns.js'></script>
-		<script type='text/javascript' src='".$base_url."js/jquerydatepicker/jquery-ui-timepicker-addon.js'></script>
-        <script type='text/javascript' src='".$base_url."js/jquerydatepicker/i18n/jquery-ui-timepicker-th.js'></script>
-        <script type='text/javascript' src='".$base_url."js/jquerydatepicker/jquery-ui-sliderAccess.js'></script>
-        <link rel='stylesheet' type='text/css' href='".$base_url."js/jquerydatepicker/jquery-ui-timepicker-addon.min.css'> 
 		<link href='".$base_url."css/main.css' rel='stylesheet' type='text/css'>
 
 	</head>

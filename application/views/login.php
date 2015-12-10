@@ -3,7 +3,7 @@
 	<head>
 	<meta http-equiv='content-type' content='text/html; charset=UTF-8'>
 	<title> .::Login::.</title>
-	<link rel='icon' href='<?php echo $base_url; ?>/images/logo.ico' type='image/x-icon'>
+	<link rel='icon' href='<?php echo $base_url; ?>/images/honda.ico' type='image/x-icon'>
 	<link href='<?php echo $base_url; ?>/css/main.css' rel='stylesheet' type='text/css'>
 	</head>
 	<body>
@@ -12,7 +12,7 @@
 $attibutes = array('id'=>'form','name'=>'main', 'method'=>'post','autocomplete'=>'off');
 echo form_open('authen/', $attibutes); ?>
 <div class="login">
-   <div class="head_login"></div>
+   <div class="head_login">SIGN IN</div> 
  		<div class="input">
 		<br>
 			<input type="text" name="username" class="textbox" placeholder=" ชื่อผู้ใช้" autofocus>

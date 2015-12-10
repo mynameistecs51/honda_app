@@ -98,7 +98,7 @@ function saveData()
           });
       }
 </script>
-<input type="hidden"  name="base_url" ID="base_url" value="<?php echo $base_url; ?>">
+<input type="hidden"  name="base_url" ID="base_url" value="<?php echo  base_url(); ?>">
 <div class="form_input"> 
 	<p>รหัสพนักงาน</p>
 	<p class="required">*</p>

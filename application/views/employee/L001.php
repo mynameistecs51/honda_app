@@ -33,7 +33,7 @@ function rundatatable(){
         "processing": true,
         "serverSide": true,
         "ajax":{
-            url :"<?php echo base_url(); ?>memp/getList", // json datasource
+            url :"<?php echo base_url().$controller; ?>/getList", // json datasource
             type: "post",  // method  , by default get            
             error: function(){  // error handling        
                 $(".employee-grid-error").html("");
@@ -43,10 +43,10 @@ function rundatatable(){
         },
         "aoColumns": [{ 
                       "sWidth": "10%", 
-                      "mData": 'memp_code'
+                      "mData": 'mmember_code'
                     }, { 
                       "sWidth": "15%",
-                      "mData": 'name_th'
+                      "mData": 'mmember_name'
                     }, { 
                       "sWidth": "10%",
                       "mData":'user'
@@ -66,17 +66,17 @@ function rundatatable(){
                       "mRender": function(data, type, full) { 
                         var html ='';
                         if($('#btn_view').val()==1){ 
-                            html +='<img src="<?php echo base_url(); ?>images/list_view.png"   title="รายละเอียด" class="btnopt view" data-idview="' + full['id_memp'] + '"></img>';
+                            html +='<img src="<?php echo base_url(); ?>images/list_view.png"   title="รายละเอียด" class="btnopt view" data-idview="' + full['id_mmember'] + '"></img>';
                         }else{ 
-                            html +='<img src="<?php echo base_url(); ?>images/un_list_view.png"   title="ไม่ได้รับสิทธิ์ดูรายละเอียด" class="btnoptUnclick" data-idview="' + full['id_memp'] + '"></img>';
+                            html +='<img src="<?php echo base_url(); ?>images/un_list_view.png"   title="ไม่ได้รับสิทธิ์ดูรายละเอียด" class="btnoptUnclick" data-idview="' + full['id_mmember'] + '"></img>';
                         } 
                         if($('#btn_edit').val()==1){ 
-                            html +='<img src="<?php echo base_url(); ?>images/list_edit.png"   title="แก้ไข" class="btnopt edit" data-idedit="' + full['id_memp'] + '"></img>';
+                            html +='<img src="<?php echo base_url(); ?>images/list_edit.png"   title="แก้ไข" class="btnopt edit" data-idedit="' + full['id_mmember'] + '"></img>';
                         }else{ 
-                            html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="ไม่ได้รับสิทธิ์แก้ไขข้อมูล" class="btnoptUnclick" data-idedit="' + full['id_memp'] + '"></img>';
+                            html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="ไม่ได้รับสิทธิ์แก้ไขข้อมูล" class="btnoptUnclick" data-idedit="' + full['id_mmember'] + '"></img>';
                         } 
                     
-                            html +='<input type="hidden" ID="id_memp' + full['id_memp'] + '" value="' + full['id_memp'] + '">';
+                            html +='<input type="hidden" ID="id_mmember' + full['id_mmember'] + '" value="' + full['id_mmember'] + '">';
                         return html;
                       }
                     }]
@@ -112,7 +112,7 @@ function add()
     {
     $(".add").click(function(){    
       var screenname="เพิ่มข้อมูล :: <?php echo $pagename ?>";
-      var url = $('#baseurl_add').val(); 
+      var url = "<?php echo $url_add; ?>"; 
       var n=0;
       $('.div_modal').html('');
       modal_form(n,screenname);
@@ -121,7 +121,7 @@ function add()
             modal.on('show.bs.modal', function () {
             modalBody.load(url);
             }).modal({backdrop: 'static',keyboard: true});
-      setInterval(function(){$('#ajaxLoaderModal').remove()},5000);
+      setInterval(function(){$('#ajaxLoaderModal').remove()},1024,700);
       });
     }
 
@@ -240,8 +240,7 @@ function modal_form_view(n,screenname)
 </div>
 <input type="hidden" ID="btn_view" value="<?php echo $btn['view']; ?>">
 <input type="hidden" ID="btn_edit" value="<?php echo $btn['edit']; ?>">
-<input type="hidden" ID="btn_print" value="<?php echo $btn['print']; ?>">
-<input type="hidden" ID="baseurl_add" value="<?php echo $url_add; ?>">
+<input type="hidden" ID="btn_print" value="<?php echo $btn['print']; ?>"> 
 <input type='hidden' ID="baseurl_edit" value="<?php echo $url_edit; ?>">
 <input type='hidden' ID="baseurl_print" value="<?php echo $url_print; ?>">
 <input type='hidden' ID="baseurl_detail" value="<?php echo $url_detail; ?>">

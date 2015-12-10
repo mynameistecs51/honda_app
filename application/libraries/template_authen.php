@@ -10,7 +10,7 @@ class Template_authen {
 	<head>
 	<meta http-equiv='content-type' content='text/html; charset=UTF-8'>
 	<title> .:: CHUPHOTIC ::.</title>
-	<link rel='icon' href='".$base_url."/images/logo.ico' type='image/x-icon'>
+	<link rel='icon' href='".$base_url."/images/honda.ico' type='image/x-icon'>
       <link href='".$base_url."/css/main.css' rel='stylesheet' type='text/css'>
       <script type='text/javascript'>
          var TableBackgroundNormalColor = '#ffffff';

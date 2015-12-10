@@ -36,12 +36,13 @@ body{
 .head_login{
 	width:100%;
 	height:30px;
-	padding-top:20px;
+	padding-top:10px;
+	padding-bottom:10px;
 	text-align:center; 
 	font-size:25px;
-	/*background-color:#DF3A01;*/
-	background-image: url("../images/head_login.png"); 
-	color:#ffffff;
+	background-color:#D8D8D8;/*7d7d7d*/
+	/*background-image: url("../images/head_login.png"); */
+	color:#636361;
 }
 
 .footer_login{
@@ -77,11 +78,11 @@ body{
 	font-size:16px;
 }
 .template_Header{
-	padding-top:10px;
+	padding:10px;
 	width:100%;
 	height:75px;
-	/*background:#DF3A01;*/
-	background-image: url("../images/Header.jpg"); 
+	background:#c3c3c3;
+	/*background-image: url("../images/head.jpg"); */
 }
 .logo{
 	width:40%;

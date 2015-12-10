@@ -132,7 +132,7 @@ public function getScreenName($filelocation)
 	if($query->num_rows() > 0)
 	{
 		$row = $query->row();
-		return  $row->pagename;
+		return  $row->mmenu_name;
 	}else{
 		return  '-';
 	}
