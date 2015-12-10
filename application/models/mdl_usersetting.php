@@ -11,8 +11,7 @@
 		SELECT
 			a.id_mmenu,
 			b.id_cusersetting,
-			a.name_en,
-			a.name_th,
+			a.mmenu_name,
 			a.id_parent,
 			a.level,
 			a.filelocation,

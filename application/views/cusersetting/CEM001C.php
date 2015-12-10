@@ -7,15 +7,15 @@ pic1.src = "<?php echo $base_url; ?>images/loader.gif";
 $(document).ready(function(){
 
 check_box_all();
-cb_mmnu_lv1();
-cb_mmnu_lv2();
-//cb_mmnu_lv3();
+cb_mmenu_lv1();
+cb_mmenu_lv2();
+//cb_mmenu_lv3();
 
 $("#username").change(function() { 
 var usr = $("#username").val();
 if(usr.length >= 4)
 {
-$("#status").html('<img src="<?php echo $base_url; ?>images/loader.gif" align="absmiddle">&nbsp;Checking availability...');
+$("#status").html('<img src="<?php echo base_url(); ?>images/loader.gif" align="absmiddle">&nbsp;Checking availability...');
     $.ajax({  
     type: "POST",  
     url: "check.php",  
@@ -54,7 +54,7 @@ function check_box_all(){
         });
       }
 
-function cb_mmnu_lv1()
+function cb_mmenu_lv1()
 {
   $('input[class="cb1lv"]').bind('click', function(){
     var cb_id = $(this).attr("id");
@@ -63,18 +63,18 @@ function cb_mmnu_lv1()
   });
 }
 
-function cb_mmnu_lv2()
+function cb_mmenu_lv2()
 { 
     $('input[type="checkbox"].cb2lv').bind('click', function(){       
       var cb_id = $(this).attr("id");
       var cb_idarr = cb_id.split('_',2);
-      var cb_idmmnu = cb_idarr[1]; 
+      var cb_idmmenu = cb_idarr[1]; 
       var cb_status = $(this).is(':checked');  
       $('input[type="checkbox"].'+cb_id).prop('checked',cb_status); 
-      if($('input[type="checkbox"].cb2lv.pr'+cb_idmmnu+':checked').length>0){
-        $('input[type="checkbox"]#'+cb_idmmnu).prop('checked',true);
+      if($('input[type="checkbox"].cb2lv.pr'+cb_idmmenu+':checked').length>0){
+        $('input[type="checkbox"]#'+cb_idmmenu).prop('checked',true);
       }else{
-        $('input[type="checkbox"]#'+cb_idmmnu).prop('checked',false);
+        $('input[type="checkbox"]#'+cb_idmmenu).prop('checked',false);
       }  
     });
 
@@ -103,20 +103,23 @@ function validationConfirm()
           }
 }
 </script>
+<div class='col-sm-12'>
+<br/>
 <div class="nev_url"><?php echo $NAV; ?> </div>
+</div>
 <br>
 <div class="form_input"> 
-<div style="font-size:12px; margin-top:10px; margin-left:-4%;  text-align:left; width:670px;">
-  <form action="<?php echo $base_url; ?>cmmnu_mpst/select" method="post" name="form1">
+<div style="font-size:12px; margin-top:30px; margin-left:-4%;  text-align:left; width:670px;">
+  <form action="<?php echo base_url().$controller; ?>/select" method="post" name="form1">
        เลือกกลุ่มผู้ใช้งาน :  
-       <select id="id_mpst" name="id_mpst" class="select" onchange="this.form.submit()" >
-         <option value="">----เลือก----</option>
-         <?php foreach ($listMpst as $rows)
+       <select id="id_mposition" name="id_mposition" class="select" onchange="this.form.submit()" style="height:40px;">
+         <option value="" >----เลือก----</option>
+         <?php foreach ($listmposition as $rows)
          { 
-            if($rows->id_mpst==$select){
-                  echo "<option value='".$rows->id_mpst."' selected>".$rows->name_th."</option>";
+            if($rows->id_mposition==$select){
+                  echo "<option value='".$rows->id_mposition."' selected>".$rows->mposition_name."</option>";
             }else {
-                   echo "<option value='".$rows->id_mpst."' >".$rows->name_th."</option>";
+                   echo "<option value='".$rows->id_mposition."' >".$rows->mposition_name."</option>";
             }
          }
          ?>
@@ -134,11 +137,11 @@ function validationConfirm()
    }
 ?>
 
-<form action="<?php echo $base_url; ?>cmmnu_mpst/update" method="post" name="form2" >
-<input type="hidden"  class="txt_disabled" name="id_mpst" id="id_mpst" readonly="true" value="<?php echo $select ;  ?>" > 
-<input type="hidden"  class="txt_disabled" name="id_memp" id="id_memp" readonly="true" value="<?php echo $id_memp;  ?>" >
+<form action="<?php echo base_url().$controller; ?>/update" method="post" name="form2" >
+<input type="hidden"  class="txt_disabled" name="id_mposition" id="id_mposition" readonly="true" value="<?php echo $select ;  ?>" > 
+<input type="hidden"  class="txt_disabled" name="id_mmember" id="id_mmember" readonly="true" value="<?php echo $id_mmember;  ?>" >
 <div style="font-size:12px; margin-top:20px; text-align:left; ">
-<div style="font-size:12px; margin-left:20%; margin-top:-10px; margin-bottom:15px; text-align:left; font-weight:bold;">
+<div style="font-size:12px; margin-left:24%; margin-top:-10px; margin-bottom:15px; text-align:left; font-weight:bold;">
 <input type="checkbox" name="cb_all" id="cb_all" class="cb_all"  > เลือก/ไม่เลือก ทั้งหมด
 </div>
       <?php 
@@ -152,15 +155,15 @@ function validationConfirm()
             {
               $check= "";
             }
-              echo  "<br><div style='margin-left:20%; margin-top:-10px;'><input type='checkbox' id='".$row1->id_mmnu."' class='cb1lv'  ".$check."   name='status[".$row1->id_cmmnu_mpst."]'  value='1'> ".$row1->name_th." </div>"; 
-              echo "<input type='hidden' name='id_cmmnu_mpst[]' value='".$row1->id_cmmnu_mpst."' >";
-              echo  "<table  style='margin-left:23%; color:#0000FF;'><tr>";
+              echo  "<br><div style='margin-left:24%; margin-top:-10px;'><input type='checkbox' id='".$row1->id_mmenu."' class='cb1lv'  ".$check."   name='status[".$row1->id_cusersetting."]'  value='1'> ".$row1->mmenu_name." </div>"; 
+              echo "<input type='hidden' name='id_cusersetting[]' value='".$row1->id_cusersetting."' >";
+              echo  "<table  style='margin-left:27%; color:#0000FF;'><tr>";
                foreach ($lavle2 as $rs)
               {   
                 
-                if ($rs->id_parent==$row1->id_mmnu)
+                if ($rs->id_parent==$row1->id_mmenu)
                 {  
-                  $set_id=$rs->id_mmnu."_".$rs->id_parent."_".$rs->id_order;
+                  $set_id=$rs->id_mmenu."_".$rs->id_parent."_".$rs->id_order;
 
                   if ($rs->status=='1'){$ck_status= "checked='checked'";}else{$ck_status= "";} 
                   if ($rs->can_view=='1'){$ck_can_view= "checked='checked'";}else{$ck_can_view= "";} 
@@ -168,12 +171,19 @@ function validationConfirm()
                   if ($rs->can_edit=='1'){$ck_can_edit= "checked='checked'";}else{$ck_can_edit= "";} 
                   if ($rs->can_print=='1'){$ck_can_print= "checked='checked'";}else{$ck_can_print= "";} 
                     $lv2  ="<tr>"; 
-                    $lv2 .="<td width='200px;'><input type='hidden' name='id_cmmnu_mpst[]' value='".$rs->id_cmmnu_mpst."' >";
-                    $lv2 .="<input type='checkbox' id='".$set_id."' class='cb2lv pr".$row1->id_mmnu."' ".$ck_status."  name='status[".$rs->id_cmmnu_mpst."]'  value='1'> ".$rs->name_th."</td>";
-                    $lv2 .="<td width='120px;'><input type='checkbox' ID='1_".$set_id."' class='pr".$row1->id_mmnu." sub ".$set_id."' name='can_view[".$rs->id_cmmnu_mpst."]' ".$ck_can_view." > ดูรายละเอียด</td>";
-                    $lv2 .="<td width='120px;'><input type='checkbox' ID='2_".$set_id."' class='pr".$row1->id_mmnu." sub ".$set_id."' name='can_create[".$rs->id_cmmnu_mpst."]' ".$ck_can_create." > เพิ่มรายการ </td>";
-                    $lv2 .="<td width='120px;'><input type='checkbox' ID='3_".$set_id."' class='pr".$row1->id_mmnu." sub ".$set_id."' name='can_edit[".$rs->id_cmmnu_mpst."]'   ".$ck_can_edit." > แก้ไข</td>";
-                    $lv2 .="<td width='120px;'><input type='checkbox' ID='4_".$set_id."' class='pr".$row1->id_mmnu." sub ".$set_id."' name='can_print[".$rs->id_cmmnu_mpst."]' ".$ck_can_print." > พิมพ์</td>"; 
+                  if ($rs->id_parent!=5){
+                    $lv2 .="<td width='200px;'><input type='hidden' name='id_cusersetting[]' value='".$rs->id_cusersetting."' >";
+                    $lv2 .="<input type='checkbox' id='".$set_id."' class='cb2lv pr".$row1->id_mmenu."' ".$ck_status."  name='status[".$rs->id_cusersetting."]'  value='1'> ".$rs->mmenu_name."</td>";
+                    $lv2 .="<td width='120px;'><input type='checkbox' ID='1_".$set_id."' class='pr".$row1->id_mmenu." sub ".$set_id."' name='can_view[".$rs->id_cusersetting."]' ".$ck_can_view." > ดูรายละเอียด</td>";
+                    $lv2 .="<td width='120px;'><input type='checkbox' ID='2_".$set_id."' class='pr".$row1->id_mmenu." sub ".$set_id."' name='can_create[".$rs->id_cusersetting."]' ".$ck_can_create." > เพิ่มรายการ </td>";
+                    $lv2 .="<td width='120px;'><input type='hidden' ID='3_".$set_id."' class='pr".$row1->id_mmenu." sub ".$set_id."' name='can_edit[".$rs->id_cusersetting."]'   ".$ck_can_edit." ></td>";
+                    $lv2 .="<td width='120px;'><input type='checkbox' ID='4_".$set_id."' class='pr".$row1->id_mmenu." sub ".$set_id."' name='can_print[".$rs->id_cusersetting."]' ".$ck_can_print." > พิมพ์</td>"; 
+                  }else{
+                    $lv2 .="<td width='200px;'><input type='hidden' name='id_cusersetting[]' value='".$rs->id_cusersetting."' >";
+                    $lv2 .="<input type='checkbox' id='".$set_id."' class='cb2lv pr".$row1->id_mmenu."' ".$ck_status."  name='status[".$rs->id_cusersetting."]'  value='1'> ".$rs->mmenu_name."</td>";
+                    $lv2 .="<td width='120px;' calspan='4' ><input type='checkbox' ID='4_".$set_id."' class='pr".$row1->id_mmenu." sub ".$set_id."' name='can_print[".$rs->id_cusersetting."]' ".$ck_can_print." > ออกรายงาน</td>"; 
+                  }
+                    
                     $lv2 .="</tr> "; 
                     echo  $lv2; 
                 }  
