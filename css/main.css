@@ -40,9 +40,9 @@ body{
 	padding-bottom:10px;
 	text-align:center; 
 	font-size:25px;
-	background-color:#D8D8D8;/*7d7d7d*/
+	background-color:#7d7d7d;/*7d7d7d*/
 	/*background-image: url("../images/head_login.png"); */
-	color:#636361;
+	color:#fff;
 }
 
 .footer_login{
