@@ -170,12 +170,12 @@ function delFriend(num)
 </script>
 <div class="row form_input" style="text-align:left; margin-bottom:20px">
 	<div class="form-group col-sm-12">
-		<div class="col-md-3" >
+		<div class="col-sm-3" >
 			<p>หมายเลขลูกค้าคาดหวัง</p>
 			<p class="required">*</p>
 			<input type="text" class="form-control" name="memp_code" required >
 		</div>
-		<div class="col-md-3" >
+		<div class="col-sm-3" >
 			<p>วันที่บันทึก</p>
 			<p class="required">*</p>
 		<!-- <select name="id_mpst" class ="form-control" required>
@@ -189,7 +189,7 @@ function delFriend(num)
 		</select> -->
 		<input  type="date" class="form-control" name="date_add" id="today" value="<?php echo $dtnow;?>">
 	</div>
-	<div class="col-md-3" >
+	<div class="col-sm-3" >
 		<p><u>ระยะเวลาในการตัดสินใจซื้อ</u> *</p>
 		<p class="required">*</p>
 		<select name="id_mdept" class ="form-control" required>
@@ -202,20 +202,20 @@ function delFriend(num)
 			?>
 		</select>
 	</div>
-	<div class="col-md-3" >
+	<div class="col-sm-3" >
 		<p>บัญชีลูกหนี้</p>
 		<p class="required">*</p>
 		<input type="text" class="form-control" name="idcard_num"  required>
 	</div>
 </div>
 <div class="form-group col-sm-12">
-	<div class="col-md-3" >
+	<div class="col-sm-3" >
 		<p >ลูกค้า</p>
 		<!-- <p class="required">*</p> -->
 		<label class="radio-inline"><input type="radio" name="customer" value="newCustomer" checked>ลูกค้าใหม่</label>
 		<label class="radio-inline"><input type="radio" name="optradio" value="oldCustomer">ลูกค้าเก่า</label>
 	</div>
-	<div class="col-md-3" >
+	<div class="col-sm-3" >
 		<p >ประเภท</p>
 		<!-- <p class="required">*</p> -->
 		<label class="radio-inline"><input type="radio" name="typeCustomer" value="poper" checked>บุคคล</label>
@@ -228,12 +228,12 @@ function delFriend(num)
 	</div>
 </div>
 <div class="from-group col-sm-12">
-	<div class="col-md-3">
+	<div class="col-sm-3">
 		<p>หมายเลขลูกค้า</p>
 		<p class="required">*</p>
 		<input type="text" class="form-control" />
 	</div>
-	<div class="col-md-3">
+	<div class="col-sm-3">
 		<p>&nbsp;</p>
 		<p class="required"></p>
 		<button class="btn btn-info">คัดลอกข้อมูลบางส่วนจากลูกค้า</button>
@@ -241,7 +241,7 @@ function delFriend(num)
 </div>
 <hr>
 <div class="form-group col-sm-12">
-	<div class="col-md-3" >
+	<div class="col-sm-3" >
 		<p>คำนำหน้าชื่อ</p>
 		<select name="id_memp_tit" class ="form-control" required>
 			<option value="">--เลือก--</option>
@@ -250,38 +250,38 @@ function delFriend(num)
 			<option value="3"> นางสาว </option>
 		</select>
 	</div>
-	<div class="col-md-3" >
+	<div class="col-sm-3" >
 		<p>ชื่อ </p>
 		<p class="required">*</p>
 		<input type="text" class="form-control"  name="firstname_th" placeholder="ชื่อ" required>
 	</div>
-	<div class="col-md-3" >
+	<div class="col-sm-3" >
 		<p>นามสกุล </p>
 		<p class="required">*</p>
 		<input type="text" class="form-control"  name="lastname_th" placeholder="สกุล" required>
 	</div>
-	<div class="col-md-3" >
+	<div class="col-sm-3" >
 		<p>วันเกิด</p>
 		<p class="required"></p>
 		<input type="text" class="form-control" name="birthdate" id="birthdate"  >
 	</div>
 </div>
 <div class="form-group col-sm-12">
-	<div class="col-md-3" >
+	<div class="col-sm-3" >
 		<p>เลขใบอนุญาตขับขี่</p>
 		<p class="required">*</p>
 		<input type="text" class="form-control" name="drv_lcn_num" >
 	</div>
-	<div class="col-md-3" >
+	<div class="col-sm-3" >
 		<p>อีเมลล์ <b ID="valid_email"></b></p>
 		<p class="required">*</p>
 		<input type="email" class="form-control" name="email" ID="email" >
 	</div>
-	<div class="col-md-3" >
+	<div class="col-sm-3" >
 		<p>โทรศัพท์</p>
 		<input type="text" class="form-control" name="telephone"  >
 	</div>
-	<div class="col-md-3" >
+	<div class="col-sm-3" >
 		<p>มือถือ <b ID="valid_mobile"></b></p>
 		<p class="required">*</p>
 		<input type="text" class="form-control" ID="mobile" name="mobile" >
@@ -381,10 +381,11 @@ function delFriend(num)
 	</div>
 	<!-- /// -->
 	<div class="addRows">
-		<!-- show data colum -->
+		<!-- show data colum  รุ่นรถที่สนใจ-->
 	</div>
+
 </div>
-<div class="col-md-12" >
+<div class="col-sm-12" >
 	<p>หมายเหตุ</p>
 	<textarea  class="form-control" rows='3' name="comment"></textarea>
 </div>
