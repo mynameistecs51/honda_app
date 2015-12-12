@@ -103,7 +103,39 @@ $(function(){
 	$('#addCar_').click(function(){
 		var  row=$('.friend').length+1;
 		var  html  = '<div class="friend" ID="friend'+row+'">';
-		html += ''
+		html += '<div class="col-sm-3">';
+		html += '<p>รุ่นรถ</p>';
+		html += '<select name="typeCar" class ="form-control" required>';
+		html += '	<option value="">--เลือก--</option>';
+		html += '	<option value="1"> HONDA </option>';
+		html += '	<option value="2"> Denler1</option>';
+		html += '	<option value="3"> Denler2</option>';
+		html += '</select>';
+		html += '</div>';
+		html += '<div class="col-sm-3">';
+		html += '<p>ประเภท</p>';
+		html += '<select name="typeCar" class ="form-control" required>';
+		html += '	<option value="">--เลือก--</option>';
+		html += '	<option value="1"> HONDA </option>';
+		html += '	<option value="2"> Denler1</option>';
+		html += '	<option value="3"> Denler2</option>';
+		html += '</select>';
+		html += '</div>';
+		html += '<div class="col-sm-3">';
+		html += '	<p>สี</p>';
+		html += '	<select name="typeCar" class ="form-control" required>';
+		html += '	<option value="">--เลือก--</option>';
+		html += '	<option value="1" style="background-color: red">สีแดง</option>';
+		html += '	<option value="2" style="background-color: write"> สีขาว</option>';
+		html += '	<option value="3" style="background-color: black"> สีดำ</option>';
+		html += '	<option value="3" style="background-color: gray"> สีเทา</option>';
+		html += '</select>';
+		html += '</div>';
+		// html += '</div>';
+		html += '<div class="col-sm-3" >  ';
+		html += '<p><br/></p>';
+		html += '<h4><i class="glyphicon glyphicon-trash btn btn-danger" ID="delFriend'+row+'"></i> </h4>';
+		html += '</div> ';
 		html += '</div>';
 		if(row<=20){
 			$('.addRows').append(html);
@@ -113,7 +145,7 @@ $(function(){
 		}
 
 	});
-	runnumrow();
+runnumrow();
 });
 
 function runnumrow(){
@@ -260,25 +292,21 @@ function delFriend(num)
 		<p>รหัสไปรษณีย์</p>
 		<input type="text" class="form-control" />
 	</div>	
-	<div class="col-sm-3">
-		<p>&nbsp;</p>
-		<button class="btn btn-info">การอ้างอิงจากรหัสไปรษณีย์</button>
-	</div>
-</div>
-<div class="form-group col-sm-12">
-	<div class="col-sm-3">
+	<div class="col-sm-9">
 		<p>ที่อยู่</p>
 		<input tye="text" class="form-control" name="address" />
 	</div>
-	<div class="col-sm-3">
+</div>
+<div class="form-group col-sm-12">
+	<div class="col-sm-4">
 		<p>แขวง/ตำบล</p>
 		<input type="text" class="form-control" name="tumbon" />
 	</div>
-	<div class="col-sm-3">
+	<div class="col-sm-4">
 		<p>เขต/อำเภอ</p>
 		<input type="text" class="form-control" name="umpher" />
 	</div>
-	<div class="col-sm-3">
+	<div class="col-sm-4">
 		<p>จังหวัด</p>
 		<input type="text" class="form-control" name="provice"/>
 	</div>
@@ -348,76 +376,12 @@ function delFriend(num)
 	<div class="col-sm-2">
 		<p>&nbsp;</p>
 		<div class="col-sm-12" style="text-align:right;">
-			<div class="btn btn-primary" id="addFriend" style="width:120px;"> เพิ่มรุ่นที่สนใจ</div>
+			<div class="btn btn-primary" id="addCar_" style="width:120px;"> เพิ่มรุ่นที่สนใจ</div>
 		</div>
 	</div>
 	<!-- /// -->
-	<div class="add_row">
-		<div class="col-sm-3">
-			<p>รุ่นรถ</p>
-			<select name="typeCar" class ="form-control" required>
-				<option value="">--เลือก--</option>
-				<option value="1"> HONDA </option>
-				<option value="2"> Denler1</option>
-				<option value="3"> Denler2</option>
-			</select>
-		</div>
-		<div class="col-sm-3">
-			<p>ประเภท</p>
-			<select name="typeCar" class ="form-control" required>
-				<option value="">--เลือก--</option>
-				<option value="1"> HONDA </option>
-				<option value="2"> Denler1</option>
-				<option value="3"> Denler2</option>
-			</select>
-		</div>
-		<div class="col-sm-3">
-			<p>สี</p>
-			<select name="typeCar" class ="form-control" required>
-				<option value="">--เลือก--</option>
-				<option value="1" style="background-color: red">สีแดง</option>
-				<option value="2" style="background-color: write"> สีขาว</option>
-				<option value="3" style="background-color: black"> สีดำ</option>
-				<option value="3" style="background-color: gray"> สีเทา</option>
-			</select>
-		</div>
-	</div><br/>
-	<!-- /// -->
-	<div class="add_row">
-		<div class="col-sm-3">
-			<p>รุ่นรถ</p>
-			<select name="typeCar" class ="form-control" required>
-				<option value="">--เลือก--</option>
-				<option value="1"> HONDA </option>
-				<option value="2"> Denler1</option>
-				<option value="3"> Denler2</option>
-			</select>
-		</div>
-		<div class="col-sm-3">
-			<p>ประเภท</p>
-			<select name="typeCar" class ="form-control" required>
-				<option value="">--เลือก--</option>
-				<option value="1"> HONDA </option>
-				<option value="2"> Denler1</option>
-				<option value="3"> Denler2</option>
-			</select>
-		</div>
-		<div class="col-sm-3">
-			<p>สี</p>
-			<select name="typeCar" class ="form-control" required>
-				<option value="">--เลือก--</option>
-				<option value="1" style="background-color: red">สีแดง</option>
-				<option value="2" style="background-color: write"> สีขาว</option>
-				<option value="3" style="background-color: black"> สีดำ</option>
-				<option value="3" style="background-color: gray"> สีเทา</option>
-			</select>
-		</div>
-	</div>
-	<div class="col-sm-2">
-		<p>&nbsp;</p>
-		<div class="col-sm-12" style="text-align:right;">
-			<p>&nbsp;</p>
-		</div>
+	<div class="addRows">
+		<!-- show data colum -->
 	</div>
 </div>
 <div class="col-md-12" >
