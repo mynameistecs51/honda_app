@@ -1,3 +1,6 @@
+<style type="text/css">
+	p{ font-weight: bold; } 
+</style>
 <script type='text/javascript'>
 	$(function(){
 
@@ -383,7 +386,41 @@ function delFriend(num)
 	<div class="addRows">
 		<!-- show data colum  รุ่นรถที่สนใจ-->
 	</div>
-
+</div>
+<div class="form-group col-sm-6">
+	<div class="col-sm-8">
+		<p>แหล่งที่มา</p>
+		<input type="text" class="form-control" />
+	</div>
+	<div class="col-sm-2">
+		<p>&nbsp;</p>
+		<div class="col-sm-12" style="text-align:right;">
+			<div class="btn btn-primary" id="addCar_" style="width:120px;"> เพิ่มที่มา</div>
+		</div>
+	</div>
+	<!-- // -->
+	<div class="col-sm-8">
+		<p>แหล่งที่มา</p>
+		<input type="text" class="form-control" />
+	</div>
+	<div class="col-sm-2">
+		<p>&nbsp;</p>
+		<div class="col-sm-12" style="text-align:right;">
+			<div class="btn btn-primary" id="addCar_" style="width:120px;"> เพิ่มที่มา</div>
+		</div>
+	</div>
+</div>
+<div class="form-group col-sm-6">
+	<div class="col-sm-8">
+		<p>วัตถุประสงค์ของการซื้อ</p>
+		<input type="text" class="form-control" />
+	</div>
+	<div class="col-sm-2">
+		<p>&nbsp;</p>
+		<div class="col-sm-12" style="text-align:right;">
+			<div class="btn btn-primary" id="addCar_" style="width:120px;"> เพิ่มวัตถุประสงค์</div>
+		</div>
+	</div>
 </div>
 <div class="col-sm-12" >
 	<p>หมายเหตุ</p>
