@@ -8,62 +8,65 @@ class Template{
 	}
    public function getHeader($base_url,$SCREENNAME,$mmember_name,$lastLogin,$id_mposition,$mbranch_name)
    {
-        return "
- <!DOCTYPE html>
-	<html>
-	<head>
-	 	<meta charset='utf-8'>
-		<meta name='viewport' content='width=device-width, initial-scale=1'>
-		<meta http-equiv='X-UA-Compatible' content='IE=edge'>
-		<title> .:: CHUPHOTIC ::.</title>
-		<link rel='icon' href='".$base_url."images/honda.ico' type='image/x-icon'> 
-		<link rel='stylesheet' href='".$base_url."css/styles.css'>
-		<link rel='stylesheet' media='all' type='text/css' href='".$base_url."js/jquerydatepicker/jquery-ui.css' />
-		<script src='".$base_url."js/jquery-latest.min.js' type='text/javascript'></script>
-		<script type='text/javascript' src='".$base_url."js/jquerydatepicker/jquery-ui-1.10.3.custom.js'></script>
-		<script type='text/javascript' src='".$base_url."js/jquerydatepicker/jquery-ui-datepicker-th.js'></script>
-		<link href='".$base_url."bootstrap/css/bootstrap-select.css' rel='stylesheet' type='text/css'>
-		<link href='".$base_url."bootstrap/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
-		<link href='".$base_url."bootstrap/css/ajax-bootstrap-select.css' rel='stylesheet' type='text/css'>
-		<link href='".$base_url."bootstrap/css/bootstrap-dialog.min.css' rel='stylesheet' type='text/css'>
-		<script src='".$base_url."bootstrap/js/bootstrap.min.js'></script>
-		<script src='".$base_url."bootstrap/js/bootstrap-select.js'></script>
-		<script src='".$base_url."bootstrap/js/ajax-bootstrap-select.min.js'></script>
-		<script src='".$base_url."bootstrap/js/ajax-bootstrap-select.th-TH.js'></script>
-		<script src='".$base_url."bootstrap/js/bootstrap-dialog.min.js'></script>
-		<script src='".$base_url."js/inputmask/inputmask.min.js' type='text/javascript'></script>
-		<script src='".$base_url."js/inputmask/jquery.inputmask.min.js' type='text/javascript'></script>
-		<link rel='stylesheet' type='text/css' href='".$base_url."bootstrap/css/dataTables.bootstrap.css'>
-		<link rel='stylesheet' type='text/css' href='".$base_url."css/dataTables.tableTools.css'> 
-		<script type='text/javascript' language='javascript' src='".$base_url."js/jquery.dataTables.min.js'></script>
-		<script type='text/javascript' language='javascript' src='".$base_url."js/dataTables.bootstrap.js'></script>
-		<script type='text/javascript' language='javascript' src='".$base_url."js/dataTables.tableTools.min.js'></script>
-		<script type='text/javascript' language='javascript' src='".$base_url."js/dataTables.fixedHeader.js'></script>
-		<script type='text/javascript' language='javascript' src='".$base_url."js/dataTables.fixedColumns.js'></script>
-		<link href='".$base_url."css/main.css' rel='stylesheet' type='text/css'>
+        return "<!DOCTYPE html>
+				<html>
+				<head>
+				 	<meta charset='utf-8'>
+					<meta name='viewport' content='width=device-width, initial-scale=1'>
+					<meta http-equiv='X-UA-Compatible' content='IE=edge'>
+					<title> .:: UTSGS ::.</title>
+					<link rel='icon' href='".$base_url."images/honda.ico' type='image/x-icon'> 
+					<link rel='stylesheet' href='".$base_url."css/styles.css'>
+					<link rel='stylesheet' media='all' type='text/css' href='".$base_url."js/jquerydatepicker/jquery-ui.css' />
+					<script src='".$base_url."js/jquery-latest.min.js' type='text/javascript'></script>
+					<script type='text/javascript' src='".$base_url."js/jquerydatepicker/jquery-ui-1.10.3.custom.js'></script>
+					<script type='text/javascript' src='".$base_url."js/jquerydatepicker/jquery-ui-datepicker-th.js'></script>
+					<link href='".$base_url."bootstrap/css/bootstrap-select.css' rel='stylesheet' type='text/css'>
+					<link href='".$base_url."bootstrap/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+					<link href='".$base_url."bootstrap/css/ajax-bootstrap-select.css' rel='stylesheet' type='text/css'>
+					<link href='".$base_url."bootstrap/css/bootstrap-dialog.min.css' rel='stylesheet' type='text/css'>
+					<script src='".$base_url."bootstrap/js/bootstrap.min.js'></script>
+					<script src='".$base_url."bootstrap/js/bootstrap-select.js'></script>
+					<script src='".$base_url."bootstrap/js/ajax-bootstrap-select.min.js'></script>
+					<script src='".$base_url."bootstrap/js/ajax-bootstrap-select.th-TH.js'></script>
+					<script src='".$base_url."bootstrap/js/bootstrap-dialog.min.js'></script>
+					<script src='".$base_url."js/inputmask/inputmask.min.js' type='text/javascript'></script>
+					<script src='".$base_url."js/inputmask/jquery.inputmask.min.js' type='text/javascript'></script>
+					<link rel='stylesheet' type='text/css' href='".$base_url."bootstrap/css/dataTables.bootstrap.css'>
+					<link rel='stylesheet' type='text/css' href='".$base_url."css/dataTables.tableTools.css'> 
+					<script type='text/javascript' language='javascript' src='".$base_url."js/jquery.dataTables.min.js'></script>
+					<script type='text/javascript' language='javascript' src='".$base_url."js/dataTables.bootstrap.js'></script>
+					<script type='text/javascript' language='javascript' src='".$base_url."js/dataTables.tableTools.min.js'></script>
+					<script type='text/javascript' language='javascript' src='".$base_url."js/dataTables.fixedHeader.js'></script>
+					<script type='text/javascript' language='javascript' src='".$base_url."js/dataTables.fixedColumns.js'></script>
+					<link href='".$base_url."css/main.css' rel='stylesheet' type='text/css'>
 
-	</head>
-	<body>
-	<center>
-	<div class='template_Header'>
-		<div class='logo'><img src='".$base_url."images/Honda_logo.png' height='60px;'></div>
-		<div class='user_login'><img src='".$base_url."images/company.PNG' height='20px'> ".$mbranch_name."
-		<img src='".$base_url."images/user.png' height='20px'> ".$mmember_name." 
-		<img src='".$base_url."images/lastlogin.png' height='20px'> ".$lastLogin." 
-		<img src='".$base_url."images/setting.png' class='setting' title='แก้ไขรหัสผ่าน' height='20px'>
-		<a href='".$base_url."authen/logout'>ออกจากระบบ</a></div>
-	</div>
-	<div class='template_menu'>
-		<div id='cssmenu'>
-			".$this->menu($base_url,$id_mposition)."  
-		</div>
-	</div>
-	";
+				</head>
+				<body>
+				<center>
+				<div class='template_Header'>
+					<div class='logo'><img src='".$base_url."images/Honda_logo.png' height='60px;'></div>
+					<div class='user_login'><img src='".$base_url."images/company.PNG' height='20px'> ".$mbranch_name."
+					<img src='".$base_url."images/user.png' height='20px'> ".$mmember_name." 
+					<img src='".$base_url."images/lastlogin.png' height='20px'> ".$lastLogin." 
+					<img src='".$base_url."images/setting.png' class='setting' title='แก้ไขรหัสผ่าน' height='20px'>
+					<a href='".$base_url."authen/logout'>ออกจากระบบ</a></div>
+				</div>
+				<div class='template_menu'>
+					<div id='cssmenu'>
+						".$this->menu($base_url,$id_mposition)."  
+					</div>
+				</div>
+				";
    }
 
    public function getFooter()
    {
    	return "
+   	<div class='footer' style='position:fixed;margin-left:0px;bottom:0px;background-color:#ffffff;width:100%;z-index: 99;text-align:center'>
+	    Copyright  ©&nbsp;2015 <br>
+	    Udontaveesrap group system.
+	</div>
 	</center>
 	</body>
 	</html>
