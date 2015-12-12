@@ -16,7 +16,7 @@ function saveData()
 	            $.ajax(
 	            {
 	                type: 'POST',
-	                url: '<?php echo base_url(); ?>mpst/saveadd/',
+	                url: '<?php echo base_url(); ?>position/saveadd/',
 	                data: {form}, //your form datas to post          
 	                success: function(rs)
 	                {   
@@ -32,15 +32,17 @@ function saveData()
             }
           });
       }
-</script>
-<input type="hidden"  name="base_url" ID="base_url" value="<?php echo $base_url; ?>">
-<div class="form_input"> 
-	<p>รหัสกลุ่มผู้ใช้งาน</p><p class="required">*</p>
-	<input type="text" class="inputDate" name="mpst_code" placeholder="รหัสกลุ่มผู้ใช้งาน" required>
-	<p>ชื่อกลุ่มผู้ใช้งาน(ENG)</p><p class="required">*</p>
-	<input type="text" class="inputDate" name="name_en" placeholder="ชื่อกลุ่มผู้ใช้งาน(ENG)">
-	<p>ชื่อกลุ่มผู้ใช้งาน(TH)</p><p class="required">*</p>
-	<input type="text" class="inputDate" name="name_th" placeholder="ชื่อกลุ่มผู้ใช้งาน(TH)">
-	<p>หมายเหตุ</p>
-	<textarea  class="input" rows='5' name="comment"></textarea>
+</script> 
+<div class="row form_input"> 
+	<div class="col-md-4" >
+		<p>รหัส<?php echo $pagename; ?></p><p class="required">*</p>
+		<input type="text" class="form-control" name="mposition_code" required>
+	</div>
+	<div class="col-md-8" >
+		<p>ชื่อ<?php echo $pagename; ?></p><p class="required">*</p>
+		<input type="text" class="form-control" name="mposition_name" required>
+	</div> 
+	<div class="col-md-12" >
+		<p>หมายเหตุ</p>
+		<textarea  class="form-control" rows='3' name="comment"></textarea>
 </div>

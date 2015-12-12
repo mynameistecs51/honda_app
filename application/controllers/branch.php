@@ -1,11 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Position extends CI_Controller 
+class Branch extends CI_Controller 
 { 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->ctl="position";
-		$this->load->model('mdl_mposition'); 
+		$this->ctl="branch";
+		$this->load->model('mdl_mbranch'); 
 		date_default_timezone_set('Asia/Bangkok');
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok')); 
 		$this->dt_now = $now->format('Y-m-d H:i:s');
@@ -25,13 +25,13 @@ public function index()
 {
 	$SCREENID="L001";
 	$this->mainpage($SCREENID);
-	$this->load->view('position/'.$SCREENID,$this->data);
+	$this->load->view('branch/'.$SCREENID,$this->data);
 	
 }
 public function getList()
 {
     $requestData= $_REQUEST; 
-    $sqlQuery= $this->mdl_mposition->getList($requestData);  
+    $sqlQuery= $this->mdl_mbranch->getList($requestData);  
     $this->datatables->getDatatables($requestData,$sqlQuery);
 }
  
@@ -52,7 +52,8 @@ public function convert_date($val_date)
 
 public function mainpage($SCREENID)
 { 
-		$SCREENNAME="EMPLOYEE POSITION";
+		$SCREENNAME="EMPLOYEE branch";
+		$this->data["namepage"] ='สำนักงาน/สาขา';
 		$this->data['controller'] = $this->ctl;
 		$this->data['pagename']=$this->template->getPageName($this->ctl);
 		$this->data['base_url'] = base_url();
@@ -60,7 +61,7 @@ public function mainpage($SCREENID)
 		$this->data['mbranch_name'] = $this->session->userdata("mbranch_name");
 		$this->data["lastLogin"] = $this->session->userdata('lastLogin');
 		$this->data["id_mmember"] =$this->session->userdata("id_mmember");
-		$this->data["id_mposition"] =$this->session->userdata("id_mposition"); 
+		$this->data["id_mposition"] =$this->session->userdata("id_mposition");
 		$this->data["datefrom"] =$this->datefrom;
 		$this->data["dateto"] =$this->dateto;
 		$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->data["id_mposition"],$this->data['mbranch_name']);
@@ -77,15 +78,15 @@ public function ADD()
 			$SCREENID="A001";
 			$this->data['pagename']=$this->SCREENNAME;
 			$this->mainpage($SCREENID); 
-			$this->load->view('position/'.$SCREENID,$this->data); 
+			$this->load->view('branch/'.$SCREENID,$this->data); 
 	}
 public function DETAIL($id)
 	{
 			$SCREENID="D001";
 			$this->data['pagename']=$this->SCREENNAME;
 			$this->mainpage($SCREENID); 
-			$this->data['listMposition']= $this->mdl_mposition->getmposition($id);
-			$this->load->view('position/'.$SCREENID,$this->data);
+			$this->data['listMbranch']= $this->mdl_mbranch->getmbranch($id);
+			$this->load->view('branch/'.$SCREENID,$this->data);
 	}
 public function EDIT($id,$idx)
 	{
@@ -93,8 +94,8 @@ public function EDIT($id,$idx)
 			$this->data['pagename']=$this->SCREENNAME;
 			$this->mainpage($SCREENID); 
 			$this->data['idx']=$idx;
-			$this->data['listMposition']= $this->mdl_mposition->getmposition($id);
-			$this->load->view('position/'.$SCREENID,$this->data);
+			$this->data['listMbranch']= $this->mdl_mbranch->getmbranch($id);
+			$this->load->view('branch/'.$SCREENID,$this->data);
 	}
 
 public function saveadd()
@@ -103,7 +104,7 @@ public function saveadd()
      parse_str($_POST['form'], $post);
 		//$code= $this->getCode();  
 		$data = array(
-			"mposition_code"			=> $post['mposition_code'],
+			"mbranch_code"			=> $post['mbranch_code'],
 			"name_en"			=> $post['name_en'],
 			"name_th"			=> $post['name_th'],
 			"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
@@ -114,7 +115,7 @@ public function saveadd()
 			"dt_update"			=> $this->dt_now
 		);
 		//print_r($data);exit();
-			$this->mdl_mposition->addmposition($data);
+			$this->mdl_mbranch->addmbranch($data);
 			$massage = "บันทึกข้อมูล เรียบร้อย !";
 			$this->alert($massage);
     endif;
@@ -124,7 +125,7 @@ public function saveUpdate()
 {
 	if($_POST):
     parse_str($_POST['form'], $post);
-	$id=$post['id_mposition'];
+	$id=$post['id_mbranch'];
 					$data = array(
 						"name_en"			=> $post['name_en'], 
 						"name_th"			=> $post['name_th'],
@@ -133,7 +134,7 @@ public function saveUpdate()
 						"id_update"			=> $this->id_mmember,
 						"dt_update"			=> $this->dt_now
 					);
-			$this->mdl_mposition->updatemposition($id,$data);
+			$this->mdl_mbranch->updatembranch($id,$data);
 			$massage = "แก้ไขข้อมูล เรียบร้อย !";
 			$this->alert($massage);
 	endif;

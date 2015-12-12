@@ -1,13 +1,34 @@
 <?php echo $header;?> 
 <script type="text/javascript" language="javascript" charset="utf-8">
 $(function(){
+  $("#datefrom").datepicker({
+      dateFormat: 'dd/mm/yy',
+      yearRange: "+530:+550",
+      changeMonth: true,
+      changeYear: true, 
+      monthNamesShort: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'], 
+      defaultDate: "+1w",
+      onClose: function( selectedDate ) {
+        $( "#dateto" ).datepicker( "option", "minDate", selectedDate );
+      }
+    });
+  $("#dateto").datepicker({
+      dateFormat: 'dd/mm/yy',
+      yearRange: "+530:+550",
+      changeMonth: true,
+      changeYear: true, 
+      monthNamesShort: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
+      defaultDate: "+1w",
+      onClose: function( selectedDate ) {
+        $( "#datefrom" ).datepicker( "option", "maxDate", selectedDate );
+      }
+    });   
 add();
 rundatatable();
 });
 function rundatatable(){ 
     var dataTable = $('#employee-grid').DataTable({ 
         responsive: true,
-        serverSide: true,
         tableTools: {
                         "sRowSelect": "os",
                         "aButtons": [ "select_all", "select_none" ]
@@ -23,13 +44,9 @@ function rundatatable(){
                         "sNext": "<?php echo $sNext="ถัดไป" ;?>",
                         "sPrevious": "<?php echo $sPrevious="ย้อนกลับ" ;?>"                      
                         }},
-        
-        "sScrollX": "100%",
-        "sScrollXInner": "100%",
-        "bScrollCollapse": true,
         "bLengthChange": false, 
         "iDisplayLength": 15,
-        "order": [[ '0', "DESC" ]], 
+        "order": [[ '0', "ASC" ]], 
         "processing": true,
         "serverSide": true,
         "ajax":{
@@ -42,41 +59,37 @@ function rundatatable(){
             }
         },
         "aoColumns": [{ 
-                      "sWidth": "10%", 
-                      "mData": 'mmember_code'
+                      "sWidth": "15%", 
+                      "mData": 'mposition_code'
+                    }, { 
+                      "sWidth": "20%",
+                      "mData":'mposition_name'
                     }, { 
                       "sWidth": "15%",
-                      "mData": 'mmember_name'
-                    }, { 
-                      "sWidth": "10%",
-                      "mData":'user'
-                    }, { 
-                      "sWidth": "10%",
-                      "mData": 'mobile'
-                    }, { 
+                      "mData": 'mbranch_name'
+                    },{
                       "sWidth": "5%",
                       "mData": null,
                       "mRender": function(data, type, full) { 
                         if(full['status']=='1'){ return "ใช้งาน"; }else{ return "ยกเลิก"; } 
                       }
                     }, {
-                      "sWidth": "3%",
+                      "sWidth": "5%",
                       "mData": null,
                       "bSortable": false,
                       "mRender": function(data, type, full) { 
                         var html ='';
                         if($('#btn_view').val()==1){ 
-                            html +='<img src="<?php echo base_url(); ?>images/list_view.png"   title="รายละเอียด" class="btnopt view" data-idview="' + full['id_mmember'] + '" />';
+                            html +='<img src="<?php echo base_url(); ?>images/list_view.png"   title="รายละเอียด" class="btnopt view" data-idview="' + full['id_mposition'] + '"></img>';
                         }else{ 
-                            html +='<img src="<?php echo base_url(); ?>images/un_list_view.png"   title="ไม่ได้รับสิทธิ์ดูรายละเอียด" class="btnoptUnclick" data-idview="' + full['id_mmember'] + '" />';
+                            html +='<img src="<?php echo base_url(); ?>images/un_list_view.png"   title="ไม่ได้รับสิทธิ์ดูรายละเอียด" class="btnoptUnclick" data-idview="' + full['id_mcmp'] + '"></img>';
                         } 
                         if($('#btn_edit').val()==1){ 
-                            html +='<img src="<?php echo base_url(); ?>images/list_edit.png"   title="แก้ไข" class="btnopt edit" data-idedit="' + full['id_mmember'] + '" />';
+                            html +='<img src="<?php echo base_url(); ?>images/list_edit.png"   title="แก้ไข" class="btnopt edit" data-idedit="' + full['id_mposition'] + '"></img>';
                         }else{ 
-                            html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="ไม่ได้รับสิทธิ์แก้ไขข้อมูล" class="btnoptUnclick" data-idedit="' + full['id_mmember'] + '" />';
+                            html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="ไม่ได้รับสิทธิ์แก้ไขข้อมูล" class="btnoptUnclick" data-idedit="' + full['id_mcmp'] + '"></img>';
                         } 
-                    
-                            html +='<input type="hidden" ID="id_mmember' + full['id_mmember'] + '" value="' + full['id_mmember'] + '" />';
+                            html +='<input type="hidden" ID="id_mcmp' + full['id_mcmp'] + '" value="' + full['id_mcmp'] + '">';
                         return html;
                       }
                     }]
@@ -95,24 +108,14 @@ function rundatatable(){
           } );   
          $('#employee-grid tbody').on( 'click', 'img.view', function () {
            view($(this).data('idview'));
-          } );
-
-        $('#employee-grid tbody').on( 'click', 'img.print', function () {
-        var idx=$(this).closest('tr').index(); // หาลำดับแถวของ TR ที่คลิกแก้ไข 
-        fromprint($(this).data('idprint'),idx);
-        } );     
-    
-   new $.fn.dataTable.FixedColumns( dataTable ,{
-    "iLeftColumns": 0,
-    "iRightColumns": 1
-    } );
-    }        
+          } );   
+   }        
 
 function add()
     {
     $(".add").click(function(){    
       var screenname="เพิ่มข้อมูล :: <?php echo $pagename ?>";
-      var url = "<?php echo $url_add; ?>"; 
+      var url = $('#baseurl_add').val(); 
       var n=0;
       $('.div_modal').html('');
       modal_form(n,screenname);
@@ -121,7 +124,7 @@ function add()
             modal.on('show.bs.modal', function () {
             modalBody.load(url);
             }).modal({backdrop: 'static',keyboard: true});
-      setInterval(function(){$('#ajaxLoaderModal').remove()},5100);
+      setInterval(function(){$('#ajaxLoaderModal').remove()},5000);
       });
     }
 
@@ -156,10 +159,6 @@ function view(num)
             }).modal({backdrop: 'static',keyboard: true});
       setInterval(function(){$('#ajaxLoaderModal').remove()},5000);
     }
-     
-function fromprint(num,idx){ 
-    window.location = $('#baseurl_print').val()+num; 
-}
 
 function modal_form(n,screenname)
    {
@@ -213,38 +212,40 @@ function modal_form_view(n,screenname)
 <div class='col-sm-12'>
 <br/>
 <div class="nev_url"><?php echo $NAV; ?> </div>
-</div>
 <?php if($btn['add']==1){ echo "<div class='add' ID='add'>+ เพิ่มรายการ</div>"; }else{ echo "<div class='noneadd' title='ไม่ได้รับสิทธิ์เพิ่มรายการ'>+ เพิ่มรายการ</div>";} ?>
 <div class="search">ค้นหา : 
-    <input type="text" data-column="0"  class="search-input-text" placeholder="--รหัสพนักงาน--">
-    <input type="text" data-column="1"  class="search-input-text" placeholder="--ชื่อ-สกุล--"> 
-    <input type="text" data-column="2"  class="search-input-text" placeholder="--ชื่อเข้าใช้ระบบ--"> 
-    <input type="text" data-column="3"  class="search-input-text" placeholder="--เบอร์มือถือ--">
-    <select data-column="4" class="search-input-text">
+    <input type="text" data-column="0"  class="search-input-text" placeholder="--รหัสกลุ่มผู้ใช้งาน--"> 
+    <input type="text" data-column="1"  class="search-input-text" placeholder="--ชื่อกลุ่มผู้ใช้งาน--">  
+    <select data-column="2" class="search-input-text">
+      <option value="" selected>--เลือกสำนักงาน/สาขา--</option> 
+      <option value="1" > อุดรธานี </option>
+      <option value="2"> หนองบัวลำภู </option>
+      <option value="3"> หนองคาย </option>
+      <option value="3"> สว่างแดนดิน </option>
+    </select> 
+    <select data-column="3" class="search-input-text">
       <option style="font-size:12px;" value="" selected>----ทั้งหมด----</option>
       <option style="font-size:12px;" value="1">ใช้งาน</option> 
       <option style="font-size:12px;" value="0">ยกเลิก</option> 
-    </select> 
+    </select>
 </div>
 </div>
 <table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" width="100%"  >
 <thead>                       
   <tr>
-    <th>รหัสพนักงาน</th>
-    <th>ชื่อ-สกุล(ภาษาไทย)</th> 
-    <th>ชื่อเข้าใช้ระบบ</th>
-    <th>เบอร์มือถือ</th>
+    <th>รหัสกลุ่มผู้ใช้งาน</th>
+    <th>ชื่อกลุ่มผู้ใช้งาน</th> 
+    <th>สำนักงาน/สาขา</th>
     <th>สถานะ</th>
     <th>ดำเนินการ</th>
   </tr>
 </thead>
 </table>
-<div class="div_modal">
 </div>
+<div class="div_modal"></div>  <!-- Code ของ Modal จะมาแสดงใน DIV นี้ --> 
 <input type="hidden" ID="btn_view" value="<?php echo $btn['view']; ?>">
 <input type="hidden" ID="btn_edit" value="<?php echo $btn['edit']; ?>">
-<input type="hidden" ID="btn_print" value="<?php echo $btn['print']; ?>"> 
+<input type="hidden" ID="baseurl_add" value="<?php echo $url_add; ?>">
 <input type='hidden' ID="baseurl_edit" value="<?php echo $url_edit; ?>">
-<input type='hidden' ID="baseurl_print" value="<?php echo $url_print; ?>">
 <input type='hidden' ID="baseurl_detail" value="<?php echo $url_detail; ?>">
 <?php echo $footer; ?>

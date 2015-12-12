@@ -50,7 +50,8 @@ class Template{
 		<div class='user_login'><img src='".$base_url."images/company.PNG' height='20px'> ".$mbranch_name."
 		<img src='".$base_url."images/user.png' height='20px'> ".$mmember_name." 
 		<img src='".$base_url."images/lastlogin.png' height='20px'> ".$lastLogin." 
-		<img src='".$base_url."images/setting.png' class='setting' title='แก้ไขรหัสผ่าน' height='20px'></div>
+		<img src='".$base_url."images/setting.png' class='setting' title='แก้ไขรหัสผ่าน' height='20px'>
+		<a href='".$base_url."authen/logout'>ออกจากระบบ</a></div>
 	</div>
 	<div class='template_menu'>
 		<div id='cssmenu'>
@@ -79,10 +80,11 @@ public function menu($base_url,$id_mposition)
 	$lavle1=  $this->CI->mdl_menu->getMenu('1',$id_mposition);
 	$lavle2=  $this->CI->mdl_menu->getMenu('2',$id_mposition); 
 	$menu ="<ul>";
-	$menu .="<li><a href='".$base_url."dashboard/'>HOME</a>";
+	$menu .="<li><a href='".$base_url."dashboard/'>หน้าหลัก</a>";
 	foreach ($lavle1["result"] as $row)
 	{ 
-		$menu .="<li class='active'><a href='#'>". $row->mmenu_name."</a>";
+		$flc = $row->id_parent == 4 ? $base_url.$row->filelocation : "#" ;
+		$menu .="<li class='active'><a href='".$flc."'>". $row->mmenu_name."</a>";
 		$menu .="<ul>";
 				foreach ($lavle2["result"] as $row2)
 				{ 
@@ -94,8 +96,7 @@ public function menu($base_url,$id_mposition)
 		$menu .="</ul>";
 		
 		$menu .= "</li>";
-	}
-	$menu .="<li><a href='".$base_url."authen/logout'>LOGOUT</a>";
+	} 
 	$menu .=" </ul>";
 
 	return $menu;
