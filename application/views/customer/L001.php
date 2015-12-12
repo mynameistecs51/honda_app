@@ -213,7 +213,6 @@ function modal_form_view(n,screenname)
 <div class='col-sm-12'>
 <br/>
 <div class="nev_url"><?php echo $NAV; ?> </div>
-</div>
 <?php if($btn['add']==1){ echo "<div class='add' ID='add'>+ เพิ่มรายการ</div>"; }else{ echo "<div class='noneadd' title='ไม่ได้รับสิทธิ์เพิ่มรายการ'>+ เพิ่มรายการ</div>";} ?>
 <div class="search">ค้นหา :
     <input type="text" data-column="0"  class="search-input-text" placeholder="--รหัสพนักงาน--">

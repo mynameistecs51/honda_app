@@ -11,7 +11,7 @@
  Target Server Version : 50505
  File Encoding         : utf-8
 
- Date: 12/10/2015 02:02:33 AM
+ Date: 12/12/2015 19:02:29 PM
 */
 
 SET NAMES utf8;
@@ -39,7 +39,7 @@ CREATE TABLE `cusersetting` (
   KEY `idx_id_cmmnu_mpst` (`id_cusersetting`) USING BTREE,
   KEY `idx_fk_cmmnu_mpst_id_mmnu` (`id_mmenu`) USING BTREE,
   KEY `idx_fk_cmmnu_mpst_id_mpst` (`id_mposition`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=139 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=69 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- ----------------------------
 --  Records of `cusersetting`
@@ -75,17 +75,6 @@ CREATE TABLE `mbranch` (
   `id_mbranch` int(10) unsigned NOT NULL AUTO_INCREMENT COMMENT 'running number',
   `mbranch_code` varchar(50) DEFAULT NULL COMMENT 'รหัสบริษัท',
   `mbranch_name` varchar(150) DEFAULT NULL COMMENT 'ชื่อบริษัท ภาษาไทย',
-  `id_mamphur` int(10) DEFAULT NULL,
-  `adr_line` varchar(1000) DEFAULT NULL COMMENT 'ที่อยู่ แบบบรรทัด#1',
-  `id_mprovince` int(10) DEFAULT NULL COMMENT 'ID จังหวัด',
-  `id_mdistric` int(10) DEFAULT NULL COMMENT 'ID ตำบล',
-  `tax_id` varchar(50) DEFAULT NULL COMMENT 'เลขประจำตัวผู้เสียภาษีอากร',
-  `website` varchar(100) DEFAULT NULL COMMENT 'เว็บไซท์',
-  `email` varchar(50) DEFAULT NULL COMMENT 'อีเมลล์',
-  `contact` varchar(50) DEFAULT NULL COMMENT 'ชื่อผู้ติดต่อ',
-  `telephone` varchar(50) DEFAULT NULL COMMENT 'เบอร์โทรศัพท์',
-  `mobile` varchar(50) DEFAULT NULL COMMENT 'เบอร์มือถือ',
-  `fax` varchar(50) DEFAULT NULL COMMENT 'เบอร์แฟกซ์',
   `comment` varchar(4000) DEFAULT NULL COMMENT 'หมายเหตุ',
   `status` tinyint(4) NOT NULL DEFAULT '1' COMMENT 'สถานะรายการ',
   `id_create` int(10) unsigned NOT NULL COMMENT 'ID ผู้สร้าง',
@@ -95,13 +84,13 @@ CREATE TABLE `mbranch` (
   PRIMARY KEY (`id_mbranch`),
   KEY `idx_mbranch_code` (`mbranch_code`) USING BTREE,
   KEY `idx_mbranch_name` (`mbranch_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=9881 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 ROW_FORMAT=COMPACT;
 
 -- ----------------------------
 --  Records of `mbranch`
 -- ----------------------------
 BEGIN;
-INSERT INTO `mbranch` VALUES ('1', 'UDT', 'สาขาอุดรธานี', null, null, null, null, null, null, null, null, null, null, null, null, '1', '0', '0000-00-00 00:00:00', '0', '0000-00-00 00:00:00');
+INSERT INTO `mbranch` VALUES ('1', 'UDT', 'สาขาอุดรธานี', null, '1', '1', '2015-12-12 18:45:15', '1', '2015-12-12 18:45:18'), ('2', 'NKA', 'สาขาหนองคาย', null, '1', '1', '2015-12-12 18:46:42', '1', '2015-12-12 18:46:50'), ('3', 'NBP', 'สาขาหนองบัวลำภู', null, '1', '1', '2015-12-12 18:46:44', '1', '2015-12-12 18:46:52'), ('4', 'SWH', 'สาขาสว่างแดนดิน', null, '1', '1', '2015-12-12 18:46:47', '1', '2015-12-12 18:46:55');
 COMMIT;
 
 -- ----------------------------
@@ -176,7 +165,7 @@ CREATE TABLE `mmember` (
   `mmember_code` varchar(50) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'รหัสพนักงาน',
   `sex` tinyint(4) DEFAULT NULL COMMENT 'เพศ (1= ชาย,2 = หญิง)',
   `status_marriaged` tinyint(4) DEFAULT NULL COMMENT 'สถานะภาพการแต่งงาน (0 = โสด, 1 = แต่ง และอยู่ด้วยกัน, 2 = แต่ง แต่แยกกันอยู่, 3= หย่าร้าง)',
-  `id_memp_tit` int(10) unsigned DEFAULT NULL COMMENT 'ID คำนำหน้า',
+  `id_mmember_tit` int(10) unsigned DEFAULT NULL COMMENT 'ID คำนำหน้า',
   `firstname` varchar(25) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'ชื่อพนักงาน ภาษาไทย',
   `lastname` varchar(25) COLLATE utf8_unicode_ci DEFAULT NULL COMMENT 'นามสกุลพนักงาน ภาษาไทย',
   `birthdate` date DEFAULT NULL COMMENT 'วันเกิด',
@@ -201,7 +190,7 @@ CREATE TABLE `mmember` (
   PRIMARY KEY (`id_mmember`),
   KEY `idx_memp_code` (`mmember_code`) USING BTREE,
   KEY `idx_memp_name_th` (`firstname`,`lastname`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 -- ----------------------------
 --  Records of `mmember`
@@ -228,13 +217,13 @@ CREATE TABLE `mmenu` (
   `id_update` int(10) unsigned DEFAULT NULL COMMENT 'ID ผู้แก้ไขล่าสุด',
   `dt_update` datetime DEFAULT NULL COMMENT 'datetime แก้ไขล่าสุด',
   PRIMARY KEY (`id_mmenu`)
-) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `mmenu`
 -- ----------------------------
 BEGIN;
-INSERT INTO `mmenu` VALUES ('1', 'Home', '0', '1', 'dashboard', '1', '', '0', null, null, null, null), ('2', 'Master', '0', '2', '#', '1', '', '1', null, null, null, null), ('3', 'Control Panel', '0', '3', '#', '1', '', '1', null, null, null, null), ('4', 'OPERATE', '0', '4', '#', '1', '', '1', null, null, null, null), ('5', 'Report', '0', '5', '#', '1', '', '1', null, null, null, null), ('6', 'พนักงาน', '2', '1', 'employee', '2', '', '1', null, null, null, null), ('7', 'ประเภทพนักงาน / ตำแหน่ง', '2', '2', 'position', '2', '', '1', null, null, null, null), ('8', 'สำนักงานสาขา', '2', '3', 'branch', '2', '', '1', null, null, null, null), ('9', 'กำหนดสิทธิ์', '3', '1', 'usersetting', '2', '', '1', null, null, null, null), ('10', 'จัดการข้อมูลสต๊อกรถยนต์', '4', '1', 'stock', '2', '', '1', null, null, null, null), ('11', 'ข้อมูลลูกค้า', '4', '2', 'customer', '2', '', '1', null, null, null, null), ('12', 'จองรถ', '4', '3', 'booking', '2', '', '1', null, null, null, null), ('13', 'ขาย/ตัดจำหน่าย', '4', '4', 'sell', '2', '', '1', null, null, null, null), ('14', 'รายงานสต๊อกรถยนต์', '5', '1', 'tpm_chk', '2', '', '1', null, null, null, null), ('15', 'รายงานลูกค้า', '5', '2', 'tpm', '2', '', '1', null, null, null, null), ('16', 'รายงานการจองรถ', '5', '3', 'tpm_overall', '2', '', '1', null, null, null, null), ('17', 'รายงานการขาย/ตัดจำหน่าย', '5', '4', 'tpm_closed', '2', '', '1', null, null, null, null);
+INSERT INTO `mmenu` VALUES ('1', 'Home', '0', '1', 'dashboard', '1', '', '0', null, null, null, null), ('2', 'ข้อมูลตั้งต้น', '0', '2', '#', '1', '', '1', null, null, null, null), ('3', 'การตั้งค่า', '0', '3', '#', '1', '', '1', null, null, null, null), ('4', 'ดำเนินการ', '0', '4', '#', '1', '', '0', null, null, null, null), ('5', 'รายงาน', '0', '99', '#', '1', '', '1', null, null, null, null), ('6', 'พนักงาน', '2', '1', 'employee', '2', '', '1', null, null, null, null), ('7', 'ประเภทพนักงาน / ตำแหน่ง', '2', '2', 'position', '2', '', '1', null, null, null, null), ('8', 'สำนักงานสาขา', '2', '3', 'branch', '2', '', '1', null, null, null, null), ('9', 'กำหนดสิทธิ์', '3', '1', 'usersetting', '2', '', '1', null, null, null, null), ('10', 'สต๊อกรถยนต์', '4', '5', 'stock', '1', '', '1', null, null, null, null), ('11', 'ข้อมูลลูกค้า', '4', '6', 'customer', '1', '', '1', null, null, null, null), ('12', 'จองรถ', '4', '7', 'booking', '1', '', '1', null, null, null, null), ('13', 'ขาย/ตัดจำหน่าย', '4', '8', 'sale', '1', '', '1', null, null, null, null), ('14', 'รายงานสต๊อกรถยนต์', '5', '1', 'report_stock', '2', '', '1', null, null, null, null), ('15', 'รายงานลูกค้า', '5', '2', 'report_customer', '2', '', '1', null, null, null, null), ('16', 'รายงานการจองรถ', '5', '3', 'report_booking', '2', '', '1', null, null, null, null), ('17', 'รายงานการขาย/ตัดจำหน่าย', '5', '4', 'report_sale', '2', '', '1', null, null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -255,13 +244,13 @@ CREATE TABLE `mposition` (
   PRIMARY KEY (`id_mposition`),
   KEY `idx_mpst_code` (`mposition_code`) USING BTREE,
   KEY `idx_mpst_name_th` (`mposition_name`) USING BTREE
-) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci ROW_FORMAT=COMPACT;
 
 -- ----------------------------
 --  Records of `mposition`
 -- ----------------------------
 BEGIN;
-INSERT INTO `mposition` VALUES ('1', '1', 'STSTEM', 'SYSTEM', null, '1', '0', '0000-00-00 00:00:00', '0', '0000-00-00 00:00:00'), ('2', '1', 'PS001', 'ผู้บริหาร', null, '1', '0', '0000-00-00 00:00:00', '0', '0000-00-00 00:00:00'), ('3', '1', 'PS002', 'ฝ่่ายขาย', null, '1', '0', '0000-00-00 00:00:00', '0', '0000-00-00 00:00:00'), ('4', '1', 'PS003', 'พนักงานทั่วไป', null, '1', '0', '0000-00-00 00:00:00', '0', '0000-00-00 00:00:00');
+INSERT INTO `mposition` VALUES ('1', '1', 'STSTEM', 'SYSTEM', null, '1', '1', '2015-12-12 14:26:10', '1', '2015-12-12 14:26:10'), ('2', '1', 'PS001', 'ผู้บริหาร', null, '1', '1', '2015-12-12 14:26:10', '1', '2015-12-12 14:26:10'), ('3', '1', 'PS002', 'ฝ่ายขาย', null, '1', '1', '2015-12-12 14:26:10', '1', '2015-12-12 14:26:10'), ('4', '1', 'PS003', 'พนักงานทั่วไป', null, '1', '1', '2015-12-12 14:26:10', '1', '2015-12-12 14:26:10');
 COMMIT;
 
 -- ----------------------------
@@ -295,13 +284,13 @@ CREATE TABLE `tlog_lgn` (
   `id_create` int(10) unsigned NOT NULL,
   `dt_create` datetime NOT NULL,
   PRIMARY KEY (`id_tlog_lgn`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `tlog_lgn`
 -- ----------------------------
 BEGIN;
-INSERT INTO `tlog_lgn` VALUES ('1', '1', '1', '1', '2015-12-10 00:33:45'), ('2', '1', '1', '1', '2015-12-10 01:16:26'), ('3', '1', '1', '1', '2015-12-10 01:48:16');
+INSERT INTO `tlog_lgn` VALUES ('1', '1', '1', '1', '2015-12-10 00:33:45'), ('2', '1', '1', '1', '2015-12-10 01:16:26'), ('3', '1', '1', '1', '2015-12-10 01:48:16'), ('4', '1', '1', '1', '2015-12-10 20:20:06'), ('5', '1', '1', '1', '2015-12-10 21:49:58'), ('6', '1', '1', '1', '2015-12-11 14:02:34'), ('7', '1', '1', '1', '2015-12-12 02:56:18'), ('8', '1', '1', '1', '2015-12-12 13:01:17');
 COMMIT;
 
 -- ----------------------------

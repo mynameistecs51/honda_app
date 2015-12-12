@@ -1,5 +1,5 @@
 <?php
-   class Mdl_employee extends CI_Model
+   class Mdl_customer extends CI_Model
    {
       public function __construct()
       {
