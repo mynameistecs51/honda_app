@@ -94,11 +94,9 @@ function rundatatable(){
       <lable class="lable"> To :</lable><input type="text" data-column="6"  ID="dateto" class="search-input-text" value="<?php echo $dateto; ?>" > 
       <select data-column="2" class="search-input-text">
         <option style="font-size:12px;" value="" >----ทั้งหมด----</option>
-        <option style="font-size:12px;" value="1" selected>รับเข้าสต๊อก</option> 
-        <option style="font-size:12px;" value="0">จองแล้ว</option> 
-        <option style="font-size:12px;" value="0">จำหน่ายแล้ว</option> 
-        <option style="font-size:12px;" value="0">โอนไปสาขาอื่น</option> 
-        <option style="font-size:12px;" value="0">ยกเลิกรับเข้าสต๊อก </option> 
+        <option style="font-size:12px;" value="1" selected>จองแล้ว</option>  
+        <option style="font-size:12px;" value="0">จำหน่ายแล้ว</option>  
+        <option style="font-size:12px;" value="0">ยกเลิกการจอง</option> 
       </select>
   </div>
 </div>
@@ -110,55 +108,46 @@ function rundatatable(){
       <tr>
         <th width="120px">เลขที่จองรถ</th>
         <th width="120px">วันที่จองรถ</th>
+        <th width="200px">หมายเลขลูกค้า</th>
+        <th width="200px">ชื่อ-สกุล</th> 
         <th width="150px">แบบ</th>
         <th width="80px">รุ่น</th>
-        <th width="80px">สี</th>
-        <th width="150px">วันที่ส่งมอบ (Receipt)</th>
-        <th width="200px">หมายเลขตัวถัง</th>
-        <th width="150px">หมายเลขเครื่อง</th>
-        <th width="90px">วันรับจริง</th>
-        <th width="90px">adv</th>
-        <th width="60px">Loc.</th> 
+        <th width="80px">สี</th>  
+        <th width="90px">วันที่นัดรับ</th> 
         <th width="60px">สาขา</th>
-        <th width="150px">ลูกค้า/พนักงานขาย</th>
+        <th width="150px">พนักงานขาย</th>
         <th width="150px">สถานะ</th>
         <th width="200px">หมายเหตุ</th>  
       </tr>
     </thead>
     <tbody>
       <tr >
-        <td>STUDT581200001</td>
+        <td>BKUDT581200001</td>
         <td>12/12/2558</td>
+        <td>CTUDT581200001</td>
+        <td>นายดิษฐพงษ์ นิลนามะ</td>
         <td>CITY CNG'14</td>
         <td>S CNG MT</td>
         <td>TTW</td>
         <td>20/9/2014</td>
-        <td>MRHGM6520E-P200081</td>
-        <td>L15Z1-1501250</td>
-        <td>22/09/2558</td>
-        <td>ต.ค.</td>
-        <td>SG</td>
-        <td>UD</td>
-        <td>ว่าง</td>
-        <td>รับเข้า</td> 
-        <td>แต่ง+โซล่า</td>
+        <td>UDT</td>
+        <td>UDTSA001</td> 
+        <td>จองแล้ว</td> 
+        <td></td>
       </tr>
       <tr >
-        <td>STUDT581200002</td>
+        <td>BKUDT581200002</td>
         <td>12/12/2558</td>
+        <td>CTUDT581200001</td>
+        <td>นายดิษฐพงษ์ นิลนามะ</td>
         <td>CITY CNG'14</td>
         <td>S CNG MT</td>
         <td>TTW</td>
         <td>20/9/2014</td>
-        <td>MRHGM6520E-P200017</td>
-        <td>L15Z1-1500583</td>
-        <td>22/09/2558</td>
-        <td>ต.ค.</td>
-        <td>SG</td>
-        <td>UD</td>
-        <td>ว่าง</td>
-        <td>รับเข้า</td> 
-        <td>แต่ง+โซล่า</td>
+        <td>UDT</td>
+        <td>UDTSA001</td> 
+        <td>จองแล้ว</td> 
+        <td></td>
       </tr>
       </tbody> 
     </table>

@@ -63,10 +63,7 @@ class Template{
    public function getFooter()
    {
    	return "
-   	<div class='footer' style='position:fixed;margin-left:0px;bottom:0px;background-color:#ffffff;width:100%;z-index: 99;text-align:center'>
-	    Copyright  ©&nbsp;2015 <br>
-	    Udontaveesrap group system.
-	</div>
+   	
 	</center>
 	</body>
 	</html>
