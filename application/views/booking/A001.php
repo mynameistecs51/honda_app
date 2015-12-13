@@ -1,6 +1,3 @@
-<style type="text/css">
-	p{ font-weight: bold; }
-</style>
 <script type='text/javascript'>
 	$(function(){
 

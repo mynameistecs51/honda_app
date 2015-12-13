@@ -233,7 +233,7 @@
     			<thead>        
     				<tr>
     					<th width="80px">หมายเลขลูกค้า</th>
-    					<th width="120px">ชื่อ - สกุล(ภาษาไทย</th>
+    					<th width="120px">ชื่อ - สกุล(ภาษาไทย)</th>
     					<th width="90px">ลูกค้า</th>
     					<th width="80px">ประเภท</th>
     					<th width="90px">เบอร์โทร</th>
