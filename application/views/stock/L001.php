@@ -323,10 +323,13 @@ function modal_form_view(n,screenname)
       </tr>
       </tbody> 
     </table>
-    <div class='col-sm-6' style="text-align:left;margin-top:-12px;font-size:14px;">จำนวนข้อมูล 1 ถึง 2 จาก 2 รายการทั้งหมด</div>
-    <div class='col-sm-6' style="text-align:right;margin-top:-15px;"> <img src="http://localhost/utsgs/images/nextpage.jpg" height="40"> </div>
+    <!-- <div class='col-sm-6' style="text-align:left;margin-top:-12px;font-size:14px;">จำนวนข้อมูล 1 ถึง 2 จาก 2 รายการทั้งหมด</div> -->
+    <!-- <div class='col-sm-6' style="text-align:right;margin-top:-15px;"> <img src="http://localhost/utsgs/images/nextpage.jpg" height="40"> </div> -->
     </div>
- </div> 
+  </div> 
+
+  <div class='col-sm-6' style="text-align:left;font-size:14px;">จำนวนข้อมูล 1 ถึง 2 จาก 2 รายการทั้งหมด</div>
+  <div class='col-sm-6' style="text-align:right;"> <img src="http://localhost/utsgs/images/nextpage.jpg" height="40"> </div>
 
 <div class="div_modal"></div>  <!-- Code ของ Modal จะมาแสดงใน DIV นี้ --> 
 <input type="hidden" ID="btn_view" value="<?php echo $btn['view']; ?>">
