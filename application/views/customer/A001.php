@@ -106,7 +106,7 @@ $(function(){
 	$('#addCar_').click(function(){
 		var  row=$('.car').length+1;
 		var  html  = '<div class="car" ID="car'+row+'">';
-		html += '<div class="col-sm-3">';
+		html += '<div class="col-sm-4">';
 		html += '<p>รุ่นรถ</p>';
 		html += '<select name="typeCar[]" class ="form-control" required>';
 		html += '	<option value="">--เลือก--</option>';
@@ -115,7 +115,7 @@ $(function(){
 		html += '	<option value="3"> Denler2</option>';
 		html += '</select>';
 		html += '</div>';
-		html += '<div class="col-sm-3">';
+		html += '<div class="col-sm-4">';
 		html += '<p>ประเภท</p>';
 		html += '<select name="typeCar[]" class ="form-control" required>';
 		html += '	<option value="">--เลือก--</option>';
@@ -124,7 +124,7 @@ $(function(){
 		html += '	<option value="3"> Denler2</option>';
 		html += '</select>';
 		html += '</div>';
-		html += '<div class="col-sm-3">';
+		html += '<div class="col-sm-2">';
 		html += '	<p>สี</p>';
 		html += '	<select name="typeColor[]" class ="form-control" required>';
 		html += '	<option value="">--เลือก--</option>';
@@ -134,7 +134,7 @@ $(function(){
 		html += '	<option value="3" style="background-color: gray"> สีเทา</option>';
 		html += '</select>';
 		html += '</div>';
-		html += '<div class="col-sm-3" >  ';
+		html += '<div class="col-sm-2" >  ';
 		html += '<p><br/></p>';
 		html += '<h4><i class="glyphicon glyphicon-trash btn btn-danger" ID="delCar'+row+'"></i> </h4>';
 		html += '</div> ';
@@ -183,11 +183,11 @@ $(function(){
 	$('#addOrigin').click(function(){
 		var  row=$('.origin').length+1;
 		var  html  = '<div class="origin" ID="origin'+row+'">';
-		html += '<div class="col-sm-8">';
+		html += '<div class="col-sm-9">';
 		html += '<p>แหล่งที่มา</p>';
 		html += '<input type="text" class="form-control" name="origin[]"/>';
 		html += '</div>';
-		html += '<div class="col-sm-3" >  ';
+		html += '<div class="col-sm-2" >  ';
 		html += '<p><br/></p>';
 		html += '<h4><i class="glyphicon glyphicon-trash btn btn-danger" ID="delOrigin'+row+'"></i> </h4>';
 		html += '</div> ';
@@ -437,7 +437,7 @@ function delObjective(num)
 	</div>
 	<div class="form-group col-sm-12">
 		<p>รุ่นรถที่สนใจ</p>
-		<div class="col-sm-3">
+		<div class="col-sm-4">
 			<p>รุ่นรถ</p>
 			<select name="typeCar" class ="form-control" required>
 				<option value="">--เลือก--</option>
@@ -446,7 +446,7 @@ function delObjective(num)
 				<option value="3"> Denler2</option>
 			</select>
 		</div>
-		<div class="col-sm-3">
+		<div class="col-sm-4">
 			<p>ประเภท</p>
 			<select name="typeCar" class ="form-control" required>
 				<option value="">--เลือก--</option>
@@ -455,7 +455,7 @@ function delObjective(num)
 				<option value="3"> Denler2</option>
 			</select>
 		</div>
-		<div class="col-sm-3">
+		<div class="col-sm-2">
 			<p>สี</p>
 			<select name="typeCar" class ="form-control" required>
 				<option value="">--เลือก--</option>
@@ -467,24 +467,20 @@ function delObjective(num)
 		</div>
 		<div class="col-sm-2">
 			<p>&nbsp;</p>
-			<div class="col-sm-12" >
-				<div class="btn btn-primary" id="addCar_" style="width:120px;"> เพิ่มรุ่นที่สนใจ</div>
-			</div>
+			<div class="btn btn-primary" id="addCar_" style="width:120px;"> เพิ่มรุ่นที่สนใจ</div>
 		</div>
 		<div class="addRows">
 			<!-- show data colum  รุ่นรถที่สนใจ-->
 		</div>
 	</div>
 	<div class="form-group col-sm-6">
-		<div class="col-sm-8">
+		<div class="col-sm-9">
 			<p>แหล่งที่มา</p>
 			<input type="text" class="form-control" />
 		</div>
 		<div class="col-sm-2">
 			<p>&nbsp;</p>
-			<div class="col-sm-12" style="text-align:right;">
-				<div class="btn btn-primary" id="addOrigin" style="width:120px;"> เพิ่มที่มา</div>
-			</div>
+			<div class="btn btn-primary" id="addOrigin" style="width:120px;"> เพิ่มที่มา</div>
 		</div>
 		<div class="add_origin">
 			<!-- show ddata add origin -->
@@ -497,9 +493,7 @@ function delObjective(num)
 		</div>
 		<div class="col-sm-2">
 			<p>&nbsp;</p>
-			<div class="col-sm-12" style="text-align:right;">
-				<div class="btn btn-primary" id="addObjective" style="width:120px;"> เพิ่มวัตถุประสงค์</div>
-			</div>
+			<div class="btn btn-primary" id="addObjective" style="width:120px;"> เพิ่มวัตถุประสงค์</div>
 		</div>
 		<div class="add_objective">
 			<!-- show ddata add objective -->
