@@ -2,7 +2,7 @@
 <script type="text/javascript" language="javascript" charset="utf-8">
 	$(function(){
 		add();
-		rundatatable();
+		// rundatatable();
 	});
 	function rundatatable(){
 		var dataTable = $('#employee-grid').DataTable({
@@ -232,18 +232,18 @@
     		<table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" style="table-layout: fixed;word-wrap: break-word;" >
     			<thead>        
     				<tr>
-    					<th width="80px">เลขที่ใบจอง</th>
-    					<th width="120px">ชื่อ - สกุล(ภาษาไทย)</th>
-    					<th width="90px">ลูกค้า</th>
-    					<th width="80px">ประเภท</th>
-    					<th width="90px">เบอร์โทร</th>
-    					<th width="80px">ที่ปรึกษาด้านการขาย</th>
-    					<th width="90px">ว/ด/ป ที่จอง</th>
-    					<th width="90px">ผุ้จดทะเบียน</th>
-    					<th width="90px">ที่อยู่</th>
-              <th width="90px;">สถานะ</th>
+    					<th width="80px;">เลขที่ใบจอง</th>
+    					<th width="120px;">ชื่อ - สกุล(ภาษาไทย)</th>
+    					<th width="90px;">ลูกค้า</th>
+    					<th width="80px;">ประเภท</th>
+    					<th width="90px;">เบอร์โทร</th>
+    					<th width="80px;">ที่ปรึกษาด้านการขาย</th>
+    					<th width="90px;">ว/ด/ป ที่จอง</th>
+    					<th width="90px;">ผุ้จดทะเบียน</th>
+    					<th width="90px;">ที่อยู่</th>
+    					<th width="90px;">สถานะ</th>
     					<th width="90px;">หมายเหตุ</th>
-
+    					<th width="90px;">ดำเนินการ</th>
     				</tr>
     			</thead>
     			<tbody>
@@ -259,6 +259,10 @@
     					<td> 64 ถ.ทหาร ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000</td>
     					<td>จองแล้วรอรถ</td>             
     					<td></td>
+    					<td>
+    						<img src="http://localhost/utsgs/images/list_view.png" title="รายละเอียด" class="btnopt view" data-idview="2">
+    						<img src="http://localhost/utsgs/images/list_edit.png" title="แก้ไข" class="btnopt edit" data-idedit="2"> 
+    					</td>
     				</tr>
     				<tr >
     					<td>BK002</td> <!--CTM = customer -->
@@ -272,6 +276,10 @@
     					<td> 64 ถ.ทหาร ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000</td>
     					<td style="color:red"> ยกเลิกการจอง</td>             
     					<td>เหตุผลไฟแนนท์ไม่ผ่าน</td>
+    					<td>
+    						<img src="http://localhost/utsgs/images/list_view.png" title="รายละเอียด" class="btnopt view" data-idview="2">
+    						<img src="http://localhost/utsgs/images/list_edit.png" title="แก้ไข" class="btnopt edit" data-idedit="2"> 
+    					</td>
     				</tr>
     			</tbody> 
     		</table>

@@ -1,28 +1,28 @@
 <?php echo $header;?>
 <script type="text/javascript" language="javascript" charset="utf-8">
-$(function(){
-add();
+	$(function(){
+		add();
 //rundatatable();
 });
-function rundatatable(){
-    var dataTable = $('#employee-grid').DataTable({
-        responsive: true,
-        serverSide: true,
-        tableTools: {
-                        "sRowSelect": "os",
-                        "aButtons": [ "select_all", "select_none" ]
-                    },
-         "oLanguage": {
-                        "sProcessing": "<img height='32' width='32' src='<?php echo base_url(); ?>images/ajax-loader.gif'>",
-                        "sSearch": "<?php echo $sSearch="ค้นหาจากผลลัพธ์ :" ;?>",
-                        "sInfo": "<?php echo $Showing="จำนวนข้อมูล";?> _START_ <?php echo $to="ถึง";?> _END_ <?php echo $total="จาก";?> _TOTAL_  <?php echo $total="รายการทั้งหมด";?>",
-                        "sInfoFiltered": "(จากข้อมูลที่ค้นหาทั้งหมด _MAX_ รายการ)",
-        "oPaginate": {
-                        "sFirst": "<?php echo $sFirst="ไปหน้าแรก" ;?>",
-                        "sLast": "<?php echo $sLast="ไปหน้าสุดท้าย" ;?>",
-                        "sNext": "<?php echo $sNext="ถัดไป" ;?>",
-                        "sPrevious": "<?php echo $sPrevious="ย้อนกลับ" ;?>"
-                        }},
+	function rundatatable(){
+		var dataTable = $('#employee-grid').DataTable({
+			responsive: true,
+			serverSide: true,
+			tableTools: {
+				"sRowSelect": "os",
+				"aButtons": [ "select_all", "select_none" ]
+			},
+			"oLanguage": {
+				"sProcessing": "<img height='32' width='32' src='<?php echo base_url(); ?>images/ajax-loader.gif'>",
+				"sSearch": "<?php echo $sSearch="ค้นหาจากผลลัพธ์ :" ;?>",
+				"sInfo": "<?php echo $Showing="จำนวนข้อมูล";?> _START_ <?php echo $to="ถึง";?> _END_ <?php echo $total="จาก";?> _TOTAL_  <?php echo $total="รายการทั้งหมด";?>",
+				"sInfoFiltered": "(จากข้อมูลที่ค้นหาทั้งหมด _MAX_ รายการ)",
+				"oPaginate": {
+					"sFirst": "<?php echo $sFirst="ไปหน้าแรก" ;?>",
+					"sLast": "<?php echo $sLast="ไปหน้าสุดท้าย" ;?>",
+					"sNext": "<?php echo $sNext="ถัดไป" ;?>",
+					"sPrevious": "<?php echo $sPrevious="ย้อนกลับ" ;?>"
+				}},
 				"sScrollX": "100%",
 				"sScrollXInner": "100%",
 				"bScrollCollapse": true,
@@ -85,16 +85,16 @@ function rundatatable(){
             var i =$(this).attr('data-column');  // getting column index
             var v =$(this).val();  // getting search input value
             dataTable.columns(i).search(v).draw();
-        } );
+          } );
         $('#employee-grid tbody').on( 'click', 'img.edit', function () {
           var idx=$(this).closest('tr').index(); // หาลำดับแถวของ TR ที่คลิกแก้ไข
           edit($(this).data('idedit'),idx);
         //  var idx = $(this).index();
         //  $('#employee-grid tbody tr:eq('+idx+')').find('td:eq(0)').html("8888");
-          } );
-         $('#employee-grid tbody').on( 'click', 'img.view', function () {
-           view($(this).data('idview'));
-          } );
+      } );
+        $('#employee-grid tbody').on( 'click', 'img.view', function () {
+        	view($(this).data('idview'));
+        } );
 
       }
 
@@ -233,12 +233,13 @@ function rundatatable(){
     					<th width="90px">สี</th>
     					<th width="150px">ที่อยู่</th>
     					<th width="90px;">หมายเหตุ</th>
+    					<th width="90px;">ดำเนินการ</th>
     				</tr>
     			</thead>
     			<tbody>
     				<tr >
     					<td>CTM001</td> <!--CTM = customer -->
-    					<td>นายสมหวัง รับรถ</td>
+    					<td>นายไชวัฒน์ หอมแสง</td>
     					<td>ลูกค้าใหม่</td>
     					<td>บุคคล</td>
     					<td>0812345678</td>
@@ -248,10 +249,14 @@ function rundatatable(){
     					<td>สีน้ำเงิน</td>
     					<td>64 ถ.ทหาร ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000</td>
     					<td></td>
+    					<td>
+    						<img src="http://localhost/utsgs/images/list_view.png" title="รายละเอียด" class="btnopt view" data-idview="2">
+    						<img src="http://localhost/utsgs/images/list_edit.png" title="แก้ไข" class="btnopt edit" data-idedit="2"> 
+    					</td>
     				</tr>
     				<tr >
     					<td>CTM002</td> <!--CTM = customer -->
-    					<td>นายผิดหวัง ไม่ได้รับรถ</td>
+    					<td>นายดิษฐพงษ์ นิลนามะ</td>
     					<td>ลูกค้าใหม่</td>
     					<td>บุคคล</td>
     					<td>0812345678</td>
@@ -260,7 +265,11 @@ function rundatatable(){
     					<td>SV+ CVT</td>
     					<td>สีน้ำเงิน</td>
     					<td> 64 ถ.ทหาร ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000</td>
-    					<td></td>
+    					<td></td>    					
+    					<td>
+    						<img src="http://localhost/utsgs/images/list_view.png" title="รายละเอียด" class="btnopt view" data-idview="2">
+    						<img src="http://localhost/utsgs/images/list_edit.png" title="แก้ไข" class="btnopt edit" data-idedit="2"> 
+    					</td>
     				</tr>
     			</tbody> 
     		</table>

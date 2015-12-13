@@ -1,3 +1,4 @@
+
 <script type='text/javascript'>
 	$(function(){
 
@@ -7,6 +8,7 @@
 		$("#startdate").datepicker();
 		$("#resigndate").datepicker();
 		$(".today").datepicker();
+		// $(".testtoday").datepicker();
 
 		$("#confirmpw").change(function(){
 			var npw = $("#userpassword").val();
@@ -59,7 +61,7 @@
 	                		$("#user").val('');
 	                	}
 	                }
-	             });
+	              });
 
 
 			}else{
@@ -75,7 +77,7 @@ function saveData()
 		if (e.isDefaultPrevented()) {
 			alert("ผิดพลาด : กรุณาตรวจสอบข้อมูลให้ถูกต้อง !");
               // handle the invalid form...
-           } else {
+            } else {
               // everything looks good!
               e.preventDefault();
               var form = $('#form').serialize();
@@ -94,11 +96,10 @@ function saveData()
 	                {
 	                	alert("#เกิดข้อผิดพลาด");
 	                }
-	             });
-           }
-        });
+	              });
+            }
+          });
 }
-
 </script>
 <div class="row form_input" style="text-align:left; margin-bottom:20px">
 	<div class="form-group col-sm-12">
@@ -108,7 +109,8 @@ function saveData()
 		</div>
 		<div class="col-sm-3">
 			<p>วันที่จอง</p>
-			<input type="text" class="form-control today" name="date_booking" value="<?php echo $dtnow;?>">
+			<!-- <input type="text" class="form-control testtoday" name="testdate"/> -->
+			<input  type="text" class="form-control today" name="date_booking" value="<?php echo $dtnow;?>">
 		</div>
 		<div class="col-sm-3">
 			<p>รหัสพนักงาน</p>
@@ -279,7 +281,7 @@ function saveData()
 		<div class="col-sm-3" >
 			<p>วันเกิด</p>
 			<p class="required"></p>
-			<input type="text" class="form-control" name="birthdate" id="birthdate" disabled >
+			<input type="text" class="form-control" name="birthdate1" id="birthdate1" disabled >
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
