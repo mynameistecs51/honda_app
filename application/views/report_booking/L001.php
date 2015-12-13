@@ -155,8 +155,6 @@ function rundatatable(){
     </div> 
     <div class='col-sm-6' style="text-align:left;font-size:14px;">จำนวนข้อมูล 1 ถึง 2 จาก 2 รายการทั้งหมด</div>
     <div class='col-sm-6' style="text-align:right;"> <img src="http://localhost/utsgs/images/nextpage.jpg" height="40"> </div>
-    
-
 
 <div class="div_modal"></div>  <!-- Code ของ Modal จะมาแสดงใน DIV นี้ --> 
 <input type="hidden" ID="btn_view" value="<?php echo $btn['view']; ?>">
