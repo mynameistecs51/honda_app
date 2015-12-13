@@ -1,11 +1,11 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Stock extends CI_Controller 
+class Report_stock extends CI_Controller 
 { 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->ctl="stock";
-		$this->load->model('mdl_mstock'); 
+		$this->ctl="report_stock";
+		$this->load->model('mdl_report_stock'); 
 		date_default_timezone_set('Asia/Bangkok');
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok')); 
 		$this->dt_now = $now->format('Y-m-d H:i:s');
@@ -26,13 +26,13 @@ public function index()
 {
 	$SCREENID="L001";
 	$this->mainpage($SCREENID);
-	$this->load->view('stock/'.$SCREENID,$this->data);
+	$this->load->view('report_stock/'.$SCREENID,$this->data);
 	
 }
 public function getList()
 {
     $requestData= $_REQUEST; 
-    $sqlQuery= $this->mdl_mstock->getList($requestData);  
+    $sqlQuery= $this->mdl_report_stock->getList($requestData);  
     $this->datatables->getDatatables($requestData,$sqlQuery);
 }
  
@@ -53,19 +53,19 @@ public function convert_date($val_date)
 
 public function mainpage($SCREENID)
 { 
-		$SCREENNAME="EMPLOYEE stock";
+		$SCREENNAME="EMPLOYEE report_stock";
 		$this->data["namepage"] ='รับเข้าสต๊อก';
 		$this->data['controller'] = $this->ctl;
 		$this->data['pagename']=$this->template->getPageName($this->ctl);
 		$this->data['base_url'] = base_url();
 		$this->data['mmember_name'] = $this->session->userdata("mmember_name");
-		$this->data['mstock_name'] = $this->session->userdata("mstock_name");
+		$this->data['mreport_stock_name'] = $this->session->userdata("mreport_stock_name");
 		$this->data["lastLogin"] = $this->session->userdata('lastLogin');
 		$this->data["id_mmember"] =$this->session->userdata("id_mmember");
 		$this->data["id_mposition"] =$this->session->userdata("id_mposition");
 		$this->data["datefrom"] =$this->datefrom;
 		$this->data["dateto"] =$this->dateto;
-		$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->data["id_mposition"],$this->data['mstock_name']);
+		$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->data["id_mposition"],$this->data['mreport_stock_name']);
 		$this->data["btn"] =$this->template->checkBtnAuthen($this->data["id_mposition"],$this->ctl);
 		$this->data['url_add']=$this->data['base_url'].$this->ctl."/add/";
 		$this->data['url_edit']=$this->data['base_url'].$this->ctl."/edit/";
@@ -80,7 +80,7 @@ public function ADD()
 			$this->data['pagename']=$this->SCREENNAME;
 			$this->data["datenow"] =$this->datenow;
 			$this->mainpage($SCREENID); 
-			$this->load->view('stock/'.$SCREENID,$this->data); 
+			$this->load->view('report_stock/'.$SCREENID,$this->data); 
 	}
 public function DETAIL($id)
 	{
@@ -88,8 +88,8 @@ public function DETAIL($id)
 			$this->data['pagename']=$this->SCREENNAME;
 			$this->data["datenow"] =$this->datenow;
 			$this->mainpage($SCREENID); 
-			$this->data['listStock']= $this->mdl_mstock->getStock($id);
-			$this->load->view('stock/'.$SCREENID,$this->data);
+			$this->data['listreport_stock']= $this->mdl_report_stock->getreport_stock($id);
+			$this->load->view('report_stock/'.$SCREENID,$this->data);
 	}
 public function EDIT($id,$idx)
 	{
@@ -98,8 +98,8 @@ public function EDIT($id,$idx)
 			$this->data["datenow"] =$this->datenow;
 			$this->mainpage($SCREENID); 
 			$this->data['idx']=$idx;
-			$this->data['listStock']= $this->mdl_mstock->getStock($id);
-			$this->load->view('stock/'.$SCREENID,$this->data);
+			$this->data['listreport_stock']= $this->mdl_report_stock->getreport_stock($id);
+			$this->load->view('report_stock/'.$SCREENID,$this->data);
 	}
 
 public function saveadd()
@@ -108,7 +108,7 @@ public function saveadd()
      parse_str($_POST['form'], $post);
 		//$code= $this->getCode();  
 		$data = array(
-			"mstock_code"			=> $post['mstock_code'],
+			"mreport_stock_code"			=> $post['mreport_stock_code'],
 			"name_en"			=> $post['name_en'],
 			"name_th"			=> $post['name_th'],
 			"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
@@ -119,7 +119,7 @@ public function saveadd()
 			"dt_update"			=> $this->dt_now
 		);
 		//print_r($data);exit();
-			$this->mdl_mstock->addmstock($data);
+			$this->mdl_report_stock->addmreport_stock($data);
 			$massage = "บันทึกข้อมูล เรียบร้อย !";
 			$this->alert($massage);
     endif;
@@ -129,7 +129,7 @@ public function saveUpdate()
 {
 	if($_POST):
     parse_str($_POST['form'], $post);
-	$id=$post['id_mstock'];
+	$id=$post['id_mreport_stock'];
 					$data = array(
 						"name_en"			=> $post['name_en'], 
 						"name_th"			=> $post['name_th'],
@@ -138,7 +138,7 @@ public function saveUpdate()
 						"id_update"			=> $this->id_mmember,
 						"dt_update"			=> $this->dt_now
 					);
-			$this->mdl_mstock->updatemstock($id,$data);
+			$this->mdl_report_stock->updatemreport_stock($id,$data);
 			$massage = "แก้ไขข้อมูล เรียบร้อย !";
 			$this->alert($massage);
 	endif;

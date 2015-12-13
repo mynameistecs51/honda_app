@@ -24,7 +24,8 @@ $(function(){
       }
     });   
 add();
-// rundatatable();
+// rundatatable(); 
+runmodaledit();
 });
 function rundatatable(){ 
     var dataTable = $('#employee-grid').DataTable({ 
@@ -107,6 +108,24 @@ function rundatatable(){
            view($(this).data('idview'));
           } );   
    }        
+
+function runmodaledit(){
+        $("#employee-grid_filter").css("display","none");  // hiding global search box
+        $('.search-input-text').on('change', function () {   // for text boxes
+            var i =$(this).attr('data-column');  // getting column index
+            var v =$(this).val();  // getting search input value 
+            dataTable.columns(i).search(v).draw();
+        } );
+        $('#employee-grid tbody').on( 'click', 'img.edit', function () {
+          var idx=$(this).closest('tr').index(); // หาลำดับแถวของ TR ที่คลิกแก้ไข
+          edit($(this).data('idedit'),idx);
+        //  var idx = $(this).index();
+        //  $('#employee-grid tbody tr:eq('+idx+')').find('td:eq(0)').html("8888"); 
+          } );   
+         $('#employee-grid tbody').on( 'click', 'img.view', function () {
+           view($(this).data('idview'));
+          } );   
+}
 
 function add()
     {
@@ -209,14 +228,17 @@ function modal_form_view(n,screenname)
 <div class='col-sm-12'>
   <br/>
   <div class="nev_url"><?php echo $NAV; ?> </div>
-  <?php if($btn['add']==1){ echo "<div class='add' ID='add'>+ เพิ่มรายการ</div>"; }else{ echo "<div class='noneadd' title='ไม่ได้รับสิทธิ์เพิ่มรายการ'>+ เพิ่มรายการ</div>";} ?>
+  <?php if($btn['add']==1){ echo "<div class='add' ID='add'>+ รับเข้าสต๊อก</div>"; }else{ echo "<div class='noneadd' title='ไม่ได้รับสิทธิ์รับรถ'>+ รับเข้าสต๊อก</div>";} ?>
   <div class="search">ค้นหา : 
       <input type="text" data-column="0"  class="search-input-text" placeholder="--รหัส<?php echo $namepage ?>--"> 
       <input type="text" data-column="1"  class="search-input-text" placeholder="--ชื่อ<?php echo $namepage ?>--">  
       <select data-column="2" class="search-input-text">
-        <option style="font-size:12px;" value="" selected>----ทั้งหมด----</option>
-        <option style="font-size:12px;" value="1">ใช้งาน</option> 
-        <option style="font-size:12px;" value="0">ยกเลิก</option> 
+        <option style="font-size:12px;" value="" >----ทั้งหมด----</option>
+        <option style="font-size:12px;" value="1" selected>รับเข้าสต๊อก</option> 
+        <option style="font-size:12px;" value="0">จองแล้ว</option> 
+        <option style="font-size:12px;" value="0">จำหน่ายแล้ว</option> 
+        <option style="font-size:12px;" value="0">โอนไปสาขาอื่น</option> 
+        <option style="font-size:12px;" value="0">ยกเลิกรับเข้าสต๊อก </option> 
       </select>
   </div>
 </div>
@@ -226,23 +248,23 @@ function modal_form_view(n,screenname)
   <table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" style="table-layout: fixed;word-wrap: break-word;" >
     <thead>        
       <tr>
-        <th width="150px">เลขที่รับเข้าสต๊อก</th>
+        <th width="120px">เลขที่รับเข้าสต๊อก</th>
         <th width="120px">วันที่รับเข้าสต๊อก</th>
         <th width="150px">แบบ</th>
         <th width="80px">รุ่น</th>
         <th width="80px">สี</th>
-        <th width="150px">วันที่ส่งมอบ (Receipt)</th>
+        <!-- <th width="150px">วันที่ส่งมอบ (Receipt)</th> -->
         <th width="200px">หมายเลขตัวถัง</th>
-        <th width="180px">หมายเลขเครื่อง</th>
+        <th width="150px">หมายเลขเครื่อง</th>
         <th width="90px">วันรับจริง</th>
-        <th width="90px">adv</th>
+    <!--     <th width="90px">adv</th>
         <th width="60px">Loc.</th>
         <th width="60px">ST.</th>
         <th width="150px">ลูกค้า/พนักงานขาย</th>
         <th width="50px">zon </th>
         <th width="50px">ST.</th>
         <th width="150px">Advance</th>
-        <th width="150px">booking </th>
+        <th width="150px">booking </th> -->
         <th width="150px">สถานะ</th>
         <th width="200px">หมายเหตุ</th>  
         <th width="120px">ดำเนินการ</th> 
@@ -255,18 +277,18 @@ function modal_form_view(n,screenname)
         <td>CITY CNG'14</td>
         <td>S CNG MT</td>
         <td>TTW</td>
-        <td>20/9/2014</td>
+        <!-- <td>20/9/2014</td> -->
         <td>MRHGM6520E-P200081</td>
         <td>L15Z1-1501250</td>
-        <td>22/9/2014</td>
-        <td>ต.ค.</td>
+        <td>22/09/2558</td>
+       <!--  <td>ต.ค.</td>
         <td>SG</td>
         <td>UD</td>
         <td>ว่าง</td>
         <td></td>
         <td>ST.</td>
         <td>Advance</td>
-        <td>booking </td> 
+        <td>booking </td>  -->
         <td>รับเข้า</td> 
         <td>แต่ง+โซล่า</td>  
         <td>
@@ -280,18 +302,18 @@ function modal_form_view(n,screenname)
         <td>CITY CNG'14</td>
         <td>S CNG MT</td>
         <td>TTW</td>
-        <td>20/9/2014</td>
+        <!-- <td>20/9/2014</td> -->
         <td>MRHGM6520E-P200017</td>
         <td>L15Z1-1500583</td>
-        <td>22/9/2014</td>
-        <td>ต.ค.</td>
+        <td>22/09/2558</td>
+       <!--  <td>ต.ค.</td>
         <td>SG</td>
         <td>UD</td>
         <td>ว่าง</td>
         <td></td>
         <td>ST.</td>
         <td>Advance</td>
-        <td>booking </td> 
+        <td>booking </td>  -->
         <td>รับเข้า</td> 
         <td>แต่ง+โซล่า</td>  
         <td>
@@ -301,7 +323,8 @@ function modal_form_view(n,screenname)
       </tr>
       </tbody> 
     </table>
-    <div class='col-sm-6' style="text-align:left;margin-top:-12px;font-size:14px;">จำนวนข้อมูล 1 ถึง 2 จาก 2 รายการทั้งหมด</div><div class='col-sm-6' style="text-align:right;">  </div>
+    <div class='col-sm-6' style="text-align:left;margin-top:-12px;font-size:14px;">จำนวนข้อมูล 1 ถึง 2 จาก 2 รายการทั้งหมด</div>
+    <div class='col-sm-6' style="text-align:right;margin-top:-15px;"> <img src="http://localhost/utsgs/images/nextpage.jpg" height="40"> </div>
     </div>
  </div> 
 

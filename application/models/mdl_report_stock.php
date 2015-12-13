@@ -1,5 +1,5 @@
 <?php
-   class Mdl_mstock extends CI_Model
+   class Mdl_report_stock extends CI_Model
    {
       public function __construct()
       {
