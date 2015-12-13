@@ -9,7 +9,7 @@
 		});
 		$("#startdate").datepicker();
 		$("#resigndate").datepicker();
-		$("#today").datepicker();
+		$(".today").datepicker();
 
 		$("#confirmpw").change(function(){
 			var npw = $("#userpassword").val();
@@ -277,7 +277,7 @@ function delObjective(num)
 		</div>
 		<div class="col-sm-3">
 			<p>วันที่จอง</p>
-			<input type="text" class="form-control" name="date_booking" id="today">
+			<input type="text" class="form-control today" name="date_booking" value="<?php echo $dtnow;?>">
 		</div>
 		<div class="col-sm-3">
 			<p>รหัสพนักงาน</p>
@@ -390,17 +390,17 @@ function delObjective(num)
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
-		<div class="col-sm-4">
-			<p>แขวง/ตำบล</p>
-			<input type="text" class="form-control" name="tumbon" />
+		<div class="col-sm-3">
+			<p>จังหวัด</p>
+			<input type="text" class="form-control" name="provice"/>
 		</div>
-		<div class="col-sm-4">
+		<div class="col-sm-3">
 			<p>เขต/อำเภอ</p>
 			<input type="text" class="form-control" name="umpher" />
 		</div>
-		<div class="col-sm-4">
-			<p>จังหวัด</p>
-			<input type="text" class="form-control" name="provice"/>
+		<div class="col-sm-3">
+			<p>แขวง/ตำบล</p>
+			<input type="text" class="form-control" name="tumbon" />
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
@@ -483,17 +483,35 @@ function delObjective(num)
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
-		<div class="col-sm-4">
-			<p>แขวง/ตำบล</p>
-			<input type="text" class="form-control" name="tumbon" disabled/>
+		<div class="col-sm-3">
+			<p>จังหวัด</p>
+			<input type="text" class="form-control" name="provice" disabled/>
 		</div>
-		<div class="col-sm-4">
+		<div class="col-sm-3">
 			<p>เขต/อำเภอ</p>
 			<input type="text" class="form-control" name="umpher" disabled/>
 		</div>
-		<div class="col-sm-4">
-			<p>จังหวัด</p>
-			<input type="text" class="form-control" name="provice" disabled/>
+		<div class="col-sm-3">
+			<p>แขวง/ตำบล</p>
+			<input type="text" class="form-control" name="tumbon" disabled />
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<div class="col-sm-3">
+			<p>เลขที่ใบจองที่โอนมา</p>
+			<input type="text" class="form-control" name="slipt" />
+		</div>
+		<div class="col-sm-3">
+			<p>&nbsp;</p>
+			<button type="button" class="btn btn-info"> อ้างอิงใบจองรถที่โอนมา </button>
+		</div>
+		<div class="col-sm-3">
+			<p>วันที่ยกเลิก</p>
+			<input type="text" class="form-control today" name="date_cancel" value="<?php echo $dtnow;?>" >
+		</div>
+		<div class="col-sm-3">
+			<p>เหตุผลที่ยกเลิก</p>
+			<input type="text" class="form-control" name="whatCancel" />
 		</div>
 	</div>
 	<div class="col-sm-12" >

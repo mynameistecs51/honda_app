@@ -390,17 +390,17 @@ function delObjective(num)
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
-		<div class="col-sm-4">
-			<p>แขวง/ตำบล</p>
-			<input type="text" class="form-control" name="tumbon" />
+		<div class="col-sm-3">
+			<p>จังหวัด</p>
+			<input type="text" class="form-control" name="provice"/>
 		</div>
-		<div class="col-sm-4">
+		<div class="col-sm-3">
 			<p>เขต/อำเภอ</p>
 			<input type="text" class="form-control" name="umpher" />
 		</div>
-		<div class="col-sm-4">
-			<p>จังหวัด</p>
-			<input type="text" class="form-control" name="provice"/>
+		<div class="col-sm-3">
+			<p>แขวง/ตำบล</p>
+			<input type="text" class="form-control" name="tumbon" />
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
@@ -436,7 +436,7 @@ function delObjective(num)
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
-		<p>รุ่นรถที่สนใจ</p>
+		<p><u>รุ่นรถที่สนใจ</u></p>
 		<div class="col-sm-4">
 			<p>รุ่นรถ</p>
 			<select name="typeCar" class ="form-control" required>
