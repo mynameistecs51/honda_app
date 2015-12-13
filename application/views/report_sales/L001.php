@@ -23,9 +23,9 @@ $(function(){
         $( "#datefrom" ).datepicker( "option", "maxDate", selectedDate );
       }
     });   
-add();
+//add();
 // rundatatable(); 
-runmodaledit();
+//runmodaledit();
 });
 function rundatatable(){ 
     var dataTable = $('#employee-grid').DataTable({ 
@@ -70,8 +70,7 @@ function rundatatable(){
                       "mData": null,
                       "mRender": function(data, type, full) { 
                         if(full['status']=='1'){ return "ใช้งาน"; }else{ return "ยกเลิก"; } 
-                      }
-                    }
+                      } 
                     }]
         } );
    }        
