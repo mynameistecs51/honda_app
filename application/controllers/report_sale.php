@@ -1,10 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
-class Report_sales extends CI_Controller 
+class Report_sale extends CI_Controller 
 { 
 	public function __construct()
 	{
 		parent::__construct();
-		$this->ctl="report_sales";
+		$this->ctl="report_sale";
 		$this->load->model('mdl_report_sales'); 
 		date_default_timezone_set('Asia/Bangkok');
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok')); 

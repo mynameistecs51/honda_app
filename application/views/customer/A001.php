@@ -457,7 +457,7 @@ function delObjective(num)
 		</div>
 		<div class="col-sm-2">
 			<p>สี</p>
-			<select name="typeCar" class ="form-control" required>
+			<select name="typeColor" class ="form-control" required>
 				<option value="">--เลือก--</option>
 				<option value="1" style="background-color: red">สีแดง</option>
 				<option value="2" style="background-color: write"> สีขาว</option>
