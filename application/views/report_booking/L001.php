@@ -108,8 +108,8 @@ function rundatatable(){
   <table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" style="table-layout: fixed;word-wrap: break-word;" >
     <thead>        
       <tr>
-        <th width="120px">เลขที่รับเข้าสต๊อก</th>
-        <th width="120px">วันที่รับเข้าสต๊อก</th>
+        <th width="120px">เลขที่จองรถ</th>
+        <th width="120px">วันที่จองรถ</th>
         <th width="150px">แบบ</th>
         <th width="80px">รุ่น</th>
         <th width="80px">สี</th>
@@ -118,8 +118,8 @@ function rundatatable(){
         <th width="150px">หมายเลขเครื่อง</th>
         <th width="90px">วันรับจริง</th>
         <th width="90px">adv</th>
-        <th width="60px">Loc.</th>
-        <th width="60px">ST.</th>
+        <th width="60px">Loc.</th> 
+        <th width="60px">สาขา</th>
         <th width="150px">ลูกค้า/พนักงานขาย</th>
         <th width="150px">สถานะ</th>
         <th width="200px">หมายเหตุ</th>  

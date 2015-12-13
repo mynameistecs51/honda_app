@@ -11,7 +11,7 @@
  Target Server Version : 50505
  File Encoding         : utf-8
 
- Date: 12/12/2015 19:02:29 PM
+ Date: 12/13/2015 16:32:42 PM
 */
 
 SET NAMES utf8;
@@ -223,7 +223,7 @@ CREATE TABLE `mmenu` (
 --  Records of `mmenu`
 -- ----------------------------
 BEGIN;
-INSERT INTO `mmenu` VALUES ('1', 'Home', '0', '1', 'dashboard', '1', '', '0', null, null, null, null), ('2', 'ข้อมูลตั้งต้น', '0', '2', '#', '1', '', '1', null, null, null, null), ('3', 'การตั้งค่า', '0', '3', '#', '1', '', '1', null, null, null, null), ('4', 'ดำเนินการ', '0', '4', '#', '1', '', '0', null, null, null, null), ('5', 'รายงาน', '0', '99', '#', '1', '', '1', null, null, null, null), ('6', 'พนักงาน', '2', '1', 'employee', '2', '', '1', null, null, null, null), ('7', 'ประเภทพนักงาน / ตำแหน่ง', '2', '2', 'position', '2', '', '1', null, null, null, null), ('8', 'สำนักงานสาขา', '2', '3', 'branch', '2', '', '1', null, null, null, null), ('9', 'กำหนดสิทธิ์', '3', '1', 'usersetting', '2', '', '1', null, null, null, null), ('10', 'สต๊อกรถยนต์', '4', '5', 'stock', '1', '', '1', null, null, null, null), ('11', 'ข้อมูลลูกค้า', '4', '6', 'customer', '1', '', '1', null, null, null, null), ('12', 'จองรถ', '4', '7', 'booking', '1', '', '1', null, null, null, null), ('13', 'ขาย/ตัดจำหน่าย', '4', '8', 'sale', '1', '', '1', null, null, null, null), ('14', 'รายงานสต๊อกรถยนต์', '5', '1', 'report_stock', '2', '', '1', null, null, null, null), ('15', 'รายงานลูกค้า', '5', '2', 'report_customer', '2', '', '1', null, null, null, null), ('16', 'รายงานการจองรถ', '5', '3', 'report_booking', '2', '', '1', null, null, null, null), ('17', 'รายงานการขาย/ตัดจำหน่าย', '5', '4', 'report_sale', '2', '', '1', null, null, null, null);
+INSERT INTO `mmenu` VALUES ('1', 'Home', '0', '1', 'dashboard', '1', '', '0', null, null, null, null), ('2', 'ข้อมูลตั้งต้น', '0', '2', '#', '1', '', '1', null, null, null, null), ('3', 'การตั้งค่า', '0', '3', '#', '1', '', '1', null, null, null, null), ('4', 'ดำเนินการ', '0', '4', '#', '1', '', '0', null, null, null, null), ('5', 'รายงาน', '0', '99', '#', '1', '', '1', null, null, null, null), ('6', 'พนักงาน', '2', '1', 'employee', '2', '', '1', null, null, null, null), ('7', 'ประเภทพนักงาน / ตำแหน่ง', '2', '2', 'position', '2', '', '1', null, null, null, null), ('8', 'สำนักงานสาขา', '2', '3', 'branch', '2', '', '1', null, null, null, null), ('9', 'กำหนดสิทธิ์', '3', '1', 'usersetting', '2', '', '1', null, null, null, null), ('10', 'รับเข้าสต๊อก', '4', '5', 'stock', '1', '', '1', null, null, null, null), ('11', 'ข้อมูลลูกค้า', '4', '6', 'customer', '1', '', '1', null, null, null, null), ('12', 'จองรถ', '4', '7', 'booking', '1', '', '1', null, null, null, null), ('13', 'จำหน่าย', '4', '8', 'sale', '1', '', '1', null, null, null, null), ('14', 'รายงานสต๊อกรถยนต์', '5', '1', 'report_stock', '2', '', '1', null, null, null, null), ('15', 'รายงานลูกค้า', '5', '2', 'report_customer', '2', '', '1', null, null, null, null), ('16', 'รายงานการจองรถ', '5', '3', 'report_booking', '2', '', '1', null, null, null, null), ('17', 'รายงานจำหน่าย', '5', '4', 'report_sale', '2', '', '1', null, null, null, null);
 COMMIT;
 
 -- ----------------------------
@@ -284,19 +284,13 @@ CREATE TABLE `tlog_lgn` (
   `id_create` int(10) unsigned NOT NULL,
   `dt_create` datetime NOT NULL,
   PRIMARY KEY (`id_tlog_lgn`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8;
 
 -- ----------------------------
 --  Records of `tlog_lgn`
 -- ----------------------------
 BEGIN;
-INSERT INTO `tlog_lgn` VALUES ('1', '1', '1', '1', '2015-12-10 00:33:45'), ('2', '1', '1', '1', '2015-12-10 01:16:26'), ('3', '1', '1', '1', '2015-12-10 01:48:16'), ('4', '1', '1', '1', '2015-12-10 20:20:06'), ('5', '1', '1', '1', '2015-12-10 21:49:58'), ('6', '1', '1', '1', '2015-12-11 14:02:34'), ('7', '1', '1', '1', '2015-12-12 02:56:18'), ('8', '1', '1', '1', '2015-12-12 13:01:17');
+INSERT INTO `tlog_lgn` VALUES ('1', '1', '1', '1', '2015-12-10 00:33:45'), ('2', '1', '1', '1', '2015-12-10 01:16:26'), ('3', '1', '1', '1', '2015-12-10 01:48:16'), ('4', '1', '1', '1', '2015-12-10 20:20:06'), ('5', '1', '1', '1', '2015-12-10 21:49:58'), ('6', '1', '1', '1', '2015-12-11 14:02:34'), ('7', '1', '1', '1', '2015-12-12 02:56:18'), ('8', '1', '1', '1', '2015-12-12 13:01:17'), ('9', '1', '1', '1', '2015-12-12 21:06:27'), ('10', '1', '1', '1', '2015-12-13 11:52:50');
 COMMIT;
-
--- ----------------------------
---  View structure for `menu`
--- ----------------------------
-DROP VIEW IF EXISTS `menu`;
-CREATE ALGORITHM=UNDEFINED DEFINER=`thainology`@`%` SQL SECURITY DEFINER VIEW `menu` AS select `utsgs`.`mmnu`.`id_order` AS `id_order`,`utsgs`.`mmnu`.`name_th` AS `name_th`,`utsgs`.`mmnu`.`filelocation` AS `filelocation` from `mmnu` where (`utsgs`.`mmnu`.`id_parent` = 4);
 
 SET FOREIGN_KEY_CHECKS = 1;
