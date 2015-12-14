@@ -9,6 +9,7 @@ class Booking extends CI_Controller
 		date_default_timezone_set('Asia/Bangkok');
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok'));
 		$this->dt_now = $now->format('Y-m-d H:i:s');
+		$this->datenow =$now->format('d/m/').($now->format('Y')+543);
 		$this->datefrom = "01/".$now->format('m/Y');
 		$this->dateto = $now->format('d/m/Y');
 		$this->id_mmember = $this->session->userdata('id_mmember');
@@ -96,6 +97,7 @@ public function mainpage($SCREENID)
 public function ADD()
 	{
 			$SCREENID="A001";
+			$this->data["datenow"] =$this->datenow;
 			$this->mainpage($SCREENID);
 			$this->load->view('booking/'.$SCREENID,$this->data);
 	}

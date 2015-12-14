@@ -7,7 +7,11 @@
 		});
 		$("#startdate").datepicker();
 		$("#resigndate").datepicker();
-		$(".today").datepicker();
+		$(".today").datepicker({
+			changeMonth: true,
+			changeYear: true,
+		});
+		//$('.today').val('<?php echo $datenow;?>');
 		// $(".testtoday").datepicker();
 
 		$("#confirmpw").change(function(){
@@ -61,7 +65,7 @@
 	                		$("#user").val('');
 	                	}
 	                }
-	              });
+	             });
 
 
 			}else{
@@ -77,7 +81,7 @@ function saveData()
 		if (e.isDefaultPrevented()) {
 			alert("ผิดพลาด : กรุณาตรวจสอบข้อมูลให้ถูกต้อง !");
               // handle the invalid form...
-            } else {
+           } else {
               // everything looks good!
               e.preventDefault();
               var form = $('#form').serialize();
@@ -96,9 +100,9 @@ function saveData()
 	                {
 	                	alert("#เกิดข้อผิดพลาด");
 	                }
-	              });
-            }
-          });
+	             });
+           }
+        });
 }
 </script>
 <div class="row form_input" style="text-align:left; margin-bottom:20px">
@@ -109,8 +113,8 @@ function saveData()
 		</div>
 		<div class="col-sm-3">
 			<p>วันที่จอง</p>
-			<!-- <input type="text" class="form-control testtoday" name="testdate"/> -->
-			<input  type="text" class="form-control today" name="date_booking" value="<?php echo $dtnow;?>">
+			<!-- <input type="text" class="form-control testtoday" name="testdate" value="<?php echo $datenow;?>"/> -->
+			<input  type="text" class="form-control today" name="date_booking" value="<?php echo $datenow;?>"/>
 		</div>
 		<div class="col-sm-3">
 			<p>รหัสพนักงาน</p>
@@ -119,17 +123,6 @@ function saveData()
 		<div class="col-sm-3">
 			<p>ชื่อพนักงาน</p>
 			<input type="text" class="form-control" name="name_employee" />
-		</div>
-	</div>
-	<div class="form-group col-sm-12">
-		<p><u>เหตุผลที่จอง</u></p>
-		<div class="col-sm-6">
-			<p>ตัวรถ</p>
-			<input type="text" class="form-control" name="car" />
-		</div>
-		<div class="col-sm-6">
-			<p>แคมเปญและของแถม</p>
-			<input tye="text" class="form-control" name="campen" />
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
@@ -149,7 +142,7 @@ function saveData()
 			<p >ลูกค้า</p>
 			<!-- <p class="required">*</p> -->
 			<label class="radio-inline"><input type="radio" name="customer" value="newCustomer" checked>ลูกค้าใหม่</label>
-			<label class="radio-inline"><input type="radio" name="optradio" value="oldCustomer">ลูกค้าเก่า</label>
+			<label class="radio-inline"><input type="radio" name="customer" value="oldCustomer">ลูกค้าเก่า</label>
 			<hr>
 		</div>
 		<div class="col-sm-3" >
@@ -160,9 +153,9 @@ function saveData()
 			<hr>
 		</div>
 		<div class="col-sm-3">
-			<p>หมายเลขลูกค้า</p>
-			<p class="required">*</p>
-			<input type="text" class="form-control" name="groupCustomer" required />
+			<p><u>เหตุผลที่จอง</u></p>
+			<label class="radio-inline"><input type="radio" name="car_detail" value="" checked> ตัวรถ</label>
+			<label class="radio-inline"><input type="radio" name="car_detail" value="" > แคมเปญและของแถม</label>
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
@@ -246,101 +239,65 @@ function saveData()
 			<input type="text" class="form-control" name="origin" />
 		</div>
 	</div>
+	<!-- //// -->
 	<div class="form-group col-sm-12">
-		<p><u>การจดทะเบียนรถ</u></p>
-		<div class="col-sm-3">
-			<p>ความสัมพันธ์</p>
-			<select name="relation" class ="form-control" required>
+		<p><u>เลือกรถที่สนใจ</u></p>
+		<div class="col-md-3" >
+			<p>เลขที่รับเข้าสต๊อก</p>
+			<input type="text" class="form-control" name="mposition_code" placeholder="--สร้างโดยระบบ--" readonly>
+		</div>
+		<div class="col-md-3" >
+			<p>วันที่รับเข้าสต๊อก</p><p class="required">*</p>
+			<input type="text" class="form-control today"  name="tstock_date" value="<?php echo $datenow; ?>" required>
+		</div>
+		<div class="col-md-3" >
+			<p>สำนักงาน/สาขาที่รับ</p><p class="required">*</p>
+			<select name="id_mbranch" class ="form-control" required>
 				<option value="">--เลือก--</option>
-				<option value="1"> ผู้จอง </option>
-				<option value="2"> ญาติ </option>
-				<option value="3"> เจ้าของบริษัท </option>
+				<option value="1" selected> อุดรธานี </option>
+				<option value="2"> หนองบัวลำภู </option>
+				<option value="3"> หนองคาย </option>
+				<option value="3"> สว่างแดนดิน </option>
 			</select>
 		</div>
+		<div class="col-md-3" >
+			<p>แบบ</p><p class="required">*</p>
+			<input type="text" class="form-control" id="plan" name="plan" required>
+		</div>
 	</div>
-	<div class="form-group col-sm-12 "  >
-		<div class="col-sm-3 "  >
-			<p>คำนำหน้าชื่อ</p>
-			<select name="id_memp_tit" class ="form-control" disabled>
+	<div class="form-group col-sm-12">
+		<div class="col-md-3" >
+			<p>รุ่น</p><p class="required">*</p>
+			<input type="text" class="form-control" id="plan" name="plan" required>
+		</div>
+		<div class="col-md-3" >
+			<p>สี</p><p class="required">*</p>
+			<select name="typeColor" class ="form-control" required>
 				<option value="">--เลือก--</option>
-				<option value="1"> นาย </option>
-				<option value="2"> นาง </option>
-				<option value="3"> นางสาว </option>
+				<option value="1" style="background-color: red">สีแดง</option>
+				<option value="2" style="background-color: write"> สีขาว</option>
+				<option value="3" style="background-color: black"> สีดำ</option>
+				<option value="3" style="background-color: gray"> สีเทา</option>
 			</select>
 		</div>
-		<div class="col-sm-3"  >
-			<p>ชื่อ </p>
-			<p class="required">*</p>
-			<input type="text" class="form-control"  name="firstname_th" placeholder="ชื่อ" disabled>
+		<div class="col-md-3" >
+			<p>หมายเลขตัวถัง</p><p class="required">*</p>
+			<input type="text" class="form-control" id="plan" name="plan" required>
 		</div>
-		<div class="col-sm-3" >
-			<p>นามสกุล </p>
-			<p class="required">*</p>
-			<input type="text" class="form-control"  name="lastname_th" placeholder="สกุล" disabled>
-		</div>
-		<div class="col-sm-3" >
-			<p>วันเกิด</p>
-			<p class="required"></p>
-			<input type="text" class="form-control" name="birthdate1" id="birthdate1" disabled >
+		<div class="col-md-3" >
+			<p>หมายเลขเครื่อง</p><p class="required">*</p>
+			<input type="text" class="form-control" id="plan" name="plan" required>
 		</div>
 	</div>
-	<div class="form-group col-sm-12">
-		<div class="col-sm-3" >
-			<p>เลขใบอนุญาตขับขี่</p>
-			<p class="required">*</p>
-			<input type="text" class="form-control" name="drv_lcn_num" disabled />
-		</div>
-		<div class="col-sm-3" >
-			<p>อีเมลล์ <b ID="valid_email"></b></p>
-			<p class="required">*</p>
-			<input type="email" class="form-control" name="email" ID="email" disabled/>
-		</div>
-		<div class="col-sm-3" >
-			<p>โทรศัพท์</p>
-			<input type="text" class="form-control" name="telephone"  disabled/>
-		</div>
-		<div class="col-sm-3" >
-			<p>มือถือ <b ID="valid_mobile"></b></p>
-			<p class="required">*</p>
-			<input type="text" class="form-control" ID="mobile" name="mobile" disabled/>
-		</div>
-	</div>
-	<div class="form-group col-sm-12">
-		<div class="col-sm-3">
-			<p>รหัสไปรษณีย์</p>
-			<input type="text" class="form-control" disabled />
-		</div>
-		<div class="col-sm-9">
-			<p>ที่อยู่</p>
-			<input tye="text" class="form-control" name="address" disabled />
-		</div>
-	</div>
-	<div class="form-group col-sm-12">
-		<div class="col-sm-3">
-			<p>จังหวัด</p>
-			<input type="text" class="form-control" name="provice" disabled/>
-		</div>
-		<div class="col-sm-3">
-			<p>เขต/อำเภอ</p>
-			<input type="text" class="form-control" name="umpher" disabled/>
-		</div>
-		<div class="col-sm-3">
-			<p>แขวง/ตำบล</p>
-			<input type="text" class="form-control" name="tumbon" disabled />
-		</div>
-	</div>
+	<!-- ////// -->
 	<div class="form-group col-sm-12">
 		<div class="col-sm-3">
 			<p>เลขที่ใบจองที่โอนมา</p>
-			<input type="text" class="form-control" name="slipt" />
-		</div>
-		<div class="col-sm-3">
-			<p>&nbsp;</p>
-			<button type="button" class="btn btn-info"> อ้างอิงใบจองรถที่โอนมา </button>
+			<input type="text" class="form-control" name="slipt" placeholder="----เลือก----" />
 		</div>
 		<div class="col-sm-3">
 			<p>วันที่ยกเลิก</p>
-			<input type="text" class="form-control today" name="date_cancel" value="<?php echo $dtnow;?>" >
+			<input type="text" class="form-control today" name="date_cancel" value="<?php echo $datenow;?>" >
 		</div>
 		<div class="col-sm-3">
 			<p>เหตุผลที่ยกเลิก</p>

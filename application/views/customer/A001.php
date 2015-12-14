@@ -279,7 +279,7 @@ function delObjective(num)
 		<div class="col-sm-3" >
 			<p>วันที่บันทึก</p>
 			<p class="required">*</p>
-			<input  type="text" class="form-control" name="date_add" id="today" value="<?php echo $dtnow;?>">
+			<input  type="text" class="form-control" name="date_add" id="today" value="<?php echo $datenow;?>">
 		</div>
 		<div class="col-sm-3" >
 			<p><u>ระยะเวลาในการตัดสินใจซื้อ</u> *</p>
