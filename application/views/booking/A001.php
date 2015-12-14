@@ -260,15 +260,25 @@ function saveData()
 				<option value="3"> สว่างแดนดิน </option>
 			</select>
 		</div>
-		<div class="col-md-3" >
-			<p>แบบ</p><p class="required">*</p>
-			<input type="text" class="form-control" id="plan" name="plan" required>
+		<div class="col-sm-3">
+			<p>แบบ</p>
+			<select name="modelcar" class ="form-control" required>
+				<option value="">--เลือก--</option>
+				<option value="1"> HONDA HR-V </option>
+				<option value="2"> HONDA City </option>
+				<option value="3"> HONDA BR-V </option>
+			</select>
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
-		<div class="col-md-3" >
-			<p>รุ่น</p><p class="required">*</p>
-			<input type="text" class="form-control" id="plan" name="plan" required>
+		<div class="col-sm-3">
+			<p>รุ่น</p>
+			<select name="modelcar" class ="form-control" required>
+				<option value="">--เลือก--</option>
+				<option value="1"> E </option>
+				<option value="2"> S AT </option>
+				<option value="3"> EL </option>
+			</select>
 		</div>
 		<div class="col-md-3" >
 			<p>สี</p><p class="required">*</p>
