@@ -241,23 +241,25 @@ function saveData()
 	</div>
 	<!-- //// -->
 	<div class="form-group col-sm-12">
-		<p><u>เลือกรถที่สนใจ</u></p>
+		<p><u>เลือกรถ</u></p>
 		<div class="col-md-3" >
 			<p>เลขที่รับเข้าสต๊อก</p>
 			<input type="text" class="form-control" name="mposition_code" placeholder="--สร้างโดยระบบ--" readonly>
 		</div>
 		<div class="col-md-3" >
 			<p>วันที่รับเข้าสต๊อก</p><p class="required">*</p>
-			<input type="text" class="form-control today"  name="tstock_date" value="<?php echo $datenow; ?>" required>
+			<input type="text" class="form-control today" name="tstock_date" value="<?php echo $datenow; ?>" required>
 		</div>
 		<div class="col-md-3" >
 			<p>สำนักงาน/สาขาที่รับ</p><p class="required">*</p>
 			<select name="id_mbranch" class ="form-control" required>
 				<option value="">--เลือก--</option>
-				<option value="1" selected> อุดรธานี </option>
-				<option value="2"> หนองบัวลำภู </option>
-				<option value="3"> หนองคาย </option>
-				<option value="3"> สว่างแดนดิน </option>
+				<option value="1" selected >อุดรธานี</option>
+				<option value="2"> หนองบัวลำภู</option>
+				<option value="3"> หนองคาย</option>
+				<option value="4" > บึงกาฬ</option>
+				<option value="5"> สว่างแดนดิน</option>
+				<option value="6"> สกลนคร</option>
 			</select>
 		</div>
 		<div class="col-sm-3">
@@ -290,6 +292,55 @@ function saveData()
 				<option value="3" style="background-color: gray"> สีเทา</option>
 			</select>
 		</div>
+		<div class="col-sm-3">
+			<p>ราคา</p>
+			<input type="text" name="price" class="form-control" />
+		</div>
+		<div class="col-sm-3">
+			<p>ดาวน์ %</p>
+			<div class="input-group">
+				<input type="text" class="form-control" name="down">
+				<span class="input-group-addon ">%</span>
+			</div>
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
+		<div class="col-sm-3">
+			<p>ผ่อนชำระ(งวด)</p>
+			<input type="text" name="down_mount" class="form-control" />
+		</div>
+		<div class="col-sm-3">
+			<p>ไฟแนนซ์</p>
+			<select name="typeColor" class ="form-control" required>
+				<option value="">--เลือก--</option>
+				<option value="1" >AY</option>
+				<option value="2" > KL</option>
+				<option value="3" > KK</option>
+				<option value="4" > KTB</option>
+				<option value="5" >Tbank</option>
+				<option value="6">HL</option>
+				<option value="7">Cash</option>
+			</select>
+		</div>
+		<div class="col-sm-3">
+			<p>ประกันภัย</p>
+			<select name="typeColor" class ="form-control" required>
+				<option value="">--เลือก--</option>
+				<option value="1" >คุ้มภัย</option>
+				<option value="2" > ธนชาต</option>
+				<option value="3" > แอกซ่า</option>
+				<option value="4" > กรุงเทพ</option>
+				<option value="5" >แอลเอ็มจี</option>
+				<option value="6">มิตซุย</option>
+				<option value="7">โตเกียวมารีน</option>
+				<option value="8">สมโพธิ์</option>
+				<option value="9">วิริยะ</option>
+				<optoin value="10">สินมั่นคง</optoin>
+				<optoin value="11" >ทำเอง</optoin>
+			</select>
+		</div>
+	</div>
+	<div class="form-group col-sm-12">
 		<div class="col-md-3" >
 			<p>หมายเลขตัวถัง</p><p class="required">*</p>
 			<input type="text" class="form-control" id="plan" name="plan" required>
