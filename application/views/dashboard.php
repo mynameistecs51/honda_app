@@ -117,54 +117,56 @@
     <div class="col-sm-4">
       กราฟ วงกลมสรุป 
     </div>
+  <div class="col-sm-12">
+    <div class="col-sm-12">
+      <div class="search">ค้นหาตามช่วงวันที่ : 
+        <lable class="lable"> From :</lable><input type="text" data-column="5" ID="datefrom"  class="search-input-text" value="<?php echo $datefrom; ?>" > 
+        <lable class="lable"> To :</lable><input type="text" data-column="6"  ID="dateto" class="search-input-text" value="<?php echo $dateto; ?>" > 
+      </div>
+      <table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" style="table-layout: fixed;word-wrap: break-word;" >
+        <thead>        
+          <tr>
+            <th width="40px">ลำดับที่</th>
+            <th width="120px">แบบ</th>
+            <th width="120px">รุ่นรถ</th>
+            <th width="200px">สี</th>
+            <th width="200px">จำนวนที่รับเข้า</th> 
+            <th width="150px">จำนวนที่จอง</th>
+            <th width="80px">จำนวนที่ขาย</th>
+            <th width="80px">คงเหลือ</th>  
+          </tr>
+        </thead>
+        <tbody>
+          <tr >
+            <td>1</td>
+            <td>CITY CNG'14</td>
+            <td>S CNG MT</td>
+            <td>TTW</td>
+            <td>147</td>
+            <td>120</td>
+            <td>120</td>
+            <td>27</td>
+          </tr>
+          <tr >
+            <td>2</td>
+            <td>CITY CNG'14</td>
+            <td>S CNG AT</td>
+            <td>TTW</td>
+            <td>147</td>
+            <td>120</td>
+            <td>120</td>
+            <td>27</td>
+          </tr>
+          </tbody> 
+        </table>
+        </div>
+        </div> 
         <div class="col-sm-12">
-          <div class="col-sm-12">
-            <div class="search">ค้นหาตามช่วงวันที่ : 
-              <lable class="lable"> From :</lable><input type="text" data-column="5" ID="datefrom"  class="search-input-text" value="<?php echo $datefrom; ?>" > 
-              <lable class="lable"> To :</lable><input type="text" data-column="6"  ID="dateto" class="search-input-text" value="<?php echo $dateto; ?>" > 
-            </div>
-            <table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" style="table-layout: fixed;word-wrap: break-word;" >
-              <thead>        
-                <tr>
-                  <th width="40px">ลำดับที่</th>
-                  <th width="120px">แบบ</th>
-                  <th width="120px">รุ่นรถ</th>
-                  <th width="200px">สี</th>
-                  <th width="200px">จำนวนที่รับเข้า</th> 
-                  <th width="150px">จำนวนที่จอง</th>
-                  <th width="80px">จำนวนที่ขาย</th>
-                  <th width="80px">คงเหลือ</th>  
-                </tr>
-              </thead>
-              <tbody>
-                <tr >
-                  <td>1</td>
-                  <td>CITY CNG'14</td>
-                  <td>S CNG MT</td>
-                  <td>TTW</td>
-                  <td>147</td>
-                  <td>120</td>
-                  <td>120</td>
-                  <td>27</td>
-                </tr>
-                <tr >
-                  <td>2</td>
-                  <td>CITY CNG'14</td>
-                  <td>S CNG AT</td>
-                  <td>TTW</td>
-                  <td>147</td>
-                  <td>120</td>
-                  <td>120</td>
-                  <td>27</td>
-                </tr>
-                </tbody> 
-              </table>
-              </div>
-              </div> 
-              <div class='col-sm-6' style="text-align:left;font-size:14px;">จำนวนข้อมูล 1 ถึง 2 จาก 2 รายการทั้งหมด</div>
-              <div class='col-sm-6' style="text-align:right;"> <img src="http://localhost/utsgs/images/nextpage.jpg" height="40"> </div>
+          <div class='col-sm-6' style="text-align:left;font-size:14px;">จำนวนข้อมูล 1 ถึง 2 จาก 2 รายการทั้งหมด</div>
+          <div class='col-sm-6' style="text-align:right;"> <img src="http://localhost/utsgs/images/nextpage.jpg" height="40"> </div>
+        </div>
 
-    </div>
+</div>
 
   
 <?php echo $footer; ?>
