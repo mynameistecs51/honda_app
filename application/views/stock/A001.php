@@ -59,7 +59,22 @@ function saveData()
 			<option value="3"> หนองคาย </option>
 			<option value="3"> สว่างแดนดิน </option>
 		</select> 
-	</div>  
+	</div>
+	<div class="col-md-3" style="text-align:left;">
+        <p>ประเภทการรับ</p> 
+        <input type="radio"  name="status" value="1"  <?php //if($detail->status=='1'){ echo "checked"; } ?>checked>  รับเข้าใหม่  
+        <input type="radio"  name="status" value="2"  <?php //if($detail->status=='1'){ echo "checked"; } ?> > รับโอนจากสาขาอื่น
+    </div>
+</div>
+<div class="row form_input"> 
+	<div class="col-md-3" >
+		<p>หมายเลขตัวถัง</p><p class="required">*</p>
+		<input type="text" class="form-control" id="plan" name="plan" placeholder="--ยิงบาร์โค้ท--"  required>
+	</div>
+	<div class="col-md-3" >
+		<p>หมายเลขเครื่อง</p><p class="required">*</p>
+		<input type="text" class="form-control" id="plan" name="plan" required>
+	</div> 
 	<div class="col-md-3" >
 		<p>แบบ</p><p class="required">*</p>
 		<input type="text" class="form-control" id="plan" name="plan" required>
@@ -71,15 +86,7 @@ function saveData()
 	<div class="col-md-3" >
 		<p>สี</p><p class="required">*</p>
 		<input type="text" class="form-control" id="plan" name="plan" required>
-	</div>
-	<div class="col-md-3" >
-		<p>หมายเลขตัวถัง</p><p class="required">*</p>
-		<input type="text" class="form-control" id="plan" name="plan" required>
-	</div>
-	<div class="col-md-3" >
-		<p>หมายเลขเครื่อง</p><p class="required">*</p>
-		<input type="text" class="form-control" id="plan" name="plan" required>
-	</div>
+	</div> 
 	<div class="col-md-3" >
 		<p>วันที่รับจริง</p><p class="required">*</p> 
 		<input type="text" class="form-control" id="treceived_date" name="treceived_date" value="<?php echo $datenow; ?>" required>
