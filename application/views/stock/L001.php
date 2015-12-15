@@ -248,30 +248,33 @@ function modal_form_view(n,screenname)
   <table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" style="table-layout: fixed;word-wrap: break-word;" >
     <thead>        
       <tr>
+        <th width="60px">ลำดับที่</th>
         <th width="120px">เลขที่รับเข้าสต๊อก</th>
         <th width="120px">วันที่รับเข้าสต๊อก</th>
-        <th width="150px">แบบ</th>
+        <th width="120px">แบบ</th>
         <th width="80px">รุ่น</th>
         <th width="80px">สี</th>
         <!-- <th width="150px">วันที่ส่งมอบ (Receipt)</th> -->
-        <th width="200px">หมายเลขตัวถัง</th>
-        <th width="150px">หมายเลขเครื่อง</th>
+        <th width="180px">หมายเลขตัวถัง</th>
+        <th width="130px">หมายเลขเครื่อง</th>
         <th width="90px">วันรับจริง</th>
+        <th width="80px">โซนจัดเก็บ</th>
     <!--     <th width="90px">adv</th>
-        <th width="60px">Loc.</th>
+        
         <th width="60px">ST.</th>
         <th width="150px">ลูกค้า/พนักงานขาย</th>
         <th width="50px">zon </th>
         <th width="50px">ST.</th>
         <th width="150px">Advance</th>
         <th width="150px">booking </th> -->
-        <th width="150px">สถานะ</th>
-        <th width="200px">หมายเหตุ</th>  
-        <th width="120px">ดำเนินการ</th> 
+        <th width="90px">สถานะ</th>
+        <th width="140px">หมายเหตุ</th>  
+        <th width="80px">ดำเนินการ</th> 
       </tr>
     </thead>
     <tbody>
       <tr >
+        <td>1</td>
         <td>STUDT581200001</td>
         <td>12/12/2558</td>
         <td>CITY CNG'14</td>
@@ -281,6 +284,7 @@ function modal_form_view(n,screenname)
         <td>MRHGM6520E-P200081</td>
         <td>L15Z1-1501250</td>
         <td>22/09/2558</td>
+        <td>Z1L001</td>
        <!--  <td>ต.ค.</td>
         <td>SG</td>
         <td>UD</td>
@@ -297,6 +301,7 @@ function modal_form_view(n,screenname)
         </td>
       </tr>
       <tr >
+        <td>2</td>
         <td>STUDT581200002</td>
         <td>12/12/2558</td>
         <td>CITY CNG'14</td>
@@ -306,6 +311,7 @@ function modal_form_view(n,screenname)
         <td>MRHGM6520E-P200017</td>
         <td>L15Z1-1500583</td>
         <td>22/09/2558</td>
+        <td>Z1L002</td>
        <!--  <td>ต.ค.</td>
         <td>SG</td>
         <td>UD</td>

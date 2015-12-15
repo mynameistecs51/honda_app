@@ -92,6 +92,16 @@ function saveData()
 		<input type="text" class="form-control" id="treceived_date" name="treceived_date" value="<?php echo $datenow; ?>" required>
 	</div> 
 	<div class="col-md-3" >
+		<p>โซนจัดเก็บ</p><p class="required">*</p>
+		<select name="id_mbranch" class ="form-control" required>
+			<option value="">--เลือก--</option> 
+			<option value="1" selected> Z1L001</option>
+			<option value="2"> Z1L002 </option>
+			<option value="3"> Z1L003 </option>
+			<option value="3"> Z1L004 </option>
+		</select> 
+	</div>
+	<div class="col-md-3" >
 		<p>เลขที่เอกสารอ้างอิง</p>
 		<input type="text" class="form-control" id="plan" name="plan" >
 	</div> 
