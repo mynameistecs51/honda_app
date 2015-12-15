@@ -89,7 +89,7 @@ public function DETAIL($id)
 			$this->data['pagename']=$this->SCREENNAME;
 			$this->data["datenow"] =$this->datenow;
 			$this->mainpage($SCREENID); 
-			$this->data['listtransfer']= $this->mdl_mtransfer->gettransfer($id);
+			//$this->data['listtransfer']= $this->mdl_mtransfer->gettransfer($id);
 			$this->load->view('transfer/'.$SCREENID,$this->data);
 	}
 public function EDIT($id,$idx)
@@ -99,7 +99,7 @@ public function EDIT($id,$idx)
 			$this->data["datenow"] =$this->datenow;
 			$this->mainpage($SCREENID); 
 			$this->data['idx']=$idx;
-			$this->data['listtransfer']= $this->mdl_mtransfer->gettransfer($id);
+			//$this->data['listtransfer']= $this->mdl_mtransfer->gettransfer($id);
 			$this->load->view('transfer/'.$SCREENID,$this->data);
 	}
 

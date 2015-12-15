@@ -3,6 +3,7 @@
 	$(function(){
 		add();
 		// rundatatable();
+    runmodaledit();
 	});
 	function rundatatable(){
 		var dataTable = $('#employee-grid').DataTable({
@@ -107,6 +108,25 @@
         	"iRightColumns": 1
         } );
       }
+
+
+    function runmodaledit(){
+        $("#employee-grid_filter").css("display","none");  // hiding global search box
+        $('.search-input-text').on('change', function () {   // for text boxes
+            var i =$(this).attr('data-column');  // getting column index
+            var v =$(this).val();  // getting search input value 
+            dataTable.columns(i).search(v).draw();
+        } );
+        $('#employee-grid tbody').on( 'click', 'img.edit', function () {
+          var idx=$(this).closest('tr').index(); // หาลำดับแถวของ TR ที่คลิกแก้ไข
+          edit($(this).data('idedit'),idx);
+        //  var idx = $(this).index();
+        //  $('#employee-grid tbody tr:eq('+idx+')').find('td:eq(0)').html("8888"); 
+          } );   
+         $('#employee-grid tbody').on( 'click', 'img.view', function () {
+           view($(this).data('idview'));
+          } );   
+}
 
       function add()
       {
