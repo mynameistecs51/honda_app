@@ -233,6 +233,7 @@
     			<thead>
     				<thead>
     					<tr>
+    						<th width="50px;">ที่</th>
     						<th width="80px">หมายเลขลูกค้า</th>
     						<th width="90px">ที่ปรึกษาด้านการขาย</th>
     						<th width="150px">ชื่อ - สกุล(ภาษาไทย)</th>
@@ -243,7 +244,7 @@
     						<th width="80px">รุ่นรถ</th>
     						<th width="90px">สี</th>
     						<th width="90px;">ราคา</th>
-    						<th width="90px;">มัดจำ</th>
+    						<th width="90px;">ดาวน์</th>
     						<th width="90px;">ไฟแนนซ์</th>
     						<th width="90px;">ประกันภัย</th>
     						<th width="100px;">ว/ด/ป ที่รับรถ<br/>(โดยประมาณ)</th>
@@ -254,6 +255,7 @@
     				</thead>
     				<tbody>
     					<tr >
+    						<td>2</td>
     						<td>CTM001</td> <!--CTM = customer -->
     						<td>UDT001</td>
     						<td>นายไชวัฒน์ หอมแสง</td>
@@ -264,7 +266,7 @@
     						<td>SV+ CVT</td>
     						<td>สีน้ำเงิน</td>
     						<td>746,000</td>
-    						<td>3000</td>
+    						<td>30%</td>
     						<td>AY</td>
     						<td>ธนชาติ</td>
     						<td>24/12/2558</td>
@@ -276,6 +278,7 @@
     						</td>
     					</tr>
     					<tr >
+    						<td>1</td>
     						<td>CTM002</td> <!--CTM = customer -->
     						<td>UDT001</td>
     						<td>นายดิษฐพงษ์ นิลนามะ</td>
@@ -286,7 +289,7 @@
     						<td>SV+ CVT</td>
     						<td>สีน้ำเงิน</td>
     						<td>746,000</td>
-    						<td>3000</td>
+    						<td>40%</td>
     						<td>Tbank</td>
     						<td>วิริยะ</td>
     						<td>24/12/2558</td>

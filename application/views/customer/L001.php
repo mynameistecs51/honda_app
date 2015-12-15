@@ -222,6 +222,7 @@
     		<table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" style="table-layout: fixed;word-wrap: break-word;" >
     			<thead>        
     				<tr>
+    					<th width="50px;">ที่</th>
     					<th width="80px">หมายเลขลูกค้า</th>
     					<th width="120px">ชื่อ - สกุล(ภาษาไทย)</th>
     					<th width="90px">ลูกค้า</th>
@@ -238,6 +239,7 @@
     			</thead>
     			<tbody>
     				<tr >
+    					<td>2</td>
     					<td>CTM001</td> <!--CTM = customer -->
     					<td>นายไชวัฒน์ หอมแสง</td>
     					<td>ลูกค้าใหม่</td>
@@ -255,6 +257,7 @@
     					</td>
     				</tr>
     				<tr >
+    					<td>1</td>
     					<td>CTM002</td> <!--CTM = customer -->
     					<td>นายดิษฐพงษ์ นิลนามะ</td>
     					<td>ลูกค้าใหม่</td>

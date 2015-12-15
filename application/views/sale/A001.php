@@ -286,6 +286,10 @@ function saveData()
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="col-sm-3">
+			<p>ยอดจัด</p>
+			<input tye="text" class="form-control" name="net_finance">
+		</div>
+		<div class="col-sm-3">
 			<p>ผ่อนชำระ(งวด)</p>
 			<input type="text" name="down_mount" class="form-control" />
 		</div>
@@ -319,12 +323,12 @@ function saveData()
 				<optoin value="11" >ทำเอง</optoin>
 			</select>
 		</div>
+	</div>
+	<div class="form-group col-sm-12">
 		<div class="col-md-3" >
 			<p>หมายเลขเครื่อง</p><p class="required">*</p>
 			<input type="text" class="form-control" id="plan" name="plan" required>
 		</div>
-	</div>
-	<div class="form-group col-sm-12">
 		<div class="col-md-3" >
 			<p>หมายเลขตัวถัง</p><p class="required">*</p>
 			<input type="text" class="form-control" id="plan" name="plan" required>

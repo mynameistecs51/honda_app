@@ -233,6 +233,7 @@
     			<thead>
     				<thead>
     					<tr>
+    						<th width="50px;">ที่</th>
     						<th width="80px">หมายเลขลูกค้า</th>
     						<th width="90px">ที่ปรึกษาด้านการขาย</th>
     						<th width="150px">ชื่อ - สกุล(ภาษาไทย)</th>
@@ -251,6 +252,7 @@
     				</thead>
     				<tbody>
     					<tr >
+    						<td>2</td>
     						<td>CTM001</td> <!--CTM = customer -->
     						<td>UDT001</td>
     						<td>นายไชวัฒน์ หอมแสง</td>
@@ -270,6 +272,7 @@
     						</td>
     					</tr>
     					<tr >
+    						<td>1</td>
     						<td>CTM002</td> <!--CTM = customer -->
     						<td>UDT001</td>
     						<td>นายดิษฐพงษ์ นิลนามะ</td>
