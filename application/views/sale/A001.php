@@ -325,6 +325,10 @@ function saveData()
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
+	<div class="col-sm-3">
+		<p>แคมเปญ</p>
+		<input type="text" class="form-control" name="campain"/>
+	</div>
 		<div class="col-md-3" >
 			<p>หมายเลขเครื่อง</p><p class="required">*</p>
 			<input type="text" class="form-control" id="plan" name="plan" required>
