@@ -8,8 +8,16 @@ class dashboard extends CI_Controller
 		parent::__construct();
 		$this->load->model('mdl_menu');
 		$this->load->library('template');
-		$this->ctl="dashboard"; 
-		date_default_timezone_set('Asia/Bangkok');
+		$this->ctl="dashboard";  
+		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok')); 
+		$this->dt_now = $now->format('Y-m-d H:i:s');
+		$this->datenow =$now->format('d/m/').($now->format('Y')+543);
+		$this->datefrom = "01/".$now->format('m/Y');
+		$this->dateto = $now->format('d/m/Y');
+		$this->id_mmember = $this->session->userdata('id_mmember');
+		$this->id_mposition=$this->session->userdata("id_mposition");
+		$this->SCREENNAME=$this->template->getScreenName($this->ctl);
+
 		if($this->session->userdata("id_mmember")==""){
 			redirect('authen/');
 		}
@@ -22,6 +30,8 @@ public function index()
 	{
 		$SCREENNAME="DASHBOARD";
 		$SCREENID="dashboard"; 
+		$this->data["datefrom"] =$this->datefrom;
+		$this->data["dateto"] =$this->dateto;
 		$this->mainpage($SCREENNAME);
 		$this->load->view($SCREENID,$this->data);
 	}
