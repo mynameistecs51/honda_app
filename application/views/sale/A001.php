@@ -319,15 +319,19 @@ function saveData()
 				<optoin value="11" >ทำเอง</optoin>
 			</select>
 		</div>
+		<div class="col-md-3" >
+			<p>หมายเลขเครื่อง</p><p class="required">*</p>
+			<input type="text" class="form-control" id="plan" name="plan" required>
+		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="col-md-3" >
 			<p>หมายเลขตัวถัง</p><p class="required">*</p>
 			<input type="text" class="form-control" id="plan" name="plan" required>
 		</div>
-		<div class="col-md-3" >
-			<p>หมายเลขเครื่อง</p><p class="required">*</p>
-			<input type="text" class="form-control" id="plan" name="plan" required>
+		<div class="col-sm-3">
+			<p>วันที่รับรถ</p>
+			<input type="text" class="form-control today" name="date_submit" value="<?php echo $datenow;?>">
 		</div>
 	</div>
 	<!-- ////// -->

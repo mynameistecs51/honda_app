@@ -1,4 +1,3 @@
-
 <script type='text/javascript'>
 	$(function(){
 
@@ -130,11 +129,7 @@ function saveData()
 		<div class="col-sm-3" >
 			<p>หมายเลขลูกค้าคาดหวัง</p>
 			<p class="required">*</p>
-			<input type="text" class="form-control" name="memp_code" required >
-		</div>
-		<div class="col-sm-3">
-			<p>&nbsp;</p>
-			<button class="btn btn-info">อ้างอิงลูกค้าคาดหวัง</button>
+			<input type="text" class="form-control" name="memp_code" placeholder="----เลือก-----" required >
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
@@ -297,47 +292,11 @@ function saveData()
 			<input type="text" name="price" class="form-control" />
 		</div>
 		<div class="col-sm-3">
-			<p>ดาวน์ %</p>
+			<p>เงินมันดจำ</p>
 			<div class="input-group">
-				<input type="text" class="form-control" name="down">
-				<span class="input-group-addon ">%</span>
+				<input type="text" name="deposit" class="form-control" />
+				<span class="input-group-addon">บาท</span>
 			</div>
-		</div>
-	</div>
-	<div class="form-group col-sm-12">
-		<div class="col-sm-3">
-			<p>ผ่อนชำระ(งวด)</p>
-			<input type="text" name="down_mount" class="form-control" />
-		</div>
-		<div class="col-sm-3">
-			<p>ไฟแนนซ์</p>
-			<select name="typeColor" class ="form-control" required>
-				<option value="">--เลือก--</option>
-				<option value="1" >AY</option>
-				<option value="2" > KL</option>
-				<option value="3" > KK</option>
-				<option value="4" > KTB</option>
-				<option value="5" >Tbank</option>
-				<option value="6">HL</option>
-				<option value="7">Cash</option>
-			</select>
-		</div>
-		<div class="col-sm-3">
-			<p>ประกันภัย</p>
-			<select name="typeColor" class ="form-control" required>
-				<option value="">--เลือก--</option>
-				<option value="1" >คุ้มภัย</option>
-				<option value="2" > ธนชาต</option>
-				<option value="3" > แอกซ่า</option>
-				<option value="4" > กรุงเทพ</option>
-				<option value="5" >แอลเอ็มจี</option>
-				<option value="6">มิตซุย</option>
-				<option value="7">โตเกียวมารีน</option>
-				<option value="8">สมโพธิ์</option>
-				<option value="9">วิริยะ</option>
-				<optoin value="10">สินมั่นคง</optoin>
-				<optoin value="11" >ทำเอง</optoin>
-			</select>
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
@@ -353,15 +312,15 @@ function saveData()
 	<!-- ////// -->
 	<div class="form-group col-sm-12">
 		<div class="col-sm-3">
-			<p>เลขที่ใบจองที่โอนมา</p>
+			<p style="color:red;">เลขที่ใบจองที่โอนมา</p>
 			<input type="text" class="form-control" name="slipt" placeholder="----เลือก----" />
 		</div>
 		<div class="col-sm-3">
-			<p>วันที่ยกเลิก</p>
+			<p style="color:red;">วันที่ยกเลิก</p>
 			<input type="text" class="form-control today" name="date_cancel" value="<?php echo $datenow;?>" >
 		</div>
 		<div class="col-sm-3">
-			<p>เหตุผลที่ยกเลิก</p>
+			<p style="color:red;">เหตุผลที่ยกเลิก</p>
 			<input type="text" class="form-control" name="whatCancel" />
 		</div>
 	</div>

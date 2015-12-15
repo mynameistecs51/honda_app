@@ -227,74 +227,81 @@
     	</div>
     </div>
 
-    <div class='col-sm-12'> 
-    	<div style="overflow-x:scroll;overflow-y: hidden;"> 
+    <div class='col-sm-12'>
+    	<div style="overflow-x:scroll;overflow-y: hidden;">
     		<table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" style="table-layout: fixed;word-wrap: break-word;" >
-    			<thead>        
-    				<tr>
-    					<th width="80px;">เลขที่ใบจอง</th>
-    					<th width="120px;">ชื่อ - สกุล(ภาษาไทย)</th>
-    					<th width="90px;">ลูกค้า</th>
-    					<th width="80px;">ประเภท</th>
-    					<th width="90px;">เบอร์โทร</th>
-    					<th width="80px;">ที่ปรึกษาด้านการขาย</th>
-    					<th width="90px;">ว/ด/ป ที่จอง</th>
-    					<th width="90px;">ผุ้จดทะเบียน</th>
-    					<th width="90px;">ที่อยู่</th>
-    					<th width="90px;">สถานะ</th>
-    					<th width="90px;">หมายเหตุ</th>
-    					<th width="90px;">ดำเนินการ</th>
-    				</tr>
-    			</thead>
-    			<tbody>
-    				<tr >
-    					<td>BK001</td> <!--CTM = customer -->
-    					<td>นายไชวัฒน์ หอมแสง</td>
-    					<td>ลูกค้าใหม่</td>
-    					<td>บุคคล</td>
-    					<td>UDT001</td>
-    					<td>0812345678</td>
-    					<td>13/12/2558</td>
-    					<td>ผู้จอง</td>
-    					<td> 64 ถ.ทหาร ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000</td>
-    					<td>จองแล้วรอรถ</td>             
-    					<td></td>
-    					<td>
-    						<img src="http://localhost/utsgs/images/list_view.png" title="รายละเอียด" class="btnopt view" data-idview="2">
-    						<img src="http://localhost/utsgs/images/list_edit.png" title="แก้ไข" class="btnopt edit" data-idedit="2"> 
-    					</td>
-    				</tr>
-    				<tr >
-    					<td>BK002</td> <!--CTM = customer -->
-    					<td>นายดิษฐพงษ์ นิลนามะ</td>
-    					<td>ลูกค้าใหม่</td>
-    					<td>บุคคล</td>
-    					<td>UDT001</td>
-    					<td>0812345678</td>
-    					<td>13/12/2558</td>
-    					<td>ผู้จอง</td>
-    					<td> 64 ถ.ทหาร ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000</td>
-    					<td style="color:red"> ยกเลิกการจอง</td>             
-    					<td>เหตุผลไฟแนนท์ไม่ผ่าน</td>
-    					<td>
-    						<img src="http://localhost/utsgs/images/list_view.png" title="รายละเอียด" class="btnopt view" data-idview="2">
-    						<img src="http://localhost/utsgs/images/list_edit.png" title="แก้ไข" class="btnopt edit" data-idedit="2"> 
-    					</td>
-    				</tr>
-    			</tbody> 
-    		</table>
+    			<thead>
+    				<thead>
+    					<tr>
+    						<th width="80px">หมายเลขลูกค้า</th>
+    						<th width="90px">ที่ปรึกษาด้านการขาย</th>
+    						<th width="150px">ชื่อ - สกุล(ภาษาไทย)</th>
+    						<th width="80px">ลูกค้า</th>
+    						<th width="60px">ประเภท</th>
+    						<th width="90px">เบอร์โทร</th>
+    						<th width="120px">ประเภทรถที่สนใจ</th>
+    						<th width="80px">รุ่นรถ</th>
+    						<th width="90px">สี</th>
+    						<th width="90px;">ราคา</th>
+    						<th width="90px;">มัดจำ</th>
+    						<th width="150pxย">ที่อยู่</th>
+    						<th width="90px;">หมายเหตุ</th>
+    						<th width="90px;">ดำเนินการ</th>
+    					</tr>
+    				</thead>
+    				<tbody>
+    					<tr >
+    						<td>CTM001</td> <!--CTM = customer -->
+    						<td>UDT001</td>
+    						<td>นายไชวัฒน์ หอมแสง</td>
+    						<td>ลูกค้าใหม่</td>
+    						<td>บุคคล</td>
+    						<td>0812345678</td>
+    						<td>HONDA City</td>
+    						<td>SV+ CVT</td>
+    						<td>สีน้ำเงิน</td>
+    						<td>746,000</td>
+    						<td>3000</td>
+    						<td>64 ถ.ทหาร ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000</td>
+    						<td></td>
+    						<td>
+    							<img src="http://localhost/utsgs/images/list_view.png" title="รายละเอียด" class="btnopt view" data-idview="2">
+    							<img src="http://localhost/utsgs/images/list_edit.png" title="แก้ไข" class="btnopt edit" data-idedit="2">
+    						</td>
+    					</tr>
+    					<tr >
+    						<td>CTM002</td> <!--CTM = customer -->
+    						<td>UDT001</td>
+    						<td>นายดิษฐพงษ์ นิลนามะ</td>
+    						<td>ลูกค้าใหม่</td>
+    						<td>บุคคล</td>
+    						<td>0812345678</td>
+    						<td>HONDA City</td>
+    						<td>SV+ CVT</td>
+    						<td>สีน้ำเงิน</td>
+    						<td>746,000</td>
+    						<td>3000</td>
+    						<td>64 ถ.ทหาร ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000</td>
+    						<td></td>
+    						<td>
+    							<img src="http://localhost/utsgs/images/list_view.png" title="รายละเอียด" class="btnopt view" data-idview="2">
+    							<img src="http://localhost/utsgs/images/list_edit.png" title="แก้ไข" class="btnopt edit" data-idedit="2">
+    						</td>
+    					</tr>
+    				</tbody>
+    			</table>
+    		</div>
     	</div>
-    </div> 
-    <div class='col-sm-6' style="text-align:left;font-size:14px;">จำนวนข้อมูล 1 ถึง 2 จาก 2 รายการทั้งหมด</div>
-    <div class='col-sm-6' style="text-align:right;"> <img src="http://localhost/utsgs/images/nextpage.jpg" height="40"> </div>
-    <!-- end table show data  -->
+    	<div class='col-sm-6' style="text-align:left;font-size:14px;">จำนวนข้อมูล 1 ถึง 2 จาก 2 รายการทั้งหมด</div>
+    	<div class='col-sm-6' style="text-align:right;"> <img src="http://localhost/utsgs/images/nextpage.jpg" height="40"> </div>
+    	<!-- end table show data  -->
 
-    <div class="div_modal">
-    </div>
-    <input type="hidden" ID="btn_view" value="<?php echo $btn['view']; ?>">
-    <input type="hidden" ID="btn_edit" value="<?php echo $btn['edit']; ?>">
-    <input type="hidden" ID="btn_print" value="<?php echo $btn['print']; ?>">
-    <input type='hidden' ID="baseurl_edit" value="<?php echo $url_edit; ?>">
-    <input type='hidden' ID="baseurl_print" value="<?php echo $url_print; ?>">
-    <input type='hidden' ID="baseurl_detail" value="<?php echo $url_detail; ?>">
-    <?php echo $footer; ?>
+    	<div class="div_modal">
+    	</div>
+    	<input type="hidden" ID="btn_view" value="<?php echo $btn['view']; ?>">
+    	<input type="hidden" ID="btn_edit" value="<?php echo $btn['edit']; ?>">
+    	<input type="hidden" ID="btn_print" value="<?php echo $btn['print']; ?>">
+    	<input type='hidden' ID="baseurl_edit" value="<?php echo $url_edit; ?>">
+    	<input type='hidden' ID="baseurl_print" value="<?php echo $url_print; ?>">
+    	<input type='hidden' ID="baseurl_detail" value="<?php echo $url_detail; ?>">
+    	<?php echo $footer; ?>
