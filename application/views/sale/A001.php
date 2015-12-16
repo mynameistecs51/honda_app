@@ -99,6 +99,19 @@ function saveData()
            }
         });
 }
+function Net_finance(){
+	// var a = document.getElementById('a').value;
+	// var b = document.getElementById('b').value;
+	// var sum = parseInt(a) + parseInt(b);
+	// document.getElementById('x').value = sum;
+
+	var price = $('#price').val();
+	var pay_down = $('#pay_down').val();
+	var sum_net =parseInt(price)+parseInt(pay_down);
+	$('#net_finance').val(sum_net);
+
+}
+
 </script>
 <div class="row form_input" style="text-align:left; margin-bottom:20px">
 	<div class="form-group col-sm-12">
@@ -109,11 +122,11 @@ function saveData()
 		<div class="col-sm-3">
 			<p>วันที่จอง</p>
 			<!-- <input type="text" class="form-control testtoday" name="testdate"/> -->
-			<input  type="text" class="form-control today" name="date_booking" value="<?php echo $datenow;?>">
+			<input  type="text" class="form-control today" id="date" name="date_booking" value="<?php echo $datenow;?>" >
 		</div>
 		<div class="col-sm-3">
 			<p>รหัสพนักงาน</p>
-			<input type="text" class="form-control" name="id_employee" />
+			<input type="text" class="form-control" id="id_employee" name="id_employee" />
 		</div>
 		<div class="col-sm-3">
 			<p>ชื่อพนักงาน</p>
@@ -273,20 +286,20 @@ function saveData()
 		</div>
 		<div class="col-sm-3">
 			<p>ราคา</p>
-			<input type="text" name="price" class="form-control" />
+			<input type="text" name="price" id="price" class="form-control" />
 		</div>
 		<div class="col-sm-3">
-			<p>ดาวน์ %</p>
+			<p>เงินดาวน์ </p>
 			<div class="input-group">
-				<input type="text" class="form-control" name="down">
-				<span class="input-group-addon ">%</span>
+				<input type="text" class="form-control" name="pay_down" id="pay_down">
+				<span class="input-group-addon ">บาท</span>
 			</div>
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="col-sm-3">
 			<p>ยอดจัด</p>
-			<input tye="text" class="form-control" name="net_finance">
+			<input tye="text" class="form-control" name="net_finance" id="net_finance"  onfocus ="Net_finance()">
 		</div>
 		<div class="col-sm-3">
 			<p>ผ่อนชำระ(งวด)</p>
@@ -324,10 +337,10 @@ function saveData()
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
-	<div class="col-sm-3">
-		<p>แคมเปญ</p>
-		<input type="text" class="form-control" name="campain"/>
-	</div>
+		<div class="col-sm-3">
+			<p>แคมเปญ</p>
+			<input type="text" class="form-control" name="campain"/>
+		</div>
 		<div class="col-md-3" >
 			<p>หมายเลขเครื่อง</p><p class="required">*</p>
 			<input type="text" class="form-control" id="plan" name="plan" required>
