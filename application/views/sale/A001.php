@@ -100,16 +100,10 @@ function saveData()
         });
 }
 function Net_finance(){
-	// var a = document.getElementById('a').value;
-	// var b = document.getElementById('b').value;
-	// var sum = parseInt(a) + parseInt(b);
-	// document.getElementById('x').value = sum;
-
 	var price = $('#price').val();
 	var pay_down = $('#pay_down').val();
 	var sum_net =parseInt(price)+parseInt(pay_down);
 	$('#net_finance').val(sum_net);
-
 }
 
 </script>

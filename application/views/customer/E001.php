@@ -310,11 +310,6 @@ function delObjective(num)
 			<label class="radio-inline"><input type="radio" name="typeCustomer" value="poper" checked>บุคคล</label>
 			<label class="radio-inline"><input type="radio" name="typeCustomer" value="company">บริษัท</label>
 		</div>
-		<div class="col-sm-3">
-			<p>กลุ่มลูกค้า</p>
-			<p class="required">*</p>
-			<input type="text" class="form-control" name="groupCustomer" required />
-		</div>
 	</div>
 	<div class="from-group col-sm-12">
 		<div class="col-sm-3">

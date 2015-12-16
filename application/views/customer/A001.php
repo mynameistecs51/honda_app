@@ -181,7 +181,7 @@ $(function(){
 		var  row=$('.origin').length+1;
 		var  html  = '<div class="origin" ID="origin'+row+'">';
 		html += '<div class="col-sm-9">';
-		html += '<p>แหล่งที่มา</p>';
+		html += '<p>แหล่งที่มาของลูกค้า</p>';
 		html += '<input type="text" class="form-control" name="origin[]"/>';
 		html += '</div>';
 		html += '<div class="col-sm-2" >  ';
@@ -271,7 +271,7 @@ function delObjective(num)
 		<div class="col-sm-3" >
 			<p>หมายเลขลูกค้าคาดหวัง</p>
 			<p class="required">*</p>
-			<input type="text" class="form-control" name="memp_code" required >
+			<input type="text" class="form-control" name="memp_code" placeholder="---สร้างโดยระบบ---" >
 		</div>
 		<div class="col-sm-3" >
 			<p>วันที่บันทึก</p>
@@ -310,25 +310,7 @@ function delObjective(num)
 			<label class="radio-inline"><input type="radio" name="typeCustomer" value="poper" checked>บุคคล</label>
 			<label class="radio-inline"><input type="radio" name="typeCustomer" value="company">บริษัท</label>
 		</div>
-		<div class="col-sm-3">
-			<p>กลุ่มลูกค้า</p>
-			<p class="required">*</p>
-			<input type="text" class="form-control" name="groupCustomer" required />
-		</div>
 	</div>
-	<div class="from-group col-sm-12">
-		<div class="col-sm-3">
-			<p>หมายเลขลูกค้า</p>
-			<p class="required">*</p>
-			<input type="text" class="form-control" />
-		</div>
-		<div class="col-sm-3">
-			<p>&nbsp;</p>
-			<p class="required"></p>
-			<button class="btn btn-info">คัดลอกข้อมูลบางส่วนจากลูกค้า</button>
-		</div>
-	</div>
-	<hr>
 	<div class="form-group col-sm-12">
 		<div class="col-sm-3" >
 			<p>คำนำหน้าชื่อ</p>
@@ -472,7 +454,7 @@ function delObjective(num)
 	</div>
 	<div class="form-group col-sm-6">
 		<div class="col-sm-9">
-			<p>แหล่งที่มา</p>
+			<p>แหล่งที่มาของลูกค้า</p>
 			<input type="text" class="form-control" />
 		</div>
 		<div class="col-sm-2">

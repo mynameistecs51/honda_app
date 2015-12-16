@@ -99,7 +99,7 @@ class Sale extends CI_Controller
 	{
 		$SCREENID="A001";
 		$this->mainpage($SCREENID);
-		$this->data["datenow"] =$this->datenow;
+		// $this->data["datenow"] =$this->datenow;
 		$this->load->view('sale/'.$SCREENID,$this->data);
 	}
 	public function DETAIL($id)
