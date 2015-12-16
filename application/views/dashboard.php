@@ -60,62 +60,84 @@
                   }
               },
               "aoColumns": [{ 
-                            "sWidth": "15%", 
-                            "mData": 'mbranch_code'
-                          },{ 
-                            "sWidth": "20%",
-                            "mData":'mbranch_name'
-                          },{
-                            "sWidth": "10%",
-                            "mData": null,
-                            "mRender": function(data, type, full) { 
+                              "sWidth": "15%", 
+                              "mData": 'mbranch_code'
+                            },{ 
+                              "sWidth": "20%",
+                              "mData":'mbranch_name'
+                            },{
+                              "sWidth": "10%",
+                              "mData": null,
+                              "mRender": function(data, type, full) { 
                               if(full['status']=='1'){ return "ใช้งาน"; }else{ return "ยกเลิก"; } 
                             }
                           }
                           }]
-              } );
+              });
          }   
     </script>
     <script type="text/javascript" src="https://www.google.com/jsapi"></script>
     <script type="text/javascript">
       google.load("visualization", "1", {packages:["corechart"]});
-      google.setOnLoadCallback(drawVisualization);
-
+      google.setOnLoadCallback(drawVisualization); 
       function drawVisualization() {
-        // Some raw data (not necessarily accurate)
-        var data = google.visualization.arrayToDataTable([
-         ['Month', 'BOOKING', 'SALES'],
-         ['ม.ค.',  165,      120],
-         ['ก.พ.',  135,      130],
-         ['มี.ค.',  157,      157],
-         ['เม.ย.',  139,      139],
-         ['พ.ค.',  136,      135],
-         ['มิ.ย.',  120,      120],
-         ['ก.ค.',  145,      145],
-         ['ส.ค.',  190,      180],
-         ['ก.ย.',  110,      120],
-         ['ต.ค.',  123,      120],
-         ['พ.ย.',  115,      114],
-         ['ธ.ค.',  145,      145]
-      ]);
+          // Some raw data (not necessarily accurate)
+          var data = google.visualization.arrayToDataTable([
+           ['Month', 'BOOKING', 'SALES'],
+           ['ม.ค.',  165,      120],
+           ['ก.พ.',  135,      130],
+           ['มี.ค.',  157,      157],
+           ['เม.ย.',  139,      139],
+           ['พ.ค.',  136,      135],
+           ['มิ.ย.',  120,      120],
+           ['ก.ค.',  145,      145],
+           ['ส.ค.',  190,      180],
+           ['ก.ย.',  110,      120],
+           ['ต.ค.',  123,      120],
+           ['พ.ย.',  115,      114],
+           ['ธ.ค.',  145,      145]
+        ]); 
+      var options = {
+        title : 'ยอดรายเดือนประจำปี 2558',
+        vAxis: {title: 'จำนวน'},
+        hAxis: {title: 'เดือน'},
+        seriesType: 'bars',
+        series: {2: {type: 'line'}
+        }
+      };
 
-    var options = {
-      title : 'ยอดประจำปี 2558',
-      vAxis: {title: 'จำนวน'},
-      hAxis: {title: 'เดือน'},
-      seriesType: 'bars',
-      series: {2: {type: 'line'}}
-    };
+      var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
+      chart.draw(data, options);
+    }
+    </script>
+    <script type="text/javascript">
+      google.load('visualization', '1', {packages: ['corechart']});
+    google.setOnLoadCallback(drawChart);
 
-    var chart = new google.visualization.ComboChart(document.getElementById('chart_div'));
-    chart.draw(data, options);
-  }
+    function drawChart() {
+
+      var data = new google.visualization.DataTable();
+      data.addColumn('string', 'Pizza');
+      data.addColumn('number', 'Populartiy');
+      data.addRows([
+        ['รับเข้าสต๊อก', 490],
+        ['จำนวนที่จอง', 430],
+        ['จำนวนที่ขาย', 420],
+        ['คงเหลือ', 420]
+      ]); 
+      var options = {
+        title: 'ยอดรวมประจำปี 2558',
+        sliceVisibilityThreshold: .2
+      }; 
+      var chart = new google.visualization.PieChart(document.getElementById('pacman'));
+      chart.draw(data, options);
+    }
     </script>
      <div class="col-sm-8">
       <div id="chart_div" style="width: 100%; height: 500px;"></div>
     </div>
     <div class="col-sm-4">
-      กราฟ วงกลมสรุป 
+      <div id="pacman" style="width: 100%; height: 500px;"></div>
     </div>
   <div class="col-sm-12">
     <div class="col-sm-12">
@@ -126,14 +148,14 @@
       <table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" style="table-layout: fixed;word-wrap: break-word;" >
         <thead>        
           <tr>
-            <th width="40px">ลำดับที่</th>
-            <th width="120px">แบบ</th>
-            <th width="120px">รุ่นรถ</th>
-            <th width="200px">สี</th>
-            <th width="200px">จำนวนที่รับเข้า</th> 
-            <th width="150px">จำนวนที่จอง</th>
-            <th width="80px">จำนวนที่ขาย</th>
-            <th width="80px">คงเหลือ</th>  
+            <th>ลำดับที่</th>
+            <th>แบบ</th>
+            <th>รุ่นรถ</th>
+            <th>สี</th>
+            <th>จำนวนที่รับเข้า</th> 
+            <th>จำนวนที่จอง</th>
+            <th>จำนวนที่ขาย</th>
+            <th>คงเหลือ</th>  
           </tr>
         </thead>
         <tbody>

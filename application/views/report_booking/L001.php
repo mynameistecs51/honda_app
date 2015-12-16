@@ -108,9 +108,9 @@ function rundatatable(){
       <tr>
         <th width="120px">เลขที่จองรถ</th>
         <th width="120px">วันที่จองรถ</th>
-        <th width="200px">หมายเลขลูกค้า</th>
-        <th width="200px">ชื่อ-สกุล</th> 
-        <th width="150px">แบบ</th>
+        <th width="120px">หมายเลขลูกค้า</th>
+        <th width="170px">ชื่อ-สกุล</th> 
+        <th width="120px">แบบ</th>
         <th width="80px">รุ่น</th>
         <th width="80px">สี</th>  
         <th width="90px">วันที่นัดรับ</th> 

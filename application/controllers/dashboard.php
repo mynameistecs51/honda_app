@@ -30,6 +30,7 @@ public function index()
 	{
 		$SCREENNAME="DASHBOARD";
 		$SCREENID="dashboard"; 
+		$this->data["controller"] =$this->ctl;
 		$this->data["datefrom"] =$this->datefrom;
 		$this->data["dateto"] =$this->dateto;
 		$this->mainpage($SCREENNAME);

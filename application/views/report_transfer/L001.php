@@ -84,74 +84,95 @@ function rundatatable(){
   <?php if($btn['add']==1){ echo "<div class='add' ID='add'>EXPORT TO EXCEL</div>"; }else{ echo "<div class='noneadd' title='ไม่ได้รับสิทธิ์การ EXPORT'>EXPORT TO EXCEL</div>";} ?>
   <div class="search">ค้นหา : 
       <select data-column="0" class="search-input-text">
-        <option value="" selected>--เลือกสำนักงาน/สาขา--</option> 
+        <option value="" selected>--เลือกสาขาเดิม--</option> 
         <option value="1" > อุดรธานี </option>
         <option value="2"> หนองบัวลำภู </option>
         <option value="3"> หนองคาย </option>
         <option value="3"> สว่างแดนดิน </option>
       </select>  
+      <select data-column="0" class="search-input-text">
+        <option value="" selected>--เลือกสาขาที่โยกไป--</option> 
+        <option value="1" > อุดรธานี </option>
+        <option value="2"> หนองบัวลำภู </option>
+        <option value="3"> หนองคาย </option>
+        <option value="3"> สว่างแดนดิน </option>
+      </select> 
       <lable class="lable"> From :</lable><input type="text" data-column="5" ID="datefrom"  class="search-input-text" value="<?php echo $datefrom; ?>" > 
       <lable class="lable"> To :</lable><input type="text" data-column="6"  ID="dateto" class="search-input-text" value="<?php echo $dateto; ?>" > 
       <select data-column="2" class="search-input-text">
         <option style="font-size:12px;" value="" >----ทั้งหมด----</option>
-        <option style="font-size:12px;" value="1" selected>จองแล้ว</option>  
-        <option style="font-size:12px;" value="0">จำหน่ายแล้ว</option>  
-        <option style="font-size:12px;" value="0">ยกเลิกการจอง</option> 
+        <option style="font-size:12px;" value="1" selected>โยกแล้ว</option> 
+        <option style="font-size:12px;" value="0">รับเข้าสต๊อกแล้ว</option>  
+        <option style="font-size:12px;" value="0">ยกเลิกการโยก </option> 
       </select>
   </div>
 </div>
 
 <div class='col-sm-12'> 
 <div style="overflow-x:scroll;overflow-y: hidden;"> 
-        <table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" style="table-layout: fixed;word-wrap: break-word;" >
-          <thead>        
-            <tr>
-              <th width="80px">หมายเลขลูกค้า</th>
-              <th width="120px">ชื่อ - สกุล(ภาษาไทย)</th>
-              <th width="90px">ลูกค้า</th>
-              <th width="80px">ประเภท</th>
-              <th width="90px">เบอร์โทร</th>
-              <th width="120px">ที่ปรึกษาด้านการขาย</th>
-              <th width="90px">ประเภทรถที่สนใจ</th>
-              <th width="90px">รุ่นรถ</th>
-              <th width="90px">สี</th>
-              <th width="150px">ที่อยู่</th>
-              <th width="90px;">หมายเหตุ</th> 
-            </tr>
-          </thead>
-          <tbody>
-            <tr >
-              <td>CTM001</td> <!--CTM = customer -->
-              <td>นายไชวัฒน์ หอมแสง</td>
-              <td>ลูกค้าใหม่</td>
-              <td>บุคคล</td>
-              <td>0812345678</td>
-              <td>UDT001</td>
-              <td>HONDA City</td>
-              <td>SV+ CVT</td>
-              <td>สีน้ำเงิน</td>
-              <td>64 ถ.ทหาร ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000</td>
-              <td></td> 
-            </tr>
-            <tr >
-              <td>CTM002</td> <!--CTM = customer -->
-              <td>นายดิษฐพงษ์ นิลนามะ</td>
-              <td>ลูกค้าใหม่</td>
-              <td>บุคคล</td>
-              <td>0812345678</td>
-              <td>UDT001</td>
-              <td>HONDA JAZZ</td>
-              <td>SV+ CVT</td>
-              <td>สีน้ำเงิน</td>
-              <td> 64 ถ.ทหาร ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000</td>
-              <td></td>     
-            </tr>
-          </tbody> 
-        </table>
-      </div>
+  <table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" style="table-layout: fixed;word-wrap: break-word;" >
+    <thead>        
+      <tr>
+          <th width="60px">ลำดับที่</th>
+          <th width="130px">เลขที่ใบโยกรถ</th>
+          <th width="90px">วันที่โยกรถ</th>
+          <th width="70px">สาขาเดิม</th>
+          <th width="90px">สาขาที่โยกไป</th>
+          <th width="120px">เลขที่รับเข้าสต๊อก</th>
+          <th width="120px">วันที่รับเข้าสต๊อก</th>
+          <th width="120px">แบบ</th>
+          <th width="80px">รุ่น</th>
+          <th width="80px">สี</th>
+          <th width="180px">หมายเลขตัวถัง</th>
+          <th width="130px">หมายเลขเครื่อง</th> 
+          <th width="80px">โซนจัดเก็บ</th> 
+          <th width="130px">สถานะ</th>
+          <th width="90px;">หมายเหตุ</th> 
+        </tr>
+      </thead>
+      <tbody>
+        <tr >
+          <td>1</td>
+          <td>TFUDT581200001</td>
+          <td>15/12/2558</td>
+          <td>UDT</td>
+          <td>NBP</td> 
+          <td>STUDT581200001</td>
+          <td>12/12/2558</td>
+          <td>CITY CNG'14</td>
+          <td>S CNG MT</td>
+          <td>TTW</td> 
+          <td>MRHGM6520E-P200081</td>
+          <td>L15Z1-1501250</td> 
+          <td>Z1L001</td> 
+          <td>โยกแล้วรอทำรับ</td>
+          <td></td> 
+        </tr>
+        <tr >
+          <td>2</td>
+          <td>TFUDT581200002</td>
+          <td>15/12/2558</td>
+          <td>UDT</td>
+          <td>NBP</td> 
+          <td>STUDT581200001</td>
+          <td>12/12/2558</td>
+          <td>CITY CNG'14</td>
+          <td>S CNG MT</td>
+          <td>TTW</td> 
+          <td>MRHGM6520E-P200081</td>
+          <td>L15Z1-1501250</td> 
+          <td>Z1L001</td> 
+          <td>โยกแล้วรอทำรับ</td>
+          <td></td> 
+        </tr>
+      </tbody> 
+    </table>
+    </div>
     </div> 
     <div class='col-sm-6' style="text-align:left;font-size:14px;">จำนวนข้อมูล 1 ถึง 2 จาก 2 รายการทั้งหมด</div>
     <div class='col-sm-6' style="text-align:right;"> <img src="http://localhost/utsgs/images/nextpage.jpg" height="40"> </div>
+    
+
 
 <div class="div_modal"></div>  <!-- Code ของ Modal จะมาแสดงใน DIV นี้ --> 
 <input type="hidden" ID="btn_view" value="<?php echo $btn['view']; ?>">

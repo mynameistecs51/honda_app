@@ -204,121 +204,31 @@ function updateMemp()
 		<p class="required">*</p>
 		<textarea  class="form-control" rows='3' name="adr_line2" ></textarea> 
 	</div>
-	<div class="col-md-12" >
-		<p>หมายเหตุ</p>
-		<textarea  class="form-control" rows='3' name="comment"></textarea>
-	</div>
+	<div class="col-md-12" style="text-align:left;">
+        <p>สถานะ</p> 
+        <input type="radio"  name="status" value="1"  disabled  checked> ใช้งาน
+        <input type="radio"  name="status" value="2" disabled  >  ยกเลิก   
+    </div>
+    <div class="col-md-12" >
+        <p>หมายเหตุ </p>
+        <textarea  class="form-control" rows='3' name="comment"  ><?php // echo str_replace('<br>',"",$detail->comment); ?></textarea>
+    </div>
+    <div class="col-md-3" >
+        <p>ผู้สร้าง</p>
+        <input type="text" class="form-control" name="name_create" value="<?php //echo $detail->name_create; ?> ADMIN" disabled>
+    </div>
+    <div class="col-md-3" >
+        <p>วันที่สร้าง</p>
+        <input type="text" class="form-control" name="dt_create" value="<?php //echo $detail->dt_create; ?> 12/12/2558 20:30 " disabled>
+    </div>
+    <div class="col-md-3" >
+        <p>ผู้แก้ไข</p>
+        <input type="text" class="form-control" name="name_update" value="<?php //echo $detail->name_update; ?>-" disabled>
+    </div>
+    <div class="col-md-3" >
+        <p>วันที่แก้ไข</p>
+        <input type="text" class="form-control" name="dt_update" value="<?php //echo $detail->dt_update; ?> - " disabled>
+    </div> 
 </div>
 
-<!-- 
-<input type="hidden"  name="base_url" ID="base_url" value="<?php echo base_url(); ?>">
-<input type="hidden"  ID="idx" value="<?php echo $idx; ?>" >
-<div class="form_input">
-	<p>รหัสพนักงาน</p>
-	<input type="text" class="input" name="memp_code" value="<?php echo $detail->memp_code;   ?>" readonly>
-	<input type="hidden" class="input" name="id_memp" value="<?php echo $detail->id_memp;   ?>" >
-	<p>ตำแหน่ง</p>
-	<select name="id_mpst" class ="select" required>
-		<option value="">--เลือก--</option> 
-		<?php 
-		foreach ($listMpst as $Mpst)
-		{
-			$c= "<option value='".$Mpst->id_mpst."' ";
-			if($detail->id_mpst==$Mpst->id_mpst){
-				$c .= "selected";
-			}
-			$c .=">".$Mpst->name_th."</option>";
-			echo $c;
-		}
-		?>
-	</select>
-	<p>แผนก</p>
-	<select name="id_mdept" class ="select" required >
-		<option value="">--เลือก--</option> 
-		<?php 
-		foreach ($listMdept as $Mdept)
-		{
-			$c= "<option value='".$Mdept->id_mdept."' ";
-			if($detail->id_mdept==$Mdept->id_mdept){
-				$c .= "selected";
-			}
-			$c .=">".$Mdept->name_th."</option>";
-			echo $c;
-		}
-		?>
-	</select>
-	<p>เพศ</p>
-	<select name="sex" class ="select" required>
-		<option value="1" <?php if($detail->sex==''){ echo "selected"; } ?>> --เลือก-- </option>
-		<option value="1" <?php if($detail->sex=='1'){ echo "selected"; } ?>> ชาย </option>
-		<option value="2" <?php if($detail->sex=='2'){ echo "selected"; } ?>> หญิง </option> 
-	</select> 
-	<p>คำนำหน้าชื่อ</p>
-	<select name="id_memp_tit" class ="select" required>
-		<option value="1" <?php if($detail->id_memp_tit=='1'){ echo "selected"; } ?>> นาย </option>
-		<option value="2" <?php if($detail->id_memp_tit=='2'){ echo "selected"; } ?>> นาง </option>
-		<option value="3" <?php if($detail->id_memp_tit=='3'){ echo "selected"; } ?>> นางสาว </option>
-	</select> 
-	<p>ชื่อ (ภาษาไทย)</p>
-	<input type="text" class="inputname" name="firstname_th" ID="firstname_th" value="<?php echo $detail->firstname_th;   ?>" placeholder="ชื่อ" >
-	<input type="text" class="inputname" name="lastname_th" ID="lastname_th" value="<?php echo $detail->lastname_th; ?>" placeholder="สกุล" >
-	<p>Name (English)</p>
-	<input type="text" class="inputname" name="firstname_en" value="<?php echo $detail->firstname_en; ?>" placeholder="First Name">
-	<input type="text" class="inputname" name="lastname_en" value="<?php echo $detail->lastname_en; ?>" placeholder="Last Name">
-	<p>สถานะภาพ</p>
-	<select name="status_marriaged" class ="select" > 
-		<option value="1" <?php if($detail->status_marriaged=='1'){ echo "selected"; } ?>> โสด </option>
-		<option value="2" <?php if($detail->status_marriaged=='2'){ echo "selected"; } ?>> สมรส </option>
-		<option value="3" <?php if($detail->status_marriaged=='3'){ echo "selected"; } ?>> หย่าร้าง </option>
-		<option value="4" <?php if($detail->status_marriaged=='4'){ echo "selected"; } ?>> แยกกันอยู่ </option>
-	</select> 
-	<p>วันเกิด</p>
-	<input type="text" class="input" name="birthdate" ID="birthdate" value="<?php echo  $detail->birthdate; ?>" >
-	<p>วันเริ่มงาน</p>
-	<input type="text" class="input" name="startdate" ID="startdate" value="<?php echo $detail->startdate;  ?>" >
-	<p>วันสิ้นสุดการเป็นพนักงาน </p>
-	<input type="text" class="input" name="resigndate" ID="resigndate" value="<?php echo $detail->resigndate; ?>">
-	<p>ที่อยู่ (ตามสำเนาทะเบียนบ้าน)</p>
-	<textarea  class="input" rows='5' name="adr_line1" ><?php echo str_replace('<br>',"",$detail->adr_line1); ?></textarea>
-	<p>ที่อยู่ (ปัจจุบัน)</p>
-	<textarea  class="input" rows='5' name="adr_line2" ><?php echo str_replace('<br>',"",$detail->adr_line2); ?></textarea>
-	<p>รหัสประจำตัวประชาชน</p>
-	<input type="text" class="input" name="idcard_num" value="<?php echo $detail->idcard_num;  ?>" >
-	<p>เลขใบอนุญาตขับขี่</p>
-	<input type="text" class="input" name="drv_lcn_num" value="<?php echo $detail->drv_lcn_num;  ?>" >
-	<p>อีเมลล์ </p>
-	<input type="email" class="input" name="email" ID="email" value="<?php echo $detail->email;  ?>" >
-	<p>โทรศัพท์</p>
-	<input type="text" class="input" name="telephone" value="<?php echo $detail->telephone; ?>">
-	<p>มือถือ</p>
-	<input type="text" class="input" name="mobile" ID="mobile" value="<?php echo $detail->mobile; ?>">
-	<p>แฟกซ์</p>
-	<input type="text" class="input" name="fax" value="<?php echo $detail->fax; ?>">
-	<p>ชื่อเข้าใช้ระบบ</p>
-	<input type="text" class="input" name="user" ID="user" value="<?php echo $detail->user; ?>" readonly> 
-	<p><U><input type="checkbox" name="changePass" id="changePass" value="1">  แก้ไขรหัสผ่าน ?</U></p>
-	<div class="userpassword" style="display:none">
-	<p>รหัสผ่านเดิม</p>
-	<input type="password" class="input" name="old_pass" id="oldpassword" value="" >
-	<p>รหัสผ่านใหม่</p>
-	<input type="password" class="input" name="pass" id="newpassword" value="" >
-	<p>ยืนยันรหัสผ่านใหม่</p>
-	<input type="password" class="input" name="con_pass" id="confirmpw" value="" >
-	</div>
-	<p>หมายเหตุ </p>
-	<textarea  class="input" rows='5' name="comment" ID="comment" ><?php echo str_replace('<br>',"",$detail->comment); ?></textarea>
-	<p>สถานะ</p>
-	<div class="status" >
-		<input type="radio" name="status"  class="chk_stk" value="1" <?php if($detail->status=='1'){ echo "checked=checked"; } ?>> ใช้งาน
-		<input type="radio"  name="status" class="chk_stk" value="0" <?php if($detail->status=='0'){ echo "checked=checked"; } ?>> ยกเลิก
-	</div>
-	<p>ผู้สร้าง</p>
-	<input type="text" class="input" name="name_create" value="<?php echo $detail->name_create; ?>" readonly>
-	<p>วันที่สร้าง</p>
-	<input type="text" class="input" name="dt_create" value="<?php echo $detail->dt_create; ?>" readonly>
-	<p>ผู้แก้ไข</p>
-	<input type="text" class="input" name="name_update" value="<?php echo $detail->name_update; ?>" readonly>
-	<p>วันที่แก้ไข</p>
-	<input type="text" class="input" name="dt_update" value="<?php echo $detail->dt_update; ?>" readonly>
-</div> -->
 <?php } ?> 
