@@ -5,6 +5,7 @@
 		// rundatatable();
 		runmodaledit();
 	});
+
 	function rundatatable(){
 		var dataTable = $('#employee-grid').DataTable({
 			responsive: true,
@@ -126,7 +127,6 @@
 			view($(this).data('idview'));
 		} );
 	}
-
 
 	function add()
 	{

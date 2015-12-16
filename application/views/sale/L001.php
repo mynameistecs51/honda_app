@@ -3,6 +3,7 @@
 	$(function(){
 		add();
 		// rundatatable();
+		runmodaledit();
 	});
 	function rundatatable(){
 		var dataTable = $('#employee-grid').DataTable({
@@ -108,106 +109,124 @@
         } );
       }
 
-      function add()
-      {
-      	$(".add").click(function(){
-      		var screenname="เพิ่มข้อมูล :: <?php echo $pagename ?>";
-      		var url = "<?php echo $url_add; ?>";
-      		var n=0;
-      		$('.div_modal').html('');
-      		modal_form(n,screenname);
-      		$('#myModal'+n+' .modal-body').html('<img id="ajaxLoaderModal" src="<?php echo base_url(); ?>images/loader.gif"/>');
-      		var modal = $('#myModal'+n), modalBody = $('#myModal'+n+' .modal-body');
-      		modal.on('show.bs.modal', function () {
-      			modalBody.load(url);
-      		}).modal({backdrop: 'static',keyboard: true});
-      		setInterval(function(){$('#ajaxLoaderModal').remove()},5100);
-      	});
-      }
+      function runmodaledit(){
+   		$("#employee-grid_filter").css("display","none");  // hiding global search box
+    		$('.search-input-text').on('change', function () {   // for text boxes
+    		var i =$(this).attr('data-column');  // getting column index
+ 		var v =$(this).val();  // getting search input value
+ 		dataTable.columns(i).search(v).draw();
+ 	} );
+    		$('#employee-grid tbody').on( 'click', 'img.edit', function () {
+		    var idx=$(this).closest('tr').index(); // หาลำดับแถวของ TR ที่คลิกแก้ไข
+		    edit($(this).data('idedit'),idx);
+		    //  var idx = $(this).index();
+		    //  $('#employee-grid tbody tr:eq('+idx+')').find('td:eq(0)').html("8888");
+		  } );
+    		$('#employee-grid tbody').on( 'click', 'img.view', function () {
+    			view($(this).data('idview'));
+    		} );
+    	}
 
-      function edit(num,idx)
-      {
-      	var screenname="แก้ไขข้อมูล :: <?php echo $pagename ?>";
-      	var baseurl_edit = $('#baseurl_edit').val();
-      	var url=baseurl_edit+num+"/"+idx;
-      	var n=0;
-      	$('.div_modal').html('');
-      	modal_form(n,screenname);
-      	$('#myModal'+n+'.modal-body').html('<img id="ajaxLoaderModal" src="<?php echo base_url(); ?>images/loader.gif"/>');
-      	var modal = $('#myModal'+n), modalBody = $('#myModal'+n+' .modal-body');
-      	modal.on('show.bs.modal', function () {
-      		modalBody.load(url);
-      	}).modal({backdrop: 'static',keyboard: true});
-      	setInterval(function(){$('#ajaxLoaderModal').remove()},5000);
-      }
+    	function add()
+    	{
+    		$(".add").click(function(){
+    			var screenname="เพิ่มข้อมูล :: <?php echo $pagename ?>";
+    			var url = "<?php echo $url_add; ?>";
+    			var n=0;
+    			$('.div_modal').html('');
+    			modal_form(n,screenname);
+    			$('#myModal'+n+' .modal-body').html('<img id="ajaxLoaderModal" src="<?php echo base_url(); ?>images/loader.gif"/>');
+    			var modal = $('#myModal'+n), modalBody = $('#myModal'+n+' .modal-body');
+    			modal.on('show.bs.modal', function () {
+    				modalBody.load(url);
+    			}).modal({backdrop: 'static',keyboard: true});
+    			setInterval(function(){$('#ajaxLoaderModal').remove()},5100);
+    		});
+    	}
 
-      function view(num)
-      {
-      	var screenname="รายละเอียดข้อมูล :: <?php echo $pagename ?>";
-      	var baseurl_detail = $('#baseurl_detail').val();
-      	var url=baseurl_detail+num;
-      	var n=0;
-      	$('.div_modal').html('');
-      	modal_form_view(n,screenname);
-      	$('#myModal'+n+'.modal-body').html('<img id="ajaxLoaderModal" src="<?php echo base_url(); ?>images/loader.gif"/>');
-      	var modal = $('#myModal'+n), modalBody = $('#myModal'+n+' .modal-body');
-      	modal.on('show.bs.modal', function () {
-      		modalBody.load(url);
-      	}).modal({backdrop: 'static',keyboard: true});
-      	setInterval(function(){$('#ajaxLoaderModal').remove()},5000);
-      }
+    	function edit(num,idx)
+    	{
+    		var screenname="แก้ไขข้อมูล :: <?php echo $pagename ?>";
+    		var baseurl_edit = $('#baseurl_edit').val();
+    		var url=baseurl_edit+num+"/"+idx;
+    		var n=0;
+    		$('.div_modal').html('');
+    		modal_form(n,screenname);
+    		$('#myModal'+n+'.modal-body').html('<img id="ajaxLoaderModal" src="<?php echo base_url(); ?>images/loader.gif"/>');
+    		var modal = $('#myModal'+n), modalBody = $('#myModal'+n+' .modal-body');
+    		modal.on('show.bs.modal', function () {
+    			modalBody.load(url);
+    		}).modal({backdrop: 'static',keyboard: true});
+    		setInterval(function(){$('#ajaxLoaderModal').remove()},5000);
+    	}
 
-      function fromprint(num,idx){
-      	window.location = $('#baseurl_print').val()+num;
-      }
+    	function view(num)
+    	{
+    		var screenname="รายละเอียดข้อมูล :: <?php echo $pagename ?>";
+    		var baseurl_detail = $('#baseurl_detail').val();
+    		var url=baseurl_detail+num;
+    		var n=0;
+    		$('.div_modal').html('');
+    		modal_form_view(n,screenname);
+    		$('#myModal'+n+'.modal-body').html('<img id="ajaxLoaderModal" src="<?php echo base_url(); ?>images/loader.gif"/>');
+    		var modal = $('#myModal'+n), modalBody = $('#myModal'+n+' .modal-body');
+    		modal.on('show.bs.modal', function () {
+    			modalBody.load(url);
+    		}).modal({backdrop: 'static',keyboard: true});
+    		setInterval(function(){$('#ajaxLoaderModal').remove()},5000);
+    	}
 
-      function modal_form(n,screenname)
-      {
-      	var div='';
-      	div+='<form name="main" role="form" data-toggle="validator" id="form" method="post">';
-      	div+='<!-- Modal -->';
-      	div+='<div class="modal modal-wide fade" id="myModal'+n+'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-      	div+='<div class="modal-dialog">';
-      	div+='<div class="modal-content">';
-      	div+='<div class="modal-header" style="background:#d9534f;color:#FFFFFF;">';
-      	div+='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-      	div+='<h4 class="modal-title">'+screenname+'</h4>';
-      	div+='</div>';
-      	div+='<div class="modal-body">';
-      	div+='</div>';
-      	div+='<div class="modal-footer" style="text-align:center; background:#F6CECE;">';
-      	div+='<button type="submit" id="save" class="btn btn-modal"><span class="   glyphicon glyphicon-floppy-saved"> บันทึก</span></button>';
-      	div+='<button type="reset" class="btn btn-modal" data-dismiss="modal"><span class="   glyphicon glyphicon-floppy-remove"> ยกเลิก</span></button>';
-      	div+='</div>';
-      	div+='</div><!-- /.modal-content -->';
-      	div+='</div><!-- /.modal-dialog -->';
-      	div+='</div><!-- /.modal -->';
-      	div+='</form>';
-      	$('.div_modal').html(div);
-      }
-      function modal_form_view(n,screenname)
-      {
-      	var div='';
-      	div+='<form name="main" role="form" data-toggle="validator" id="form" method="post">';
-      	div+='<!-- Modal -->';
-      	div+='<div class="modal modal-wide fade" id="myModal'+n+'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-      	div+='<div class="modal-dialog">';
-      	div+='<div class="modal-content">';
-      	div+='<div class="modal-header" style="background:#B40404;color:#FFFFFF;">';
-      	div+='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
-      	div+='<h4 class="modal-title">'+screenname+'</h4>';
-      	div+='</div>';
-      	div+='<div class="modal-body">';
-      	div+='</div>';
-      	div+='<div class="modal-footer" style="text-align:center; background:#F6CECE;">';
-      	div+='<button type="reset" class="btn btn-modal" data-dismiss="modal"><span class="   glyphicon glyphicon-floppy-remove"> ปิด </span></button>';
-      	div+='</div>';
-      	div+='</div><!-- /.modal-content -->';
-      	div+='</div><!-- /.modal-dialog -->';
-      	div+='</div><!-- /.modal -->';
-      	div+='</form>';
-      	$('.div_modal').html(div);
-      }
+    	function fromprint(num,idx){
+    		window.location = $('#baseurl_print').val()+num;
+    	}
+
+    	function modal_form(n,screenname)
+    	{
+    		var div='';
+    		div+='<form name="main" role="form" data-toggle="validator" id="form" method="post">';
+    		div+='<!-- Modal -->';
+    		div+='<div class="modal modal-wide fade" id="myModal'+n+'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+    		div+='<div class="modal-dialog">';
+    		div+='<div class="modal-content">';
+    		div+='<div class="modal-header" style="background:#d9534f;color:#FFFFFF;">';
+    		div+='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+    		div+='<h4 class="modal-title">'+screenname+'</h4>';
+    		div+='</div>';
+    		div+='<div class="modal-body">';
+    		div+='</div>';
+    		div+='<div class="modal-footer" style="text-align:center; background:#F6CECE;">';
+    		div+='<button type="submit" id="save" class="btn btn-modal"><span class="   glyphicon glyphicon-floppy-saved"> บันทึก</span></button>';
+    		div+='<button type="reset" class="btn btn-modal" data-dismiss="modal"><span class="   glyphicon glyphicon-floppy-remove"> ยกเลิก</span></button>';
+    		div+='</div>';
+    		div+='</div><!-- /.modal-content -->';
+    		div+='</div><!-- /.modal-dialog -->';
+    		div+='</div><!-- /.modal -->';
+    		div+='</form>';
+    		$('.div_modal').html(div);
+    	}
+    	function modal_form_view(n,screenname)
+    	{
+    		var div='';
+    		div+='<form name="main" role="form" data-toggle="validator" id="form" method="post">';
+    		div+='<!-- Modal -->';
+    		div+='<div class="modal modal-wide fade" id="myModal'+n+'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+    		div+='<div class="modal-dialog">';
+    		div+='<div class="modal-content">';
+    		div+='<div class="modal-header" style="background:#B40404;color:#FFFFFF;">';
+    		div+='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+    		div+='<h4 class="modal-title">'+screenname+'</h4>';
+    		div+='</div>';
+    		div+='<div class="modal-body">';
+    		div+='</div>';
+    		div+='<div class="modal-footer" style="text-align:center; background:#F6CECE;">';
+    		div+='<button type="reset" class="btn btn-modal" data-dismiss="modal"><span class="   glyphicon glyphicon-floppy-remove"> ปิด </span></button>';
+    		div+='</div>';
+    		div+='</div><!-- /.modal-content -->';
+    		div+='</div><!-- /.modal-dialog -->';
+    		div+='</div><!-- /.modal -->';
+    		div+='</form>';
+    		$('.div_modal').html(div);
+    	}
 
     </script>
     <div class='col-sm-12'>

@@ -90,6 +90,7 @@ class Sale extends CI_Controller
 		$this->data['url_detail']=base_url().$this->ctl."/detail/";
 		$this->data['url_print']=base_url().$this->ctl."/printpdf/";
 		$this->data['dtnow'] = $this->template->dtnow();
+		$this->data["datenow"] =$this->datenow;
 		$this->data["footer"] = $this->template->getFooter();
 		$this->data['NAV'] =$this->SCREENNAME;
 	}
