@@ -3,9 +3,9 @@
 	$(function(){
 		add();
 		//rundatatable();
-		// runmodaledit();
+		runmodaledit()
 	});
-	
+
 	function rundatatable(){
 		var dataTable = $('#employee-grid').DataTable({
 			responsive: true,
@@ -104,19 +104,20 @@
         $("#employee-grid_filter").css("display","none");  // hiding global search box
         $('.search-input-text').on('change', function () {   // for text boxes
             var i =$(this).attr('data-column');  // getting column index
-            var v =$(this).val();  // getting search input value 
+            var v =$(this).val();  // getting search input value
             dataTable.columns(i).search(v).draw();
           } );
         $('#employee-grid tbody').on( 'click', 'img.edit', function () {
           var idx=$(this).closest('tr').index(); // หาลำดับแถวของ TR ที่คลิกแก้ไข
           edit($(this).data('idedit'),idx);
-	        //  var idx = $(this).index();
-	        //  $('#employee-grid tbody tr:eq('+idx+')').find('td:eq(0)').html("8888"); 
-	      } );   
+        //  var idx = $(this).index();
+        //  $('#employee-grid tbody tr:eq('+idx+')').find('td:eq(0)').html("8888");
+      } );
         $('#employee-grid tbody').on( 'click', 'img.view', function () {
         	view($(this).data('idview'));
-        } );   
+        } );
       }
+
 
       function add()
       {
@@ -237,10 +238,10 @@
     	</div>
     </div>
 
-    <div class='col-sm-12'> 
-    	<div style="overflow-x:scroll;overflow-y: hidden;"> 
+    <div class='col-sm-12'>
+    	<div style="overflow-x:scroll;overflow-y: hidden;">
     		<table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" style="table-layout: fixed;word-wrap: break-word;" >
-    			<thead>        
+    			<thead>
     				<tr>
     					<th width="50px;">ที่</th>
     					<th width="80px">หมายเลขลูกค้า</th>
@@ -273,7 +274,7 @@
     					<td></td>
     					<td>
     						<img src="http://localhost/utsgs/images/list_view.png" title="รายละเอียด" class="btnopt view" data-idview="2">
-    						<img src="http://localhost/utsgs/images/list_edit.png" title="แก้ไข" class="btnopt edit" data-idedit="2"> 
+    						<img src="http://localhost/utsgs/images/list_edit.png" title="แก้ไข" class="btnopt edit" data-idedit="2">
     					</td>
     				</tr>
     				<tr >
@@ -288,16 +289,16 @@
     					<td>SV+ CVT</td>
     					<td>สีน้ำเงิน</td>
     					<td> 64 ถ.ทหาร ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000</td>
-    					<td></td>    					
+    					<td></td>
     					<td>
     						<img src="http://localhost/utsgs/images/list_view.png" title="รายละเอียด" class="btnopt view" data-idview="2">
-    						<img src="http://localhost/utsgs/images/list_edit.png" title="แก้ไข" class="btnopt edit" data-idedit="2"> 
+    						<img src="http://localhost/utsgs/images/list_edit.png" title="แก้ไข" class="btnopt edit" data-idedit="2">
     					</td>
     				</tr>
-    			</tbody> 
+    			</tbody>
     		</table>
     	</div>
-    </div> 
+    </div>
     <div class='col-sm-6' style="text-align:left;font-size:14px;">จำนวนข้อมูล 1 ถึง 2 จาก 2 รายการทั้งหมด</div>
     <div class='col-sm-6' style="text-align:right;"> <img src="http://localhost/utsgs/images/nextpage.jpg" height="40"> </div>
     <!-- end table show data  -->

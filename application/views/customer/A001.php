@@ -1,6 +1,3 @@
-<style type="text/css">
-	p{ font-weight: bold; }
-</style>
 <script type='text/javascript'>
 	$(function(){
 
@@ -305,7 +302,7 @@ function delObjective(num)
 			<p >ลูกค้า</p>
 			<!-- <p class="required">*</p> -->
 			<label class="radio-inline"><input type="radio" name="customer" value="newCustomer" checked>ลูกค้าใหม่</label>
-			<label class="radio-inline"><input type="radio" name="optradio" value="oldCustomer">ลูกค้าเก่า</label>
+			<label class="radio-inline"><input type="radio" name="customer" value="oldCustomer">ลูกค้าเก่า</label>
 		</div>
 		<div class="col-sm-3" >
 			<p >ประเภท</p>

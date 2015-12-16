@@ -113,6 +113,7 @@ class Customer extends CI_Controller
 	{
 		$SCREENID="E001";
 		$this->mainpage($SCREENID);
+		$this->data["datenow"] =$this->datenow;
 		$this->data['idx']=$idx;
 		$this->data['listemployee']= $this->mdl_employee->getemployee($id);
 		$this->load->view('customer/'.$SCREENID,$this->data);
