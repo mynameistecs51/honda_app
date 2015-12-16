@@ -3,7 +3,7 @@
 	$(function(){
 		add();
 		// rundatatable();
-		// runmodaledit();
+		runmodaledit();
 	});
 	function rundatatable(){
 		var dataTable = $('#employee-grid').DataTable({
@@ -108,7 +108,7 @@
         	"iRightColumns": 1
         } );
       }
-      
+
       function runmodaledit(){
 		$("#employee-grid_filter").css("display","none");  // hiding global search box
 		$('.search-input-text').on('change', function () {   // for text boxes

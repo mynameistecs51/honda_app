@@ -439,7 +439,7 @@ function delObjective(num)
 			</select>
 		</div>
 		<div class="col-sm-4">
-			<p>ประเภท</p>
+			<p>รุ่น</p>
 			<select name="typeCar" class ="form-control" required>
 				<option value="">--เลือก--</option>
 				<option value="1" selected> sv </option>
@@ -449,12 +449,12 @@ function delObjective(num)
 		</div>
 		<div class="col-sm-2">
 			<p>สี</p>
-			<select name="typeColor" class ="form-control" required>
+			<select name="typeColor" class ="form-control"  style="background-color: gray"  >
 				<option value="">--เลือก--</option>
 				<option value="1" style="background-color: red">สีแดง</option>
-				<option value="2" style="background-color: write" selected> สีขาว</option>
+				<option value="2" style="background-color: write" > สีขาว</option>
 				<option value="3" style="background-color: black"> สีดำ</option>
-				<option value="3" style="background-color: gray"> สีเทา</option>
+				<option value="3" style="background-color: gray" selected> สีเทา</option>
 			</select>
 		</div>
 		<div class="col-sm-2">
