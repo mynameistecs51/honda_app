@@ -215,10 +215,10 @@
     	<div class="nev_url"><?php echo $NAV; ?> </div>
     	<?php if($btn['add']==1){ echo "<div class='add' ID='add'>+ เพิ่มรายการ</div>"; }else{ echo "<div class='noneadd' title='ไม่ได้รับสิทธิ์เพิ่มรายการ'>+ เพิ่มรายการ</div>";} ?>
     	<div class="search">ค้นหา :
-    		<input type="text" data-column="0"  class="search-input-text" placeholder="--รหัสพนักงาน--">
+    		<input type="text" data-column="0"  class="search-input-text" placeholder="--หมายเลขลูกค้า--">
     		<input type="text" data-column="1"  class="search-input-text" placeholder="--ชื่อ-สกุล--">
-    		<input type="text" data-column="2"  class="search-input-text" placeholder="--ชื่อเข้าใช้ระบบ--">
-    		<input type="text" data-column="3"  class="search-input-text" placeholder="--เบอร์มือถือ--">
+    		<input type="text" data-column="2"  class="search-input-text" placeholder="--เบอร์มือถือ--">
+    		<!-- <input type="text" data-column="3"  class="search-input-text" placeholder="--เบอร์มือถือ--"> -->
     		<select data-column="4" class="search-input-text">
     			<option style="font-size:12px;" value="" selected>----ทั้งหมด----</option>
     			<option style="font-size:12px;" value="1">ใช้งาน</option>

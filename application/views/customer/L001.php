@@ -2,8 +2,10 @@
 <script type="text/javascript" language="javascript" charset="utf-8">
 	$(function(){
 		add();
-//rundatatable();
-});
+		//rundatatable();
+		// runmodaledit();
+	});
+	
 	function rundatatable(){
 		var dataTable = $('#employee-grid').DataTable({
 			responsive: true,
@@ -96,6 +98,24 @@
         	view($(this).data('idview'));
         } );
 
+      }
+
+      function runmodaledit(){
+        $("#employee-grid_filter").css("display","none");  // hiding global search box
+        $('.search-input-text').on('change', function () {   // for text boxes
+            var i =$(this).attr('data-column');  // getting column index
+            var v =$(this).val();  // getting search input value 
+            dataTable.columns(i).search(v).draw();
+          } );
+        $('#employee-grid tbody').on( 'click', 'img.edit', function () {
+          var idx=$(this).closest('tr').index(); // หาลำดับแถวของ TR ที่คลิกแก้ไข
+          edit($(this).data('idedit'),idx);
+	        //  var idx = $(this).index();
+	        //  $('#employee-grid tbody tr:eq('+idx+')').find('td:eq(0)').html("8888"); 
+	      } );   
+        $('#employee-grid tbody').on( 'click', 'img.view', function () {
+        	view($(this).data('idview'));
+        } );   
       }
 
       function add()
@@ -205,10 +225,10 @@
     	<div class="nev_url"><?php echo $NAV; ?> </div>
     	<?php if($btn['add']==1){ echo "<div class='add' ID='add'>+ เพิ่มรายการ</div>"; }else{ echo "<div class='noneadd' title='ไม่ได้รับสิทธิ์เพิ่มรายการ'>+ เพิ่มรายการ</div>";} ?>
     	<div class="search">ค้นหา :
-    		<input type="text" data-column="0"  class="search-input-text" placeholder="--รหัสพนักงาน--">
+    		<input type="text" data-column="0"  class="search-input-text" placeholder="--หมายเลขลูกค้า--">
     		<input type="text" data-column="1"  class="search-input-text" placeholder="--ชื่อ-สกุล--">
-    		<input type="text" data-column="2"  class="search-input-text" placeholder="--ชื่อเข้าใช้ระบบ--">
-    		<input type="text" data-column="3"  class="search-input-text" placeholder="--เบอร์มือถือ--">
+    		<input type="text" data-column="2"  class="search-input-text" placeholder="--เบอร์มือถือ--">
+    		<!-- <input type="text" data-column="3"  class="search-input-text" placeholder="--เบอร์มือถือ--"> -->
     		<select data-column="4" class="search-input-text">
     			<option style="font-size:12px;" value="" selected>----ทั้งหมด----</option>
     			<option style="font-size:12px;" value="1">ใช้งาน</option>
