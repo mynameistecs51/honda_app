@@ -28,7 +28,7 @@ function rundatatable(){
         "sScrollXInner": "100%",
         "bScrollCollapse": true,
         "bLengthChange": false,
-        "iDisplayLength": 15,
+        "iDisplayLength": 20,
         "order": [[ '0', "DESC" ]],
         "processing": true,
         "serverSide": true,
@@ -42,6 +42,9 @@ function rundatatable(){
             }
         },
         "aoColumns": [{
+                      "sWidth": "3%",
+                      "mData": null,
+                    }, {
                       "sWidth": "10%",
                       "mData": 'mmember_code'
                     }, {
@@ -75,7 +78,6 @@ function rundatatable(){
                         }else{
                             html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="ไม่ได้รับสิทธิ์แก้ไขข้อมูล" class="btnoptUnclick" data-idedit="' + full['id_mmember'] + '" />';
                         }
-
                             html +='<input type="hidden" ID="id_mmember' + full['id_mmember'] + '" value="' + full['id_mmember'] + '" />';
                         return html;
                       }
@@ -90,8 +92,6 @@ function rundatatable(){
         $('#employee-grid tbody').on( 'click', 'img.edit', function () {
           var idx=$(this).closest('tr').index(); // หาลำดับแถวของ TR ที่คลิกแก้ไข
           edit($(this).data('idedit'),idx);
-        //  var idx = $(this).index();
-        //  $('#employee-grid tbody tr:eq('+idx+')').find('td:eq(0)').html("8888");
           } );
          $('#employee-grid tbody').on( 'click', 'img.view', function () {
            view($(this).data('idview'));
@@ -167,7 +167,7 @@ function modal_form(n,screenname)
     div+='<form name="main" role="form" data-toggle="validator" id="form" method="post">';
     div+='<!-- Modal -->';
     div+='<div class="modal modal-wide fade" id="myModal'+n+'" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
-    div+='<div class="modal-dialog">';
+    div+='<div class="modal-dialog" >';
     div+='<div class="modal-content">';
     div+='<div class="modal-header" style="background:#d9534f;color:#FFFFFF;">';
     div+='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
@@ -232,6 +232,7 @@ function modal_form_view(n,screenname)
 <table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" width="100%"  >
 <thead>
   <tr>
+    <th>ลำดับที่</th>
     <th>รหัสพนักงาน</th>
     <th>ชื่อ-สกุล(ภาษาไทย)</th>
     <th>ชื่อเข้าใช้ระบบ</th>

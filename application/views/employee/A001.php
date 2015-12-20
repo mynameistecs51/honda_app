@@ -1,11 +1,8 @@
 <script type='text/javascript'>
 $(function(){  
-
 	$( "#birthdate" ).datepicker({ 
-	    yearRange: "-100:+0",
+	    yearRange: "-70:+0",
 	});
-	$("#startdate").datepicker();
-	$("#resigndate").datepicker();
 
 	$("#confirmpw").change(function(){
 	var npw = $("#userpassword").val();
@@ -77,21 +74,21 @@ function saveData()
             } else {
               // everything looks good!
             e.preventDefault();
-            var form = $('#form').serialize();
+            var form = $('#form').serialize(); // ค่าข้อมูล ที่อยู่ใน ฟอร์ม ทั้งหมด
 	            $.ajax(
 	            {
 	                type: 'POST',
 	                url: '<?php echo base_url().$controller; ?>/saveadd/',
 	                data: {form}, //your form datas to post          
 	                success: function(rs)
-	                {   
-	                   $('.modal').modal('hide');
-	                   location.reload();
-	                   alert("#บันทึกข้อมูล เรียบร้อย !");
+	                {    
+	                   //$('.modal').modal('hide');
+	                   //location.reload();
+	                   //alert(" บันทึกข้อมูล เรียบร้อย !");
 	                },
 	                error: function()
 	                {
-	                    alert("#เกิดข้อผิดพลาด");
+	                    alert(" เกิดข้อผิดพลาด");
 	                }
 	            });                   
             }
@@ -102,17 +99,17 @@ function saveData()
 	<div class="col-md-3" >
 		<p>รหัสพนักงาน</p>
 		<p class="required">*</p>
-		<input type="text" class="form-control" name="memp_code" required > 
+		<input type="text" class="form-control" name="mmember_code" required > 
 	</div>
 	<div class="col-md-3" >
-		<p>ตำแหน่ง</p>
+		<p>กลุ่มผู้ใช้</p>
 		<p class="required">*</p>
-		<select name="id_mpst" class ="form-control" required>
+		<select name="id_mposition" class ="form-control" required>
 			<option value="">--เลือก--</option> 
 			<?php 
-			foreach ($listMpst as $Mpst)
+			foreach ($listMposition as $Mposition)
 			{ 
-				echo "<option value='".$Mpst->id_mpst."'>".$Mpst->name_th."</option>";
+				echo "<option value='".$Mposition->id_mposition."'>".$Mposition->mposition_name."</option>";
 			}
 			?>
 		</select>
@@ -120,12 +117,12 @@ function saveData()
 	<div class="col-md-3" >
 		<p>สำนักงาน/สาขา</p>
 		<p class="required">*</p>
-		<select name="id_mdept" class ="form-control" required>
+		<select name="id_mbranch" class ="form-control" required>
 			<option value="">--เลือก--</option> 
 			<?php 
-			foreach ($listMdept as $Mdept)
+			foreach ($listMbranch as $Mbranch)
 			{ 
-				echo "<option value='".$Mdept->id_mdept."'>".$Mdept->name_th."</option>";
+				echo "<option value='".$Mbranch->id_mbranch."'>".$Mbranch->mbranch_name."</option>";
 			}
 			?>
 		</select>
@@ -137,7 +134,7 @@ function saveData()
 	</div>
 	<div class="col-md-3" >
 		<p>คำนำหน้าชื่อ</p>
-		<select name="id_memp_tit" class ="form-control" required>
+		<select name="id_mmember_tit" class ="form-control" required>
 			<option value="">--เลือก--</option> 
 			<option value="1"> นาย </option>
 			<option value="2"> นาง </option>
@@ -147,12 +144,12 @@ function saveData()
 	<div class="col-md-3" >
 		<p>ชื่อ </p>
 		<p class="required">*</p>
-		<input type="text" class="form-control"  name="firstname_th" placeholder="ชื่อ" required> 
+		<input type="text" class="form-control"  name="firstname" placeholder="ชื่อ" required> 
 	</div>
 	<div class="col-md-3" >
 		<p>นามสกุล </p>
 		<p class="required">*</p> 
-		<input type="text" class="form-control"  name="lastname_th" placeholder="สกุล" required>
+		<input type="text" class="form-control"  name="lastname" placeholder="สกุล" required>
 	</div>
 	<div class="col-md-3" >
 		<p>วันเกิด</p>
@@ -160,14 +157,13 @@ function saveData()
 		<input type="text" class="form-control" name="birthdate" id="birthdate"  >
 	</div> 
 	<div class="col-md-3" >
-		<p>เลขใบอนุญาตขับขี่</p>
-		<p class="required">*</p>
+		<p>เลขใบอนุญาตขับขี่</p> 
 		<input type="text" class="form-control" name="drv_lcn_num" >
 	</div>
 	<div class="col-md-3" >
 		<p>อีเมลล์ <b ID="valid_email"></b></p>
 		<p class="required">*</p>
-		<input type="email" class="form-control" name="email" ID="email" >
+		<input type="email" class="form-control" name="email" ID="email"  required>
 	</div>
 	<div class="col-md-3" >
 		<p>โทรศัพท์</p>
@@ -176,7 +172,7 @@ function saveData()
 	<div class="col-md-3" >
 		<p>มือถือ <b ID="valid_mobile"></b></p>
 		<p class="required">*</p>
-		<input type="text" class="form-control" ID="mobile" name="mobile" >
+		<input type="text" class="form-control" ID="mobile" name="mobile" required>
 	</div>
 	<div class="col-md-3" >
 		<p>แฟกซ์</p>
@@ -190,7 +186,7 @@ function saveData()
 	<div class="col-md-3" >
 		<p>รหัสผ่าน</p>
 		<p class="required">*</p>
-		<input type="password" class="form-control" name="userpassword" id="userpassword" required>
+		<input type="password" class="form-control" name="password" id="userpassword" required>
 	</div>
 	<div class="col-md-3" >
 		<p>ยืนยันรหัสผ่าน</p>

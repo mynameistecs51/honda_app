@@ -112,13 +112,13 @@ public function getmposition(){
 				a.id_mposition,a.mposition_name
 				FROM
 				mposition a
-				WHERE a.status=1 ";
+				WHERE a.status=1 AND a.id_mposition > 1";
 // echo $sql;
 			$query = $this->db->query($sql);
 			return  $query->result();
  	  }
 
-public function getMbranch(){
+public function getmbranch(){
 	  $sql = "
 				SELECT
 				a.id_mbranch,a.mbranch_name
@@ -130,20 +130,20 @@ public function getMbranch(){
 			return  $query->result();
  	  }
 
-public function getCodeLast($mcmp_code){
-	$sql = ""; //"SELECT chuphotic.fn_gen_mmember_code('".$mcmp_code."') AS code";
-	$query = $this->db->query($sql);
-	if($query->num_rows()>'0'){
-		$row = $query->row();
-		if($row->code != ""){
-			return  $row->code;
-		}else{
-			return '0';
-		}
-	}else{
-		return '0';
-	}
-}
+// public function getCodeLast($mcmp_code){
+// 	$sql = ""; //"SELECT chuphotic.fn_gen_mmember_code('".$mcmp_code."') AS code";
+// 	$query = $this->db->query($sql);
+// 	if($query->num_rows()>'0'){
+// 		$row = $query->row();
+// 		if($row->code != ""){
+// 			return  $row->code;
+// 		}else{
+// 			return '0';
+// 		}
+// 	}else{
+// 		return '0';
+// 	}
+// }
 
 public function getUser($user){
 	  $sql = "

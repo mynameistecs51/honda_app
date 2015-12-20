@@ -82,7 +82,8 @@ public function mainpage($SCREENID)
 		$this->data["id_mposition"] =$this->session->userdata("id_mposition"); 
 		$this->data["datefrom"] =$this->datefrom;
 		$this->data["dateto"] =$this->dateto;
-		$this->data['listmposition']= $this->mdl_employee->getmposition();
+		$this->data['listMposition']= $this->mdl_employee->getmposition();
+		$this->data['listMbranch']= $this->mdl_employee->getmbranch();
 		$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->data["id_mposition"],$this->data['mbranch_name']);
 		$this->data["btn"] =$this->template->checkBtnAuthen($this->data["id_mposition"],$this->ctl);
 		$this->data['url_add']=base_url().$this->ctl."/add/";
@@ -118,45 +119,36 @@ public function EDIT($id,$idx)
 public function saveadd()
 {
 	if($_POST):
-     parse_str($_POST['form'], $post);
-		//$code= $this->getCode();  
+     parse_str($_POST['form'], $post); 
 		$data = array(
-			"id_mposition"		=> $post['id_mposition'],
-			//"employee_code"	=> $code,
-			"id_mdept"			=> $post['id_mdept'],  
-			"employee_code"		=> $post['employee_code'], 
-			"sex"				=> $post['sex'],
-			"status_marriaged"	=> $post['status_marriaged'],
-			"id_employee_tit"	=> $post['id_employee_tit'],
-			"firstname_en"		=> $post['firstname_en'],
-			"lastname_en"		=> $post['lastname_en'],
-			"firstname_th"		=> $post['firstname_th'],
-			"lastname_th"		=> $post['lastname_th'],
+			"id_mmember"		=> '', 
+			"id_mposition"		=> $post['id_mposition'], 
+			"mmember_code"		=> $post['mmember_code'],  
+			"id_mmember_tit"	=> $post['id_mmember_tit'], 
+			"firstname"			=> $post['firstname'], 
+			"lastname"			=> $post['lastname'], 
 			"birthdate"			=> $this->convert_date($post['birthdate']),
-			"startdate"			=> $this->convert_date($post['startdate']),
-			"resigndate"		=> $this->convert_date($post['resigndate']),
+			"startdate"			=> '0000-00-00',
+			"resigndate"		=> '0000-00-00', 
 			"adr_line1"			=> str_replace("\n", "<br>\n",$post['adr_line1']),
-			"adr_line2"			=> str_replace("\n", "<br>\n",$post['adr_line2']),
-			"idcard_num"		=> $post['idcard_num'],
-			"drv_lcn_num"		=> $post['drv_lcn_num'],
-			"email"				=> $post['email'],
-			"telephone"			=> $post['telephone'],
-			"mobile"			=> $post['mobile'],
-			"fax"				=> $post['fax'],
-			"username"			=> $post['username'],
+			"adr_line2"			=> str_replace("\n", "<br>\n",$post['adr_line2']), 
+			"idcard_num"		=> $post['idcard_num'], 
+			"drv_lcn_num"		=> $post['drv_lcn_num'], 
+			"email"				=> $post['email'], 
+			"telephone"			=> $post['telephone'], 
+			"mobile"			=> $post['mobile'], 
+			"fax"				=> $post['fax'], 
+			"username"			=> $post['username'], 
 			"password"			=> MD5($post['password']),
 			"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
 			"status"			=> 1,
-			"id_create"			=> $this->id_employee,
+			"id_create"			=> $this->id_mmember,
 			"dt_create"			=> $this->dt_now,
-			"id_update"			=> $this->id_employee,
+			"id_update"			=> $this->id_mmember,	
 			"dt_update"			=> $this->dt_now
 		);
-         ///print_r($data);exit();
-			$this->mdl_employee->addemployee($data);
-			$massage = "บันทึกข้อมูล เรียบร้อย !";
-			$this->alert($massage);
-	//echo json_encode($getId_tmnf);
+        //print_r($data);exit();
+		$this->mdl_employee->addmmember($data); 
     endif;
 }
 
