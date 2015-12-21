@@ -55,7 +55,7 @@
         return $data;
 	  }
 
-public function getmposition($id){
+	public function getmposition($id){
 	  $sql = "
 			SELECT
 				a.id_mposition,
@@ -76,9 +76,25 @@ public function getmposition($id){
 				if($id != ""){
 					 $sql .= " WHERE a.id_mposition='$id' ";
 			}
-// echo $sql;
+	// echo $sql;
 			$query = $this->db->query($sql);
 			return  $query->result();
- 	  }
-   }
-?>
+ 	}
+
+ 	public function getCode($code){
+	  $sql = "
+				SELECT
+				a.mposition_code
+				FROM
+				mposition a
+				WHERE  a.mposition_code='$code' ";
+			$query = $this->db->query($sql);
+
+		if($query->num_rows() > 0)
+		{
+			return "1";
+		}else{
+			return "0";
+		}
+	}
+}?>

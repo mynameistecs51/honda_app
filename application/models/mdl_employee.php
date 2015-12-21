@@ -10,7 +10,7 @@
 		$this->db->insert('mmember', $data);
 	  }
 
-	  public function updatemmember($id,$data){
+	  public function updateMmember($id,$data){
 		$this->db->where('id_mmember', $id);
 		$this->db->update('mmember', $data);
 	  }
@@ -64,8 +64,7 @@ public function getemployee($id){
 			SELECT
 				a.id_mmember,
 				a.id_mposition,
-				c.id_mbranch,
-				a.sex,
+				c.id_mbranch, 
 				a.mmember_code,
 				a.id_mmember_tit,
 				concat(a.firstname,' ',a.lastname) AS mmember_name,
@@ -80,7 +79,7 @@ public function getemployee($id){
 				a.telephone,
 				a.mobile,
 				a.fax,
-				a.username AS user,
+				a.username,
 				a.status,
 				a.adr_line1,
 				a.adr_line2,

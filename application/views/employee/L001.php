@@ -24,12 +24,9 @@ function rundatatable(){
                         "sPrevious": "<?php echo $sPrevious="ย้อนกลับ" ;?>"
                         }},
 
-        "sScrollX": "100%",
-        "sScrollXInner": "100%",
-        "bScrollCollapse": true,
-        "bLengthChange": false,
-        "iDisplayLength": 20,
-        "order": [[ '0', "DESC" ]],
+       "bLengthChange": false, 
+        "iDisplayLength": 15,
+        "order": [[ '0', "DESC" ]], 
         "processing": true,
         "serverSide": true,
         "ajax":{

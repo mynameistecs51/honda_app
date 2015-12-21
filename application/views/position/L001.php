@@ -29,6 +29,7 @@ rundatatable();
 function rundatatable(){ 
     var dataTable = $('#employee-grid').DataTable({ 
         responsive: true,
+        serverSide: true,
         tableTools: {
                         "sRowSelect": "os",
                         "aButtons": [ "select_all", "select_none" ]

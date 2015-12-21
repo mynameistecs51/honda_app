@@ -123,6 +123,7 @@ public function saveadd()
 		$data = array(
 			"id_mmember"		=> '', 
 			"id_mposition"		=> $post['id_mposition'], 
+			"id_mbranch"		=> $post['id_mbranch'],
 			"mmember_code"		=> $post['mmember_code'],  
 			"id_mmember_tit"	=> $post['id_mmember_tit'], 
 			"firstname"			=> $post['firstname'], 
@@ -147,7 +148,6 @@ public function saveadd()
 			"id_update"			=> $this->id_mmember,	
 			"dt_update"			=> $this->dt_now
 		);
-        //print_r($data);exit();
 		$this->mdl_employee->addmmember($data); 
     endif;
 }
@@ -155,83 +155,58 @@ public function saveadd()
 public function saveUpdate()
 {
 	if($_POST):
-    parse_str($_POST['form'], $post);
+    	parse_str($_POST['form'], $post);   
+		$status = $post['status'] == 1 ? 1:0 ;
+		$resigndate = $status == 0 ?  $this->dt_now : '0000-00-00';
+		$data = array(
+			"mmember_code"		=> $post['mmember_code'],
+			"id_mposition"		=> $post['id_mposition'], 
+			"id_mbranch"		=> $post['id_mbranch'], 
+			"id_mmember_tit"	=> $post['id_mmember_tit'], 
+			"firstname"			=> $post['firstname'], 
+			"lastname"			=> $post['lastname'], 
+			"birthdate"			=> $this->convert_date($post['birthdate']),
+			"startdate"			=> '0000-00-00',
+			"resigndate"		=> $resigndate, 
+			"adr_line1"			=> str_replace("\n", "<br>\n",$post['adr_line1']),
+			"adr_line2"			=> str_replace("\n", "<br>\n",$post['adr_line2']), 
+			"idcard_num"		=> $post['idcard_num'], 
+			"drv_lcn_num"		=> $post['drv_lcn_num'], 
+			"email"				=> $post['email'], 
+			"telephone"			=> $post['telephone'], 
+			"mobile"			=> $post['mobile'], 
+			"fax"				=> $post['fax'],
+			"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
+			"status"			=> $status,
+			"id_update"			=> $this->id_mmember,	
+			"dt_update"			=> $this->dt_now
+		); 
+		$this->mdl_employee->updateMmember($post['id_mmember'],$data);
+ 
+	endif;
+}
 
-		$id=$post['id_employee'];
+public function saveChangePassword()
+{
+	if($_POST):
+    	parse_str($_POST['form'], $post);  
 		if($post['old_pass']!=''){
  			$old_pass=$this->mdl_employee->checkOldPass($id,MD5($post['old_pass']));
 		}else{
 			$old_pass=1;
-		}
-		if($old_pass=='1'){
-
-		if($post['pass']!=''){
-					$data = array(
-						"id_mposition"			=> $post['id_mposition'],
-						"id_mdept"			=> $post['id_mdept'],  
-						"sex"				=> $post['sex'],
-						"status_marriaged"	=> $post['status_marriaged'],
-						"id_employee_tit"		=> $post['id_employee_tit'],
-						"firstname_en"		=> $post['firstname_en'],
-						"lastname_en"		=> $post['lastname_en'],
-						"firstname_th"		=> $post['firstname_th'],
-						"lastname_th"		=> $post['lastname_th'],
-						"birthdate"			=> $this->convert_date($post['birthdate']),
-						"startdate"			=> $this->convert_date($post['startdate']),
-						"resigndate"		=> $this->convert_date($post['resigndate']),
-						"adr_line1"			=> str_replace("\n", "<br>\n",$post['adr_line1']),
-						"adr_line2"			=> str_replace("\n", "<br>\n",$post['adr_line2']),
-						"idcard_num"		=> $post['idcard_num'],
-						"drv_lcn_num"		=> $post['drv_lcn_num'],
-						"email"				=> $post['email'],
-						"telephone"			=> $post['telephone'],
-						"mobile"			=> $post['mobile'],
-						"fax"				=> $post['fax'],
-						"userpassword"		=> MD5($post['pass']),
-						"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
-						"status"			=> $post['status'],
-						"id_update"			=> $this->id_employee,
-						"dt_update"			=> $this->dt_now
+		}  
+		if($old_pass=='1'){ 
+			if($post['pass']!=''){
+				$data = array( 
+					"password"			=> MD5($post['password']),  
+					"id_update"			=> $this->id_mmember,	
+					"dt_update"			=> $this->dt_now
 					);
-		}else{
-					$data = array(
-						"id_mposition"		=> $post['id_mposition'],
-						"id_mdept"			=> $post['id_mdept'], 
-						"sex"				=> $post['sex'],
-						"status_marriaged"	=> $post['status_marriaged'],
-						"id_employee_tit"		=> $post['id_employee_tit'],
-						"firstname_en"		=> $post['firstname_en'],
-						"lastname_en"		=> $post['lastname_en'],
-						"firstname_th"		=> $post['firstname_th'],
-						"lastname_th"		=> $post['lastname_th'],
-						"birthdate"			=> $this->convert_date($post['birthdate']),
-						"startdate"			=> $this->convert_date($post['startdate']),
-						"resigndate"		=> $this->convert_date($post['resigndate']),
-						"adr_line1"			=> str_replace("\n", "<br>\n",$post['adr_line1']),
-						"adr_line2"			=> str_replace("\n", "<br>\n",$post['adr_line2']),
-						"idcard_num"		=> $post['idcard_num'],
-						"drv_lcn_num"		=> $post['drv_lcn_num'],
-						"email"				=> $post['email'],
-						"telephone"			=> $post['telephone'],
-						"mobile"			=> $post['mobile'],
-						"fax"				=> $post['fax'], 
-						"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
-						"status"			=> $post['status'],
-						"id_update"			=> $this->id_employee,
-						"dt_update"			=> $this->dt_now
-					);
+			} 
+			$this->mdl_employee->updateMmember($post['id_mmember'],$data);
 		}
-			$this->mdl_employee->updateemployee($id,$data);
-
-			$massage = "แก้ไขข้อมูล เรียบร้อย !";
-			$this->alert($massage);
-		}else{
-			$massage = "รหัสผ่านเดิมไม่ถูกต้อง !";
-			$this->alert($massage);
-		}
-	
-	endif;
+	endif; 
 }
 
-} ?>
+}?>
 

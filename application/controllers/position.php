@@ -43,6 +43,14 @@ public function alert($massage)
 			</SCRIPT>";
 }
 
+public function checkCode()
+{  
+	if ($_POST['code'])
+	{ 
+		echo $this->mdl_mposition->getCode($_POST['code']);
+	}
+}
+
 public function convert_date($val_date)
 {
 			$date = str_replace('/', '-',$val_date);
@@ -100,23 +108,23 @@ public function EDIT($id,$idx)
 public function saveadd()
 {
 	if($_POST):
-     parse_str($_POST['form'], $post);
-		//$code= $this->getCode();  
+     	parse_str($_POST['form'], $post);
 		$data = array(
-			"mposition_code"			=> $post['mposition_code'],
-			"name_en"			=> $post['name_en'],
-			"name_th"			=> $post['name_th'],
+			"mposition_code"	=> $post['mposition_code'],
+			"mposition_name"	=> $post['name_en'],
+			"id_mbranch"		=> $post['id_mbranch'],
 			"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
 			"status"			=> 1,
 			"id_create"			=> $this->id_mmember,
 			"dt_create"			=> $this->dt_now,
 			"id_update"			=> $this->id_mmember,
 			"dt_update"			=> $this->dt_now
-		);
-		//print_r($data);exit();
-			$this->mdl_mposition->addmposition($data);
-			$massage = "บันทึกข้อมูล เรียบร้อย !";
-			$this->alert($massage);
+		); 
+		$id_mposition = $this->mdl_mposition->addmposition($data); 
+		// Insert Controlpanel Position map Menu
+
+
+		// End insert
     endif;
 }
 
