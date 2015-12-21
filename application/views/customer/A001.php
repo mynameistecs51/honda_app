@@ -6,7 +6,11 @@
 		});
 		$("#startdate").datepicker();
 		$("#resigndate").datepicker();
-		$("#today").datepicker();
+		$("#today").datepicker({
+			changeMonth: true,
+			changeYear: true,
+		});
+		$('#today').val('<?php echo $datenow;?>');
 
 		$("#email").change(function(){
 			var email = $("#email").val();
@@ -36,12 +40,8 @@
 				type: 'POST',
 				dataType: 'json',
 				success:function(res){
-					// $('input[name=province]').val(res['PROVINCE_NAME']);
-					// $('input[name=amphur]').val(res["AMPHUR"]);
-
 					var opt="<option selected>---เลือกตำบล---</option>";
 					$.each(res, function( index, value ) {
-						//alert( index + ": " + value['PROVINCE_NAME'] );
 						$('input[name=province]').val(value['PROVINCE_NAME']);
 						$('input[name=amphur]').val(value["AMPHUR_NAME"]);
 						opt+="<option value=\"value['district']\"> "+value['DISTRICT_NAME']+"</option>";
@@ -60,30 +60,6 @@
 
 				}
 			});			
-		});
-
-		$("#user").change(function(){
-			var user = $("#user").val();
-			if(user != ""){
-				$.ajax(
-				{
-					type: 'POST',
-					url: '<?php echo base_url().$controller; ?>/checkUser/',
-	                data: {"user":user}, //your form datas to post
-	                success: function(rs)
-	                {
-	                	console.log(rs);
-	                	if(rs==1){
-	                		$("#valid").html("ชื่อเข้าใช้ :"+user+" มีการใช้งานอยู่แล้ว");
-	                		$("#user").val('');
-	                	}
-	                }
-	             });
-
-
-			}else{
-				$("#valid").html("");
-			}
 		});
 		saveData();
 	});
@@ -295,7 +271,7 @@ function delObjective(num)
 		<div class="col-sm-3" >
 			<p>วันที่บันทึก</p>
 			<p class="required">*</p>
-			<input  type="text" class="form-control" name="date_add" id="today" value="<?php echo $datenow;?>">
+			<input  type="text" class="form-control" name="date_add" id="today" >
 		</div>
 		<div class="col-sm-3" >
 			<p><u>ระยะเวลาในการตัดสินใจซื้อ</u> *</p>
@@ -313,7 +289,7 @@ function delObjective(num)
 		<div class="col-sm-3" >
 			<p>บัญชีลูกหนี้</p>
 			<p class="required">*</p>
-			<input type="text" class="form-control" name="idcard_num"  required>
+			<input type="text" class="form-control" name="Accounts_eevReceivable"  required>
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
@@ -415,6 +391,9 @@ function delObjective(num)
 			<p class="required">*</p>
 			<select name="adviser" class ="form-control" required>
 				<option value="">--เลือก--</option>
+				<?php foreach($listmposition as $rowEmployee): ?>
+					<?php //print_r($rowEmployee);?>
+				<?php endforeach; ?>
 				<option value="1"> นาย A </option>
 				<option value="2"> นาย B </option>
 				<option value="3"> นาย C </option>
