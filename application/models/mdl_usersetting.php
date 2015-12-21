@@ -25,13 +25,17 @@
 		mmenu a
 			LEFT JOIN cusersetting b ON a.id_mmenu=b.id_mmenu
 			LEFT JOIN mposition c ON b.id_mposition=c.id_mposition
-		WHERE 		
-			a.level ='$level' 
-		AND a.id_mmenu <> 4
-		AND b.id_mposition='$id_mposition' 
-		ORDER BY a.id_order ASC" ;
-   //echo $sql;
-         $query = $this->db->query($sql); 
+		WHERE
+			1=1";
+	if($level==1){
+		$sql .=" AND a.level =1 AND a.id_parent <> 4";
+	}else if($level==2){
+		$sql .="   
+				AND a.id_parent <> 0 ";
+	} 
+	$sql .=" AND b.id_mposition='$id_mposition'
+		ORDER BY a.id_order ASC ";
+        $query = $this->db->query($sql); 
 		return $query->result();
 	  }
 
