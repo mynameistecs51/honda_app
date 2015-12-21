@@ -44,14 +44,19 @@
 						//alert( index + ": " + value['PROVINCE_NAME'] );
 						$('input[name=province]').val(value['PROVINCE_NAME']);
 						$('input[name=amphur]').val(value["AMPHUR_NAME"]);
-					opt+="<option value=\"value['district']\"> "+value['DISTRICT_NAME']+"</option>";
+						opt+="<option value=\"value['district']\"> "+value['DISTRICT_NAME']+"</option>";
 					});
 					$('#district').html(opt);
 
 				},
 				error:function(err){
 					alert("รหัสไปรษณีย์ไม่ถูกต้อง");
-					// console.log($("input[name=zipcode]").val());
+					$('input[name=zipcode]').val('');
+					$('input[name=province]').val('');
+					$('input[name=amphur]').val('');
+					var opt="<option selected>---เลือกตำบล---</option>";
+					$('#district').html(opt);
+					
 
 				}
 			});			
@@ -375,24 +380,29 @@ function delObjective(num)
 	<div class="form-group col-sm-12">
 		<div class="col-sm-3">
 			<p>รหัสไปรษณีย์</p>
+			<p class="required">*</p>
 			<input type="text" class="form-control" name="zipcode" />
 		</div>
 		<div class="col-sm-9">
 			<p>ที่อยู่</p>
+			<p class="required">*</p>
 			<input tye="text" class="form-control" name="address" />
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="col-sm-3">
 			<p>จังหวัด</p>
-			<input type="text" class="form-control" name="province"/>
+			<p class="required">*</p>
+			<input type="text" class="form-control" name="province" readonly />
 		</div>
 		<div class="col-sm-3">
 			<p>เขต/อำเภอ</p>
-			<input type="text" class="form-control" name="amphur" />
+			<p class="required">*</p>
+			<input type="text" class="form-control" name="amphur"  readonly />
 		</div>
 		<div class="col-sm-3">
 			<p>แขวง/ตำบล</p>
+			<p class="required">*</p>
 			<select name="district" id="district" class ="form-control" required>
 				<option value="">--เลือก--</option>
 				
