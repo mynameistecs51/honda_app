@@ -29,6 +29,24 @@ class Customer extends CI_Controller
 		$this->mainpage($SCREENID);
 		$this->load->view('customer/'.$SCREENID,$this->data);
 	}
+
+	public function getProvince($zipcode)
+	{
+		//$dataProvince = array();
+		$showdata = $this->mdl_getProvince->getProvince($zipcode);
+		$province = array('prvince' => $showdata[0]['PROVINCE_NAME'],'amphur' => $showdata[0]['AMPHUR_NAME'],'zipcode ' => $showdata[0]['ZIPCODE']);
+		foreach ($showdata as $rowProvince) {
+			$dataProvince = array(
+				//'province' => $rowProvince['PROVINCE_NAME'],
+				//'amphur'   => $rowProvince['AMPHUR_NAME'],
+				'district' => $rowProvince['DISTRICT_NAME'],
+				//'zipcode'  => $rowProvince['ZIPCODE']
+				);
+			array_push($province,$dataProvince['district']);
+		}
+		echo "<pre>";
+		print_r($province);
+	}
 	public function getList()
 	{
 		$requestData= $_REQUEST;
