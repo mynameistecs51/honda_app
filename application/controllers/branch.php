@@ -6,7 +6,6 @@ class Branch extends CI_Controller
 		parent::__construct();
 		$this->ctl="branch";
 		$this->load->model('mdl_mbranch'); 
-		date_default_timezone_set('Asia/Bangkok');
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok')); 
 		$this->dt_now = $now->format('Y-m-d H:i:s');
 		$this->datefrom = "01/".$now->format('m/Y');
@@ -34,43 +33,43 @@ public function getList()
     $sqlQuery= $this->mdl_mbranch->getList($requestData);  
     $this->datatables->getDatatables($requestData,$sqlQuery);
 }
- 
-public function alert($massage)
-{
-	echo "<meta charset='UTF-8'>
-			<SCRIPT LANGUAGE='JavaScript'>
-			window.alert('$massage')';
-			</SCRIPT>";
+
+public function checkCode()
+{  
+	if ($_POST['code'])
+	{ 
+		echo $this->mdl_mbranch->getCode($_POST['code']);
+	}
 }
 
 public function convert_date($val_date)
 {
-			$date = str_replace('/', '-',$val_date);
-			$date = date("Y-m-d", strtotime($date));
-			return $date;
+	$date = str_replace('/', '-',$val_date);
+	$date = date("Y-m-d", strtotime($date));
+	return $date;
 }
 
 public function mainpage($SCREENID)
 { 
-		$SCREENNAME="EMPLOYEE branch";
-		$this->data["namepage"] ='สำนักงาน/สาขา';
-		$this->data['controller'] = $this->ctl;
-		$this->data['pagename']=$this->template->getPageName($this->ctl);
-		$this->data['base_url'] = base_url();
-		$this->data['mmember_name'] = $this->session->userdata("mmember_name");
-		$this->data['mbranch_name'] = $this->session->userdata("mbranch_name");
-		$this->data["lastLogin"] = $this->session->userdata('lastLogin');
-		$this->data["id_mmember"] =$this->session->userdata("id_mmember");
-		$this->data["id_mposition"] =$this->session->userdata("id_mposition");
-		$this->data["datefrom"] =$this->datefrom;
-		$this->data["dateto"] =$this->dateto;
-		$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->data["id_mposition"],$this->data['mbranch_name']);
-		$this->data["btn"] =$this->template->checkBtnAuthen($this->data["id_mposition"],$this->ctl);
-		$this->data['url_add']=$this->data['base_url'].$this->ctl."/add/";
-		$this->data['url_edit']=$this->data['base_url'].$this->ctl."/edit/";
-		$this->data['url_detail']=$this->data['base_url'].$this->ctl."/detail/";
-		$this->data["footer"] = $this->template->getFooter(); 
-		$this->data['NAV'] =$this->SCREENNAME; 		
+	$SCREENNAME="EMPLOYEE branch";
+	$this->data["namepage"] ='สำนักงาน/สาขา';
+	$this->data['controller'] = $this->ctl;
+	$this->data['pagename']=$this->template->getPageName($this->ctl);
+	$this->data['base_url'] = base_url();
+	$this->data['mmember_name'] = $this->session->userdata("mmember_name");
+	$this->data['mbranch_name'] = $this->session->userdata("mbranch_name");
+	$this->data["lastLogin"] = $this->session->userdata('lastLogin');
+	$this->data["id_mmember"] =$this->session->userdata("id_mmember");
+	$this->data["id_mposition"] =$this->session->userdata("id_mposition");
+	$this->data["datefrom"] =$this->datefrom;
+	$this->data["dateto"] =$this->dateto;
+	$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->data["id_mposition"],$this->data['mbranch_name']);
+	$this->data["btn"] =$this->template->checkBtnAuthen($this->data["id_mposition"],$this->ctl);
+	$this->data['url_add']=$this->data['base_url'].$this->ctl."/add/";
+	$this->data['url_edit']=$this->data['base_url'].$this->ctl."/edit/";
+	$this->data['url_detail']=$this->data['base_url'].$this->ctl."/detail/";
+	$this->data["footer"] = $this->template->getFooter(); 
+	$this->data['NAV'] =$this->SCREENNAME;
 }
 
 public function ADD()
@@ -101,42 +100,36 @@ public function EDIT($id,$idx)
 public function saveadd()
 {
 	if($_POST):
-     parse_str($_POST['form'], $post);
-		//$code= $this->getCode();  
+     	parse_str($_POST['form'], $post); 
 		$data = array(
-			"mbranch_code"			=> $post['mbranch_code'],
-			"name_en"			=> $post['name_en'],
-			"name_th"			=> $post['name_th'],
-			"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
-			"status"			=> 1,
-			"id_create"			=> $this->id_mmember,
-			"dt_create"			=> $this->dt_now,
-			"id_update"			=> $this->id_mmember,
-			"dt_update"			=> $this->dt_now
-		);
-		//print_r($data);exit();
-			$this->mdl_mbranch->addmbranch($data);
-			$massage = "บันทึกข้อมูล เรียบร้อย !";
-			$this->alert($massage);
+			"mbranch_code"	=> $post['mbranch_code'],
+			"mbranch_name"  => $post['mbranch_name'],
+			"comment"		=> str_replace("\n", "<br>\n",$post['comment']),
+			"status"		=> 1,
+			"id_create"		=> $this->id_mmember,
+			"dt_create"		=> $this->dt_now,
+			"id_update"		=> $this->id_mmember,
+			"dt_update"		=> $this->dt_now
+		); 
+		$this->mdl_mbranch->addmbranch($data); 
     endif;
 }
 
 public function saveUpdate()
 {
 	if($_POST):
-    parse_str($_POST['form'], $post);
-	$id=$post['id_mbranch'];
-					$data = array(
-						"name_en"			=> $post['name_en'], 
-						"name_th"			=> $post['name_th'],
-						"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
-						"status"			=> $post['status'],
-						"id_update"			=> $this->id_mmember,
-						"dt_update"			=> $this->dt_now
-					);
-			$this->mdl_mbranch->updatembranch($id,$data);
-			$massage = "แก้ไขข้อมูล เรียบร้อย !";
-			$this->alert($massage);
+		parse_str($_POST['form'], $post);
+		$data = array(
+			"mbranch_code"	=> $post['mbranch_code'],
+			"mbranch_name"  => $post['mbranch_name'],
+			"comment"		=> str_replace("\n", "<br>\n",$post['comment']), 
+			"status"		=> $post['status'],
+			"id_update"		=> $this->id_mmember,
+			"dt_update"		=> $this->dt_now
+		);
+		$this->mdl_mbranch->updatembranch($post['id_mbranch'],$data);
 	endif;
 }
+
 } ?>
+

@@ -5,30 +5,36 @@ foreach ($listMposition as $detail)
 <div class="row form_input">
 	<div class="col-md-4" >
 		<p>รหัส<?php echo $pagename; ?></p>
-		<input type="text" class="form-control" name="mposition_code" value="<?php echo $detail->mposition_code;   ?>" readonly>
+		<input type="text" class="form-control" name="mposition_code" value="<?php echo $detail->mposition_code;   ?>" disabled>
 	</div>
 	<div class="col-md-4" >
 		<p>ชื่อ<?php echo $pagename; ?></p>
-		<input type="text" class="form-control" name="mposition_name" value="<?php echo $detail->mposition_name; ?>"  readonly>
+		<input type="text" class="form-control" name="mposition_name" value="<?php echo $detail->mposition_name; ?>"  disabled>
 	</div>
 	<div class="col-md-4" >
-		<p>สำนักงาน/สาขา</p><p class="required">*</p>
-		<select name="id_mbranch" class ="form-control" required>
-			<option value="">--เลือก--</option> 
-			<option value="1" <?php if($detail->status=='1'){ echo "selected"; } ?> > อุดรธานี </option>
-			<option value="2" <?php if($detail->status=='2'){ echo "selected"; } ?> > หนองบัวลำภู </option>
-			<option value="3" <?php if($detail->status=='3'){ echo "selected"; } ?> > หนองคาย </option>
-			<option value="4" <?php if($detail->status=='4'){ echo "selected"; } ?> > สว่างแดนดิน </option>
-		</select> 
+		<p>สำนักงาน/สาขา</p> <p class="required">*</p> 
+		 <select name="id_mbranch" class ="form-control" disabled>
+            <option value="">--เลือก--</option> 
+            <?php 
+            foreach($listMbranch as $Mbranch)
+            {  
+                if($Mbranch->id_mbranch==$detail->id_mbranch){
+                    echo "<option value='".$Mbranch->id_mbranch."' selected>".$Mbranch->mbranch_name."</option>";
+                }else{
+                    echo "<option value='".$Mbranch->id_mbranch."' >".$Mbranch->mbranch_name."</option>";
+                }
+            }
+            ?>
+        </select>
 	</div>
 	<div class="col-md-12" style="text-align:left;">
 		<p>สถานะ</p> 
-		<input type="radio"  name="status" value="1"  disabled <?php if($detail->status=='1'){ echo "checked=checked"; } ?>> ใช้งาน
+		<input type="radio"  name="status" value="1" disabled <?php if($detail->status=='1'){ echo "checked=checked"; } ?>> ใช้งาน
 		<input type="radio"  name="status" value="2" disabled <?php if($detail->status=='0'){ echo "checked=checked"; } ?>>  ยกเลิก   
 	</div>
 	<div class="col-md-12" >
 		<p>หมายเหตุ </p>
-		<textarea  class="form-control" rows='3' name="comment" readonly><?php echo str_replace('<br>',"",$detail->comment); ?></textarea>
+		<textarea  class="form-control" rows='3' name="comment" disabled><?php echo str_replace('<br>',"",$detail->comment); ?></textarea>
 	</div>
 	<div class="col-md-3" >
 		<p>ผู้สร้าง</p>

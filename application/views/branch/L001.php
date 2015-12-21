@@ -45,7 +45,7 @@ function rundatatable(){
                         "sPrevious": "<?php echo $sPrevious="ย้อนกลับ" ;?>"                      
                         }},
         "bLengthChange": false, 
-        "iDisplayLength": 15,
+        "iDisplayLength": 20,
         "order": [[ '0', "ASC" ]], 
         "processing": true,
         "serverSide": true,
@@ -63,7 +63,7 @@ function rundatatable(){
                       "mData": 'mbranch_code'
                     },{ 
                       "sWidth": "20%",
-                      "mData":'mbranch_name'
+                      "mData": 'mbranch_name'
                     },{
                       "sWidth": "10%",
                       "mData": null,

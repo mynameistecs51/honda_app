@@ -153,12 +153,12 @@ public function update()
                         }
                   } 
 	            $massage = "แก้ไขข้อมูล เรียบร้อย !";
-	            $url='cusersetting/select';
+	            $url=$this->ctl.'/select';
 				$this->alert($massage,$url);
  
             }else{ 
             	$massage = "ข้อมูลผิดพลาด !";
-	            $url='cusersetting/select';
+	            $url=$this->ctl.'/select';
 				$this->alert($massage,$url); 
             }
 

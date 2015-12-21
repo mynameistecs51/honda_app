@@ -69,6 +69,7 @@ public function mainpage($SCREENID)
 		$this->data["lastLogin"] = $this->session->userdata('lastLogin');
 		$this->data["id_mmember"] =$this->session->userdata("id_mmember");
 		$this->data["id_mposition"] =$this->session->userdata("id_mposition"); 
+		$this->data['listMbranch']= $this->mdl_mposition->getmbranch();
 		$this->data["datefrom"] =$this->datefrom;
 		$this->data["dateto"] =$this->dateto;
 		$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->data["id_mposition"],$this->data['mbranch_name']);
@@ -111,7 +112,7 @@ public function saveadd()
      	parse_str($_POST['form'], $post);
 		$data = array(
 			"mposition_code"	=> $post['mposition_code'],
-			"mposition_name"	=> $post['name_en'],
+			"mposition_name"	=> $post['mposition_name'],
 			"id_mbranch"		=> $post['id_mbranch'],
 			"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
 			"status"			=> 1,
@@ -119,11 +120,29 @@ public function saveadd()
 			"dt_create"			=> $this->dt_now,
 			"id_update"			=> $this->id_mmember,
 			"dt_update"			=> $this->dt_now
-		); 
+		);
 		$id_mposition = $this->mdl_mposition->addmposition($data); 
+
 		// Insert Controlpanel Position map Menu
-
-
+		$rs = $this->mdl_mposition->getmenu(); // Get Menu All
+		foreach ($rs as $menu) {
+			$data_cpn = array(
+				"id_cusersetting"	=> $post['mposition_code'],
+				"id_mposition"		=> $id_mposition,
+				"id_mmenu"			=> $menu->id_mmenu,
+				"can_view"			=> 1,
+				"can_create"		=> 1,
+				"can_edit"			=> 1,
+				"can_print"			=> 1,
+				"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
+				"status"			=> 1,
+				"id_create"			=> $this->id_mmember,
+				"dt_create"			=> $this->dt_now,
+				"id_update"			=> $this->id_mmember,
+				"dt_update"			=> $this->dt_now 
+			);
+			$this->mdl_mposition->addUsersetting($data_cpn);
+		}
 		// End insert
     endif;
 }
@@ -131,19 +150,17 @@ public function saveadd()
 public function saveUpdate()
 {
 	if($_POST):
-    parse_str($_POST['form'], $post);
-	$id=$post['id_mposition'];
-					$data = array(
-						"name_en"			=> $post['name_en'], 
-						"name_th"			=> $post['name_th'],
-						"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
-						"status"			=> $post['status'],
-						"id_update"			=> $this->id_mmember,
-						"dt_update"			=> $this->dt_now
-					);
-			$this->mdl_mposition->updatemposition($id,$data);
-			$massage = "แก้ไขข้อมูล เรียบร้อย !";
-			$this->alert($massage);
+			parse_str($_POST['form'], $post); 
+			$data = array(
+				"mposition_code"=> $post['mposition_code'],
+				"mposition_name"=> $post['mposition_name'],
+				"id_mbranch"	=> $post['id_mbranch'],
+				"comment"		=> str_replace("\n", "<br>\n",$post['comment']),
+				"status"		=> $post['status'],
+				"id_update"		=> $this->id_mmember,
+				"dt_update"		=> $this->dt_now
+			);
+			$this->mdl_mposition->updatemposition($post['id_mposition'],$data); 
 	endif;
 }
 } ?>

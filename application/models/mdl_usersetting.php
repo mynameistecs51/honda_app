@@ -27,7 +27,9 @@
 			LEFT JOIN mposition c ON b.id_mposition=c.id_mposition
 		WHERE 		
 			a.level ='$level' 
-		AND b.id_mposition='$id_mposition' " ;
+		AND a.id_mmenu <> 4
+		AND b.id_mposition='$id_mposition' 
+		ORDER BY a.id_order ASC" ;
    //echo $sql;
          $query = $this->db->query($sql); 
 		return $query->result();

@@ -8,13 +8,14 @@
 
 	  public function addmmember($data){
 		$this->db->insert('mmember', $data);
+
 	  }
 
 	  public function updateMmember($id,$data){
 		$this->db->where('id_mmember', $id);
 		$this->db->update('mmember', $data);
-	  }
-
+	  } 
+	  
  public function getList($requestData){
 
 	 	$sql_full = "
@@ -116,6 +117,7 @@ public function getmposition(){
 			$query = $this->db->query($sql);
 			return  $query->result();
  	  }
+
 
 public function getmbranch(){
 	  $sql = "

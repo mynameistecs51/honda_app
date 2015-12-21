@@ -6,6 +6,12 @@ rundatatable();
 });
 function rundatatable(){
     var dataTable = $('#employee-grid').DataTable({
+        // "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+        //  var page   = this.fnPagingInfo().iPage;
+        //  var length = this.fnPagingInfo().iLength;
+        //  var index  = (page * length + (iDisplayIndex +1));
+        //  //$('td:eq(0)', nRow).html(index);
+        // },
         responsive: true,
         serverSide: true,
         tableTools: {
@@ -22,10 +28,9 @@ function rundatatable(){
                         "sLast": "<?php echo $sLast="ไปหน้าสุดท้าย" ;?>",
                         "sNext": "<?php echo $sNext="ถัดไป" ;?>",
                         "sPrevious": "<?php echo $sPrevious="ย้อนกลับ" ;?>"
-                        }},
-
+                        }}, 
        "bLengthChange": false, 
-        "iDisplayLength": 15,
+        "iDisplayLength": 20,
         "order": [[ '0', "DESC" ]], 
         "processing": true,
         "serverSide": true,
@@ -97,12 +102,7 @@ function rundatatable(){
         $('#employee-grid tbody').on( 'click', 'img.print', function () {
         var idx=$(this).closest('tr').index(); // หาลำดับแถวของ TR ที่คลิกแก้ไข
         fromprint($(this).data('idprint'),idx);
-        } );
-
-   new $.fn.dataTable.FixedColumns( dataTable ,{
-    "iLeftColumns": 0,
-    "iRightColumns": 1
-    } );
+        } ); 
     }
 
 function add()

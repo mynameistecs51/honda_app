@@ -49,7 +49,7 @@
         return $data;
 	  }
 
-public function getmbranch($id){
+	public function getmbranch($id){
 	  $sql = "
 			SELECT
 				a.id_mbranch,
@@ -73,5 +73,22 @@ public function getmbranch($id){
 			$query = $this->db->query($sql);
 			return  $query->result();
  	  }
-   }
-?>
+
+ 	public function getCode($code){
+	  		$sql = "
+				SELECT
+					a.mbranch_code
+				FROM
+					mbranch a
+				WHERE  
+					a.mbranch_code='$code' ";
+			$query = $this->db->query($sql);
+
+		if($query->num_rows() > 0)
+		{
+			return "1";
+		}else{
+			return "0";
+		}
+	}
+}?>

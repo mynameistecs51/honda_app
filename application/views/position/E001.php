@@ -1,54 +1,55 @@
 <script type='text/javascript'>
 $(function(){
+    $("#mposition_code").change(function(){
+        $("#valid").html("");
+        var code = $("#mposition_code").val(); 
+        if(code != ""){
+            $.ajax(
+                {
+                    type: 'POST',
+                    url: '<?php echo base_url().$controller; ?>/checkCode/',
+                    data: {"code":code}, //your form datas to post          
+                    success: function(rs)
+                    {   
+                        console.log(rs); 
+                        if(rs==1){ 
+                            $("#valid").html("รหัส :"+code+" มีการใช้งานอยู่แล้ว");
+                            $("#mposition_code").val('');
+                        }
+                    }
+                });      
+            
+        }else{
+            $("#valid").html("");
+        }
+    });
 	updateMpst();
 });
-
-function cancle() {
-	if(confirm("ยกเลิกการดำเนินการ หรือไม่ ?"))
-	{
-		var base=$("#base_url").val();
-		location = base+"/mpst";
-	}
-}
+ 
 
 function updateMpst()
   {
-    $('#form').on('submit', function (e) {
-
+    $('#form').on('submit', function (e) { 
         if (e.isDefaultPrevented()) { 
           alert("ผิดพลาด : กรอกข้อมูลไม่ครบ!");
         } else {
           // everything looks good!
         e.preventDefault();
         var form= $('#form').serialize();
-        var idx = $('#idx').val();
-        var name_en= $('#name_en').val();
-        var name_th= $('#name_th').val();
-        var comment= $('#comment').val(); 
-        var sta= $('.chk_stk:checked').val();
-        if(sta=='1'){ 
-        	var status="ใช้งาน"; 
-        }else{ 
-        	var status="ยกเลิก"; 
-        }
-        
             $.ajax(
             {
                 type: 'POST',
-                url: '<?php echo base_url(); ?>mpst/saveUpdate/',
+                url:  '<?php echo base_url().$controller; ?>/saveUpdate/',
                 data: {form}, //your form datas to post          
                 success: function(rs)
                 {   
                     $('.modal').modal('hide'); 
                     location.reload();
-                    alert("#แก้ไขข้อมูล เรียบร้อยแล้ว !");
-                    $('#employee-grid tbody tr:eq('+idx+')').find('td:eq(1)').html(name_en);
-                    $('#employee-grid tbody tr:eq('+idx+')').find('td:eq(2)').html(name_th);
-                    $('#employee-grid tbody tr:eq('+idx+')').find('td:eq(3)').html(status);
+                    alert("แก้ไขข้อมูล เรียบร้อยแล้ว !");
                 },
                 error: function()
                 {
-                    alert("#เกิดข้อผิดพลาด");
+                    alert("เกิดข้อผิดพลาด");
                 }
             });                   
         }
@@ -61,29 +62,37 @@ function updateMpst()
 <div class="row form_input">
     <div class="col-md-4" >
         <p>รหัส<?php echo $pagename; ?></p>
-        <input type="text" class="form-control" name="mposition_code" value="<?php echo $detail->mposition_code;   ?>" readonly>
+        <input type="text" class="form-control" name="mposition_code" id="mposition_code" value="<?php echo $detail->mposition_code;   ?>"  >
+        <input type="hidden" name="id_mposition" value="<?php echo $detail->id_mposition; ?>"  >
     </div>
     <div class="col-md-4" >
         <p>ชื่อ<?php echo $pagename; ?></p>
-        <input type="text" class="form-control" name="mposition_name" value="<?php echo $detail->mposition_name; ?>"  readonly>
+        <input type="text" class="form-control" name="mposition_name" value="<?php echo $detail->mposition_name; ?>"   >
     </div>
     <div class="col-md-4" >
-        <p>สำนักงาน/สาขา</p><p class="required">*</p>
-        <select name="id_mbranch" class ="form-control" required> 
-            <option value="1" <?php if($detail->status=='1'){ echo "selected"; } ?> > อุดรธานี </option>
-            <option value="2" <?php if($detail->status=='2'){ echo "selected"; } ?> > หนองบัวลำภู </option>
-            <option value="3" <?php if($detail->status=='3'){ echo "selected"; } ?> > หนองคาย </option>
-            <option value="4" <?php if($detail->status=='4'){ echo "selected"; } ?> > สว่างแดนดิน </option>
-        </select> 
+        <p>สำนักงาน/สาขา</p><p class="required">*</p> 
+        <select name="id_mbranch" class ="form-control" required>
+            <option value="">--เลือก--</option> 
+            <?php 
+            foreach($listMbranch as $Mbranch)
+            {  
+                if($Mbranch->id_mbranch==$detail->id_mbranch){
+                    echo "<option value='".$Mbranch->id_mbranch."' selected>".$Mbranch->mbranch_name."</option>";
+                }else{
+                    echo "<option value='".$Mbranch->id_mbranch."' >".$Mbranch->mbranch_name."</option>";
+                }
+            }
+            ?>
+        </select>
     </div>
     <div class="col-md-12" style="text-align:left;">
         <p>สถานะ</p> 
-        <input type="radio"  name="status" value="1"  disabled <?php if($detail->status=='1'){ echo "checked=checked"; } ?>> ใช้งาน
-        <input type="radio"  name="status" value="2" disabled <?php if($detail->status=='0'){ echo "checked=checked"; } ?>>  ยกเลิก   
+        <input type="radio"  name="status" class="chk_stk" value="1"  <?php if($detail->status=='1'){ echo "checked=checked"; } ?>> ใช้งาน
+        <input type="radio"  name="status" class="chk_stk" value="2"  <?php if($detail->status=='0'){ echo "checked=checked"; } ?>>  ยกเลิก   
     </div>
     <div class="col-md-12" >
         <p>หมายเหตุ </p>
-        <textarea  class="form-control" rows='3' name="comment" readonly><?php echo str_replace('<br>',"",$detail->comment); ?></textarea>
+        <textarea  class="form-control" rows='3' name="comment" ><?php echo str_replace('<br>',"",$detail->comment); ?></textarea>
     </div>
     <div class="col-md-3" >
         <p>ผู้สร้าง</p>

@@ -8,12 +8,17 @@
 
 	  public function addmposition($data){
 		$this->db->insert('mposition', $data);
+		return $this->db->insert_id();
 	  }
 
 	  public function updatemposition($id,$data){
 		$this->db->where('id_mposition', $id);
 		$this->db->update('mposition', $data);
 	  }
+
+	  public function addUsersetting($data){
+	  	$this->db->insert('cusersetting', $data);
+	  }	
 
  
  public function getList($requestData){
@@ -97,4 +102,28 @@
 			return "0";
 		}
 	}
+
+	public function getmbranch(){
+	  $sql = "
+			SELECT
+			a.id_mbranch,a.mbranch_name
+			FROM
+			mbranch a
+			WHERE a.status = 1 ";
+		// echo $sql;
+		$query = $this->db->query($sql);
+		return  $query->result();
+ 	}
+
+	public function getmenu(){
+		$sql = "
+				SELECT
+					a.id_mmenu 
+				FROM
+					mmenu a ";
+		// echo $sql;
+			$query = $this->db->query($sql);
+			return  $query->result();
+	}
+
 }?>
