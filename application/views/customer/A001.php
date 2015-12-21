@@ -50,8 +50,18 @@
 				type: 'POST',
 				dataType: 'json',
 				success:function(res){
-					$('input[name=province]').val(res.province);
-					$('input[name=amphur]').val(res.amphur);
+					// $('input[name=province]').val(res['PROVINCE_NAME']);
+					// $('input[name=amphur]').val(res["AMPHUR"]);
+
+					var opt="<option selected>---เลือกตำบล---</option>";
+					$.each(res, function( index, value ) {
+						//alert( index + ": " + value['PROVINCE_NAME'] );
+						$('input[name=province]').val(value['PROVINCE_NAME']);
+						$('input[name=amphur]').val(value["AMPHUR_NAME"]);
+					opt+="<option value=\"value['district']\"> "+value['DISTRICT_NAME']+"</option>";
+					});
+					$('#district').html(opt);
+
 				},
 				error:function(err){
 					alert("ERROR:"+err);

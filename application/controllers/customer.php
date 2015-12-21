@@ -35,6 +35,7 @@ class Customer extends CI_Controller
 		$zipcode =  $_POST['zipcode'];
 		//$dataProvince = array();
 		$showdata = $this->mdl_getProvince->getProvince($zipcode);
+		
 		$province = array('province' => $showdata[0]['PROVINCE_NAME'],'amphur' => $showdata[0]['AMPHUR_NAME'],'zipcode ' => $showdata[0]['ZIPCODE']);
 		foreach ($showdata as $rowProvince) {
 			$dataProvince = array(
@@ -45,9 +46,9 @@ class Customer extends CI_Controller
 				);
 			array_push($province,array('district'=>$dataProvince['district']));
 		}
-		echo json_encode($province);
+		echo json_encode($showdata);
 		// echo "<pre>";
-		// print_r($province);
+		// echo implode(' ',$province);
 	}
 	public function getList()
 	{
