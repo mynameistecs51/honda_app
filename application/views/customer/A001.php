@@ -8,20 +8,6 @@
 		$("#resigndate").datepicker();
 		$("#today").datepicker();
 
-		$("#confirmpw").change(function(){
-			var npw = $("#userpassword").val();
-			var cpw = $("#confirmpw").val();
-			if(npw != cpw){
-				alert("รหัสผ่าน  ไม่ถูกต้อง !");
-				$("#userpassword").val("");
-				$("#confirmpw").val("");
-			}
-		});
-
-		$("#user").keyup(function(){
-			$("#valid").html("");
-		});
-
 		$("#email").change(function(){
 			var email = $("#email").val();
 			if(email.indexOf('@')==-1  || email.indexOf('.')==-1) {
@@ -64,7 +50,7 @@
 
 				},
 				error:function(err){
-					alert("ERROR:"+err);
+					alert("รหัสไปรษณีย์ไม่ถูกต้อง");
 					// console.log($("input[name=zipcode]").val());
 
 				}
