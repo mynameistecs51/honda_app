@@ -43,6 +43,24 @@
 			}
 		});
 
+		$("input[name=zipcode]").change(function(){
+			$.ajax({
+				url: '<?php echo base_url().$controller; ?>/getProvince/',
+				data:"zipcode="+$("input[name=zipcode]").val(),
+				type: 'POST',
+				dataType: 'json',
+				success:function(res){
+					$('input[name=province]').val(res.province);
+					$('input[name=amphur]').val(res.amphur);
+				},
+				error:function(err){
+					alert("ERROR:"+err);
+					// console.log($("input[name=zipcode]").val());
+
+				}
+			});			
+		});
+
 		$("#user").change(function(){
 			var user = $("#user").val();
 			if(user != ""){
@@ -361,7 +379,7 @@ function delObjective(num)
 	<div class="form-group col-sm-12">
 		<div class="col-sm-3">
 			<p>รหัสไปรษณีย์</p>
-			<input type="text" class="form-control" />
+			<input type="text" class="form-control" name="zipcode" />
 		</div>
 		<div class="col-sm-9">
 			<p>ที่อยู่</p>
@@ -371,15 +389,18 @@ function delObjective(num)
 	<div class="form-group col-sm-12">
 		<div class="col-sm-3">
 			<p>จังหวัด</p>
-			<input type="text" class="form-control" name="provice"/>
+			<input type="text" class="form-control" name="province"/>
 		</div>
 		<div class="col-sm-3">
 			<p>เขต/อำเภอ</p>
-			<input type="text" class="form-control" name="umpher" />
+			<input type="text" class="form-control" name="amphur" />
 		</div>
 		<div class="col-sm-3">
 			<p>แขวง/ตำบล</p>
-			<input type="text" class="form-control" name="tumbon" />
+			<select name="district" id="district" class ="form-control" required>
+				<option value="">--เลือก--</option>
+				
+			</select>
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
