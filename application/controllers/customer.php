@@ -6,6 +6,7 @@ class Customer extends CI_Controller
 		parent::__construct();
 		$this->ctl="customer";
 		$this->load->model('mdl_employee');
+		$this->load->model('mdl_getProvince');
 		date_default_timezone_set('Asia/Bangkok');
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok'));
 		$this->dt_now = $now->format('Y-m-d H:i:s');
