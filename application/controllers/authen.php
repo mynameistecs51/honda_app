@@ -39,11 +39,14 @@ public function index()
       if ( $this->session->userdata("id_mmember") != null )
       {
 		 $this->session->unset_userdata("id_mmember");
-		 $this->session->unset_userdata("email");
 		 $this->session->unset_userdata("mmember_code");
+		 $this->session->unset_userdata("email");
 		 $this->session->unset_userdata("mmember_name");
 		 $this->session->unset_userdata("id_mposition");
+		 $this->session->unset_userdata("mbranch_name");
+		 $this->session->unset_userdata("id_mbranch");
 		 $this->session->unset_userdata("mposition_name");
+		 $this->session->unset_userdata("lastLogin");
       }
       $screenID = "login";
       $this->data['base_url'] = $this->config->item('base_url');
@@ -82,6 +85,7 @@ public function index()
 			"mmember_name"   => $result->mmember_name,
 			"id_mposition"   => $result->id_mposition,
 			"mbranch_name"	 => $result->mbranch_name,
+			"id_mbranch"	 => $result->id_mbranch,
 			"mposition_name" => $result->mposition_name,
 			"lastLogin"  	 => $this->data["lastLogin"]
 		); 

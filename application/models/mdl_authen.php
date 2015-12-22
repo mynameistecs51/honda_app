@@ -67,6 +67,7 @@ class Mdl_authen extends CI_Model
       $sql = "
          SELECT
             a.id_mmember,
+            r.id_mbranch,
             r.mbranch_name,
             a.mmember_code,
             CONCAT(a.firstname,' ',a.lastname) AS mmember_name, 
