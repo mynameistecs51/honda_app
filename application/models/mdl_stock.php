@@ -87,7 +87,7 @@
         }
         $sql_search.=" AND a.stock_date BETWEEN '".$datefrom."' AND '".$dateto."' ";
 
-     // echo "<pre>".$sql_search;
+      // echo "<pre>".$sql_search;
         $data = array(
         	'sql_full' => $sql_full,
         	'sql_search' => $sql_search 
@@ -98,7 +98,7 @@
 	public function convert_date($val_date)
 	{
 		$date = str_replace('/', '-',$val_date);
-		$date = date("Y-m-d", strtotime($date));
+		$date = (date("Y", strtotime($date))-543).date("-m-d", strtotime($date));
 		return $date;
 	}
 
@@ -134,6 +134,19 @@
 			FROM
 			mbranch a
 			WHERE a.status = 1 ";
+		// echo $sql;
+		$query = $this->db->query($sql);
+		return  $query->result();
+ 	}
+
+ 	public function getmzone($id_mbranch){
+	  $sql = "
+			SELECT
+			a.id_zone,a.zone_name
+			FROM
+			mzone a
+			WHERE a.status = 1 
+			AND a.id_mbranch='$id_mbranch' ";
 		// echo $sql;
 		$query = $this->db->query($sql);
 		return  $query->result();

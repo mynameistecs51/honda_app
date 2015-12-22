@@ -1,13 +1,7 @@
 <script type='text/javascript'>
 $(function(){  	
-	$("#tstock_date").datepicker({
-      // dateFormat: 'dd/mm/yy',
-      // // yearRange: "-540:-545",
-      // changeMonth: true,
-      // changeYear: true, 
-      // monthNamesShort: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
-      // defaultDate: "+1w", 
-    });   
+	$("#tstock_date").datepicker();
+	$("#recive_doc_date").datepicker(); 
 	saveData();
  });
 function saveData()
@@ -53,12 +47,14 @@ function saveData()
 	<div class="col-md-3" >
 		<p>สำนักงาน/สาขาที่รับ</p><p class="required">*</p>
 		<select name="id_mbranch" class ="form-control" required>
-			<option value="">--เลือก--</option> 
-			<option value="1" selected> อุดรธานี </option>
-			<option value="2"> หนองบัวลำภู </option>
-			<option value="3"> หนองคาย </option>
-			<option value="3"> สว่างแดนดิน </option>
-		</select> 
+			<option value="" selected>--เลือก--</option> 
+			<?php 
+			foreach ($listMbranch as $Mbranch)
+			{ 
+				echo "<option value='".$Mbranch->id_mbranch."'>".$Mbranch->mbranch_name."</option>";
+			}
+			?>
+		</select>
 	</div>
 	<div class="col-md-3" style="text-align:left;">
         <p>ประเภทการรับ</p> 
@@ -89,16 +85,18 @@ function saveData()
 	</div> 
 	<div class="col-md-3" >
 		<p>วันที่รับจริง</p><p class="required">*</p> 
-		<input type="text" class="form-control" id="treceived_date" name="treceived_date" value="<?php echo $datenow; ?>" required>
+		<input type="text" class="form-control" id="recive_doc_date" name="recive_doc_date" value="<?php echo $datenow; ?>" required>
 	</div> 
 	<div class="col-md-3" >
 		<p>โซนจัดเก็บ</p><p class="required">*</p>
 		<select name="id_mbranch" class ="form-control" required>
 			<option value="">--เลือก--</option> 
-			<option value="1" selected> Z1L001</option>
-			<option value="2"> Z1L002 </option>
-			<option value="3"> Z1L003 </option>
-			<option value="3"> Z1L004 </option>
+			<?php 
+			foreach ($listMzone as $Mzone)
+			{ 
+				echo "<option value='".$Mzone->id_zone."'>".$Mzone->zone_name."</option>";
+			}
+			?>
 		</select> 
 	</div>
 	<div class="col-md-3" >

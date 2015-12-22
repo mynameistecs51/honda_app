@@ -8,8 +8,10 @@ class Stock extends CI_Controller
 		$this->load->model('mdl_stock'); 
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok')); 
 		$this->dt_now = $now->format('Y-m-d H:i:s');
-		$this->datefrom = "01/".$now->format('m/Y');
-		$this->dateto = $now->format('d/m/Y');
+		$Y=$now->format('Y')+543;
+		$this->datefrom = "01/".$now->format('m/').$Y;
+		$this->dateto = $now->format('d/m/').$Y;
+		$this->datenow = $now->format('d/m/').$Y;
 		$this->id_mmember = $this->session->userdata('id_mmember');
 		$this->id_mposition=$this->session->userdata("id_mposition");
 		$this->SCREENNAME=$this->template->getScreenName($this->ctl);
@@ -44,8 +46,8 @@ public function checkCode()
 
 public function convert_date($val_date)
 {
-	$date = str_replace('/', '-',$val_date);
-	$date = date("Y-m-d", strtotime($date));
+	$date =  str_replace('/', '-',$val_date);
+	$date = (date("Y", strtotime($date))-543).date("-m-d", strtotime($date));
 	return $date;
 }
 
@@ -62,6 +64,8 @@ public function mainpage($SCREENID)
 	$this->data["id_mmember"] =$this->session->userdata("id_mmember");
 	$this->data["id_mposition"] =$this->session->userdata("id_mposition");
 	$this->data['listMbranch']= $this->mdl_stock->getmbranch();
+	$this->data['listMzone']= $this->mdl_stock->getmZone($this->session->userdata("id_mbranch"));
+	$this->data["datenow"] = $this->datenow;
 	$this->data["datefrom"] =$this->datefrom;
 	$this->data["dateto"] =$this->dateto;
 	$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->data["id_mposition"],$this->data['mbranch_name']);
@@ -76,36 +80,51 @@ public function mainpage($SCREENID)
 
 public function ADD()
 	{
-			$SCREENID="A001";
-			$this->data['pagename']=$this->SCREENNAME;
-			$this->mainpage($SCREENID); 
-			$this->load->view('stock/'.$SCREENID,$this->data); 
+		$SCREENID="A001";
+		$this->data['pagename']=$this->SCREENNAME;
+		$this->mainpage($SCREENID); 
+		$this->load->view('stock/'.$SCREENID,$this->data); 
 	}
 public function DETAIL($id)
 	{
-			$SCREENID="D001";
-			$this->data['pagename']=$this->SCREENNAME;
-			$this->mainpage($SCREENID); 
-			$this->data['listMstock']= $this->mdl_stock->getmstock($id);
-			$this->load->view('stock/'.$SCREENID,$this->data);
+		$SCREENID="D001";
+		$this->data['pagename']=$this->SCREENNAME;
+		$this->mainpage($SCREENID); 
+		$this->data['listMstock']= $this->mdl_stock->getstock($id);
+		$this->load->view('stock/'.$SCREENID,$this->data);
 	}
 public function EDIT($id,$idx)
 	{
-			$SCREENID="E001"; 
-			$this->data['pagename']=$this->SCREENNAME;
-			$this->mainpage($SCREENID); 
-			$this->data['idx']=$idx;
-			$this->data['listMstock']= $this->mdl_stock->getmstock($id);
-			$this->load->view('stock/'.$SCREENID,$this->data);
+		$SCREENID="E001"; 
+		$this->data['pagename']=$this->SCREENNAME;
+		$this->mainpage($SCREENID); 
+		$this->data['idx']=$idx;
+		$this->data['listMstock']= $this->mdl_stock->getstock($id);
+		$this->load->view('stock/'.$SCREENID,$this->data);
 	}
+public function getCode(){
+	return "STUDT581200001";
+}
 
 public function saveadd()
 {
 	if($_POST):
      	parse_str($_POST['form'], $post); 
 		$data = array(
-			"mstock_code"	=> $post['mstock_code'],
-			"mstock_name"  => $post['mstock_name'],
+			"id_stock"		=> '', 
+			"stock_code"	=> $this->getCode(), 
+			"stock_date"	=> $this->convert_date($post['stock_date']), 
+			"id_mbranch"	=> $post['id_mbranch'], 
+			"is_recive_type"=> $post['is_recive_type'], 
+			"id_transfer"	=> $post['id_transfer'], 
+			"chassis_number"=> $post['chassis_number'], 
+			"engine_number"	=> $post['engine_number'], 
+			"id_mmodel"		=> $post['id_mmodel'], 
+			"id_mgen"		=> $post['id_mgen'], 
+			"id_mcolor"		=> $post['id_mcolor'], 
+			"recive_doc_date"	 => $this->convert_date($post['recive_doc_date']), 
+			"doc_reference_code" => $post['doc_reference_code'], 
+			"id_zone"		=> $post['id_zone'], 
 			"comment"		=> str_replace("\n", "<br>\n",$post['comment']),
 			"status"		=> 1,
 			"id_create"		=> $this->id_mmember,
