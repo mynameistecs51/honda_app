@@ -28,6 +28,12 @@ rundatatable();
 });
 function rundatatable(){ 
     var dataTable = $('#employee-grid').DataTable({ 
+         "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+         var page = this.fnPagingInfo().iPage;
+         var length = this.fnPagingInfo().iLength;
+         var index = (page * length + (iDisplayIndex +1));
+         $('td:eq(0)', nRow).html(index);
+        },
         responsive: true,
         serverSide: true,
         tableTools: {
@@ -60,7 +66,10 @@ function rundatatable(){
             }
         },
         "aoColumns": [{ 
-                      "sWidth": "15%", 
+                      "sWidth": "5%", 
+                      "mData": null,
+                    }, { 
+                    "sWidth": "15%", 
                       "mData": 'mposition_code'
                     }, { 
                       "sWidth": "20%",
@@ -234,6 +243,7 @@ function modal_form_view(n,screenname)
 <table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" width="100%"  >
 <thead>                       
   <tr>
+    <th>ลำดับที่</th>
     <th>รหัสกลุ่มผู้ใช้งาน</th>
     <th>ชื่อกลุ่มผู้ใช้งาน</th> 
     <th>สำนักงาน/สาขา</th>

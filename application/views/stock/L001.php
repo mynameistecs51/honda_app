@@ -1,7 +1,10 @@
 <?php echo $header;?> 
 <script type="text/javascript" language="javascript" charset="utf-8">
 $(function(){
-  $("#datefrom").datepicker({
+  add();
+  rundatatable();
+
+$("#datefrom").datepicker({
       dateFormat: 'dd/mm/yy', 
       changeMonth: true,
       changeYear: true, 
@@ -21,18 +24,18 @@ $(function(){
         $( "#datefrom" ).datepicker( "option", "maxDate", selectedDate );
       }
     });   
-add();
-rundatatable();  
+
 });
+
 function rundatatable(){
     var dataTable = $('#employee-grid').DataTable({
-        // "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-        //  var page   = this.fnPagingInfo().iPage;
-        //  var length = this.fnPagingInfo().iLength;
-        //  var index  = (page * length + (iDisplayIndex +1));
-        //  //$('td:eq(0)', nRow).html(index);
-        // },
-        "scrollX": true,
+        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+         var page = this.fnPagingInfo().iPage;
+         var length = this.fnPagingInfo().iLength;
+         var index = (page * length + (iDisplayIndex +1));
+         $('td:eq(0)', nRow).html(index);
+        },
+        scrollX: true,//2
         responsive: true,
         serverSide: true,
         tableTools: {
@@ -65,55 +68,62 @@ function rundatatable(){
             }
         },
         "aoColumns": [{
-                  "sWidth": "3%",
-                  "mData": null,
-                }, {
-                  "sWidth": "10%",
-                  "mData": 'mmember_code'
-                }, {
-                  "sWidth": "15%",
-                  "mData": 'mmember_name'
-                }, {
-                  "sWidth": "15%",
-                  "mData": 'mmember_name'
-                }, {
-                  "sWidth": "15%",
-                  "mData": 'mmember_name'
-                }, {
-                  "sWidth": "15%",
-                  "mData": 'mmember_name'
-                }, {
-                  "sWidth": "15%",
-                  "mData": 'mmember_name'
-                }, {
-                  "sWidth": "15%",
-                  "mData": 'mmember_name' 
-                }, {
-                  "sWidth": "5%",
-                  "mData": null,
-                  "mRender": function(data, type, full) {
-                    if(full['status']=='1'){ return "ใช้งาน"; }else{ return "ยกเลิก"; }
-                  }
-                }, {
-                  "sWidth": "3%",
-                  "mData": null,
-                  "bSortable": false,
-                  "mRender": function(data, type, full) {
-                    var html ='';
-                    if($('#btn_view').val()==1){
-                        html +='<img src="<?php echo base_url(); ?>images/list_view.png"   title="รายละเอียด" class="btnopt view" data-idview="' + full['id_stock'] + '" />';
-                    }else{
-                        html +='<img src="<?php echo base_url(); ?>images/un_list_view.png"   title="ไม่ได้รับสิทธิ์ดูรายละเอียด" class="btnoptUnclick" data-idview="' + full['id_stock'] + '" />';
-                    }
-                    if($('#btn_edit').val()==1){
-                        html +='<img src="<?php echo base_url(); ?>images/list_edit.png"   title="แก้ไข" class="btnopt edit" data-idedit="' + full['id_stock'] + '" />';
-                    }else{
-                        html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="ไม่ได้รับสิทธิ์แก้ไขข้อมูล" class="btnoptUnclick" data-idedit="' + full['id_stock'] + '" />';
-                    }
-                        html +='<input type="hidden" ID="id_stock' + full['id_stock'] + '" value="' + full['id_stock'] + '" />';
-                    return html;
-                  }
-                }]
+              "sWidth": "5%",
+              "mData": null
+            }, {
+              "sWidth": "7%",
+              "mData": 'stock_code'
+            }, {
+              "sWidth": "7%",
+              "mData": 'stock_date'
+            }, {
+              "sWidth": "5%",
+              "mData": 'mmodel_name'
+            }, {
+              "sWidth": "7%",
+              "mData": 'gen_name'
+            }, {
+              "sWidth": "5%",
+              "mData": 'color_name'
+            }, {
+              "sWidth": "10%",
+              "mData": 'chassis_number'
+            }, {
+              "sWidth": "8%",
+              "mData": 'engine_number'
+            }, {
+             "sWidth": "7%",
+              "mData": 'recive_doc_date'
+            }, {
+             "sWidth": "7%",
+              "mData": 'zone_name'
+            }, {
+              "sWidth": "5%",
+              "mData": 'status'
+            }, {
+              "sWidth": "10%",
+              "mData": 'comment'
+            }, {
+              "sWidth": "6%",
+              "mData": null,
+              "bSortable": false,
+              "mRender": function(data, type, full) {
+                var html ='';
+                if($('#btn_view').val()==1){
+                    html +='<img src="<?php echo base_url(); ?>images/list_view.png"   title="รายละเอียด" class="btnopt view" data-idview="' + full['id_stock'] + '" />';
+                }else{
+                    html +='<img src="<?php echo base_url(); ?>images/un_list_view.png"   title="ไม่ได้รับสิทธิ์ดูรายละเอียด" class="btnoptUnclick" data-idview="' + full['id_stock'] + '" />';
+                }
+                if($('#btn_edit').val()==1){
+                    html +='<img src="<?php echo base_url(); ?>images/list_edit.png"   title="แก้ไข" class="btnopt edit" data-idedit="' + full['id_stock'] + '" />';
+                }else{
+                    html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="ไม่ได้รับสิทธิ์แก้ไขข้อมูล" class="btnoptUnclick" data-idedit="' + full['id_stock'] + '" />';
+                }
+                    html +='<input type="hidden" ID="id_stock' + full['id_stock'] + '" value="' + full['id_stock'] + '" />';
+                return html;
+              }
+            }]
+
         } );
         $("#employee-grid_filter").css("display","none");  // hiding global search box
         $('.search-input-text').on('change', function () {   // for text boxes
@@ -133,8 +143,7 @@ function rundatatable(){
         var idx=$(this).closest('tr').index(); // หาลำดับแถวของ TR ที่คลิกแก้ไข
         fromprint($(this).data('idprint'),idx);
         } ); 
-}
-
+    }
 function add()
     {
     $(".add").click(function(){    
@@ -237,9 +246,10 @@ function modal_form_view(n,screenname)
   <div class="nev_url"><?php echo $NAV; ?> </div>
   <?php if($btn['add']==1){ echo "<div class='add' ID='add'>+ รับเข้าสต๊อก</div>"; }else{ echo "<div class='noneadd' title='ไม่ได้รับสิทธิ์รับรถ'>+ รับเข้าสต๊อก</div>";} ?>
   <div class="search">ค้นหา : 
-      <input type="text" data-column="0"  class="search-input-text" placeholder="--ระบุ--">  
+      <input type="text" data-column="0"  class="search-input-text" placeholder="--เลขที่ใบรับเข้าสต๊อก--">  
+      <input type="text" data-column="5"  class="search-input-text" placeholder="--หมายเลขตัวถัง--"> 
       <select data-column="1" class="search-input-text">
-        <option value="" selected>--เลือกสำนักงาน/สาขา--</option> 
+        <option value="" selected>--เลือกสาขา--</option> 
         <?php 
         foreach ($listMbranch as $Mbranch)
         { 
@@ -252,14 +262,14 @@ function modal_form_view(n,screenname)
       <select data-column="4" class="search-input-text">
         <option style="font-size:12px;" value="" >----ทั้งหมด----</option>
         <option style="font-size:12px;" value="1" selected>รับเข้าสต๊อก</option> 
-        <option style="font-size:12px;" value="0">จองแล้ว</option> 
-        <option style="font-size:12px;" value="0">จำหน่ายแล้ว</option> 
-        <option style="font-size:12px;" value="0">โอนไปสาขาอื่น</option> 
+        <option style="font-size:12px;" value="2">จองแล้ว</option> 
+        <option style="font-size:12px;" value="3">จำหน่ายแล้ว</option> 
+        <option style="font-size:12px;" value="4">โยกไปสาขาอื่น</option> 
         <option style="font-size:12px;" value="0">ยกเลิกรับเข้าสต๊อก </option> 
       </select>
   </div>
 </div> 
-<table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" style="table-layout: fixed;word-wrap: break-word;" >
+<table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" width="100%"  >
   <thead>        
     <tr>
       <th>ลำดับที่</th>
@@ -277,7 +287,7 @@ function modal_form_view(n,screenname)
       <th>ดำเนินการ</th> 
     </tr>
   </thead>
-  </table>  
+</table>  
 <div class="div_modal"></div>  <!-- Code ของ Modal จะมาแสดงใน DIV นี้ --> 
 <input type="hidden" ID="btn_view" value="<?php echo $btn['view']; ?>">
 <input type="hidden" ID="btn_edit" value="<?php echo $btn['edit']; ?>">

@@ -28,6 +28,12 @@ rundatatable();
 });
 function rundatatable(){ 
     var dataTable = $('#employee-grid').DataTable({ 
+        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+         var page = this.fnPagingInfo().iPage;
+         var length = this.fnPagingInfo().iLength;
+         var index = (page * length + (iDisplayIndex +1));
+         $('td:eq(0)', nRow).html(index);
+        },
         responsive: true,
         tableTools: {
                         "sRowSelect": "os",
@@ -59,7 +65,10 @@ function rundatatable(){
             }
         },
         "aoColumns": [{ 
-                      "sWidth": "15%", 
+                      "sWidth": "3%", 
+                      "mData": null,
+                    },{ 
+                    "sWidth": "15%", 
                       "mData": 'mbranch_code'
                     },{ 
                       "sWidth": "20%",
@@ -71,7 +80,7 @@ function rundatatable(){
                         if(full['status']=='1'){ return "ใช้งาน"; }else{ return "ยกเลิก"; } 
                       }
                     },{
-                      "sWidth": "5%",
+                      "sWidth": "4%",
                       "mData": null,
                       "bSortable": false,
                       "mRender": function(data, type, full) { 
@@ -223,6 +232,7 @@ function modal_form_view(n,screenname)
 <table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" width="100%"  >
 <thead>                       
   <tr>
+    <th>ลำดับที่</th>
     <th>รหัส<?php echo $namepage ?></th>
     <th>ชื่อ<?php echo $namepage ?></th>  
     <th>สถานะ</th>

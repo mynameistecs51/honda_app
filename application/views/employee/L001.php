@@ -59,13 +59,13 @@ function rundatatable(){
                       "sWidth": "10%",
                       "mData": 'mobile'
                     }, {
-                      "sWidth": "5%",
+                      "sWidth": "2%",
                       "mData": null,
                       "mRender": function(data, type, full) {
                         if(full['status']=='1'){ return "ใช้งาน"; }else{ return "ยกเลิก"; }
                       }
                     }, {
-                      "sWidth": "3%",
+                      "sWidth": "2%",
                       "mData": null,
                       "bSortable": false,
                       "mRender": function(data, type, full) {
