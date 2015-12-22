@@ -6,12 +6,12 @@ rundatatable();
 });
 function rundatatable(){
     var dataTable = $('#employee-grid').DataTable({
-        // "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-        //  var page   = this.fnPagingInfo().iPage;
-        //  var length = this.fnPagingInfo().iLength;
-        //  var index  = (page * length + (iDisplayIndex +1));
-        //  //$('td:eq(0)', nRow).html(index);
-        // },
+        "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+         var page = this.fnPagingInfo().iPage;
+         var length = this.fnPagingInfo().iLength;
+         var index = (page * length + (iDisplayIndex +1));
+         $('td:eq(0)', nRow).html(index);
+        },
         responsive: true,
         serverSide: true,
         tableTools: {

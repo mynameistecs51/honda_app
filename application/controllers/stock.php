@@ -5,13 +5,12 @@ class Stock extends CI_Controller
 	{
 		parent::__construct();
 		$this->ctl="stock";
-		$this->load->model('mdl_stock'); 
-		date_default_timezone_set('Asia/Bangkok');
+		$this->load->model('mdl_stock');
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok')); 
 		$this->dt_now = $now->format('Y-m-d H:i:s');
 		$this->datenow =$now->format('d/m/').($now->format('Y')+543);
-		$this->datefrom = "01/".$now->format('m/Y');
-		$this->dateto = $now->format('d/m/Y');
+		$this->datefrom = "01/".$now->format('m/').($now->format('Y')+543);
+		$this->dateto = $now->format('d/m/').($now->format('Y')+543);
 		$this->id_mmember = $this->session->userdata('id_mmember');
 		$this->id_mposition=$this->session->userdata("id_mposition");
 		$this->SCREENNAME=$this->template->getScreenName($this->ctl);
@@ -63,6 +62,7 @@ public function mainpage($SCREENID)
 		$this->data["lastLogin"] = $this->session->userdata('lastLogin');
 		$this->data["id_mmember"] =$this->session->userdata("id_mmember");
 		$this->data["id_mposition"] =$this->session->userdata("id_mposition");
+		$this->data['listMbranch']= $this->mdl_stock->getmbranch();
 		$this->data["datefrom"] =$this->datefrom;
 		$this->data["dateto"] =$this->dateto;
 		$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->data["id_mposition"],$this->data['mstock_name']);

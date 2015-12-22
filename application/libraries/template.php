@@ -39,6 +39,7 @@ class Template{
 					<script type='text/javascript' language='javascript' src='".$base_url."js/dataTables.tableTools.min.js'></script>
 					<script type='text/javascript' language='javascript' src='".$base_url."js/dataTables.fixedHeader.js'></script>
 					<script type='text/javascript' language='javascript' src='".$base_url."js/dataTables.fixedColumns.js'></script>
+					<script type='text/javascript' language='javascript' src='".$base_url."js/datatables/fnPageInfo.js'></script>
 					<link href='".$base_url."css/main.css' rel='stylesheet' type='text/css'>
 
 				</head>
