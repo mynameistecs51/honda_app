@@ -11,7 +11,7 @@ class Mdl_getProvince extends CI_Model {
 
 	public function getProvince($zipcode) // province and zipcode
 	{
-		$sql_query ='SELECT z.ZIPCODE,p.PROVINCE_NAME,a.AMPHUR_NAME,d.DISTRICT_NAME
+		$sql_query ='SELECT z.ZIPCODE,p.PROVINCE_ID,p.PROVINCE_NAME,a.AMPHUR_ID,a.AMPHUR_NAME,d.DISTRICT_ID,d.DISTRICT_NAME
 		FROM zipcode z
 		LEFT JOIN province p
 		ON z.PROVINCE_ID = p.PROVINCE_ID

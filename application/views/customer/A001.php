@@ -40,29 +40,37 @@
 				type: 'POST',
 				dataType: 'json',
 				success:function(res){
-					var opt="<option selected>---เลือกตำบล---</option>";
+					// var amphur="<option >----เลือกอำเภอ----</option>";
+					var district="<option >---เลือกตำบล---</option>";
 					$.each(res, function( index, value ) {
-						$('input[name=province]').val(value['PROVINCE_NAME']);
-						$('input[name=amphur]').val(value["AMPHUR_NAME"]);
-						opt+="<option value=\"value['district']\"> "+value['DISTRICT_NAME']+"</option>";
+						// $('input[name=province]').val(value['PROVINCE_NAME']);
+						// $('input[name=amphur]').val(value["AMPHUR_NAME"]);
+						province = "<option value="+value['PROVINCE_ID']+"> "+value['PROVINCE_NAME']+"</option>";
+						amphur = "<option value="+value['AMPHUR_ID']+"> "+value['AMPHUR_NAME']+"</option>";
+						district += "<option value="+value['DISTRICT_ID']+"> "+value['DISTRICT_NAME']+"</option>";
 					});
-					$('#district').html(opt);
+					$('#province').html(province);
+					$('#amphur').html(amphur);
+					$('#district').html(district);
 
 				},
 				error:function(err){
 					alert("รหัสไปรษณีย์ไม่ถูกต้อง");
 					$('input[name=zipcode]').val('');
-					$('input[name=province]').val('');
-					$('input[name=amphur]').val('');
-					var opt="<option selected>---เลือกตำบล---</option>";
-					$('#district').html(opt);
+					// $('input[name=province]').val('');
+					// $('input[name=amphur]').val('');
 					
+					$('#province').html('');
+					$('#amphur').html('');
+					var district="<option >---เลือกตำบล---</option>";
+					$('#district').html(district);
+
 
 				}
 			});			
-		});
-		saveData();
-	});
+});
+saveData();
+});
 
 function saveData()
 {
@@ -369,12 +377,18 @@ function delObjective(num)
 		<div class="col-sm-3">
 			<p>จังหวัด</p>
 			<p class="required">*</p>
-			<input type="text" class="form-control" name="province" readonly />
+			<!-- <input type="text" class="form-control" name="province" readonly /> -->
+			<select name="province" id="province" class="form-control" required disabled>
+				<!-- <option value="">----เลือกอำเภอ----</option> -->
+			</select>
 		</div>
 		<div class="col-sm-3">
 			<p>เขต/อำเภอ</p>
 			<p class="required">*</p>
-			<input type="text" class="form-control" name="amphur"  readonly />
+			<!-- <input type="text" class="form-control" name="amphur"  readonly /> -->
+			<select name="amphur" id="amphur" class="form-control" required disabled>
+				<!-- <option value="">----เลือกอำเภอ----</option> -->
+			</select>
 		</div>
 		<div class="col-sm-3">
 			<p>แขวง/ตำบล</p>
@@ -391,12 +405,12 @@ function delObjective(num)
 			<p class="required">*</p>
 			<select name="adviser" class ="form-control" required>
 				<option value="">--เลือก--</option>
-				<?php foreach($listmposition as $rowEmployee): ?>
-					<?php //print_r($rowEmployee);?>
+				<?php foreach($listSale as $rowSale): ?>
+					<option value="<?php echo $rowSale['id_mmember'];?>"><?php echo $rowSale['firstname'];?></option>
 				<?php endforeach; ?>
-				<option value="1"> นาย A </option>
+				<!-- <option value="1"> นาย A </option>
 				<option value="2"> นาย B </option>
-				<option value="3"> นาย C </option>
+				<option value="3"> นาย C </option> -->
 			</select>
 		</div>
 		<div class="col-sm-3">

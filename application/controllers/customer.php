@@ -5,7 +5,7 @@ class Customer extends CI_Controller
 	{
 		parent::__construct();
 		$this->ctl="customer";
-		$this->load->model('mdl_employee');
+		$this->load->model('mdl_customer');
 		$this->load->model('mdl_getProvince');
 		date_default_timezone_set('Asia/Bangkok');
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok'));
@@ -36,31 +36,33 @@ class Customer extends CI_Controller
 		//$dataProvince = array();
 		$showdata = $this->mdl_getProvince->getProvince($zipcode);
 		
-		$province = array('province' => $showdata[0]['PROVINCE_NAME'],'amphur' => $showdata[0]['AMPHUR_NAME'],'zipcode ' => $showdata[0]['ZIPCODE']);
+		$province = array('province_id'=>$showdata[0]['PROVINCE_ID'],'province_name' => $showdata[0]['PROVINCE_NAME'],'amphur_id'=>$showdata[0]['AMPHUR_ID'],'amphur_name' => $showdata[0]['AMPHUR_NAME'],'zipcode ' => $showdata[0]['ZIPCODE']);
 		foreach ($showdata as $rowProvince) {
 			$dataProvince = array(
 				//'province' => $rowProvince['PROVINCE_NAME'],
 				//'amphur'   => $rowProvince['AMPHUR_NAME'],
-				'district' => $rowProvince['DISTRICT_NAME'],
+				'district_id' => $rowProvince['DISTRICT_ID'],
+				'district_name' => $rowProvince['DISTRICT_NAME'],
 				//'zipcode'  => $rowProvince['ZIPCODE']
 				);
-			array_push($province,array('district'=>$dataProvince['district']));
+			array_push($province,array('district_name'=>$dataProvince['district_name'],'district_id'=>$dataProvince['district_id']));
 		}
 		echo json_encode($showdata);
 		// echo "<pre>";
-		// echo implode(' ',$province);
+		// print_r($province);
 	}
+
 	public function getList()
 	{
 		$requestData= $_REQUEST;
-		$sqlQuery= $this->mdl_employee->getList($requestData);
+		$sqlQuery= $this->mdl_customer->getList($requestData);
 		$this->datatables->getDatatables($requestData,$sqlQuery);
 	}
 
 	public function getCode()
 	{
 		$mcmp_code='M';
-		$lastCode=$this->mdl_employee->getCodeLast($mcmp_code);
+		$lastCode=$this->mdl_customer->getCodeLast($mcmp_code);
 		return $lastCode;
 	}
 
@@ -68,7 +70,7 @@ class Customer extends CI_Controller
 	{
 		if ($_POST['user'])
 		{
-			echo $this->mdl_employee->getUser($_POST['user']);
+			echo $this->mdl_customer->getUser($_POST['user']);
 		}
 	}
 
@@ -105,7 +107,7 @@ class Customer extends CI_Controller
 		$this->data["id_mposition"] =$this->session->userdata("id_mposition");
 		$this->data["datefrom"] =$this->datefrom;
 		$this->data["dateto"] =$this->dateto;
-		$this->data['listmposition']= $this->mdl_employee->getmposition();
+		$this->data['listSale']= $this->mdl_customer->getTypeSale();
 		$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->data["id_mposition"],$this->data['mbranch_name']);
 		$this->data["btn"] =$this->template->checkBtnAuthen($this->data["id_mposition"],$this->ctl);
 		$this->data['url_add']= base_url().$this->ctl."/add/";
@@ -118,9 +120,10 @@ class Customer extends CI_Controller
 	}
 
 	public function ADD()
-	{
+	{		
 		$SCREENID="A001";
 		$this->mainpage($SCREENID);
+		$this->data['listSale'] = $this->mdl_customer->getTypeSale();  //ที่ปรึกษาด้านการขาย
 		$this->data["datenow"] =$this->datenow;
 		$this->load->view('customer/'.$SCREENID,$this->data);
 	}
@@ -129,7 +132,7 @@ class Customer extends CI_Controller
 		$SCREENID="D001";
 		$this->mainpage($SCREENID);
 		$this->data["datenow"] =$this->datenow;
-		$this->data['listemployee']= $this->mdl_employee->getemployee($id);
+		$this->data['listemployee']= $this->mdl_customer->getemployee($id);
 		$this->load->view('customer/'.$SCREENID,$this->data);
 	}
 	public function EDIT($id,$idx)
@@ -138,7 +141,7 @@ class Customer extends CI_Controller
 		$this->mainpage($SCREENID);
 		$this->data["datenow"] =$this->datenow;
 		$this->data['idx']=$idx;
-		$this->data['listemployee']= $this->mdl_employee->getemployee($id);
+		$this->data['listTypeSale']= $this->mdl_customer->getemployee($id);
 		$this->load->view('customer/'.$SCREENID,$this->data);
 	}
 
@@ -180,7 +183,7 @@ class Customer extends CI_Controller
 			"dt_update"			=> $this->dt_now
 			);
          ///print_r($data);exit();
-$this->mdl_employee->addemployee($data);
+$this->mdl_customer->addemployee($data);
 $massage = "บันทึกข้อมูล เรียบร้อย !";
 $this->alert($massage);
 	//echo json_encode($getId_tmnf);
@@ -194,7 +197,7 @@ public function saveUpdate()
 
 	$id=$post['id_employee'];
 	if($post['old_pass']!=''){
-		$old_pass=$this->mdl_employee->checkOldPass($id,MD5($post['old_pass']));
+		$old_pass=$this->mdl_customer->checkOldPass($id,MD5($post['old_pass']));
 	}else{
 		$old_pass=1;
 	}
@@ -256,7 +259,7 @@ public function saveUpdate()
 		"dt_update"			=> $this->dt_now
 		);
 }
-$this->mdl_employee->updateemployee($id,$data);
+$this->mdl_customer->updateemployee($id,$data);
 
 $massage = "แก้ไขข้อมูล เรียบร้อย !";
 $this->alert($massage);
