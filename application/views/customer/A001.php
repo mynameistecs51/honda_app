@@ -2,15 +2,20 @@
 	$(function(){
 
 		$( "#birthdate" ).datepicker({
-			yearRange: "-100:+0",
+			yearRange: "+100:+0",
+			language: 'th',
+			isBuddhist: true,
+			changeMonth: true,
+			changeYear: true,
+			dateFormat: 'dd/mm/yy',
 		});
 		$("#startdate").datepicker();
 		$("#resigndate").datepicker();
-		$("#today").datepicker({
+		$(".today").datepicker({
 			changeMonth: true,
-			changeYear: true,
+			changeYear: true
 		});
-		$('#today').val('<?php echo $datenow;?>');
+		$('.today').val('<?php echo $datenow;?>');
 
 		$("#email").change(function(){
 			var email = $("#email").val();
@@ -59,7 +64,7 @@
 					$('input[name=zipcode]').val('');
 					// $('input[name=province]').val('');
 					// $('input[name=amphur]').val('');
-					
+
 					$('#province').html('');
 					$('#amphur').html('');
 					var district="<option >---เลือกตำบล---</option>";
@@ -67,7 +72,7 @@
 
 
 				}
-			});			
+			});
 });
 saveData();
 });
@@ -87,15 +92,17 @@ function saveData()
               	type: 'POST',
               	url: '<?php echo base_url().$controller; ?>/saveadd/',
 	                data: {form}, //your form datas to post
+	                // dataType:'json',
 	                success: function(rs)
 	                {
-	                	$('.modal').modal('hide');
-	                	location.reload();
+	                	// $('.modal').modal('hide');
+	                	// location.reload();
 	                	alert("#บันทึกข้อมูล เรียบร้อย !");
 	                },
-	                error: function()
+	                error: function(err)
 	                {
 	                	alert("#เกิดข้อผิดพลาด");
+	                	console.log(err);
 	                }
 	             });
            }
@@ -229,7 +236,7 @@ $(function(){
 		var  row=$('.objective').length+1;
 		var  html  = '<div class="objective" ID="objective'+row+'">';
 		html += '<div class="col-sm-8">';
-		html += '<p>แหล่งที่มา</p>';
+		html += '<p>วัตถุประสงค์ของการซื้อ</p>';
 		html += '<input type="text" class="form-control" name="objective[]"/>';
 		html += '</div>';
 		html += '<div class="col-sm-3" >  ';
@@ -277,48 +284,48 @@ function delObjective(num)
 			<input type="text" class="form-control" name="memp_code" placeholder="---สร้างโดยระบบ---" >
 		</div>
 		<div class="col-sm-3" >
-			<p>วันที่บันทึก</p>
+			<p>วันที่ลูกค้าเยี่ยมชม</p>
 			<p class="required">*</p>
-			<input  type="text" class="form-control" name="date_add" id="today" >
+			<input  type="text" class="form-control today" name="customer_date"  required >
 		</div>
 		<div class="col-sm-3" >
 			<p><u>ระยะเวลาในการตัดสินใจซื้อ</u> *</p>
 			<p class="required">*</p>
-			<select name="id_mdept" class ="form-control" required>
-				<option value="">--เลือก--</option>
-				<?php
-				foreach ($listMdept as $Mdept)
-				{
-					echo "<option value='".$Mdept->id_mdept."'>".$Mdept->name_th."</option>";
-				}
-				?>
-			</select>
+			<input type="text" class="form-control today"    name="bye_date" />
 		</div>
 		<div class="col-sm-3" >
 			<p>บัญชีลูกหนี้</p>
 			<p class="required">*</p>
-			<input type="text" class="form-control" name="Accounts_eevReceivable"  required>
+			<input type="text" class="form-control" name="accounts_receivable"  >
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="col-sm-3" >
 			<p >ลูกค้า</p>
 			<!-- <p class="required">*</p> -->
-			<label class="radio-inline"><input type="radio" name="customer" value="newCustomer" checked>ลูกค้าใหม่</label>
-			<label class="radio-inline"><input type="radio" name="customer" value="oldCustomer">ลูกค้าเก่า</label>
+			<label class="radio-inline"><input type="radio" name="customer" value="1" checked>ลูกค้าใหม่</label>
+			<label class="radio-inline"><input type="radio" name="customer" value="2">ลูกค้าเก่า</label>
+		</div>
+		<div class="col-sm-3">
+			<p>ชนิดลูกค้า</p>
+			<p class="required">*</p>
+			<label class="radio-inline"><input type="radio" name="is_type" value="1" checked>ลูกค้า VIP</label>
+			<label class="radio-inline"><input type="radio" name="is_type" value="2">ลูกค้าจงรักภักดี</label>
+			<label class="radio-inline"><input type="radio" name="is_type" value="3">ลูกค้าทั่วไป</label>
 		</div>
 		<div class="col-sm-3" >
 			<p >ประเภท</p>
 			<!-- <p class="required">*</p> -->
-			<label class="radio-inline"><input type="radio" name="typeCustomer" value="poper" checked>บุคคล</label>
-			<label class="radio-inline"><input type="radio" name="typeCustomer" value="company">บริษัท</label>
+			<label class="radio-inline"><input type="radio" name="is_company" value="1" checked>บุคคล</label>
+			<label class="radio-inline"><input type="radio" name="is_company" value="2">บริษัท</label>
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="col-sm-3" >
 			<p>คำนำหน้าชื่อ</p>
-			<select name="id_memp_tit" class ="form-control" required>
-				<option value="">--เลือก--</option>
+			<p class="required">*</p>
+			<select name="is_tit" class ="form-control"  required>
+				<option>--เลือก--</option>
 				<option value="1"> นาย </option>
 				<option value="2"> นาง </option>
 				<option value="3"> นางสาว </option>
@@ -337,14 +344,17 @@ function delObjective(num)
 		<div class="col-sm-3" >
 			<p>วันเกิด</p>
 			<p class="required"></p>
-			<input type="text" class="form-control" name="birthdate" id="birthdate"  >
+			<input type="text" class="form-control " name="birthdate" id='startdate'   required>
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
+		<div class="col-sm-3">
+			<p>เลยประจำตัวผู้เสียภาษีอากร</p>
+			<input type="text" class="form-control" name="idcard_number"  />
+		</div>
 		<div class="col-sm-3" >
 			<p>เลขใบอนุญาตขับขี่</p>
-			<p class="required">*</p>
-			<input type="text" class="form-control" name="drv_lcn_num" >
+			<input type="text" class="form-control" name="drv_card_num" >
 		</div>
 		<div class="col-sm-3" >
 			<p>อีเมลล์ <b ID="valid_email"></b></p>
@@ -352,50 +362,50 @@ function delObjective(num)
 			<input type="email" class="form-control" name="email" ID="email" >
 		</div>
 		<div class="col-sm-3" >
-			<p>โทรศัพท์</p>
+			<p>โทรศัพท์บ้าน/สำนักงาน</p>
 			<input type="text" class="form-control" name="telephone"  >
 		</div>
+	</div>
+	<div class="form-group col-sm-12">
 		<div class="col-sm-3" >
 			<p>มือถือ <b ID="valid_mobile"></b></p>
 			<p class="required">*</p>
 			<input type="text" class="form-control" ID="mobile" name="mobile" >
 		</div>
-	</div>
-	<div class="form-group col-sm-12">
 		<div class="col-sm-3">
 			<p>รหัสไปรษณีย์</p>
 			<p class="required">*</p>
-			<input type="text" class="form-control" name="zipcode" />
+			<input type="text" class="form-control" name="zipcode" required/>
 		</div>
-		<div class="col-sm-9">
+		<div class="col-sm-6">
 			<p>ที่อยู่</p>
 			<p class="required">*</p>
-			<input tye="text" class="form-control" name="address" />
+			<input tye="text" class="form-control" name="address" required />
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="col-sm-3">
 			<p>จังหวัด</p>
 			<p class="required">*</p>
-			<!-- <input type="text" class="form-control" name="province" readonly /> -->
-			<select name="province" id="province" class="form-control" required disabled>
+			<!-- <input type="text" class="form-control" name="province"  /> -->
+			<select name="province" id="province" class="form-control"  >
 				<!-- <option value="">----เลือกอำเภอ----</option> -->
 			</select>
 		</div>
 		<div class="col-sm-3">
 			<p>เขต/อำเภอ</p>
 			<p class="required">*</p>
-			<!-- <input type="text" class="form-control" name="amphur"  readonly /> -->
-			<select name="amphur" id="amphur" class="form-control" required disabled>
+			<!-- <input type="text" class="form-control" name="amphur"   /> -->
+			<select name="amphur" id="amphur" class="form-control"  >
 				<!-- <option value="">----เลือกอำเภอ----</option> -->
 			</select>
 		</div>
 		<div class="col-sm-3">
 			<p>แขวง/ตำบล</p>
 			<p class="required">*</p>
-			<select name="district" id="district" class ="form-control" required>
+			<select name="district" id="district" class ="form-control"  required>
 				<option value="">--เลือก--</option>
-				
+
 			</select>
 		</div>
 	</div>
@@ -406,17 +416,14 @@ function delObjective(num)
 			<select name="adviser" class ="form-control" required>
 				<option value="">--เลือก--</option>
 				<?php foreach($listSale as $rowSale): ?>
-					<option value="<?php echo $rowSale['id_mmember'];?>"><?php echo $rowSale['firstname'];?></option>
+					<option value="<?php echo $rowSale['id_mmember'];?>"><?php echo $rowSale['firstname'].'  '.$rowSale['lastname'];?></option>
 				<?php endforeach; ?>
-				<!-- <option value="1"> นาย A </option>
-				<option value="2"> นาย B </option>
-				<option value="3"> นาย C </option> -->
 			</select>
 		</div>
 		<div class="col-sm-3">
 			<p>ประเภทรถ</p>
 			<p class="required">*</p>
-			<select name="typeCar" class ="form-control" required>
+			<select name="typeCar" class ="form-control" required >
 				<option value="">--เลือก--</option>
 				<option value="1"> รถใหม่ </option>
 				<option value="2"> รถเก่า</option>
@@ -436,7 +443,7 @@ function delObjective(num)
 	</div>
 	<div class="form-group col-sm-12">
 		<p><u>รุ่นรถที่สนใจ</u></p>
-		<div class="col-sm-4">
+		<div class="col-sm-3">
 			<p>รุ่นรถ</p>
 			<select name="typeCar" class ="form-control" required>
 				<option value="">--เลือก--</option>
@@ -445,9 +452,9 @@ function delObjective(num)
 				<option value="3"> Denler2</option>
 			</select>
 		</div>
-		<div class="col-sm-4">
+		<div class="col-sm-3">
 			<p>ประเภท</p>
-			<select name="typeCar" class ="form-control" required>
+			<select name="typeCar" class ="form-control" required >
 				<option value="">--เลือก--</option>
 				<option value="1"> HONDA </option>
 				<option value="2"> Denler1</option>
@@ -456,12 +463,25 @@ function delObjective(num)
 		</div>
 		<div class="col-sm-2">
 			<p>สี</p>
-			<select name="typeColor" class ="form-control" required>
+			<select name="typeColor" class ="form-control"  required>
 				<option value="">--เลือก--</option>
 				<option value="1" style="background-color: red">สีแดง</option>
 				<option value="2" style="background-color: write"> สีขาว</option>
 				<option value="3" style="background-color: black"> สีดำ</option>
 				<option value="3" style="background-color: gray"> สีเทา</option>
+			</select>
+		</div>
+		<div class="col-sm-2">
+			<p>สาขา</p>
+			<p class="required">*</p>
+			<select name="branch" class ="form-control" required>
+				<option value="">--เลือก--</option>
+				<option value="1" selected >อุดรธานี</option>
+				<option value="2"> หนองบัวลำภู</option>
+				<option value="3"> หนองคาย</option>
+				<option value="4" > บึงกาฬ</option>
+				<option value="5"> สว่างแดนดิน</option>
+				<option value="6"> สกลนคร</option>
 			</select>
 		</div>
 		<div class="col-sm-2">
@@ -475,7 +495,7 @@ function delObjective(num)
 	<div class="form-group col-sm-6">
 		<div class="col-sm-9">
 			<p>แหล่งที่มาของลูกค้า</p>
-			<input type="text" class="form-control" />
+			<input type="text" class="form-control"  name="origin[]"/>
 		</div>
 		<div class="col-sm-2">
 			<p>&nbsp;</p>
@@ -488,7 +508,7 @@ function delObjective(num)
 	<div class="form-group col-sm-6">
 		<div class="col-sm-8">
 			<p>วัตถุประสงค์ของการซื้อ</p>
-			<input type="text" class="form-control" />
+			<input type="text" class="form-control"  name="objective[]"/>
 		</div>
 		<div class="col-sm-2">
 			<p>&nbsp;</p>

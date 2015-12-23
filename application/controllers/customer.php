@@ -35,7 +35,7 @@ class Customer extends CI_Controller
 		$zipcode =  $_POST['zipcode'];
 		//$dataProvince = array();
 		$showdata = $this->mdl_getProvince->getProvince($zipcode);
-		
+
 		$province = array('province_id'=>$showdata[0]['PROVINCE_ID'],'province_name' => $showdata[0]['PROVINCE_NAME'],'amphur_id'=>$showdata[0]['AMPHUR_ID'],'amphur_name' => $showdata[0]['AMPHUR_NAME'],'zipcode ' => $showdata[0]['ZIPCODE']);
 		foreach ($showdata as $rowProvince) {
 			$dataProvince = array(
@@ -120,7 +120,7 @@ class Customer extends CI_Controller
 	}
 
 	public function ADD()
-	{		
+	{
 		$SCREENID="A001";
 		$this->mainpage($SCREENID);
 		$this->data['listSale'] = $this->mdl_customer->getTypeSale();  //ที่ปรึกษาด้านการขาย
@@ -149,44 +149,60 @@ class Customer extends CI_Controller
 	{
 		if($_POST):
 			parse_str($_POST['form'], $post);
-		//$code= $this->getCode();
+				//$code= $this->getCode();
+		$objective = "";
+		$ob = count($post['objective']);
+		for ($i=0; $i < $ob; $i++) {
+			$objective .=$post['objective'][$i].',';
+		}
+
+		$origin = "";
+		$orig = count($post['origin']);
+		for ($j=0; $j < $orig; $j++) {
+			$origin .=$post['origin'][$j].',';
+		}
+
 		$data = array(
-			"id_mposition"		=> $post['id_mposition'],
-			//"employee_code"	=> $code,
-			"id_mdept"			=> $post['id_mdept'],
-			"employee_code"		=> $post['employee_code'],
-			"sex"				=> $post['sex'],
-			"status_marriaged"	=> $post['status_marriaged'],
-			"id_employee_tit"	=> $post['id_employee_tit'],
-			"firstname_en"		=> $post['firstname_en'],
-			"lastname_en"		=> $post['lastname_en'],
-			"firstname_th"		=> $post['firstname_th'],
-			"lastname_th"		=> $post['lastname_th'],
-			"birthdate"			=> $this->convert_date($post['birthdate']),
-			"startdate"			=> $this->convert_date($post['startdate']),
-			"resigndate"		=> $this->convert_date($post['resigndate']),
-			"adr_line1"			=> str_replace("\n", "<br>\n",$post['adr_line1']),
-			"adr_line2"			=> str_replace("\n", "<br>\n",$post['adr_line2']),
-			"idcard_num"		=> $post['idcard_num'],
-			"drv_lcn_num"		=> $post['drv_lcn_num'],
-			"email"				=> $post['email'],
-			"telephone"			=> $post['telephone'],
-			"mobile"			=> $post['mobile'],
-			"fax"				=> $post['fax'],
-			"username"			=> $post['username'],
-			"password"			=> MD5($post['password']),
-			"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
-			"status"			=> 1,
-			"id_create"			=> $this->id_employee,
-			"dt_create"			=> $this->dt_now,
-			"id_update"			=> $this->id_employee,
-			"dt_update"			=> $this->dt_now
+			// "id_customer" =>'',
+			"customer_code"  =>	'001',
+			"customer_date" =>	$this->convert_date($post['customer_date']),
+			"bye_date" 	=>	$this->convert_date($post['bye_date']),
+			"accounts_receivable"	 =>	$post['accounts_receivable'],
+			"is_cus_new" 	=> $post['customer'],
+			"is_type"		=>	$post['is_type'],
+			"is_company" 	=>	$post['is_company'],
+			"id_tit"		=> 	$post['is_tit'],
+			"firstname" 	=>	$post['firstname_th'],
+			"lastname" 	=>	$post['lastname_th'],
+			"birth_date"	=>	$post['birthdate'],
+			"adr_line" 	=>	$post['address'],
+			"post_code" 	=>	$post['zipcode'],
+			"id_mprovince" 	=>	$post['province'],
+			"id_mamphur"	=>	$post['amphur'],
+			"id_mdistric"	=>	$post['district'],
+			"idcard_number"	=>	$post['idcard_number'],
+			"driver_card_number"	=>	$post['drv_card_num'],
+			"email"		=>	$post['email'],
+			"telephone"	=> 	$post['telephone'],
+			"mobile"		=>	$post['mobile'],
+			"sales_consultants"	=>	$post['adviser'],
+			"customer_source"		=>	substr($origin,0,-1),
+			"reason"	=>	substr($objective,0,-1),
+			"id_mbranch"	=>	$post['branch'],
+			"comment"	=> 	str_replace("\n", "<br>\n",$post['comment']),
+			"status"		=>	 1,
+			"id_create"	=>	 $this->id_mmember,
+			"dt_create"	=> 	$this->dt_now,
+			"id_update"	=> 	$this->dt_now,
+			"dt_update"	=> 	$this->dt_now
 			);
-         ///print_r($data);exit();
-$this->mdl_customer->addemployee($data);
+			// echo "<pre>";
+			// print_r($data);exit();
+
+$this->mdl_customer->addcustomer($data);
 $massage = "บันทึกข้อมูล เรียบร้อย !";
 $this->alert($massage);
-	//echo json_encode($getId_tmnf);
+// echo json_encode($data);
 endif;
 }
 

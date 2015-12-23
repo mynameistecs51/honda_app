@@ -13,8 +13,8 @@ class Mdl_customer extends CI_Model
 		return  $query_sql;
 	}
 
-	public function addmmember($data){
-		$this->db->insert('mmember', $data);
+	public function addcustomer($data){
+		$this->db->insert('tcustomer', $data);
 	}
 
 	public function updatemmember($id,$data){
