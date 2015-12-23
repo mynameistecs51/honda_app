@@ -104,28 +104,48 @@
 
 	public function getStock($id){
 	  $sql = "
-			SELECT
-				a.id_mbranch,
-				a.mbranch_code,
-				a.mbranch_name, 
-				a.status,
-				a.comment,
-				concat(i.firstname,' ',i.lastname) AS name_create,
-				concat(i2.firstname,' ',i2.lastname) AS name_update,
-				DATE_FORMAT(a.dt_create,'%d/%m/%Y %H:%i:%s') AS dt_create,
-				DATE_FORMAT(a.dt_update,'%d/%m/%Y %H:%i:%s') AS dt_update
-				FROM
-					mbranch a
-				LEFT JOIN mmember i ON a.id_create=i.id_mmember
-				LEFT JOIN mmember i2 ON a.id_update=i2.id_mmember ";
+			SELECT 
+				a.id_stock, 
+				a.stock_code,  
+				CONCAT(DATE_FORMAT(a.stock_date,'%d/%m/'),DATE_FORMAT(a.stock_date,'%Y')+543 ) AS stock_date, 
+				b.mbranch_name,
+				CASE a.is_recive_type
+					WHEN 1 THEN 'รับเข้าใหม่'
+					WHEN 2 THEN 'รับโอนจากสาขาอื่น'
+				END AS is_recive_type, 
+				a.id_transfer, 
+				a.chassis_number, 
+				a.engine_number,
+				c.mmodel_name,
+				d.gen_name,
+				e.color_name,
+				a.chassis_number,
+				a.engine_number, 
+				CONCAT(DATE_FORMAT(a.recive_doc_date,'%d/%m/'),DATE_FORMAT(a.recive_doc_date,'%Y')+543 ) AS recive_doc_date,
+				a.doc_reference_code,  
+				f.zone_name,
+				a.comment, 
+				CASE a.status
+					WHEN 1 THEN 'รับเข้าสต๊อก'
+					WHEN 2 THEN 'จองแล้ว'
+					WHEN 3 THEN 'จำหน่ายแล้ว'
+					WHEN 4 THEN 'โยกไปสาขาอื่น'
+					WHEN 0 THEN 'ยกเลิกการรับ'
+				END AS status
+			FROM tstock a
+			INNER JOIN mbranch b ON a.id_mbranch=b.id_mbranch
+			INNER JOIN mmodel c ON a.id_mmodel=c.id_model
+			INNER JOIN mgen d ON a.id_mgen=d.id_gen
+			INNER JOIN mcolor e ON a.id_mcolor=e.id_color
+			INNER JOIN mzone f ON a.id_zone=f.id_zone ";
 				
-				if($id != ""){
-					 $sql .= " WHERE a.id_mbranch='$id' ";
+			if($id != ""){
+				 $sql .= " WHERE a.id_stock='$id' ";
 			}
  		// echo "<pre>".$sql;
 			$query = $this->db->query($sql);
 			return  $query->result();
- 	  }
+ 	  } 
 
 	public function getmbranch(){
 	  $sql = "
@@ -139,6 +159,25 @@
 		return  $query->result();
  	}
 
+ 	public function getchassisNumber($code,$id_mbranch){
+	  $sql = "
+				SELECT
+				a.id_stock
+				FROM
+				tstock a
+				WHERE  a.chassis_number='$code' 
+				AND a.status=1 
+				AND a.id_mbranch='$id_mbranch' ";
+			$query = $this->db->query($sql);
+
+		if($query->num_rows() > 0)
+		{
+			return "1";
+		}else{
+			return "0";
+		}
+	}
+
  	public function getmzone($id_mbranch){
 	  $sql = "
 			SELECT
@@ -147,6 +186,41 @@
 			mzone a
 			WHERE a.status = 1 
 			AND a.id_mbranch='$id_mbranch' ";
+		// echo $sql;
+		$query = $this->db->query($sql);
+		return  $query->result();
+ 	}
+
+ 	public function getmmodel(){
+	  $sql = "
+			SELECT
+				a.id_model,a.mmodel_name
+			FROM
+				mmodel a
+			WHERE a.status = 1 ";
+		// echo $sql;
+		$query = $this->db->query($sql);
+		return  $query->result();
+ 	}
+
+ 	public function getmgen(){
+	  $sql = "
+			SELECT
+				a.id_gen,a.gen_name
+			FROM
+				mgen a
+			WHERE a.status = 1 ";
+		// echo $sql;
+		$query = $this->db->query($sql);
+		return  $query->result();
+ 	}
+ 	public function getmcolor(){
+	  $sql = "
+			SELECT
+				a.id_color,a.color_name
+			FROM
+				mcolor a
+			WHERE a.status = 1 ";
 		// echo $sql;
 		$query = $this->db->query($sql);
 		return  $query->result();

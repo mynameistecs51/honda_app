@@ -2,6 +2,29 @@
 $(function(){  	
 	$("#tstock_date").datepicker();
 	$("#recive_doc_date").datepicker();  
+	$("#chassis_number").change(function(){
+		$("#valid").html("");
+		var code = $("#chassis_number").val(); 
+		if(code != ""){
+			$.ajax(
+	            {
+	                type: 'POST',
+	                url: '<?php echo base_url().$controller; ?>/checkchassis_number/',
+	                data: {"chassis_number":code}, //your form datas to post          
+	                success: function(rs)
+	                {   
+	                	console.log(rs); 
+	                	if(rs==1){ 
+	                		$("#valid").html(" :"+code+" มีการใช้งานอยู่แล้ว");
+	                		$("#chassis_number").val('');
+	                	}
+	                }
+	            });      
+			
+		}else{
+			$("#valid").html("");
+		}
+	});  	
 	saveData();
 	getTransfer();
  });
@@ -82,44 +105,44 @@ function getTransfer(){
 <div class="row form_input"> 
 	<div class="col-md-3" >
 		<p>หมายเลขตัวถัง</p><p class="required">*</p>
-		<input type="text" class="form-control" id="plan" name="plan" placeholder="--ระบุ--"  required>
+		<input type="text" class="form-control" id="chassis_number" name="chassis_number" placeholder="--ระบุ--"  required>
 	</div>
 	<div class="col-md-3" >
 		<p>หมายเลขเครื่อง</p><p class="required">*</p>
-		<input type="text" class="form-control" id="plan" name="plan" required>
+		<input type="text" class="form-control" id="engine_number" name="engine_number" required>
 	</div> 
 	<div class="col-md-3" >
 		<p>แบบ</p><p class="required">*</p>
-		<select name="id_mbranch" class ="form-control" required>
+		<select name="id_model" class ="form-control" required>
 			<option value="" selected>--เลือก--</option> 
 			<?php 
-			foreach ($listMbranch as $Mbranch)
+			foreach ($listMmodel as $Mmodel)
 			{ 
-				echo "<option value='".$Mbranch->id_mbranch."'>".$Mbranch->mbranch_name."</option>";
+				echo "<option value='".$Mmodel->id_model."'>".$Mmodel->mmodel_name."</option>";
 			}
 			?>
 		</select>
 	</div>
 	<div class="col-md-3" >
 		<p>รุ่น</p><p class="required">*</p>
-		<select name="id_mbranch" class ="form-control" required>
-			<option value="" selected>--เลือก--</option> 
+		<select name="id_gen"  class ="form-control" required>
+			<option  value="" selected>--เลือก--</option> 
 			<?php 
-			foreach ($listMbranch as $Mbranch)
+			foreach ($listMgen as $Mgen)
 			{ 
-				echo "<option value='".$Mbranch->id_mbranch."'>".$Mbranch->mbranch_name."</option>";
+				echo "<option value='".$Mgen->id_gen."'>".$Mgen->gen_name."</option>";
 			}
 			?>
 		</select>
 	</div>
 	<div class="col-md-3" >
 		<p>สี</p><p class="required">*</p>
-		<select name="id_mbranch" class ="form-control" required>
+		<select name="id_color" class ="form-control" required>
 			<option value="" selected>--เลือก--</option> 
 			<?php 
-			foreach ($listMbranch as $Mbranch)
+			foreach ($listMcolor as $Mcolor)
 			{ 
-				echo "<option value='".$Mbranch->id_mbranch."'>".$Mbranch->mbranch_name."</option>";
+				echo "<option value='".$Mcolor->id_color."'>".$Mcolor->color_name."</option>";
 			}
 			?>
 		</select>

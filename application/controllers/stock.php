@@ -14,6 +14,7 @@ class Stock extends CI_Controller
 		$this->datenow = $now->format('d/m/').$Y;
 		$this->id_mmember = $this->session->userdata('id_mmember');
 		$this->id_mposition=$this->session->userdata("id_mposition");
+		$this->id_mbranch=$this->session->userdata("id_mbranch");
 		$this->SCREENNAME=$this->template->getScreenName($this->ctl);
 		if($this->session->userdata("id_mmember")==""){
 			redirect('authen/');
@@ -31,16 +32,24 @@ public function index()
 }
 public function getList()
 {
-    $requestData= $_REQUEST; 
-    $sqlQuery= $this->mdl_stock->getList($requestData);  
+    $requestData= $_REQUEST;
+    $sqlQuery= $this->mdl_stock->getList($requestData);
     $this->datatables->getDatatables($requestData,$sqlQuery);
 }
 
 public function checkCode()
 {  
 	if ($_POST['code'])
-	{ 
+	{
 		echo $this->mdl_stock->getCode($_POST['code']);
+	}
+}
+
+public function checkchassis_number()
+{  
+	if ($_POST['chassis_number'])
+	{ 
+		echo $this->mdl_stock->getchassisNumber($_POST['chassis_number'],$this->id_mbranch);
 	}
 }
 
@@ -62,8 +71,11 @@ public function mainpage($SCREENID)
 	$this->data['mbranch_name'] = $this->session->userdata("mbranch_name");
 	$this->data["lastLogin"] = $this->session->userdata('lastLogin');
 	$this->data["id_mmember"] =$this->session->userdata("id_mmember");
-	$this->data["id_mposition"] =$this->session->userdata("id_mposition");
+	$this->data["id_mposition"] =$this->session->userdata("id_mposition");  
 	$this->data['listMbranch']= $this->mdl_stock->getmbranch();
+	$this->data['listMmodel']= $this->mdl_stock->getmmodel();
+	$this->data['listMgen']= $this->mdl_stock->getmgen();
+	$this->data['listMcolor']= $this->mdl_stock->getmcolor();
 	$this->data['listMzone']= $this->mdl_stock->getmZone($this->session->userdata("id_mbranch"));
 	$this->data["datenow"] = $this->datenow;
 	$this->data["datefrom"] =$this->datefrom;
