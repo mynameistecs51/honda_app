@@ -25,40 +25,50 @@ $(function(){
 			$("#valid").html("");
 		}
 	});  	
-	saveData(); 
-	getdata();
+	saveData();
+	getTransfer();
  });
 function saveData()
-{
- $('#form').on('submit', function (e) {
-    if (e.isDefaultPrevented()) {
-      alert("ผิดพลาด : กรุณาตรวจสอบข้อมูลให้ถูกต้อง !");
-      // handle the invalid form...
-    } else {
-      // everything looks good!
-    e.preventDefault();
-    var form = $('#form').serialize();
-    //console.log()
-        $.ajax(
-        {
-            type: 'POST',
-            url: '<?php echo base_url().$controller; ?>/saveadd/',
-            data: {form}, //your form datas to post          
-            success: function(rs)
-            {   
-              $('.modal').modal('hide');
-              location.reload();
-              alert("#บันทึกข้อมูล เรียบร้อย !");
-            },
-            error: function()
-            {
-                alert("#เกิดข้อผิดพลาด");
+      {
+         $('#form').on('submit', function (e) {
+            if (e.isDefaultPrevented()) {
+              alert("ผิดพลาด : กรุณาตรวจสอบข้อมูลให้ถูกต้อง !");
+              // handle the invalid form...
+            } else {
+              // everything looks good!
+            e.preventDefault();
+            var form = $('#form').serialize();
+            //console.log()
+	            $.ajax(
+	            {
+	                type: 'POST',
+	                url: '<?php echo base_url().$controller; ?>/saveadd/',
+	                data: {form}, //your form datas to post          
+	                success: function(rs)
+	                {   
+	                  $('.modal').modal('hide');
+	                  location.reload();
+	                  alert("#บันทึกข้อมูล เรียบร้อย !");
+	                },
+	                error: function()
+	                {
+	                    alert("#เกิดข้อผิดพลาด");
+	                }
+	            });                   
             }
-        });                   
-    }
-  });
-}
-function getdata(){ 
+          });
+      }
+function getTransfer(){
+	$('.is_recive_type').change(function(){ 
+		var val= $(".is_recive_type:checked").val();
+		if(val==2){
+			$(".transfer").attr("style","display:true;");
+			$("#transfer_code").attr('required', 'required');
+		}else{
+			$(".transfer").attr("style","display:none;");
+			$("#transfer_code").removeAttr('required');
+		}
+	});
 	$('#id_mmodel').change(function(){ 
 		var id_mmodel= $(this).val();
 		if(id_mmodel!=''){  
@@ -130,19 +140,22 @@ function getdata(){
 		<p>สำนักงาน/สาขาที่รับ</p><p class="required">*</p>
 		<input type="text" class="form-control" id="mbranch_name" name="mbranch_name" value="<?php echo $mbranch_name; ?>"  readonly>
 	</div> 
+</div>
+<div class="row form_input transfer" style="display:none;"> 
 	<div class="col-md-3" >
-		<p>โซนจัดเก็บ</p><p class="required">*</p>
-		<select name="id_zone" class ="form-control" required>
-			<option value="">--เลือก--</option> 
-			<?php 
-			foreach ($listMzone as $Mzone)
-			{ 
-				echo "<option value='".$Mzone->id_zone."'>".$Mzone->zone_name."</option>";
-			}
-			?>
-		</select> 
+		<p>เลขที่ใบโยกรถ</p><p class="required">*</p>
+		<input type="text" class="form-control" id="transfer_code" name="transfer_code" placeholder="--ระบุ--" >
+		<input type="hidden" id="id_transfer" name="id_transfer"  >
 	</div>
-</div> 
+	<div class="col-md-3" >
+		<p>วันที่โยกรถ</p> 
+		<input type="text" class="form-control" id="transfer_date" name="transfer_date"  readonly>
+	</div>
+	<div class="col-md-3" >
+		<p>สาขาที่โยกมา</p> 
+		<input type="text" class="form-control" id="branch_transfer" name="branch_transfer"  readonly>
+	</div>
+</div>
 <div class="row form_input"> 
 	<div class="col-md-3" >
 		<p>หมายเลขตัวถัง <b ID="valid"></b></p>
@@ -178,8 +191,20 @@ function getdata(){
 	<div class="col-md-3" >
 		<p>วันที่รับจริง</p><p class="required">*</p> 
 		<input type="text" class="form-control" id="recive_doc_date" name="recive_doc_date" value="<?php echo $datenow; ?>" required>
-	</div>  
-	<div class="col-md-6" >
+	</div> 
+	<div class="col-md-3" >
+		<p>โซนจัดเก็บ</p><p class="required">*</p>
+		<select name="id_zone" class ="form-control" required>
+			<option value="">--เลือก--</option> 
+			<?php 
+			foreach ($listMzone as $Mzone)
+			{ 
+				echo "<option value='".$Mzone->id_zone."'>".$Mzone->zone_name."</option>";
+			}
+			?>
+		</select> 
+	</div>
+	<div class="col-md-3" >
 		<p>เลขที่เอกสารอ้างอิง</p>
 		<input type="text" class="form-control" id="doc_reference_code" name="doc_reference_code" >
 	</div> 

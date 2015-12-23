@@ -51,6 +51,23 @@ public function checkchassis_number()
 	{ 
 		echo $this->mdl_stock->getchassisNumber($_POST['chassis_number'],$this->id_mbranch);
 	}
+} 
+
+public function getMgen()
+{
+	if ($_POST['id_mmodel'])
+	{
+		$rs=$this->mdl_stock->getmgen($_POST['id_mmodel']); 
+		echo json_encode($rs);
+	}
+}
+public function getMcolor()
+{
+	if ($_POST['id_mgen'])
+	{
+		$rs=$this->mdl_stock->getMcolor($_POST['id_mgen']); 
+		echo json_encode($rs);
+	}
 }
 
 public function convert_date($val_date)
@@ -73,9 +90,7 @@ public function mainpage($SCREENID)
 	$this->data["id_mmember"] =$this->session->userdata("id_mmember");
 	$this->data["id_mposition"] =$this->session->userdata("id_mposition");  
 	$this->data['listMbranch']= $this->mdl_stock->getmbranch();
-	$this->data['listMmodel']= $this->mdl_stock->getmmodel();
-	$this->data['listMgen']= $this->mdl_stock->getmgen();
-	$this->data['listMcolor']= $this->mdl_stock->getmcolor();
+	$this->data['listMmodel']= $this->mdl_stock->getmmodel(); 
 	$this->data['listMzone']= $this->mdl_stock->getmZone($this->session->userdata("id_mbranch"));
 	$this->data["datenow"] = $this->datenow;
 	$this->data["datefrom"] =$this->datefrom;
@@ -102,7 +117,7 @@ public function DETAIL($id)
 		$SCREENID="D001";
 		$this->data['pagename']=$this->SCREENNAME;
 		$this->mainpage($SCREENID); 
-		$this->data['listMstock']= $this->mdl_stock->getstock($id);
+		$this->data['listStock']= $this->mdl_stock->getstock($id);
 		$this->load->view('stock/'.$SCREENID,$this->data);
 	}
 public function EDIT($id,$idx)
@@ -111,7 +126,7 @@ public function EDIT($id,$idx)
 		$this->data['pagename']=$this->SCREENNAME;
 		$this->mainpage($SCREENID); 
 		$this->data['idx']=$idx;
-		$this->data['listMstock']= $this->mdl_stock->getstock($id);
+		$this->data['listStock']= $this->mdl_stock->getstock($id);
 		$this->load->view('stock/'.$SCREENID,$this->data);
 	}
 public function getCode(){
@@ -121,14 +136,14 @@ public function getCode(){
 public function saveadd()
 {
 	if($_POST):
-     	parse_str($_POST['form'], $post); 
+     	parse_str($_POST['form'], $post);
 		$data = array(
 			"id_stock"		=> '', 
-			"stock_code"	=> $this->getCode(), 
-			"stock_date"	=> $this->convert_date($post['stock_date']), 
-			"id_mbranch"	=> $post['id_mbranch'], 
-			"is_recive_type"=> $post['is_recive_type'], 
-			"id_transfer"	=> $post['id_transfer'], 
+			"stock_code"	=> $this->getCode(),
+			"stock_date"	=> $this->convert_date($post['stock_date']),
+			"id_mbranch"	=> $this->id_mbranch, 
+			"is_recive_type"=> 1, 
+			"id_transfer"	=> '', 
 			"chassis_number"=> $post['chassis_number'], 
 			"engine_number"	=> $post['engine_number'], 
 			"id_mmodel"		=> $post['id_mmodel'], 
@@ -144,7 +159,7 @@ public function saveadd()
 			"id_update"		=> $this->id_mmember,
 			"dt_update"		=> $this->dt_now
 		); 
-		$this->mdl_stock->addmstock($data); 
+		$this->mdl_stock->addStock($data);
     endif;
 }
 
@@ -152,15 +167,21 @@ public function saveUpdate()
 {
 	if($_POST):
 		parse_str($_POST['form'], $post);
-		$data = array(
-			"mstock_code"	=> $post['mstock_code'],
-			"mstock_name"  => $post['mstock_name'],
-			"comment"		=> str_replace("\n", "<br>\n",$post['comment']), 
-			"status"		=> $post['status'],
+		$data = array( 
+			"stock_date"	=> $this->convert_date($post['stock_date']), 
+			"engine_number"	=> $post['engine_number'], 
+			"id_mmodel"		=> $post['id_mmodel'], 
+			"id_mgen"		=> $post['id_mgen'], 
+			"id_mcolor"		=> $post['id_mcolor'], 
+			"recive_doc_date"	 => $this->convert_date($post['recive_doc_date']), 
+			"doc_reference_code" => $post['doc_reference_code'], 
+			"id_zone"		=> $post['id_zone'], 
+			"comment"		=> str_replace("\n", "<br>\n",$post['comment']),
+			"status"		=> $post['status'], 
 			"id_update"		=> $this->id_mmember,
 			"dt_update"		=> $this->dt_now
-		);
-		$this->mdl_stock->updatemstock($post['id_mstock'],$data);
+		); 
+		$this->mdl_stock->updateStock($post['id_stock'],$data);
 	endif;
 }
 

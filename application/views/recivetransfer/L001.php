@@ -114,11 +114,7 @@ function rundatatable(){
                     html +='<img src="<?php echo base_url(); ?>images/un_list_view.png"   title="ไม่ได้รับสิทธิ์ดูรายละเอียด" class="btnoptUnclick" data-idview="' + full['id_stock'] + '" />';
                 }
                 if($('#btn_edit').val()==1){
-                    if(full['sta']==1 || full['sta']==0){
-                      html +='<img src="<?php echo base_url(); ?>images/list_edit.png"   title="แก้ไข" class="btnopt edit" data-idedit="' + full['id_stock'] + '" />';
-                    }else{
-                      html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="'+full['status']+'" class="btnoptUnclick" data-idedit="' + full['id_stock'] + '" />';
-                    }
+                    html +='<img src="<?php echo base_url(); ?>images/list_edit.png"   title="แก้ไข" class="btnopt edit" data-idedit="' + full['id_stock'] + '" />';
                 }else{
                     html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="ไม่ได้รับสิทธิ์แก้ไขข้อมูล" class="btnoptUnclick" data-idedit="' + full['id_stock'] + '" />';
                 }
@@ -263,7 +259,7 @@ function modal_form_view(n,screenname)
       <lable class="lable"> From :</lable><input type="text" data-column="2" ID="datefrom"  class="search-input-text" value="<?php echo $datefrom; ?>" > 
       <lable class="lable"> To :</lable><input type="text" data-column="3"  ID="dateto" class="search-input-text" value="<?php echo $dateto; ?>" > 
       <select data-column="4" class="search-input-text">
-        <option style="font-size:12px;" value="all" >----ทั้งหมด----</option>
+        <option style="font-size:12px;" value="" >----ทั้งหมด----</option>
         <option style="font-size:12px;" value="1" selected>รับเข้าสต๊อก</option> 
         <option style="font-size:12px;" value="2">จองแล้ว</option> 
         <option style="font-size:12px;" value="3">จำหน่ายแล้ว</option> 

@@ -10,11 +10,11 @@
 		$this->id_mbranch = $this->session->userdata("id_mbranch") != '' ? $this->session->userdata("id_mbranch"):1;
     }
 
-	public function addTstock($data){
+	public function addStock($data){
 		$this->db->insert('tstock', $data);
 	}
 
-	public function updatembranch($id,$data){
+	public function updateStock($id,$data){
 		$this->db->where('id_stock', $id);
 		$this->db->update('tstock', $data);
 	}
@@ -22,41 +22,42 @@
 	public function getList($requestData){
 
 	 	$sql_full = "
-              	SELECT 
-					a.id_stock, 
-					a.stock_code,  
-					CONCAT(DATE_FORMAT(a.stock_date,'%d/%m/'),DATE_FORMAT(a.stock_date,'%Y')+543 ) AS stock_date, 
-					b.mbranch_name,
-					CASE a.is_recive_type
-						WHEN 1 THEN 'รับเข้าใหม่'
-						WHEN 2 THEN 'รับโอนจากสาขาอื่น'
-					END AS is_recive_type, 
-					a.id_transfer, 
-					a.chassis_number, 
-					a.engine_number,
-					c.mmodel_name,
-					d.gen_name,
-					e.color_name,
-					a.chassis_number,
-					a.engine_number, 
-					CONCAT(DATE_FORMAT(a.recive_doc_date,'%d/%m/'),DATE_FORMAT(a.recive_doc_date,'%Y')+543 ) AS recive_doc_date,
-					a.doc_reference_code,  
-					f.zone_name,
-					a.comment, 
-					CASE a.status
-						WHEN 1 THEN 'รับเข้าสต๊อก'
-						WHEN 2 THEN 'จองแล้ว'
-						WHEN 3 THEN 'จำหน่ายแล้ว'
-						WHEN 4 THEN 'โยกไปสาขาอื่น'
-						WHEN 0 THEN 'ยกเลิกการรับ'
-					END AS status
-				FROM tstock a
-				INNER JOIN mbranch b ON a.id_mbranch=b.id_mbranch
-				INNER JOIN mmodel c ON a.id_mmodel=c.id_model
-				INNER JOIN mgen d ON a.id_mgen=d.id_gen
-				INNER JOIN mcolor e ON a.id_mcolor=e.id_color
-				INNER JOIN mzone f ON a.id_zone=f.id_zone
-	 			WHERE 1 = 1 ";
+          	SELECT
+				a.id_stock,
+				a.stock_code,
+				CONCAT(DATE_FORMAT(a.stock_date,'%d/%m/'),DATE_FORMAT(a.stock_date,'%Y')+543 ) AS stock_date,
+				b.mbranch_name,
+				CASE a.is_recive_type
+					WHEN 1 THEN 'รับเข้าใหม่'
+					WHEN 2 THEN 'รับโอนจากสาขาอื่น'
+				END AS is_recive_type,
+				a.id_transfer,
+				a.chassis_number, 
+				a.engine_number,
+				c.mmodel_name,
+				d.gen_name,
+				e.color_name,
+				a.chassis_number,
+				a.engine_number,
+				CONCAT(DATE_FORMAT(a.recive_doc_date,'%d/%m/'),DATE_FORMAT(a.recive_doc_date,'%Y')+543 ) AS recive_doc_date,
+				a.doc_reference_code,  
+				f.zone_name,
+				a.comment,
+				a.status AS sta,
+				CASE a.status
+					WHEN 1 THEN 'รับเข้าสต๊อก'
+					WHEN 2 THEN 'จองแล้ว'
+					WHEN 3 THEN 'จำหน่ายแล้ว'
+					WHEN 4 THEN 'โยกไปสาขาอื่น'
+					WHEN 0 THEN 'ยกเลิกการรับ'
+				END AS status
+			FROM tstock a
+			INNER JOIN mbranch b ON a.id_mbranch=b.id_mbranch
+			INNER JOIN mmodel c ON a.id_mmodel=c.id_model
+			INNER JOIN mgen d ON a.id_mgen=d.id_gen
+			INNER JOIN mcolor e ON a.id_mcolor=e.id_color
+			INNER JOIN mzone f ON a.id_zone=f.id_zone
+ 			WHERE 1 = 1 ";
         $sql_search=$sql_full;
         // getting records as per search parameters
         if( !empty($requestData['columns'][0]['search']['value']) ){ //name
@@ -80,10 +81,12 @@
         }else{
         	$dateto = $this->dateto;
         }
-        if($requestData['columns'][4]['search']['value'] !=''){  //salary
-        	$sql_search.=" AND a.status= ".$requestData['columns'][4]['search']['value'];
-        }else{
+        if($requestData['columns'][4]['search']['value'] =='all'){  //salary
+        	$sql_search.=" AND a.status IN (0,1,2,3,4)";
+        }else if($requestData['columns'][4]['search']['value'] ==''){
         	$sql_search.=" AND a.status=1";
+        }else{
+        	$sql_search.=" AND a.status= ".$requestData['columns'][4]['search']['value'];
         }
         $sql_search.=" AND a.stock_date BETWEEN '".$datefrom."' AND '".$dateto."' ";
 
@@ -109,35 +112,35 @@
 				a.stock_code,  
 				CONCAT(DATE_FORMAT(a.stock_date,'%d/%m/'),DATE_FORMAT(a.stock_date,'%Y')+543 ) AS stock_date, 
 				b.mbranch_name,
-				CASE a.is_recive_type
-					WHEN 1 THEN 'รับเข้าใหม่'
-					WHEN 2 THEN 'รับโอนจากสาขาอื่น'
-				END AS is_recive_type, 
 				a.id_transfer, 
 				a.chassis_number, 
 				a.engine_number,
+				a.id_mmodel,
 				c.mmodel_name,
+				a.id_mgen,
 				d.gen_name,
+				a.id_mcolor,
 				e.color_name,
 				a.chassis_number,
 				a.engine_number, 
 				CONCAT(DATE_FORMAT(a.recive_doc_date,'%d/%m/'),DATE_FORMAT(a.recive_doc_date,'%Y')+543 ) AS recive_doc_date,
-				a.doc_reference_code,  
+				a.doc_reference_code,
+				a.id_zone,
 				f.zone_name,
 				a.comment, 
-				CASE a.status
-					WHEN 1 THEN 'รับเข้าสต๊อก'
-					WHEN 2 THEN 'จองแล้ว'
-					WHEN 3 THEN 'จำหน่ายแล้ว'
-					WHEN 4 THEN 'โยกไปสาขาอื่น'
-					WHEN 0 THEN 'ยกเลิกการรับ'
-				END AS status
+				a.status,
+				concat(i.firstname,' ',i.lastname) AS name_create,
+				concat(i2.firstname,' ',i2.lastname) AS name_update,
+				DATE_FORMAT(a.dt_create,'%d/%m/%Y %H:%i:%s') AS dt_create,
+				DATE_FORMAT(a.dt_update,'%d/%m/%Y %H:%i:%s') AS dt_update
 			FROM tstock a
 			INNER JOIN mbranch b ON a.id_mbranch=b.id_mbranch
 			INNER JOIN mmodel c ON a.id_mmodel=c.id_model
 			INNER JOIN mgen d ON a.id_mgen=d.id_gen
 			INNER JOIN mcolor e ON a.id_mcolor=e.id_color
-			INNER JOIN mzone f ON a.id_zone=f.id_zone ";
+			INNER JOIN mzone f ON a.id_zone=f.id_zone 
+			LEFT JOIN mmember i ON a.id_create=i.id_mmember
+			LEFT JOIN mmember i2 ON a.id_update=i2.id_mmember  ";
 				
 			if($id != ""){
 				 $sql .= " WHERE a.id_stock='$id' ";
@@ -203,24 +206,26 @@
 		return  $query->result();
  	}
 
- 	public function getmgen(){
+ 	public function getmgen($id_model){
 	  $sql = "
 			SELECT
 				a.id_gen,a.gen_name
 			FROM
 				mgen a
-			WHERE a.status = 1 ";
+			WHERE a.status = 1 
+			AND a.id_model='$id_model' ";
 		// echo $sql;
 		$query = $this->db->query($sql);
 		return  $query->result();
  	}
- 	public function getmcolor(){
+ 	public function getMcolor($id_gen){
 	  $sql = "
 			SELECT
 				a.id_color,a.color_name
 			FROM
 				mcolor a
-			WHERE a.status = 1 ";
+			WHERE a.status = 1 
+			AND a.id_gen='$id_gen'  ";
 		// echo $sql;
 		$query = $this->db->query($sql);
 		return  $query->result();
