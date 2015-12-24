@@ -13,13 +13,13 @@ class Mdl_getProvince extends CI_Model {
 	{
 		$sql_query ='SELECT z.ZIPCODE,p.PROVINCE_ID,p.PROVINCE_NAME,a.AMPHUR_ID,a.AMPHUR_NAME,d.DISTRICT_ID,d.DISTRICT_NAME
 		FROM zipcode z
-		LEFT JOIN mprovince p
+		INNER JOIN mprovince p
 		ON z.PROVINCE_ID = p.PROVINCE_ID
-		LEFT JOIN mamphur a
+		INNER JOIN mamphur a
 		ON z.AMPHUR_ID = a.AMPHUR_ID
-		LEFT JOIN mdistrict d
+		INNER JOIN mdistrict d
 		ON z.DISTRICT_ID=d.DISTRICT_ID
-		WHERE z.ZIPCODE = "'.$zipcode.'"';
+		WHERE z.ZIPCODE ="'.$zipcode.'"';
 		$query = $this->db->query($sql_query)->result_array();
 		return $query;
 	}

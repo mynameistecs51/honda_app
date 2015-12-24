@@ -8,7 +8,10 @@ class Mdl_customer extends CI_Model
 
 	public function getTypeSale()
 	{
-		$sql = 'SELECT m.firstname,m.lastname,m.id_mmember,p.mposition_code FROM mmember m INNER JOIN mposition p ON m.id_mposition = p.id_mposition WHERE p.mposition_code ="PS002" ';
+		$sql = 'SELECT m.firstname,m.lastname,m.id_mmember,p.mposition_code 
+		FROM mmember m 
+		INNER JOIN mposition p ON m.id_mposition = p.id_mposition 
+		WHERE p.mposition_code ="PS002" ';
 		$query_sql = $this->db->query($sql)->result_array();
 		return  $query_sql;
 	}
@@ -137,49 +140,41 @@ class Mdl_customer extends CI_Model
      	return  $query->result();
      }
 
-     public function getCodeLast($mcmp_code){
-	$sql = ""; //"SELECT chuphotic.fn_gen_mmember_code('".$mcmp_code."') AS code";
-	$query = $this->db->query($sql);
-	if($query->num_rows()>'0'){
-		$row = $query->row();
-		if($row->code != ""){
-			return  $row->code;
-		}else{
-			return '0';
-		}
-	}else{
-		return '0';
-	}
-}
+     public function getCodeCustomer(){
+     	$sql = "SELECT * FROM tcustomer";
+     	$query = $this->db->query($sql)->result();
 
-public function getUser($user){
-	$sql = "
-	SELECT
-	a.id_mmember
-	FROM
-	mmember a
-	WHERE  a.username='$user' ";
-	$query = $this->db->query($sql);
+     	return $query;
+     }
 
-	if($query->num_rows() > 0)
-	{
-		return "1";
-	}else{
-		return "0";
-	}
-}
+     public function getUser($user){
+     	$sql = "
+     	SELECT
+     	a.id_mmember
+     	FROM
+     	mmember a
+     	WHERE  a.username='$user' ";
+     	$query = $this->db->query($sql);
 
-public function checkOldPass($id,$pass){
-	$sql = "
-	SELECT
-	a.id_mmember
-	FROM
-	mmember a
-	WHERE a.id_mmember='$id'
-	AND a.userpassword='$pass' ";
-	$query = $this->db->query($sql);
-	return  $query->num_rows();
-}
+     	if($query->num_rows() > 0)
+     	{
+     		return "1";
+     	}else{
+     		return "0";
+     	}
+     }
 
-}
-?>
+     public function checkOldPass($id,$pass){
+     	$sql = "
+     	SELECT
+     	a.id_mmember
+     	FROM
+     	mmember a
+     	WHERE a.id_mmember='$id'
+     	AND a.userpassword='$pass' ";
+     	$query = $this->db->query($sql);
+     	return  $query->num_rows();
+     }
+
+  }
+  ?>

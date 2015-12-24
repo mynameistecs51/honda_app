@@ -14,6 +14,7 @@ class Customer extends CI_Controller
 		$this->datefrom = "01/".$now->format('m/Y');
 		$this->dateto = $now->format('d/m/Y');
 		$this->id_mmember = $this->session->userdata('id_mmember');
+		$this->mmember_code = $this->session->userdata('mmember_code');
 		$this->id_mposition=$this->session->userdata("id_mposition");
 		$this->SCREENNAME=$this->template->getScreenName($this->ctl);
 		if($this->session->userdata("id_mmember")==""){
@@ -35,7 +36,7 @@ class Customer extends CI_Controller
 		$zipcode =  $_POST['zipcode'];
 		//$dataProvince = array();
 		$showdata = $this->mdl_getProvince->getProvince($zipcode);
-
+		
 		$province = array('province_id'=>$showdata[0]['PROVINCE_ID'],'province_name' => $showdata[0]['PROVINCE_NAME'],'amphur_id'=>$showdata[0]['AMPHUR_ID'],'amphur_name' => $showdata[0]['AMPHUR_NAME'],'zipcode ' => $showdata[0]['ZIPCODE']);
 		foreach ($showdata as $rowProvince) {
 			$dataProvince = array(
@@ -47,6 +48,7 @@ class Customer extends CI_Controller
 				);
 			array_push($province,array('district_name'=>$dataProvince['district_name'],'district_id'=>$dataProvince['district_id']));
 		}
+		
 		echo json_encode($showdata);
 		// echo "<pre>";
 		// print_r($province);
@@ -59,11 +61,14 @@ class Customer extends CI_Controller
 		$this->datatables->getDatatables($requestData,$sqlQuery);
 	}
 
-	public function getCode()
+	public function getCode()		//รหัสลูกค้าคาดหวัง
 	{
-		$mcmp_code='M';
-		$lastCode=$this->mdl_customer->getCodeLast($mcmp_code);
-		return $lastCode;
+		$lastCode=$this->mdl_customer->getCodeCustomer();
+		foreach($lastCode as $row){
+			$countCut =count($row->id_customer);
+		}
+		
+		return  $countCut;
 	}
 
 	public function checkUser()
@@ -125,6 +130,9 @@ class Customer extends CI_Controller
 		$this->mainpage($SCREENID);
 		$this->data['listSale'] = $this->mdl_customer->getTypeSale();  //ที่ปรึกษาด้านการขาย
 		$this->data["datenow"] =$this->datenow;
+		$this->data['mmember_code']=$this->mmember_code;
+		$this->data["id_mbranch"] = $this->id_mposition;
+		$this->data['getCode']=$this->getCode();
 		$this->load->view('customer/'.$SCREENID,$this->data);
 	}
 	public function DETAIL($id)
@@ -166,7 +174,7 @@ class Customer extends CI_Controller
 			// "id_customer" =>'',
 			"customer_code"  =>	'001',
 			"customer_date" =>	$this->convert_date($post['customer_date']),
-			"bye_date" 	=>	$this->convert_date($post['bye_date']),
+			"bye_date" 	=>	'0000-00-00 ',
 			"accounts_receivable"	 =>	$post['accounts_receivable'],
 			"is_cus_new" 	=> $post['customer'],
 			"is_type"		=>	$post['is_type'],

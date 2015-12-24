@@ -62,15 +62,9 @@
 				error:function(err){
 					alert("รหัสไปรษณีย์ไม่ถูกต้อง");
 					$('input[name=zipcode]').val('');
-					// $('input[name=province]').val('');
-					// $('input[name=amphur]').val('');
-
 					$('#province').html('');
 					$('#amphur').html('');
-					var district="<option >---เลือกตำบล---</option>";
-					$('#district').html(district);
-
-
+					$('#district').html('');
 				}
 			});
 });
@@ -281,7 +275,8 @@ function delObjective(num)
 		<div class="col-sm-3" >
 			<p>หมายเลขลูกค้าคาดหวัง</p>
 			<p class="required">*</p>
-			<input type="text" class="form-control" name="memp_code" placeholder="---สร้างโดยระบบ---" >
+			<!--  -->
+			<input type="text" class="form-control" name="memp_code" value="<?php echo "CUS".$id_mbranch.$mmember_code.date("ym").$getCode;?>" />
 		</div>
 		<div class="col-sm-3" >
 			<p>วันที่ลูกค้าเยี่ยมชม</p>
@@ -306,9 +301,8 @@ function delObjective(num)
 			<label class="radio-inline"><input type="radio" name="customer" value="1" checked>ลูกค้าใหม่</label>
 			<label class="radio-inline"><input type="radio" name="customer" value="2">ลูกค้าเก่า</label>
 		</div>
-		<div class="col-sm-3">
+		<div class="col-sm-4">
 			<p>ชนิดลูกค้า</p>
-			<p class="required">*</p>
 			<label class="radio-inline"><input type="radio" name="is_type" value="1" checked>ลูกค้า VIP</label>
 			<label class="radio-inline"><input type="radio" name="is_type" value="2">ลูกค้าจงรักภักดี</label>
 			<label class="radio-inline"><input type="radio" name="is_type" value="3">ลูกค้าทั่วไป</label>
