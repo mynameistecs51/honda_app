@@ -7,6 +7,7 @@ class Customer extends CI_Controller
 		$this->ctl="customer";
 		$this->load->model('mdl_customer');
 		$this->load->model('mdl_getProvince');
+		$this->load->model('mdl_stock');
 		date_default_timezone_set('Asia/Bangkok');
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok'));
 		$this->dt_now = $now->format('Y-m-d H:i:s');
@@ -16,6 +17,7 @@ class Customer extends CI_Controller
 		$this->id_mmember = $this->session->userdata('id_mmember');
 		$this->mmember_code = $this->session->userdata('mmember_code');
 		$this->id_mposition=$this->session->userdata("id_mposition");
+		$this->id_mbranch=$this->session->userdata("id_mbranch");
 		$this->SCREENNAME=$this->template->getScreenName($this->ctl);
 		if($this->session->userdata("id_mmember")==""){
 			redirect('authen/');
@@ -31,27 +33,21 @@ class Customer extends CI_Controller
 		$this->load->view('customer/'.$SCREENID,$this->data);
 	}
 
-	public function getProvince()
+	public function getProvince()		//แสดงรายการ รหัสไปรษณีย์ จังหวัด อำเภอ ตำบล
 	{
 		$zipcode =  $_POST['zipcode'];
-		//$dataProvince = array();
 		$showdata = $this->mdl_getProvince->getProvince($zipcode);
-		
+
 		$province = array('province_id'=>$showdata[0]['PROVINCE_ID'],'province_name' => $showdata[0]['PROVINCE_NAME'],'amphur_id'=>$showdata[0]['AMPHUR_ID'],'amphur_name' => $showdata[0]['AMPHUR_NAME'],'zipcode ' => $showdata[0]['ZIPCODE']);
 		foreach ($showdata as $rowProvince) {
 			$dataProvince = array(
-				//'province' => $rowProvince['PROVINCE_NAME'],
-				//'amphur'   => $rowProvince['AMPHUR_NAME'],
 				'district_id' => $rowProvince['DISTRICT_ID'],
 				'district_name' => $rowProvince['DISTRICT_NAME'],
-				//'zipcode'  => $rowProvince['ZIPCODE']
 				);
 			array_push($province,array('district_name'=>$dataProvince['district_name'],'district_id'=>$dataProvince['district_id']));
 		}
-		
 		echo json_encode($showdata);
-		// echo "<pre>";
-		// print_r($province);
+
 	}
 
 	public function getList()
@@ -63,13 +59,29 @@ class Customer extends CI_Controller
 
 	public function getCode()		//รหัสลูกค้าคาดหวัง
 	{
-		$lastCode=$this->mdl_customer->getCodeCustomer();
-		foreach($lastCode as $row){
-			$countCut =count($row->id_customer);
-		}
-		
-		return  $countCut;
+		$lastCode=$this->mdl_customer->getCodeCustomer($this->id_mbranch);
+		return  $lastCode;
 	}
+
+
+	public function getMgen()		//get model Car
+	{
+		if ($_POST['id_mmodel'])
+		{
+			$rs=$this->mdl_stock->getmgen($_POST['id_mmodel']);
+			echo json_encode($rs);
+		}
+	}
+
+	public function getMcolor()		//get color car
+	{
+		if ($_POST['id_mgen'])
+		{
+			$rs=$this->mdl_stock->getMcolor($_POST['id_mgen']);
+			echo json_encode($rs);
+		}
+	}
+
 
 	public function checkUser()
 	{
@@ -112,6 +124,7 @@ class Customer extends CI_Controller
 		$this->data["id_mposition"] =$this->session->userdata("id_mposition");
 		$this->data["datefrom"] =$this->datefrom;
 		$this->data["dateto"] =$this->dateto;
+		$this->data['listMmodel']= $this->mdl_stock->getmmodel();
 		$this->data['listSale']= $this->mdl_customer->getTypeSale();
 		$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->data["id_mposition"],$this->data['mbranch_name']);
 		$this->data["btn"] =$this->template->checkBtnAuthen($this->data["id_mposition"],$this->ctl);
@@ -172,7 +185,7 @@ class Customer extends CI_Controller
 
 		$data = array(
 			// "id_customer" =>'',
-			"customer_code"  =>	'001',
+			"customer_code"  =>	$this->getCode(),
 			"customer_date" =>	$this->convert_date($post['customer_date']),
 			"bye_date" 	=>	'0000-00-00 ',
 			"accounts_receivable"	 =>	$post['accounts_receivable'],

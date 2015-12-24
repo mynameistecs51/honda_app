@@ -8,10 +8,10 @@ class Mdl_customer extends CI_Model
 
 	public function getTypeSale()
 	{
-		$sql = 'SELECT m.firstname,m.lastname,m.id_mmember,p.mposition_code 
-		FROM mmember m 
-		INNER JOIN mposition p ON m.id_mposition = p.id_mposition 
-		WHERE p.mposition_code ="PS002" ';
+		$sql = 'SELECT m.firstname,m.lastname,m.mmember_code,m.id_mmember,p.mposition_code
+		FROM mmember m
+		INNER JOIN mposition p ON m.id_mposition = p.id_mposition
+		WHERE p.mposition_code ="PS002"  ';
 		$query_sql = $this->db->query($sql)->result_array();
 		return  $query_sql;
 	}
@@ -140,41 +140,53 @@ class Mdl_customer extends CI_Model
      	return  $query->result();
      }
 
-     public function getCodeCustomer(){
-     	$sql = "SELECT * FROM tcustomer";
-     	$query = $this->db->query($sql)->result();
+     public function getCodeCustomer($id_mbranch){
+     	$sql = "SELECT
+     	IFNULL(CONCAT('CU',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),lpad( (co.num+1), 4, '0')),CONCAT('CU',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),'0001'))AS CODE
+     	FROM  mbranch b
+     	LEFT JOIN (
+     		SELECT COUNT(id_customer) AS NUM,id_mbranch
+     		FROM tcustomer
+     		WHERE id_mbranch='".$id_mbranch."'
+     		AND DATE_FORMAT(customer_date,'%Y')=DATE_FORMAT(NOW(),'%Y')
+     		AND DATE_FORMAT(customer_date,'%m')=DATE_FORMAT(NOW(),'%m')
+     		) AS co ON b.id_mbranch=co.id_mbranch
+WHERE b.id_mbranch='".$id_mbranch."' ";
+$query = $this->db->query($sql)->result();
+foreach ($query as $rowQuery) {
+	$getCode = $rowQuery->CODE;
+}
+return $getCode;
+}
 
-     	return $query;
-     }
+public function getUser($user){
+	$sql = "
+	SELECT
+	a.id_mmember
+	FROM
+	mmember a
+	WHERE  a.username='$user' ";
+	$query = $this->db->query($sql);
 
-     public function getUser($user){
-     	$sql = "
-     	SELECT
-     	a.id_mmember
-     	FROM
-     	mmember a
-     	WHERE  a.username='$user' ";
-     	$query = $this->db->query($sql);
+	if($query->num_rows() > 0)
+	{
+		return "1";
+	}else{
+		return "0";
+	}
+}
 
-     	if($query->num_rows() > 0)
-     	{
-     		return "1";
-     	}else{
-     		return "0";
-     	}
-     }
+public function checkOldPass($id,$pass){
+	$sql = "
+	SELECT
+	a.id_mmember
+	FROM
+	mmember a
+	WHERE a.id_mmember='$id'
+	AND a.userpassword='$pass' ";
+	$query = $this->db->query($sql);
+	return  $query->num_rows();
+}
 
-     public function checkOldPass($id,$pass){
-     	$sql = "
-     	SELECT
-     	a.id_mmember
-     	FROM
-     	mmember a
-     	WHERE a.id_mmember='$id'
-     	AND a.userpassword='$pass' ";
-     	$query = $this->db->query($sql);
-     	return  $query->num_rows();
-     }
-
-  }
-  ?>
+}
+?>

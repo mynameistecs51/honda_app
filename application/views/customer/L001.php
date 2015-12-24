@@ -43,14 +43,14 @@
             }
           },
           "aoColumns": [{
-          	"sWidth": "10%",
-          	"mData": 'mmember_code'
-          }, {
-          	"sWidth": "15%",
-          	"mData": 'mmember_name'
+          	"sWidth": "5%",
+          	"mData": null
           }, {
           	"sWidth": "10%",
-          	"mData":'user'
+          	"mData": 'customer_code'
+          }, {
+          	"sWidth": "10%",
+          	"mData":'firstname'
           }, {
           	"sWidth": "10%",
           	"mData": 'mobile'
@@ -258,44 +258,7 @@
     					<th width="90px;">ดำเนินการ</th>
     				</tr>
     			</thead>
-    			<tbody>
-    				<tr >
-    					<td>2</td>
-    					<td>CTM001</td> <!--CTM = customer -->
-    					<td>นายไชวัฒน์ หอมแสง</td>
-    					<td>ลูกค้าใหม่</td>
-    					<td>บุคคล</td>
-    					<td>0812345678</td>
-    					<td>UDT001</td>
-    					<td>HONDA City</td>
-    					<td>SV+ CVT</td>
-    					<td>สีน้ำเงิน</td>
-    					<td>64 ถ.ทหาร ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000</td>
-    					<td></td>
-    					<td>
-    						<img src="http://localhost/utsgs/images/list_view.png" title="รายละเอียด" class="btnopt view" data-idview="2">
-    						<img src="http://localhost/utsgs/images/list_edit.png" title="แก้ไข" class="btnopt edit" data-idedit="2">
-    					</td>
-    				</tr>
-    				<tr >
-    					<td>1</td>
-    					<td>CTM002</td> <!--CTM = customer -->
-    					<td>นายดิษฐพงษ์ นิลนามะ</td>
-    					<td>ลูกค้าใหม่</td>
-    					<td>บุคคล</td>
-    					<td>0812345678</td>
-    					<td>UDT001</td>
-    					<td>HONDA JAZZ</td>
-    					<td>SV+ CVT</td>
-    					<td>สีน้ำเงิน</td>
-    					<td> 64 ถ.ทหาร ต.หมากแข้ง อ.เมือง จ.อุดรธานี 41000</td>
-    					<td></td>
-    					<td>
-    						<img src="http://localhost/utsgs/images/list_view.png" title="รายละเอียด" class="btnopt view" data-idview="2">
-    						<img src="http://localhost/utsgs/images/list_edit.png" title="แก้ไข" class="btnopt edit" data-idedit="2">
-    					</td>
-    				</tr>
-    			</tbody>
+
     		</table>
     	</div>
     </div>
