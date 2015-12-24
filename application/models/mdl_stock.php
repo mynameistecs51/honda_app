@@ -150,6 +150,25 @@
 			return  $query->result();
  	  } 
 
+ 	public function getCode(){
+ 		$sql = "
+ 			SELECT
+			  IFNULL(CONCAT('ST',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),lpad( (co.num+1), 4, '0')),CONCAT('CU',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),'0001'))AS CODE
+			FROM  mbranch b  
+			LEFT JOIN (
+			 SELECT COUNT(id_stock) AS NUM,id_mbranch
+			 FROM tstock
+			 WHERE id_mbranch='$this->id_mbranch' 
+			 AND DATE_FORMAT(stock_date,'%Y')=DATE_FORMAT(NOW(),'%Y')
+			 AND DATE_FORMAT(stock_date,'%m')=DATE_FORMAT(NOW(),'%m')
+			) AS co ON b.id_mbranch=co.id_mbranch
+			WHERE b.id_mbranch='$this->id_mbranch'
+ 		";
+		$query = $this->db->query($sql);
+		$result = $query->row(); 
+		return $result->CODE; 
+ 	}
+
 	public function getmbranch(){
 	  $sql = "
 			SELECT

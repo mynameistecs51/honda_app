@@ -128,18 +128,15 @@ public function EDIT($id,$idx)
 		$this->data['idx']=$idx;
 		$this->data['listStock']= $this->mdl_stock->getstock($id);
 		$this->load->view('stock/'.$SCREENID,$this->data);
-	}
-public function getCode(){
-	return "STUDT581200001";
-}
-
+	} 
+	
 public function saveadd()
 {
 	if($_POST):
      	parse_str($_POST['form'], $post);
 		$data = array(
 			"id_stock"		=> '', 
-			"stock_code"	=> $this->getCode(),
+			"stock_code"	=> $this->mdl_stock->getCode(),
 			"stock_date"	=> $this->convert_date($post['stock_date']),
 			"id_mbranch"	=> $this->id_mbranch, 
 			"is_recive_type"=> 1, 
