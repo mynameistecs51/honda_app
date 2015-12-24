@@ -199,7 +199,7 @@ $(function(){
 	}
 
 });
-getdataCar($(this).val());
+// getdataCar($(this).val());
 runnumrow();
 });
 
