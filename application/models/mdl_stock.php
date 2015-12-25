@@ -165,8 +165,8 @@
 			WHERE b.id_mbranch='$this->id_mbranch'
  		";
 		$query = $this->db->query($sql);
-		$result = $query->row(); 
-		return $result->CODE; 
+		$result = $query->row();
+		return $result->CODE;
  	}
 
 	public function getmbranch(){
