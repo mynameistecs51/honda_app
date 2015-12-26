@@ -1,23 +1,28 @@
 <?php
-   class Mdl_transfer extends CI_Model
-   {
-      public function __construct()
-      {
+class Mdl_transfer extends CI_Model
+{
+	public function __construct()
+	{
 		parent::__construct(); 
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok')); 
 		$this->datefrom = $now->format('Y-m-')."01";
 		$this->dateto = $now->format('Y-m-d');
 		$this->id_mbranch = $this->session->userdata("id_mbranch");
-      }
+	}
 
-	  public function addTransfer($data){
+	public function addTransfer($data){
 		$this->db->insert('ttransfer', $data);
-	  }
+	}
 
-	  public function updateTransfer($id,$data){
+	public function updateTransfer($id,$data){
 		$this->db->where('id_transfer', $id);
 		$this->db->update('ttransfer', $data);
-	  }
+	}
+
+	public function updateStock($id,$data){
+		$this->db->where('id_stock', $id);
+		$this->db->update('tstock', $data);
+	}
 
  
  public function getList($requestData){
@@ -98,42 +103,26 @@
 			return  $query->result();
  	  } 
 
-	public function getStock($typ,$code){
+	public function getStock($typ,$code){ 
 	  $sql = "
 			SELECT 
 				a.id_stock, 
 				a.stock_code,  
-				CONCAT(DATE_FORMAT(a.stock_date,'%d/%m/'),DATE_FORMAT(a.stock_date,'%Y')+543 ) AS stock_date, 
-				b.mbranch_name,
-				a.id_transfer, 
+				CONCAT(DATE_FORMAT(a.stock_date,'%d/%m/'),DATE_FORMAT(a.stock_date,'%Y')+543 ) AS stock_date,  
 				a.chassis_number, 
-				a.engine_number,
-				a.id_mmodel,
-				c.mmodel_name,
-				a.id_mgen,
-				d.gen_name,
-				a.id_mcolor,
-				e.color_name,
-				a.chassis_number,
 				a.engine_number, 
+				c.mmodel_name, 
+				d.gen_name,
+				e.color_name,
 				CONCAT(DATE_FORMAT(a.recive_doc_date,'%d/%m/'),DATE_FORMAT(a.recive_doc_date,'%Y')+543 ) AS recive_doc_date,
-				a.doc_reference_code,
-				a.id_zone,
-				f.zone_name,
-				a.comment, 
-				a.status,
-				concat(i.firstname,' ',i.lastname) AS name_create,
-				concat(i2.firstname,' ',i2.lastname) AS name_update,
-				DATE_FORMAT(a.dt_create,'%d/%m/%Y %H:%i:%s') AS dt_create,
-				DATE_FORMAT(a.dt_update,'%d/%m/%Y %H:%i:%s') AS dt_update
+				a.doc_reference_code, 
+				f.zone_name
 			FROM tstock a
 			INNER JOIN mbranch b ON a.id_mbranch=b.id_mbranch
 			INNER JOIN mmodel c ON a.id_mmodel=c.id_model
 			INNER JOIN mgen d ON a.id_mgen=d.id_gen
 			INNER JOIN mcolor e ON a.id_mcolor=e.id_color
 			INNER JOIN mzone f ON a.id_zone=f.id_zone 
-			LEFT JOIN mmember i ON a.id_create=i.id_mmember
-			LEFT JOIN mmember i2 ON a.id_update=i2.id_mmember  
 			WHERE  a.status =1 
 			AND a.id_mbranch= '$this->id_mbranch' "; 
 			if($typ == 1){
@@ -143,8 +132,32 @@
 			}
  		// echo "<pre>".$sql;
 			$query = $this->db->query($sql);
-			return  $query->result();
+			if($query->num_rows()>0){
+				return  $query->result_array();
+			} else{
+				return false;
+			}
+			
  	  } 
+
+ 	public function getCode(){
+ 		$sql = "
+ 			SELECT
+			  IFNULL(CONCAT('TF',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),lpad( (co.num+1), 4, '0')),CONCAT('TF',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),'0001'))AS CODE
+			FROM  mbranch b  
+			LEFT JOIN (
+			 	SELECT COUNT(id_transfer) AS num,id_mbranch
+				 FROM ttransfer
+				 WHERE id_mbranch='$this->id_mbranch'
+				 AND DATE_FORMAT(transfer_date,'%Y')=DATE_FORMAT(NOW(),'%Y')
+				 AND DATE_FORMAT(transfer_date,'%m')=DATE_FORMAT(NOW(),'%m')
+			) AS co ON b.id_mbranch=co.id_mbranch
+			WHERE b.id_mbranch='$this->id_mbranch'
+ 		";
+		$query = $this->db->query($sql);
+		$result = $query->row();
+		return $result->CODE;
+ 	}
 
  	public function getmbranch(){
 	  $sql = "

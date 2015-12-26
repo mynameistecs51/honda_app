@@ -6,14 +6,15 @@ class Transfer extends CI_Controller
 		parent::__construct();
 		$this->ctl="transfer";
 		$this->load->model('mdl_transfer'); 
-		date_default_timezone_set('Asia/Bangkok');
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok')); 
 		$this->dt_now = $now->format('Y-m-d H:i:s');
-		$this->datenow =$now->format('d/m/').($now->format('Y')+543);
-		$this->datefrom = "01/".$now->format('m/Y');
-		$this->dateto = $now->format('d/m/Y');
+		$Y=$now->format('Y')+543;
+		$this->datefrom = "01/".$now->format('m/').$Y;
+		$this->dateto = $now->format('d/m/').$Y;
+		$this->datenow = $now->format('d/m/').$Y;
 		$this->id_mmember = $this->session->userdata('id_mmember');
 		$this->id_mposition=$this->session->userdata("id_mposition");
+		$this->id_mbranch=$this->session->userdata("id_mbranch");
 		$this->SCREENNAME=$this->template->getScreenName($this->ctl);
 		if($this->session->userdata("id_mmember")==""){
 			redirect('authen/');
@@ -23,7 +24,7 @@ class Transfer extends CI_Controller
 	}
 
 public function index()
-{
+{ 
 	$SCREENID="L001";
 	$this->mainpage($SCREENID);
 	$this->load->view('transfer/'.$SCREENID,$this->data);
@@ -34,21 +35,31 @@ public function getList()
     $requestData= $_REQUEST; 
     $sqlQuery= $this->mdl_transfer->getList($requestData);  
     $this->datatables->getDatatables($requestData,$sqlQuery);
-}
- 
-public function alert($massage)
-{
-	echo "<meta charset='UTF-8'>
-			<SCRIPT LANGUAGE='JavaScript'>
-			window.alert('$massage')';
-			</SCRIPT>";
+} 
+
+public function getstock_code()
+{  
+	if ($_POST['stock_code'])
+	{ 
+		$rs=$this->mdl_transfer->getStock(1,$_POST['stock_code']);
+		echo json_encode($rs);
+	}
+} 
+
+public function getchassis_number()
+{  
+	if ($_POST['chassis_number'])
+	{ 
+		$rs=$this->mdl_transfer->getStock(2,$_POST['chassis_number']);
+		echo json_encode($rs);
+	}
 }
 
 public function convert_date($val_date)
 {
-			$date = str_replace('/', '-',$val_date);
-			$date = date("Y-m-d", strtotime($date));
-			return $date;
+	$date =  str_replace('/', '-',$val_date);
+	$date = (date("Y", strtotime($date))-543).date("-m-d", strtotime($date));
+	return $date;
 }
 
 public function mainpage($SCREENID)
@@ -90,7 +101,7 @@ public function DETAIL($id)
 			$this->data['pagename']=$this->SCREENNAME;
 			$this->data["datenow"] =$this->datenow;
 			$this->mainpage($SCREENID); 
-			//$this->data['listtransfer']= $this->mdl_transfer->gettransfer($id);
+			$this->data['listtransfer']= $this->mdl_transfer->gettransfer($id);
 			$this->load->view('transfer/'.$SCREENID,$this->data);
 	}
 public function EDIT($id,$idx)
@@ -100,30 +111,37 @@ public function EDIT($id,$idx)
 			$this->data["datenow"] =$this->datenow;
 			$this->mainpage($SCREENID); 
 			$this->data['idx']=$idx;
-			//$this->data['listtransfer']= $this->mdl_transfer->gettransfer($id);
+			$this->data['listtransfer']= $this->mdl_transfer->gettransfer($id);
 			$this->load->view('transfer/'.$SCREENID,$this->data);
 	}
 
-public function saveadd()
+public function saveadd() 
 {
 	if($_POST):
      parse_str($_POST['form'], $post);
-		//$code= $this->getCode();  
 		$data = array(
-			"mtransfer_code"			=> $post['mtransfer_code'],
-			"name_en"			=> $post['name_en'],
-			"name_th"			=> $post['name_th'],
+			"transfer_code"		=> $this->mdl_transfer->getCode(),
+			"transfer_date"		=> $this->convert_date($post['transfer_date']),
+			"recive_date"		=> '',
+			"id_stock"			=> $post['id_stock'],
+			"id_mbranch"		=> $this->id_mbranch,
+			"id_mbranch_recive"	=> $post['id_mbranch_recive'],
 			"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
 			"status"			=> 1,
 			"id_create"			=> $this->id_mmember,
 			"dt_create"			=> $this->dt_now,
 			"id_update"			=> $this->id_mmember,
 			"dt_update"			=> $this->dt_now
-		);
-		//print_r($data);exit();
-			$this->mdl_transfer->addmtransfer($data);
-			$massage = "บันทึกข้อมูล เรียบร้อย !";
-			$this->alert($massage);
+		); 
+		$this->mdl_transfer->addTransfer($data);
+
+		$data4 = array( 
+			"comment"			=> 'โยกรถ',
+			"status"			=> 4,
+			"id_update"			=> $this->id_mmember,
+			"dt_update"			=> $this->dt_now
+		); 
+		$this->mdl_transfer->updateStock($post['id_stock'],$data4);
     endif;
 }
 
