@@ -61,7 +61,7 @@ function rundatatable(){
             url :"<?php echo base_url().$controller; ?>/getList", // json datasource
             type: "post",  // method  , by default get
             error: function(){  // error handling
-                $(".employee-grid-error").html("");
+                $(".employee-grid-error").html("ไม่พบข้อมูล");
                 $("#employee-grid tbody tr").remove();
                 $("#employee-grid_processing").css("display","none");
             }

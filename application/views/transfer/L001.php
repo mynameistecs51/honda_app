@@ -5,14 +5,14 @@ $(function(){
   rundatatable();
   $("#datefrom").datepicker({
       dateFormat: 'dd/mm/yy', 
-      changeMonth: true,
+      changeMonth: true, 
       changeYear: true, 
       monthNamesShort: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'], 
       defaultDate: "+1w",
       onClose: function( selectedDate ) {
-        $( "#dateto" ).datepicker( "option", "minDate", selectedDate );
+        $("#dateto").datepicker( "option", "minDate", selectedDate );
       }
-    });
+  });
   $("#dateto").datepicker({
       dateFormat: 'dd/mm/yy', 
       changeMonth: true,
@@ -20,7 +20,7 @@ $(function(){
       monthNamesShort: ['ม.ค.', 'ก.พ.', 'มี.ค.', 'เม.ย.', 'พ.ค.', 'มิ.ย.', 'ก.ค.', 'ส.ค.', 'ก.ย.', 'ต.ค.', 'พ.ย.', 'ธ.ค.'],
       defaultDate: "+1w",
       onClose: function( selectedDate ) {
-        $( "#datefrom" ).datepicker( "option", "maxDate", selectedDate );
+        $("#datefrom").datepicker( "option", "maxDate", selectedDate );
       }
   });   
 
@@ -38,26 +38,26 @@ function rundatatable(){
         responsive: true,
         serverSide: true,
         tableTools: {
-                      "sRowSelect": "os",
-                      "aButtons": [ "select_all", "select_none" ]
+          "sRowSelect": "os",
+          "aButtons": [ "select_all", "select_none" ]
                     },
-         "oLanguage": {
+          "oLanguage": {
                       "sProcessing": "<img height='32' width='32' src='<?php echo base_url(); ?>images/ajax-loader.gif'>",
                       "sSearch": "<?php echo $sSearch="ค้นหาจากผลลัพธ์ :" ;?>",
                       "sInfo": "<?php echo $Showing="แสดงรายการที่";?> _START_ <?php echo $to="ถึง";?> _END_ <?php echo $total=" จากผลการค้นหาทั้งหมด";?> _TOTAL_  <?php echo $total="รายการ";?>",
                       "sInfoFiltered": "(ข้อมูลทั้งหมด _MAX_ รายการ)",
-        "oPaginate": {
+          "oPaginate": {
                       "sFirst": "<?php echo $sFirst="ไปหน้าแรก" ;?>",
                       "sLast": "<?php echo $sLast="ไปหน้าสุดท้าย" ;?>",
                       "sNext": "<?php echo $sNext="ถัดไป" ;?>",
                       "sPrevious": "<?php echo $sPrevious="ย้อนกลับ" ;?>"
-                        }}, 
-       "bLengthChange": false, 
-        "iDisplayLength": 20,
-        "order": [[ '0', "DESC" ]], 
-        "processing": true,
-        "serverSide": true,
-        "ajax":{
+                        }},
+          "bLengthChange": false,
+          "iDisplayLength": 20,
+          "order": [[ '0', "DESC" ]],
+          "processing": true,
+          "serverSide": true,
+          "ajax":{
             url :"<?php echo base_url().$controller; ?>/getList", // json datasource
             type: "post",  // method  , by default get
             error: function(){  // error handling

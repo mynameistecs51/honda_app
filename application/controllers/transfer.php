@@ -175,6 +175,11 @@ public function EDIT($id,$idx)
 				"dt_update"			=> $this->dt_now
 			); 
 			$this->mdl_transfer->updateStock($post['id_stock_old'],$data1);
+		if($post['status']==0){
+
+			$this->mdl_transfer->updateStock($post['id_stock'],$data1);
+
+		}else{
 
 			$data4 = array( 
 				"comment"			=> 'โยกรถ',
@@ -183,6 +188,9 @@ public function EDIT($id,$idx)
 				"dt_update"			=> $this->dt_now
 			); 
 			$this->mdl_transfer->updateStock($post['id_stock'],$data4);
-	    endif;
+
+		}
+			
+	    endif; 
 	}
 } ?>
