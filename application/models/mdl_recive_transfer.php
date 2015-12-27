@@ -19,6 +19,11 @@
 		$this->db->update('tstock', $data);
 	}
 
+	public function updateTransfer($id,$data){  
+		$this->db->where('id_transfer', $id);
+		$this->db->update('ttransfer', $data);
+	}
+
 	public function getList($requestData){
 
 	 	$sql_full = "
@@ -113,6 +118,9 @@
 				CONCAT(DATE_FORMAT(a.stock_date,'%d/%m/'),DATE_FORMAT(a.stock_date,'%Y')+543 ) AS stock_date, 
 				b.mbranch_name,
 				a.id_transfer, 
+				t.transfer_code,
+				CONCAT(DATE_FORMAT(t.transfer_date,'%d/%m/'),DATE_FORMAT(t.transfer_date,'%Y')+543 ) AS transfer_date, 
+				tb.mbranch_name AS branch_transfer,
 				a.chassis_number, 
 				a.engine_number,
 				a.id_mmodel,
@@ -134,6 +142,8 @@
 				CONCAT(DATE_FORMAT(a.dt_create,'%d/%m/'),DATE_FORMAT(a.dt_create,'%Y')+543, DATE_FORMAT(a.dt_create,' %H:%i')) AS dt_create,
 				CONCAT(DATE_FORMAT(a.dt_update,'%d/%m/'),DATE_FORMAT(a.dt_update,'%Y')+543, DATE_FORMAT(a.dt_update,' %H:%i')) AS dt_update
 			FROM tstock a
+			INNER JOIN ttransfer t ON a.id_transfer=t.id_transfer
+			INNER JOIN mbranch tb ON t.id_mbranch=tb.id_mbranch
 			INNER JOIN mbranch b ON a.id_mbranch=b.id_mbranch
 			INNER JOIN mmodel c ON a.id_mmodel=c.id_model
 			INNER JOIN mgen d ON a.id_mgen=d.id_gen
@@ -178,25 +188,6 @@
 		return  $query->result();
  	}
 
- 	public function getchassisNumber($code,$id_mbranch){
-	  $sql = "
-				SELECT
-				a.id_stock
-				FROM
-				tstock a
-				WHERE  a.chassis_number='$code' 
-				AND a.status=1 
-				AND a.id_mbranch='$id_mbranch' ";
-			$query = $this->db->query($sql);
-
-		if($query->num_rows() > 0)
-		{
-			return "1";
-		}else{
-			return "0";
-		}
-	}
-
  	public function getmzone($id_mbranch){
 	  $sql = "
 			SELECT
@@ -210,42 +201,47 @@
 		return  $query->result();
  	}
 
- 	public function getmmodel(){
+ 	public function getTransfer($typ,$code){ 
 	  $sql = "
-			SELECT
-				a.id_model,a.mmodel_name
-			FROM
-				mmodel a
-			WHERE a.status = 1 ";
-		// echo $sql;
-		$query = $this->db->query($sql);
-		return  $query->result();
- 	}
-
- 	public function getmgen($id_model){
-	  $sql = "
-			SELECT
-				a.id_gen,a.gen_name
-			FROM
-				mgen a
-			WHERE a.status = 1 
-			AND a.id_model='$id_model' ";
-		// echo $sql;
-		$query = $this->db->query($sql);
-		return  $query->result();
- 	}
- 	public function getMcolor($id_gen){
-	  $sql = "
-			SELECT
-				a.id_color,a.color_name
-			FROM
-				mcolor a
-			WHERE a.status = 1 
-			AND a.id_gen='$id_gen'  ";
-		// echo $sql;
-		$query = $this->db->query($sql);
-		return  $query->result();
- 	}
+			SELECT 
+				t.id_transfer,
+				t.transfer_code,
+				CONCAT(DATE_FORMAT(t.transfer_date,'%d/%m/'),DATE_FORMAT(t.transfer_date,'%Y')+543 ) AS transfer_date,  
+				a.id_mmodel,
+				a.id_mgen,
+				a.id_mcolor,
+				b.mbranch_name AS branch_transfer,
+				a.chassis_number, 
+				a.engine_number, 
+				c.mmodel_name, 
+				d.gen_name,
+				e.color_name
+			FROM ttransfer t
+			INNER JOIN tstock a ON a.id_stock=t.id_stock
+			INNER JOIN mbranch b ON a.id_mbranch=b.id_mbranch
+			INNER JOIN mmodel c ON a.id_mmodel=c.id_model
+			INNER JOIN mgen d ON a.id_mgen=d.id_gen
+			INNER JOIN mcolor e ON a.id_mcolor=e.id_color
+			INNER JOIN mzone f ON a.id_zone=f.id_zone 
+			WHERE t.id_mbranch_recive = '$this->id_mbranch' ";
+			if($typ == 1){
+				$sql .= " AND t.status =1 AND t.transfer_code='$code' ";
+			}else if($typ == 2){
+				$sql .= " AND t.status =1 AND a.chassis_number='$code' ";
+			}else if($typ == 3){
+				$sql .= " AND t.transfer_code='$code' ";
+			}else if($typ == 4){
+				$sql .= " AND a.chassis_number='$code' ";
+			}
+ 		// echo "<pre>".$sql;
+			$query = $this->db->query($sql);
+			if($query->num_rows()>0){
+				return  $query->result_array();
+			} else{
+				return false;
+			}
+			
+ 	  } 
 
 
 }?>

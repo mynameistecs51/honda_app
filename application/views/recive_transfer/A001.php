@@ -1,32 +1,9 @@
 <script type='text/javascript'>
 $(function(){  	
 	$("#stock_date").datepicker();
-	$("#recive_doc_date").datepicker();  
-	$("#chassis_number").change(function(){
-		$("#valid").html("");
-		var code = $("#chassis_number").val(); 
-		if(code != ""){
-			$.ajax(
-	            {
-	                type: 'POST',
-	                url: '<?php echo base_url().$controller; ?>/checkchassis_number/',
-	                data: {"chassis_number":code}, //your form datas to post          
-	                success: function(rs)
-	                {   
-	                	console.log(rs); 
-	                	if(rs==1){ 
-	                		$("#valid").html("รายการนี้ทำรับแล้ว");
-	                		$("#chassis_number").val('');
-	                	}
-	                }
-	            });      
-			
-		}else{
-			$("#valid").html("");
-		}
-	});  	
+	$("#recive_doc_date").datepicker();   
 	saveData();
-	getTransfer();
+	getdata();
  });
 function saveData()
       {
@@ -48,81 +25,167 @@ function saveData()
 	                {   
 	                  $('.modal').modal('hide');
 	                  location.reload();
-	                  alert("#บันทึกข้อมูล เรียบร้อย !");
+	                  alert("บันทึกข้อมูล เรียบร้อย !");
 	                },
 	                error: function()
 	                {
-	                    alert("#เกิดข้อผิดพลาด");
+	                    alert("เกิดข้อผิดพลาด");
 	                }
 	            });                   
             }
           });
       }
-function getTransfer(){
-	$('.is_recive_type').change(function(){ 
-		var val= $(".is_recive_type:checked").val();
-		if(val==2){
-			$(".transfer").attr("style","display:true;");
-			$("#transfer_code").attr('required', 'required');
-		}else{
-			$(".transfer").attr("style","display:none;");
-			$("#transfer_code").removeAttr('required');
-		}
-	});
-	$('#id_mmodel').change(function(){ 
-		var id_mmodel= $(this).val();
-		if(id_mmodel!=''){  
+function getdata(){ 
+	$('#transfer_code').keyup(function(){ 
+		var transfer_code= $(this).val();
+		var transfer_old="";
+		if(transfer_code!=''){  
 	            $.ajax(
 	            {
 	                type: 'POST',
-	                url: '<?php echo base_url().$controller; ?>/getMgen/',
-	                data: {"id_mmodel":id_mmodel}, //your form datas to post  
+	                url: '<?php echo base_url().$controller; ?>/gettransfer_code/',
+	                data: {"transfer_code":transfer_code,"transfer_old":transfer_old}, //your form datas to post  
 	                dataType: 'json',        
 	                success: function(rs)
-	                {  
-	                	var res="<option >---เลือก---</option>";
-						$.each(rs, function( index, value){ 
-
-							res += "<option value="+value.id_gen+"> "+value.gen_name+"</option>";
-						});
-	                   $("#id_mgen").html(res);
+	                {   
+	                	if(rs != false){ 
+							$.each(rs, function( index, value){  
+								$("#er_tf_code").html("");
+								$("#er_cha_code").html("");
+								$("#id_transfer").val(value.id_transfer);
+								$("#transfer_date").val(value.transfer_date);
+								$("#branch_transfer").val(value.branch_transfer);
+								$("#chassis_number").val(value.chassis_number);
+								$("#engine_number").val(value.engine_number);
+								$("#mmodel_name").val(value.mmodel_name);
+								$("#gen_name").val(value.gen_name);
+								$("#color_name").val(value.color_name);   
+								$("#id_mmodel").val(value.id_mmodel);
+								$("#id_mgen").val(value.id_mgen);
+								$("#id_mcolor").val(value.id_mcolor);
+							});
+	                   }else{ 
+		                    $("#er_tf_code").html("ไม่พบข้อมูล");
+		                    $("#id_transfer").val("");
+		                    $("#transfer_date").val("");
+		                    $("#branch_transfer").val("");
+							$("#chassis_number").val("");
+							$("#engine_number").val("");
+							$("#mmodel_name").val("");
+							$("#gen_name").val("");
+							$("#color_name").val(""); 
+							$("#id_mmodel").val("");
+							$("#id_mgen").val("");
+							$("#id_mcolor").val(""); 
+	                   }
 	                },
 	                error: function()
 	                {
-	                    alert("#เกิดข้อผิดพลาด");
+	                	alert('ข้อมูลผิดพลาด ​​​!');
+	                    $("#er_tf_code").html("");
+	                    $("#transfer_code").val("");
+	                    $("#id_transfer").val("");
+	                    $("#transfer_date").val("");
+	                    $("#branch_transfer").val("");
+						$("#chassis_number").val("");
+						$("#engine_number").val("");
+						$("#mmodel_name").val("");
+						$("#gen_name").val("");
+						$("#color_name").val(""); 
+						$("#id_mmodel").val("");
+						$("#id_mgen").val("");
+						$("#id_mcolor").val(""); 
 	                }
 	            });                   
 		}else{
-			var none="<option value=''>---เลือก---</option>";
-			$("#id_mgen").html(none);
+			$("#transfer_code").val("");
+            $("#id_transfer").val("");
+            $("#transfer_date").val("");
+            $("#branch_transfer").val("");
+			$("#chassis_number").val("");
+			$("#engine_number").val("");
+			$("#mmodel_name").val("");
+			$("#gen_name").val("");
+			$("#color_name").val("");
+			$("#id_mmodel").val("");
+			$("#id_mgen").val("");
+			$("#id_mcolor").val(""); 
 		}
 	});
-	$('#id_mgen').change(function(){ 
-		var id_mgen= $(this).val();
-		if(id_mgen!=''){  
+	$('#chassis_number').keyup(function(){ 
+		var chassis_number= $(this).val();
+		var chassis_old="";
+		if(chassis_number!=''){  
 	            $.ajax(
 	            {
 	                type: 'POST',
-	                url: '<?php echo base_url().$controller; ?>/getMcolor/',
-	                data: {"id_mgen":id_mgen}, //your form datas to post  
+	                url: '<?php echo base_url().$controller; ?>/getchassis_number/',
+	                data: {"chassis_number":chassis_number,"chassis_old":chassis_old}, //your form datas to post  
 	                dataType: 'json',        
 	                success: function(rs)
-	                {  
-	                	var res="<option >---เลือก---</option>";
-						$.each(rs, function( index, value){ 
-
-							res += "<option value="+value.id_color+"> "+value.color_name+"</option>";
-						});
-	                   $("#id_mcolor").html(res);
+	                {   
+	                	if(rs != false){ 
+							$.each(rs, function( index, value){  
+								$("#er_st_code").html("");
+								$("#er_cha_code").html("");
+								$("#transfer_code").val(value.transfer_code);
+								$("#id_transfer").val(value.id_transfer);
+								$("#transfer_date").val(value.transfer_date);
+								$("#branch_transfer").val(value.branch_transfer);
+								$("#engine_number").val(value.engine_number);
+								$("#mmodel_name").val(value.mmodel_name);
+								$("#gen_name").val(value.gen_name);
+								$("#color_name").val(value.color_name);
+								$("#id_mmodel").val(value.id_mmodel);
+								$("#id_mgen").val(value.id_mgen);
+								$("#id_mcolor").val(value.id_mcolor); 
+							});
+	                   }else{ 
+		                    $("#er_cha_code").html("ไม่พบข้อมูล");
+		                    $("#transfer_code").val("");
+		                    $("#id_transfer").val("");
+		                    $("#transfer_date").val(""); 
+		                    $("#branch_transfer").val("");
+							$("#engine_number").val("");
+							$("#mmodel_name").val("");
+							$("#gen_name").val("");
+							$("#color_name").val("");
+							$("#id_mmodel").val("");
+							$("#id_mgen").val("");
+							$("#id_mcolor").val(""); 
+	                   }
 	                },
 	                error: function()
 	                {
-	                    alert("#เกิดข้อผิดพลาด");
+	                	alert('ข้อมูลผิดพลาด ​​​!');
+	                    $("#er_st_code").html("");
+	                    $("#transfer_code").val("");
+	                    $("#id_transfer").val("");
+	                    $("#transfer_date").val("");
+	                    $("#branch_transfer").val("");
+						$("#chassis_number").val("");
+						$("#engine_number").val("");
+						$("#mmodel_name").val("");
+						$("#gen_name").val("");
+						$("#color_name").val(""); 
+						$("#id_mmodel").val("");
+						$("#id_mgen").val("");
+						$("#id_mcolor").val(""); 
 	                }
 	            });                   
 		}else{
-			var none="<option value=''>---เลือก---</option>";
-			$("#id_mcolor").html(none);
+			$("#transfer_code").val("");
+            $("#id_transfer").val("");
+            $("#transfer_date").val("");
+            $("#branch_transfer").val("");
+			$("#chassis_number").val("");
+			$("#engine_number").val("");
+			$("#mmodel_name").val("");
+			$("#gen_name").val("");
+			$("#color_name").val(""); 
+			$("#id_mmodel").val("");
+			$("#id_mgen").val("");
+			$("#id_mcolor").val(""); 
 		}
 	});
 }
@@ -134,63 +197,59 @@ function getTransfer(){
 	</div>
 	<div class="col-md-3" >
 		<p>วันที่รับเข้าสต๊อก</p><p class="required">*</p> 
-		<input type="text" class="form-control" id="stock_date" name="stock_date" value="<?php echo $datenow; ?>" required>
+		<input type="text" class="form-control" id="stock_date" name="stock_date" value="<?php echo $datenow; ?>" style="background:#fff;" readonly required>
 	</div>
 	<div class="col-md-3" >
 		<p>สำนักงาน/สาขาที่รับ</p><p class="required">*</p>
 		<input type="text" class="form-control" id="mbranch_name" name="mbranch_name" value="<?php echo $mbranch_name; ?>"  readonly>
 	</div> 
-</div>
-<div class="row form_input transfer" style="display:none;"> 
 	<div class="col-md-3" >
-		<p>เลขที่ใบโยกรถ</p><p class="required">*</p>
+		<p>สาขาที่โยกมา</p>
+		<input type="text" class="form-control" id="branch_transfer" name="branch_transfer"  readonly>
+	</div>
+</div>
+<div class="row form_input transfer"> 
+	<div class="col-md-3" >
+		<p>เลขที่ใบโยกรถ <b ID="er_tf_code"></b></p>
+		<p class="required">*</p>
 		<input type="text" class="form-control" id="transfer_code" name="transfer_code" placeholder="--ระบุ--" >
 		<input type="hidden" id="id_transfer" name="id_transfer"  >
 	</div>
 	<div class="col-md-3" >
-		<p>วันที่โยกรถ</p> 
+		<p>วันที่โยกรถ</p>
 		<input type="text" class="form-control" id="transfer_date" name="transfer_date"  readonly>
-	</div>
+	</div> 
 	<div class="col-md-3" >
-		<p>สาขาที่โยกมา</p> 
-		<input type="text" class="form-control" id="branch_transfer" name="branch_transfer"  readonly>
-	</div>
-</div>
-<div class="row form_input"> 
-	<div class="col-md-3" >
-		<p>หมายเลขตัวถัง <b ID="valid"></b></p>
+		<p>หมายเลขตัวถัง <b ID="er_cha_code"></b></p>
 		<p class="required">*</p>
 		<input type="text" class="form-control" id="chassis_number" name="chassis_number" placeholder="--ระบุ--"  required>
 	</div>
 	<div class="col-md-3" >
 		<p>หมายเลขเครื่อง</p><p class="required">*</p>
-		<input type="text" class="form-control" id="engine_number" name="engine_number" required>
+		<input type="text" class="form-control" id="engine_number" name="engine_number" readonly>
 	</div> 
+</div>
+<div class="row form_input">  
 	<div class="col-md-3" >
 		<p>แบบ</p><p class="required">*</p>
-		<select name="id_mmodel" id="id_mmodel" class ="form-control" required>
-			<option value="" selected>--เลือก--</option> 
-			<?php 
-			foreach ($listMmodel as $Mmodel)
-			{ 
-				echo "<option value='".$Mmodel->id_model."'>".$Mmodel->mmodel_name."</option>";
-			}
-			?>
-		</select>
+		<input type="text" class="form-control" id="mmodel_name" name="mmodel_name"  readonly>
+		<input type="hidden" id="id_mmodel" name="id_mmodel"  >
 	</div>
 	<div class="col-md-3" >
 		<p>รุ่น</p><p class="required">*</p>
-		<select name="id_mgen" id="id_mgen" class ="form-control" required> 
-		</select>
+		<input type="text" class="form-control" id="gen_name" name="gen_name"  readonly>
+		<input type="hidden" id="id_mgen" name="id_mgen"  >
 	</div>
 	<div class="col-md-3" >
 		<p>สี</p><p class="required">*</p>
-		<select name="id_mcolor" id="id_mcolor" class ="form-control" required> 
-		</select>
+		<input type="text" class="form-control" id="color_name" name="color_name"  readonly>
+		<input type="hidden" id="id_mcolor" name="id_mcolor"  >
 	</div> 
+</div>
+<div class="row form_input">  
 	<div class="col-md-3" >
 		<p>วันที่รับจริง</p><p class="required">*</p> 
-		<input type="text" class="form-control" id="recive_doc_date" name="recive_doc_date" value="<?php echo $datenow; ?>" required>
+		<input type="text" class="form-control" id="recive_doc_date" name="recive_doc_date" value="<?php echo $datenow; ?>" style="background:#fff;" readonly required>
 	</div> 
 	<div class="col-md-3" >
 		<p>โซนจัดเก็บ</p><p class="required">*</p>

@@ -6,7 +6,7 @@ $(function(){
  });
 function saveData()
 {
- $('#save').on('click', function (e) {
+ $('#form').on('submit', function (e) {
     if (e.isDefaultPrevented()) {
       alert("ผิดพลาด : กรุณาตรวจสอบข้อมูลให้ถูกต้อง !");
       // handle the invalid form...
@@ -27,7 +27,7 @@ function saveData()
             },
             error: function()
             {
-                alert(" เกิดข้อผิดพลาด");
+                alert("เกิดข้อผิดพลาด");
             }
         });                   
     }

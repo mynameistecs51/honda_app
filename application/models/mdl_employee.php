@@ -112,7 +112,7 @@ public function getmposition(){
 				a.id_mposition,a.mposition_name
 				FROM
 				mposition a
-				WHERE a.status=1 AND a.id_mposition > 1";
+				WHERE a.status=1 ";
 // echo $sql;
 			$query = $this->db->query($sql);
 			return  $query->result();

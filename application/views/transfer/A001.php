@@ -37,12 +37,13 @@ function saveData()
 function getdata(){ 
 	$('#stock_code').change(function(){ 
 		var stock_code= $(this).val();
+		var stock_old="";
 		if(stock_code!=''){  
 	            $.ajax(
 	            {
 	                type: 'POST',
 	                url: '<?php echo base_url().$controller; ?>/getstock_code/',
-	                data: {"stock_code":stock_code}, //your form datas to post  
+	                data: {"stock_code":stock_code,"stock_old":stock_old}, //your form datas to post  
 	                dataType: 'json',        
 	                success: function(rs)
 	                {   
@@ -109,12 +110,13 @@ function getdata(){
 	});
 	$('#chassis_number').change(function(){ 
 		var chassis_number= $(this).val();
+		var chassis_old="";
 		if(chassis_number!=''){  
 	            $.ajax(
 	            {
 	                type: 'POST',
 	                url: '<?php echo base_url().$controller; ?>/getchassis_number/',
-	                data: {"chassis_number":chassis_number}, //your form datas to post  
+	                data: {"chassis_number":chassis_number,"chassis_old":chassis_old}, //your form datas to post  
 	                dataType: 'json',        
 	                success: function(rs)
 	                {   

@@ -76,20 +76,26 @@ function rundatatable(){
               "sWidth": "7%",
               "mData": 'stock_date'
             }, {
-              "sWidth": "5%",
-              "mData": 'mmodel_name'
+              "sWidth": "7%",
+              "mData": 'stock_code'
             }, {
               "sWidth": "7%",
-              "mData": 'gen_name'
-            }, {
-              "sWidth": "5%",
-              "mData": 'color_name'
+              "mData": 'stock_date'
             }, {
               "sWidth": "10%",
               "mData": 'chassis_number'
             }, {
               "sWidth": "8%",
               "mData": 'engine_number'
+            }, {
+              "sWidth": "8%",
+              "mData": 'mmodel_name'
+            }, {
+              "sWidth": "8%",
+              "mData": 'gen_name'
+            }, {
+              "sWidth": "7%",
+              "mData": 'color_name' 
             }, {
              "sWidth": "7%",
               "mData": 'recive_doc_date'
@@ -101,7 +107,8 @@ function rundatatable(){
               "mData": 'status'
             }, {
               "sWidth": "10%",
-              "mData": 'comment'
+              "mData": 'comment',
+              "bSortable": false,
             }, {
               "sWidth": "6%",
               "mData": null,
@@ -243,7 +250,7 @@ function modal_form_view(n,screenname)
 <div class='col-sm-12'>
   <br/>
   <div class="nev_url"><?php echo $NAV; ?> </div>
-  <?php if($btn['add']==1){ echo "<div class='add' ID='add'>+ รับเข้าสต๊อก</div>"; }else{ echo "<div class='noneadd' title='ไม่ได้รับสิทธิ์รับรถ'>+ รับเข้าสต๊อก</div>";} ?>
+  <?php if($btn['add']==1){ echo "<div class='add' ID='add'>+ รับรถที่โยกมา</div>"; }else{ echo "<div class='noneadd' title='ไม่ได้รับสิทธิ์รับรถ'>+ รับรถที่โยกมา</div>";} ?>
   <div class="search">ค้นหา : 
       <input type="text" data-column="0"  class="search-input-text" placeholder="--เลขที่ใบรับเข้าสต๊อก--">  
       <input type="text" data-column="5"  class="search-input-text" placeholder="--หมายเลขตัวถัง--"> 
@@ -268,17 +275,19 @@ function modal_form_view(n,screenname)
       </select>
   </div>
 </div> 
-<table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" width="100%"  >
+<table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" width="2700"  >
   <thead>        
     <tr>
       <th>ลำดับที่</th>
       <th>เลขที่รับเข้าสต๊อก</th>
       <th>วันที่รับเข้าสต๊อก</th>
-      <th>แบบ</th>
-      <th>รุ่น</th>
-      <th>สี</th>
+      <th>เลขที่ใบโยกรถ</th>
+      <th>วันที่โยกรถ</th>
       <th>หมายเลขตัวถัง</th>
       <th>หมายเลขเครื่อง</th>
+      <th>แบบ</th>
+      <th>รุ่น</th>
+      <th>สี</th> 
       <th>วันรับจริง</th>
       <th>โซนจัดเก็บ</th>
       <th>สถานะ</th>

@@ -81,7 +81,7 @@ class Mdl_authen extends CI_Model
          FROM
             mmember a 
          LEFT JOIN mposition c ON a.id_mposition=c.id_mposition
-         LEFT JOIN mbranch r   ON c.id_mbranch=r.id_mbranch
+         LEFT JOIN mbranch r   ON a.id_mbranch=r.id_mbranch
          WHERE a.id_mmember='$id_mmember' " ;
    // echo "<pre>".$sql;
       $query = $this->db->query($sql);

@@ -1,7 +1,7 @@
 <script type='text/javascript'>
 $(function(){  
 	$( "#birthdate" ).datepicker({ 
-	    yearRange: "-70:+0",
+	    yearRange: "-60:+0",
 	});
 
 	$("#confirmpw").change(function(){
@@ -82,9 +82,9 @@ function saveData()
 	                data: {form}, //your form datas to post          
 	                success: function(rs)
 	                {    
-	                   //$('.modal').modal('hide');
-	                   //location.reload();
-	                   //alert(" บันทึกข้อมูล เรียบร้อย !");
+	                   $('.modal').modal('hide');
+	                   location.reload();
+	                   alert(" บันทึกข้อมูล เรียบร้อย !");
 	                },
 	                error: function()
 	                {

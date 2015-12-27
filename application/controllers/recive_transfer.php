@@ -37,35 +37,28 @@ public function getList()
     $this->datatables->getDatatables($requestData,$sqlQuery);
 }
 
-public function checkCode()
+public function gettransfer_code()
 {  
-	if ($_POST['code'])
+	if ($_POST['transfer_code']) 
 	{
-		echo $this->mdl_recive_transfer->getCode($_POST['code']);
-	}
-}
-
-public function checkchassis_number()
-{  
-	if ($_POST['chassis_number'])
-	{ 
-		echo $this->mdl_recive_transfer->getchassisNumber($_POST['chassis_number'],$this->id_mbranch);
+		if($_POST['transfer_old']!=$_POST['transfer_code']){
+			$rs=$this->mdl_recive_transfer->getTransfer(1,$_POST['transfer_code']);
+		}else{
+			$rs=$this->mdl_recive_transfer->getTransfer(3,$_POST['transfer_code']);
+		}
+		echo json_encode($rs);
 	}
 } 
 
-public function getMgen()
-{
-	if ($_POST['id_mmodel'])
-	{
-		$rs=$this->mdl_recive_transfer->getmgen($_POST['id_mmodel']); 
-		echo json_encode($rs);
-	}
-}
-public function getMcolor()
-{
-	if ($_POST['id_mgen'])
-	{
-		$rs=$this->mdl_recive_transfer->getMcolor($_POST['id_mgen']); 
+public function getchassis_number()
+{  
+	if ($_POST['chassis_number'])
+	{ 
+		if($_POST['chassis_old']!=$_POST['chassis_number']){
+			$rs=$this->mdl_recive_transfer->getTransfer(2,$_POST['chassis_number']);
+		}else{
+			$rs=$this->mdl_recive_transfer->getTransfer(4,$_POST['chassis_number']);
+		}
 		echo json_encode($rs);
 	}
 }
@@ -90,7 +83,6 @@ public function mainpage($SCREENID)
 	$this->data["id_mmember"] =$this->session->userdata("id_mmember");
 	$this->data["id_mposition"] =$this->session->userdata("id_mposition");  
 	$this->data['listMbranch']= $this->mdl_recive_transfer->getmbranch();
-	$this->data['listMmodel']= $this->mdl_recive_transfer->getmmodel(); 
 	$this->data['listMzone']= $this->mdl_recive_transfer->getmZone($this->session->userdata("id_mbranch"));
 	$this->data["datenow"] = $this->datenow;
 	$this->data["datefrom"] =$this->datefrom;
@@ -139,8 +131,8 @@ public function saveadd()
 			"stock_code"	=> $this->mdl_recive_transfer->getCode(),
 			"stock_date"	=> $this->convert_date($post['stock_date']),
 			"id_mbranch"	=> $this->id_mbranch, 
-			"is_recive_type"=> 1, 
-			"id_transfer"	=> '', 
+			"is_recive_type"=> 2, 
+			"id_transfer"	=> $post['id_transfer'], 
 			"chassis_number"=> $post['chassis_number'], 
 			"engine_number"	=> $post['engine_number'], 
 			"id_mmodel"		=> $post['id_mmodel'], 
@@ -156,16 +148,30 @@ public function saveadd()
 			"id_update"		=> $this->id_mmember,
 			"dt_update"		=> $this->dt_now
 		); 
-		$this->mdl_recive_transfer->addStock($data);
+		$this->mdl_recive_transfer->addStock($data); 
+
+		// Update ใบโยกรถ ที่โยกมา
+		$data2 = array( 
+			"comment"			=> 'รับรถที่โยกมาเข้าสต๊อกแล้ว',
+			"status"			=> 2,
+			"id_update"			=> $this->id_mmember,
+			"dt_update"			=> $this->dt_now
+		); 
+		$this->mdl_recive_transfer->updateTransfer($post['id_transfer'],$data2);
+
     endif;
 }
 
 public function saveUpdate()
 {
 	if($_POST):
-		parse_str($_POST['form'], $post);
-		$data = array( 
-			"stock_date"	=> $this->convert_date($post['stock_date']), 
+     	parse_str($_POST['form'], $post);
+		$data = array(
+			"stock_date"	=> $this->convert_date($post['stock_date']),
+			"id_mbranch"	=> $this->id_mbranch,
+			"is_recive_type"=> 2,
+			"id_transfer"	=> $post['id_transfer'], 
+			"chassis_number"=> $post['chassis_number'], 
 			"engine_number"	=> $post['engine_number'], 
 			"id_mmodel"		=> $post['id_mmodel'], 
 			"id_mgen"		=> $post['id_mgen'], 
@@ -174,12 +180,35 @@ public function saveUpdate()
 			"doc_reference_code" => $post['doc_reference_code'], 
 			"id_zone"		=> $post['id_zone'], 
 			"comment"		=> str_replace("\n", "<br>\n",$post['comment']),
-			"status"		=> $post['status'], 
+			"status"		=> $post['status'],
 			"id_update"		=> $this->id_mmember,
 			"dt_update"		=> $this->dt_now
 		); 
-		$this->mdl_recive_transfer->updateStock($post['id_stock'],$data);
-	endif;
+		$this->mdl_recive_transfer->updateStock($post['id_stock'],$data); 
+
+		// คืนสถานะให้รายเดิม
+		$data1 = array( 
+			"comment"			=> 'ยกเลิกการรับเข้าสต๊อก',
+			"status"			=> 1,
+			"id_update"			=> $this->id_mmember,
+			"dt_update"			=> $this->dt_now
+		); 
+		$this->mdl_recive_transfer->updateTransfer($post['id_transfer_old'],$data1);
+
+		if($post['status']==0){ 
+			$this->mdl_recive_transfer->updateTransfer($post['id_transfer'],$data1); 
+		}else{  
+		// Update ใบโยกรถ ที่โยกมา
+			$data2 = array( 
+				"comment"			=> 'รับรถที่โยกมาเข้าสต๊อกแล้ว',
+				"status"			=> 2,
+				"id_update"			=> $this->id_mmember,
+				"dt_update"			=> $this->dt_now
+			); 
+			$this->mdl_recive_transfer->updateTransfer($post['id_transfer'],$data2);
+		}
+
+    endif;
 }
 
 } ?>
