@@ -39,9 +39,13 @@ public function getList()
 
 public function getstock_code()
 {  
-	if ($_POST['stock_code'])
-	{ 
-		$rs=$this->mdl_transfer->getStock(1,$_POST['stock_code']);
+	if ($_POST['stock_code']) 
+	{
+		if($_POST['stock_old']!=$_POST['stock_code']){
+			$rs=$this->mdl_transfer->getStock(1,$_POST['stock_code']);
+		}else{
+			$rs=$this->mdl_transfer->getStock(3,$_POST['stock_code']);
+		}
 		echo json_encode($rs);
 	}
 } 
@@ -50,7 +54,11 @@ public function getchassis_number()
 {  
 	if ($_POST['chassis_number'])
 	{ 
-		$rs=$this->mdl_transfer->getStock(2,$_POST['chassis_number']);
+		if($_POST['chassis_old']!=$_POST['chassis_number']){
+			$rs=$this->mdl_transfer->getStock(2,$_POST['chassis_number']);
+		}else{
+			$rs=$this->mdl_transfer->getStock(4,$_POST['chassis_number']);
+		}
 		echo json_encode($rs);
 	}
 }
@@ -101,7 +109,7 @@ public function DETAIL($id)
 			$this->data['pagename']=$this->SCREENNAME;
 			$this->data["datenow"] =$this->datenow;
 			$this->mainpage($SCREENID); 
-			$this->data['listtransfer']= $this->mdl_transfer->gettransfer($id);
+			$this->data['listtransfer']= $this->mdl_transfer->getTransfer($id);
 			$this->load->view('transfer/'.$SCREENID,$this->data);
 	}
 public function EDIT($id,$idx)
@@ -111,56 +119,70 @@ public function EDIT($id,$idx)
 			$this->data["datenow"] =$this->datenow;
 			$this->mainpage($SCREENID); 
 			$this->data['idx']=$idx;
-			$this->data['listtransfer']= $this->mdl_transfer->gettransfer($id);
+			$this->data['listtransfer']= $this->mdl_transfer->getTransfer($id);
 			$this->load->view('transfer/'.$SCREENID,$this->data);
 	}
 
-public function saveadd() 
-{
-	if($_POST):
-     parse_str($_POST['form'], $post);
-		$data = array(
-			"transfer_code"		=> $this->mdl_transfer->getCode(),
-			"transfer_date"		=> $this->convert_date($post['transfer_date']),
-			"recive_date"		=> '',
-			"id_stock"			=> $post['id_stock'],
-			"id_mbranch"		=> $this->id_mbranch,
-			"id_mbranch_recive"	=> $post['id_mbranch_recive'],
-			"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
-			"status"			=> 1,
-			"id_create"			=> $this->id_mmember,
-			"dt_create"			=> $this->dt_now,
-			"id_update"			=> $this->id_mmember,
-			"dt_update"			=> $this->dt_now
-		); 
-		$this->mdl_transfer->addTransfer($data);
+	public function saveadd() 
+	{
+		if($_POST):
+	    	parse_str($_POST['form'], $post);
+			$data = array(
+				"transfer_code"		=> $this->mdl_transfer->getCode(),
+				"transfer_date"		=> $this->convert_date($post['transfer_date']),
+				"id_stock"			=> $post['id_stock'],
+				"id_mbranch"		=> $this->id_mbranch,
+				"id_mbranch_recive"	=> $post['id_mbranch_recive'],
+				"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
+				"status"			=> 1,
+				"id_create"			=> $this->id_mmember,
+				"dt_create"			=> $this->dt_now,
+				"id_update"			=> $this->id_mmember,
+				"dt_update"			=> $this->dt_now
+			); 
+			$this->mdl_transfer->addTransfer($data);
 
-		$data4 = array( 
-			"comment"			=> 'โยกรถ',
-			"status"			=> 4,
-			"id_update"			=> $this->id_mmember,
-			"dt_update"			=> $this->dt_now
-		); 
-		$this->mdl_transfer->updateStock($post['id_stock'],$data4);
-    endif;
-}
+			$data4 = array( 
+				"comment"			=> 'โยกรถ',
+				"status"			=> 4,
+				"id_update"			=> $this->id_mmember,
+				"dt_update"			=> $this->dt_now
+			); 
+			$this->mdl_transfer->updateStock($post['id_stock'],$data4);
+	    endif;
+	}					
 
-public function saveUpdate()
-{
-	if($_POST):
-    parse_str($_POST['form'], $post);
-	$id=$post['id_mtransfer'];
-					$data = array(
-						"name_en"			=> $post['name_en'], 
-						"name_th"			=> $post['name_th'],
-						"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
-						"status"			=> $post['status'],
-						"id_update"			=> $this->id_mmember,
-						"dt_update"			=> $this->dt_now
-					);
-			$this->mdl_transfer->updatemtransfer($id,$data);
-			$massage = "แก้ไขข้อมูล เรียบร้อย !";
-			$this->alert($massage);
-	endif;
-}
+	public function saveUpdate()
+	{
+		if($_POST):
+	    	parse_str($_POST['form'], $post);
+			$data = array(
+				"transfer_date"		=> $this->convert_date($post['transfer_date']),
+				"id_stock"			=> $post['id_stock'],
+				"id_mbranch"		=> $this->id_mbranch,
+				"id_mbranch_recive"	=> $post['id_mbranch_recive'],
+				"comment"			=> str_replace("\n", "<br>\n",$post['comment']),
+				"status"			=> $post['status'],
+				"id_update"			=> $this->id_mmember,
+				"dt_update"			=> $this->dt_now
+			); 
+			$this->mdl_transfer->updateTransfer($post['id_transfer'],$data);
+
+			$data1 = array( 
+				"comment"			=> 'ยกเลิกการโยก คืนรถเข้าสต๊อกแล้ว',
+				"status"			=> 1,
+				"id_update"			=> $this->id_mmember,
+				"dt_update"			=> $this->dt_now
+			); 
+			$this->mdl_transfer->updateStock($post['id_stock_old'],$data1);
+
+			$data4 = array( 
+				"comment"			=> 'โยกรถ',
+				"status"			=> 4,
+				"id_update"			=> $this->id_mmember,
+				"dt_update"			=> $this->dt_now
+			); 
+			$this->mdl_transfer->updateStock($post['id_stock'],$data4);
+	    endif;
+	}
 } ?>

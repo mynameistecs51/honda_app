@@ -2,7 +2,7 @@
 <script type="text/javascript" language="javascript" charset="utf-8">
 $(function(){
   add();
-  //rundatatable();
+  rundatatable();
   $("#datefrom").datepicker({
       dateFormat: 'dd/mm/yy', 
       changeMonth: true,
@@ -71,58 +71,68 @@ function rundatatable(){
               "mData": null
             }, {
               "sWidth": "7%",
+              "mData": 'transfer_code'
+            }, {
+              "sWidth": "7%",
+              "mData": 'transfer_date'
+            }, {
+              "sWidth": "7%",
               "mData": 'stock_code'
             }, {
               "sWidth": "7%",
               "mData": 'stock_date'
             }, {
+             "sWidth": "10%",
+              "mData": 'chassis_number'
+            }, {
+             "sWidth": "7%",
+              "mData": 'engine_number'
+            }, {
               "sWidth": "5%",
               "mData": 'mmodel_name'
             }, {
-              "sWidth": "7%",
+              "sWidth": "6%",
               "mData": 'gen_name'
             }, {
-              "sWidth": "5%",
+              "sWidth": "6%",
               "mData": 'color_name'
             }, {
-              "sWidth": "10%",
-              "mData": 'chassis_number'
-            }, {
-              "sWidth": "8%",
-              "mData": 'engine_number'
+             "sWidth": "6%",
+              "mData": 'zone_name' 
             }, {
              "sWidth": "7%",
-              "mData": 'recive_doc_date'
+              "mData": 'mbranch_name_from' 
             }, {
              "sWidth": "7%",
-              "mData": 'zone_name'
+              "mData": 'mbranch_name_to' 
             }, {
               "sWidth": "5%",
-              "mData": 'status'
+              "mData": 'status_name'
             }, {
               "sWidth": "10%",
-              "mData": 'comment'
+              "mData": 'comment',
+              "bSortable": false,
             }, {
-              "sWidth": "6%",
+              "sWidth": "10%",
               "mData": null,
               "bSortable": false,
               "mRender": function(data, type, full) {
                 var html ='';
                 if($('#btn_view').val()==1){
-                    html +='<img src="<?php echo base_url(); ?>images/list_view.png"   title="รายละเอียด" class="btnopt view" data-idview="' + full['id_stock'] + '" />';
+                    html +='<img src="<?php echo base_url(); ?>images/list_view.png"   title="รายละเอียด" class="btnopt view" data-idview="' + full['id_transfer'] + '" />';
                 }else{
-                    html +='<img src="<?php echo base_url(); ?>images/un_list_view.png"   title="ไม่ได้รับสิทธิ์ดูรายละเอียด" class="btnoptUnclick" data-idview="' + full['id_stock'] + '" />';
+                    html +='<img src="<?php echo base_url(); ?>images/un_list_view.png"   title="ไม่ได้รับสิทธิ์ดูรายละเอียด" class="btnoptUnclick" data-idview="' + full['id_transfer'] + '" />';
                 }
                 if($('#btn_edit').val()==1){
-                    if(full['sta']==1 || full['sta']==0){
-                      html +='<img src="<?php echo base_url(); ?>images/list_edit.png"   title="แก้ไข" class="btnopt edit" data-idedit="' + full['id_stock'] + '" />';
+                    if(full['status']==1 || full['status']==0){
+                      html +='<img src="<?php echo base_url(); ?>images/list_edit.png"   title="แก้ไข" class="btnopt edit" data-idedit="' + full['id_transfer'] + '" />';
                     }else{
-                      html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="'+full['status']+'" class="btnoptUnclick" data-idedit="' + full['id_stock'] + '" />';
+                      html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="'+full['id_transfer']+'" class="btnoptUnclick" data-idedit="' + full['id_transfer'] + '" />';
                     }
                 }else{
-                    html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="ไม่ได้รับสิทธิ์แก้ไขข้อมูล" class="btnoptUnclick" data-idedit="' + full['id_stock'] + '" />';
+                    html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="ไม่ได้รับสิทธิ์แก้ไขข้อมูล" class="btnoptUnclick" data-idedit="' + full['id_transfer'] + '" />';
                 }
-                    html +='<input type="hidden" ID="id_stock' + full['id_stock'] + '" value="' + full['id_stock'] + '" />';
+                    html +='<input type="hidden" ID="id_transfer' + full['id_transfer'] + '" value="' + full['id_transfer'] + '" />';
                 return html;
               }
             }]
@@ -250,8 +260,8 @@ function modal_form_view(n,screenname)
   <?php if($btn['add']==1){ echo "<div class='add' ID='add'>+ รับเข้าสต๊อก</div>"; }else{ echo "<div class='noneadd' title='ไม่ได้รับสิทธิ์รับรถ'>+ รับเข้าสต๊อก</div>";} ?>
   <div class="search">ค้นหา : 
       <input type="text" data-column="0"  class="search-input-text" placeholder="--เลขที่ใบโยกรถ--">  
-      <input type="text" data-column="5"  class="search-input-text" placeholder="--หมายเลขตัวถัง--"> 
-      <select data-column="1" class="search-input-text">
+      <input type="text" data-column="1"  class="search-input-text" placeholder="--หมายเลขตัวถัง--"> 
+      <select data-column="2" class="search-input-text">
         <option value="" selected>--เลือกสาขาที่โยกไป--</option> 
         <?php 
         foreach ($listMbranch as $Mbranch)
@@ -260,32 +270,32 @@ function modal_form_view(n,screenname)
         }
         ?>
       </select> 
-      <lable class="lable"> From :</lable><input type="text" data-column="2" ID="datefrom"  class="search-input-text" value="<?php echo $datefrom; ?>" > 
-      <lable class="lable"> To :</lable><input type="text" data-column="3"  ID="dateto" class="search-input-text" value="<?php echo $dateto; ?>" > 
-      <select data-column="4" class="search-input-text">
-        <option style="font-size:12px;" value="all" >----ทั้งหมด----</option>
-        <option style="font-size:12px;" value="1" selected>โยกรถแล้ว</option> 
-        <option style="font-size:12px;" value="2">ทำรับแล้ว</option>  
-        <option style="font-size:12px;" value="0">ยกเลิกโยกรถ</option> 
+      <lable class="lable"> From :</lable><input type="text" data-column="3" ID="datefrom"  class="search-input-text" value="<?php echo $datefrom; ?>" > 
+      <lable class="lable"> To :</lable><input type="text" data-column="4"  ID="dateto" class="search-input-text" value="<?php echo $dateto; ?>" > 
+      <select data-column="5" class="search-input-text">
+        <option value="all" >----ทั้งหมด----</option>
+        <option value="1" selected>โยกรถแล้ว</option> 
+        <option value="2">ทำรับแล้ว</option>  
+        <option value="0">ยกเลิกโยกรถ</option> 
       </select>
   </div>
 </div> 
-<table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" width="100%"  >
+<table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover"  width="2500">
   <thead>        
     <tr>
       <th>ลำดับที่</th>
       <th>เลขที่ใบโยกรถ</th>
-      <th>วันที่โยกรถ</th>
-      <th>สาขาเดิม</th>
-      <th>สาขาที่โยกไป</th>
+      <th>วันที่โยกรถ</th> 
       <th>เลขที่รับเข้าสต๊อก</th>
-      <th>วันที่รับเข้าสต๊อก</th>
+      <th>วันที่รับเข้าสต๊อก</th> 
+      <th>หมายเลขตัวถัง</th>
+      <th>หมายเลขเครื่อง</th> 
       <th>แบบ</th>
       <th>รุ่น</th>
       <th>สี</th>
-      <th>หมายเลขตัวถัง</th>
-      <th>หมายเลขเครื่อง</th> 
       <th>โซนจัดเก็บ</th> 
+      <th>สาขาเดิม</th>
+      <th>สาขาที่โยกไป</th>
       <th>สถานะ</th>
       <th>หมายเหตุ</th>
       <th>ดำเนินการ</th>

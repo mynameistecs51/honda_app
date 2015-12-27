@@ -52,7 +52,7 @@ function rundatatable(){
                       "sNext": "<?php echo $sNext="ถัดไป" ;?>",
                       "sPrevious": "<?php echo $sPrevious="ย้อนกลับ" ;?>"
                         }}, 
-       "bLengthChange": false, 
+        "bLengthChange": false, 
         "iDisplayLength": 20,
         "order": [[ '0', "DESC" ]], 
         "processing": true,
@@ -101,7 +101,8 @@ function rundatatable(){
               "mData": 'status'
             }, {
               "sWidth": "10%",
-              "mData": 'comment'
+              "mData": 'comment',
+              "bSortable": false,
             }, {
               "sWidth": "6%",
               "mData": null,

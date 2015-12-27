@@ -63,7 +63,7 @@ foreach ($listStock as $detail)
         <input type="radio"  name="status" value="2" disabled <?php if($detail->status=='2'){ echo "checked"; } ?> > จองแล้ว
         <input type="radio"  name="status" value="3" disabled <?php if($detail->status=='3'){ echo "checked"; } ?> > จำหน่ายแล้ว
         <input type="radio"  name="status" value="4" disabled <?php if($detail->status=='4'){ echo "checked"; } ?> > โอนไปสาขาอื่น
-        <input type="radio"  name="status" value="5" disabled <?php if($detail->status=='0'){ echo "checked"; } ?> > ยกเลิกรับเข้าสต๊อก  
+        <input type="radio"  name="status" value="0" disabled <?php if($detail->status=='0'){ echo "checked"; } ?> > ยกเลิกรับเข้าสต๊อก  
 	</div>
 	<div class="col-md-12" >
 		<p>หมายเหตุ</p>

@@ -8,6 +8,7 @@ class Mdl_transfer extends CI_Model
 		$this->datefrom = $now->format('Y-m-')."01";
 		$this->dateto = $now->format('Y-m-d');
 		$this->id_mbranch = $this->session->userdata("id_mbranch");
+		$this->id_mposition=$this->session->userdata("id_mposition");
 	}
 
 	public function addTransfer($data){
@@ -24,81 +25,128 @@ class Mdl_transfer extends CI_Model
 		$this->db->update('tstock', $data);
 	}
 
+	public function convert_date($val_date)
+	{
+		$date = str_replace('/', '-',$val_date);
+		$date = (date("Y", strtotime($date))-543).date("-m-d", strtotime($date));
+		return $date;
+	}
+
  
- public function getList($requestData){
+ 	public function getList($requestData){
 
 	 	$sql_full = "
-              SELECT
-				a.id_mbranch,
-				a.mbranch_code,
-				a.mbranch_name, 
-				a.status,
-				a.comment
-		 		FROM
-				mbranch a  
+            	SELECT 
+					a.id_transfer,
+					a.transfer_code, 
+					CONCAT(DATE_FORMAT(a.transfer_date,'%d/%m/'),DATE_FORMAT(a.transfer_date,'%Y')+543 ) AS transfer_date,
+					st.stock_code,
+					CONCAT(DATE_FORMAT(st.stock_date,'%d/%m/'),DATE_FORMAT(st.stock_date,'%Y')+543 ) AS stock_date,
+					c.mmodel_name,
+					d.gen_name,
+					e.color_name,
+					f.zone_name,
+					st.chassis_number,
+					st.engine_number,
+					b.mbranch_name AS mbranch_name_from,
+					bt.mbranch_name AS mbranch_name_to,
+					CASE a.status
+						WHEN 1 THEN 'โยกรถแล้ว'
+						WHEN 2 THEN 'รับเข้าแล้ว' 
+						WHEN 0 THEN 'ยกเลิกโยกรถ'
+					END AS status_name,
+					a.status,
+					a.comment 
+				FROM ttransfer a 
+				INNER JOIN mbranch b ON a.id_mbranch=b.id_mbranch
+				INNER JOIN mbranch bt ON a.id_mbranch_recive=bt.id_mbranch
+				INNER JOIN tstock st ON a.id_stock=st.id_stock
+				INNER JOIN mmodel c ON st.id_mmodel=c.id_model
+				INNER JOIN mgen d ON st.id_mgen=d.id_gen
+				INNER JOIN mcolor e ON st.id_mcolor=e.id_color
+				INNER JOIN mzone f ON st.id_zone=f.id_zone
 	 			WHERE 1 = 1 ";
         
         $sql_search=$sql_full;
         // getting records as per search parameters
         if( !empty($requestData['columns'][0]['search']['value']) ){ //name
-        $sql_search.=" AND a.mbranch_code LIKE '%".$requestData['columns'][0]['search']['value']."%' ";
+        	$sql_search.=" AND a.transfer_code LIKE '%".$requestData['columns'][0]['search']['value']."%' ";
         } 
         if( !empty($requestData['columns'][1]['search']['value']) ){  //salary
-        $sql_search.=" AND a.mbranch_name  LIKE '%".$requestData['columns'][1]['search']['value']."%' ";
+        	$sql_search.=" AND st.chassis_number LIKE '%".$requestData['columns'][1]['search']['value']."%' ";
         } 
-        if($requestData['columns'][3]['search']['value'] !=''){  //salary
-        $sql_search.=" AND a.status= ".$requestData['columns'][3]['search']['value'];
+        if( $requestData['columns'][2]['search']['value']!=""){  //salary
+       		$sql_search.=" AND a.id_mbranch_recive LIKE '%".$requestData['columns'][2]['search']['value']."%' ";
+        } 
+        
+        if( !empty($requestData['columns'][3]['search']['value']) ){  //salary
+        	$datefrom = $this->convert_date($requestData['columns'][3]['search']['value']);
+        }else{
+        	$datefrom = $this->datefrom;
         }
-        //echo($requestData['columns'][3]['search']['value']);
-        //echo($sql_search);
+        if( !empty($requestData['columns'][4]['search']['value']) ){  //salary
+        	$dateto = $this->convert_date($requestData['columns'][4]['search']['value']);
+        }else{
+        	$dateto = $this->dateto;
+        }
+        if($requestData['columns'][3]['search']['value'] !=''){  //salary
+        	$sql_search.=" AND a.status= ".$requestData['columns'][3]['search']['value'];
+        }else{
+        	$sql_search.=" AND a.status='1' ";
+        } 
+        if($this->id_mposition > 1){
+        	$sql_search.=" AND a.id_mbranch = '$this->id_mbranch' ";
+        }
         $data = array(
         	'sql_full' => $sql_full,
         	'sql_search' => $sql_search 
         );
         return $data;
-	  }
+	}
 
 	public function getTransfer($id){
 	  $sql = "
-			SELECT 
-				a.id_stock, 
-				a.stock_code,  
-				CONCAT(DATE_FORMAT(a.stock_date,'%d/%m/'),DATE_FORMAT(a.stock_date,'%Y')+543 ) AS stock_date, 
-				b.mbranch_name,
-				a.id_transfer, 
-				a.chassis_number, 
-				a.engine_number,
-				a.id_mmodel,
-				c.mmodel_name,
-				a.id_mgen,
-				d.gen_name,
-				a.id_mcolor,
-				e.color_name,
-				a.chassis_number,
-				a.engine_number, 
-				CONCAT(DATE_FORMAT(a.recive_doc_date,'%d/%m/'),DATE_FORMAT(a.recive_doc_date,'%Y')+543 ) AS recive_doc_date,
-				a.doc_reference_code,
-				a.id_zone,
-				f.zone_name,
-				a.comment, 
-				a.status,
-				concat(i.firstname,' ',i.lastname) AS name_create,
-				concat(i2.firstname,' ',i2.lastname) AS name_update,
-				DATE_FORMAT(a.dt_create,'%d/%m/%Y %H:%i:%s') AS dt_create,
-				DATE_FORMAT(a.dt_update,'%d/%m/%Y %H:%i:%s') AS dt_update
-			FROM tstock a
-			INNER JOIN mbranch b ON a.id_mbranch=b.id_mbranch
-			INNER JOIN mmodel c ON a.id_mmodel=c.id_model
-			INNER JOIN mgen d ON a.id_mgen=d.id_gen
-			INNER JOIN mcolor e ON a.id_mcolor=e.id_color
-			INNER JOIN mzone f ON a.id_zone=f.id_zone 
-			LEFT JOIN mmember i ON a.id_create=i.id_mmember
-			LEFT JOIN mmember i2 ON a.id_update=i2.id_mmember  ";
-				
-			if($id != ""){
-				 $sql .= " WHERE a.id_stock='$id' ";
-			}
- 		// echo "<pre>".$sql;
+				SELECT 
+					a.id_transfer,
+					a.transfer_code, 
+					CONCAT(DATE_FORMAT(a.transfer_date,'%d/%m/'),DATE_FORMAT(a.transfer_date,'%Y')+543 ) AS transfer_date,
+					a.id_stock,
+					st.stock_code,
+					CONCAT(DATE_FORMAT(st.stock_date,'%d/%m/'),DATE_FORMAT(st.stock_date,'%Y')+543 ) AS stock_date,
+					c.mmodel_name,
+					d.gen_name,
+					e.color_name,
+					f.zone_name,
+					st.chassis_number,
+					st.engine_number,
+					CONCAT(DATE_FORMAT(st.recive_doc_date,'%d/%m/'),DATE_FORMAT(st.recive_doc_date,'%Y')+543 ) AS recive_doc_date,
+					st.doc_reference_code,
+					b.mbranch_name AS mbranch_name_from,
+					a.id_mbranch_recive,
+					bt.mbranch_name AS mbranch_name_to,
+					CASE a.status
+						WHEN 1 THEN 'โยกรถแล้ว'
+						WHEN 2 THEN 'รับเข้าแล้ว' 
+						WHEN 0 THEN 'ยกเลิกโยกรถ'
+					END AS status_name,
+					a.status,
+					a.comment,
+					concat(i.firstname,' ',i.lastname) AS name_create,
+					concat(i2.firstname,' ',i2.lastname) AS name_update,
+					CONCAT(DATE_FORMAT(a.dt_create,'%d/%m/'),DATE_FORMAT(a.dt_create,'%Y')+543, DATE_FORMAT(a.dt_create,' %H:%i')) AS dt_create,
+					CONCAT(DATE_FORMAT(a.dt_update,'%d/%m/'),DATE_FORMAT(a.dt_update,'%Y')+543, DATE_FORMAT(a.dt_update,' %H:%i')) AS dt_update
+				FROM ttransfer a 
+				INNER JOIN mbranch b ON a.id_mbranch=b.id_mbranch
+				INNER JOIN mbranch bt ON a.id_mbranch_recive=bt.id_mbranch
+				INNER JOIN tstock st ON a.id_stock=st.id_stock
+				INNER JOIN mmodel c ON st.id_mmodel=c.id_model
+				INNER JOIN mgen d ON st.id_mgen=d.id_gen
+				INNER JOIN mcolor e ON st.id_mcolor=e.id_color
+				INNER JOIN mzone f ON st.id_zone=f.id_zone
+				LEFT JOIN mmember i ON a.id_create=i.id_mmember
+				LEFT JOIN mmember i2 ON a.id_update=i2.id_mmember 
+	 			WHERE a.id_transfer='$id' "; 
+ 			// echo "<pre>".$sql;
 			$query = $this->db->query($sql);
 			return  $query->result();
  	  } 
@@ -123,11 +171,14 @@ class Mdl_transfer extends CI_Model
 			INNER JOIN mgen d ON a.id_mgen=d.id_gen
 			INNER JOIN mcolor e ON a.id_mcolor=e.id_color
 			INNER JOIN mzone f ON a.id_zone=f.id_zone 
-			WHERE  a.status =1 
-			AND a.id_mbranch= '$this->id_mbranch' "; 
+			WHERE a.id_mbranch= '$this->id_mbranch' "; 
 			if($typ == 1){
-				$sql .= " AND a.stock_code='$code' ";
+				$sql .= " AND a.status =1 AND a.stock_code='$code' ";
 			}else if($typ == 2){
+				$sql .= " AND a.status =1 AND a.chassis_number='$code' ";
+			}else if($typ == 3){
+				$sql .= " AND a.stock_code='$code' ";
+			}else if($typ == 4){
 				$sql .= " AND a.chassis_number='$code' ";
 			}
  		// echo "<pre>".$sql;

@@ -131,8 +131,8 @@
 				a.status,
 				concat(i.firstname,' ',i.lastname) AS name_create,
 				concat(i2.firstname,' ',i2.lastname) AS name_update,
-				DATE_FORMAT(a.dt_create,'%d/%m/%Y %H:%i:%s') AS dt_create,
-				DATE_FORMAT(a.dt_update,'%d/%m/%Y %H:%i:%s') AS dt_update
+				CONCAT(DATE_FORMAT(a.dt_create,'%d/%m/'),DATE_FORMAT(a.dt_create,'%Y')+543, DATE_FORMAT(a.dt_create,' %H:%i')) AS dt_create,
+				CONCAT(DATE_FORMAT(a.dt_update,'%d/%m/'),DATE_FORMAT(a.dt_update,'%Y')+543, DATE_FORMAT(a.dt_update,' %H:%i')) AS dt_update
 			FROM tstock a
 			INNER JOIN mbranch b ON a.id_mbranch=b.id_mbranch
 			INNER JOIN mmodel c ON a.id_mmodel=c.id_model
@@ -140,11 +140,8 @@
 			INNER JOIN mcolor e ON a.id_mcolor=e.id_color
 			INNER JOIN mzone f ON a.id_zone=f.id_zone 
 			LEFT JOIN mmember i ON a.id_create=i.id_mmember
-			LEFT JOIN mmember i2 ON a.id_update=i2.id_mmember  ";
-				
-			if($id != ""){
-				 $sql .= " WHERE a.id_stock='$id' ";
-			}
+			LEFT JOIN mmember i2 ON a.id_update=i2.id_mmember  
+			WHERE a.id_stock='$id' ";
  		// echo "<pre>".$sql;
 			$query = $this->db->query($sql);
 			return  $query->result();
