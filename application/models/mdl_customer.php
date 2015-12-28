@@ -29,44 +29,79 @@ class Mdl_customer extends CI_Model
 
 		$sql_full = "
 		SELECT
-		a.id_mmember,
-		a.mmember_code,
-		concat(a.firstname,' ',a.lastname) AS mmember_name,
-		a.email,
-		a.mobile,
-		a.username AS user,
-		a.status,
+		a.id_stock,
+		a.stock_code,
+		CONCAT(DATE_FORMAT(a.stock_date,'%d/%m/'),DATE_FORMAT(a.stock_date,'%Y')+543 ) AS stock_date,
+		b.mbranch_name,
+		CASE a.is_recive_type
+		WHEN 1 THEN 'รับเข้าใหม่'
+		WHEN 2 THEN 'รับโอนจากสาขาอื่น'
+		END AS is_recive_type,
+		a.id_transfer,
+		a.chassis_number,
+		a.engine_number,
+		c.mmodel_name,
+		d.gen_name,
+		e.color_name,
+		a.chassis_number,
+		a.engine_number,
+		CONCAT(DATE_FORMAT(a.recive_doc_date,'%d/%m/'),DATE_FORMAT(a.recive_doc_date,'%Y')+543 ) AS recive_doc_date,
+		a.doc_reference_code,
+		f.zone_name,
 		a.comment,
-		c.mposition_name ,
-		DATE_FORMAT(a.dt_create,'%d-%m-%Y %H:%m') AS dt_create
-		FROM
-		mmember a
-		LEFT JOIN mposition AS c ON a.id_mposition=c.id_mposition
+		a.status AS sta,
+		CASE a.status
+		WHEN 1 THEN 'รับเข้าสต๊อก'
+		WHEN 2 THEN 'จองแล้ว'
+		WHEN 3 THEN 'จำหน่ายแล้ว'
+		WHEN 4 THEN 'โยกไปสาขาอื่น'
+		WHEN 0 THEN 'ยกเลิกการรับ'
+		END AS status
+		FROM tstock a
+		INNER JOIN mbranch b ON a.id_mbranch=b.id_mbranch
+		INNER JOIN mmodel c ON a.id_mmodel=c.id_model
+		INNER JOIN mgen d ON a.id_mgen=d.id_gen
+		INNER JOIN mcolor e ON a.id_mcolor=e.id_color
+		INNER JOIN mzone f ON a.id_zone=f.id_zone
 		WHERE 1 = 1 ";
-
 		$sql_search=$sql_full;
         // getting records as per search parameters
         if( !empty($requestData['columns'][0]['search']['value']) ){ //name
-        	$sql_search.=" AND a.mmember_code LIKE '%".$requestData['columns'][0]['search']['value']."%' ";
+        	$sql_search.=" AND a.stock_code LIKE '%".$requestData['columns'][0]['search']['value']."%' ";
+        }
+        if( !empty($requestData['columns'][5]['search']['value']) ){ //name
+        	$sql_search.=" AND a.chassis_number LIKE '%".$requestData['columns'][5]['search']['value']."%' ";
         }
         if( !empty($requestData['columns'][1]['search']['value']) ){  //salary
-        	$sql_search.=" AND concat(a.firstname,a.lastname) LIKE '%".$requestData['columns'][1]['search']['value']."%' ";
+        	$sql_search.=" AND a.id_mbranch =".$requestData['columns'][1]['search']['value']."";
+        }else{
+        	$sql_search.=" AND a.id_mbranch =".$this->id_mbranch."";
         }
         if( !empty($requestData['columns'][2]['search']['value']) ){  //salary
-        	$sql_search.=" AND a.username LIKE '%".$requestData['columns'][2]['search']['value']."%' ";
+        	$datefrom = $this->convert_date($requestData['columns'][2]['search']['value']);
+        }else{
+        	$datefrom = $this->datefrom;
         }
         if( !empty($requestData['columns'][3]['search']['value']) ){  //salary
-        	$sql_search.=" AND a.mobile LIKE '%".$requestData['columns'][3]['search']['value']."%' ";
+        	$dateto = $this->convert_date($requestData['columns'][3]['search']['value']);
+        }else{
+        	$dateto = $this->dateto;
         }
-     	if($requestData['columns'][4]['search']['value'] !=''){  //salary
-     		$sql_search.=" AND a.status= ".$requestData['columns'][4]['search']['value'];
-     	}
+        if($requestData['columns'][4]['search']['value'] =='all'){  //salary
+        	$sql_search.=" AND a.status IN (0,1,2,3,4)";
+        }else if($requestData['columns'][4]['search']['value'] ==''){
+        	$sql_search.=" AND a.status=1";
+        }else{
+        	$sql_search.=" AND a.status= ".$requestData['columns'][4]['search']['value'];
+        }
+        $sql_search.=" AND a.stock_date BETWEEN '".$datefrom."' AND '".$dateto."' ";
 
-     	$data = array(
-     		'sql_full' => $sql_full,
-     		'sql_search' => $sql_search
-     		);
-     	return $data;
+      // echo "<pre>".$sql_search;
+        $data = array(
+        	'sql_full' => $sql_full,
+        	'sql_search' => $sql_search
+        	);
+        return $data;
      }
 
      public function getemployee($id){

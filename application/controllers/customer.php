@@ -53,7 +53,7 @@ class Customer extends CI_Controller
 	public function getList()
 	{
 		$requestData= $_REQUEST;
-		$sqlQuery= $this->mdl_customer->getList($requestData);
+		$sqlQuery= $this->mdl_stock->getList($requestData);
 		$this->datatables->getDatatables($requestData,$sqlQuery);
 	}
 
