@@ -69,7 +69,7 @@
 			});
 });
 saveData();		//saveadd
-// getdataCar();	//get data car show 
+// getdataCar();	//get data car show
 });
 
 function saveData()
@@ -106,8 +106,8 @@ function saveData()
 
 // ADD field รุ่นรถที่สนใจ
 $(function(){
-	$('#addCar_').click(function(){	
-		var  row=$('.car').length+2;
+	$('#addCar_').click(function(){
+		var  row=$('.car').length+1;
 		var  html  = '<div class="car" ID="car'+row+'">';
 		html += '<div class="col-sm-4" >';
 		html += '<p>แบบ</p><p class="required">*</p>';
@@ -115,7 +115,7 @@ $(function(){
 		html +='<option value="" selected>--เลือก--</option>';
 		<?php foreach ($listMmodel as $Mmodel):?>
 		html += "<option value='<?php echo $Mmodel->id_model;?>'><?php echo $Mmodel->mmodel_name;?></option>";
-	<?php endforeach;?>		
+	<?php endforeach;?>
 	html += '</select>';
 	html += '</div>';
 	html += '<div class="col-sm-4">';
@@ -144,9 +144,10 @@ runnumCar();
 });
 
 function runnumCar(){
-	var  row=$('.car').length;	for(i=0;i<=row;i++){
+	var  row=$('.car').length;
+	for(i=0;i<=row;i++){
 		keyIdcard(i);
-		getdataCar(i);	
+		// getdataCar(i);
 		delCar(i);
 	}
 }
@@ -161,73 +162,72 @@ function delCar(num)
 			return false;
 		}
 	});
+	getdataCar(num);
 }
 
 function keyIdcard(num)
 {
-		console.log(num);
-
 	$('#idcard'+num).change(function(){
 		alert('Key');
 	});
 }
-function getdataCar(num)
-{ 	
-	$('#id_mmodel'+num).change(function(){ 
+function getdataCar(number)
+{
+	$('#id_mmodel'+number).change(function(){
 		var id_mmodel= $(this).val();
-		if(id_mmodel!=''){  
+		if(id_mmodel!=''){
 			$.ajax(
 			{
 				type: 'POST',
 				url: '<?php echo base_url().$controller; ?>/getMgen/',
-	               		 data: {"id_mmodel":id_mmodel}, //your form datas to post  
-	               		 dataType: 'json',        
+	               		 data: {"id_mmodel":id_mmodel}, //your form datas to post
+	               		 dataType: 'json',
 	               		 success: function(rs)
-	               		 {  
-	               		 	alert(num);
+	               		 {
+	               		 	// alert(number);
 	               		 	var res="<option >---เลือก---</option>";
-	               		 	$.each(rs, function( index, value){ 
+	               		 	$.each(rs, function( index, value){
 
 	               		 		res += "<option value="+value.id_gen+"> "+value.gen_name+"</option>";
 	               		 	});
-	               		 	$("#id_mgen"+num).html(res);
+	               		 	$("#id_mgen"+number).html(res);
 	               		 },
 	               		 error: function()
 	               		 {
 	               		 	alert("#เกิดข้อผิดพลาด");
 	               		 }
-	               		});                   
+	               		});
 		}else{
 			var none="<option value=''>---เลือก---</option>";
-			$("#id_mgen"+num).html(none);
+			$("#id_mgen"+number).html(none);
 		}
 	});
-	$('#id_mgen'+num).change(function(){ 
+	$('#id_mgen'+number).change(function(){
 		var id_mgen= $(this).val();
-		if(id_mgen!=''){  
+		if(id_mgen!=''){
 			$.ajax(
 			{
 				type: 'POST',
 				url: '<?php echo base_url().$controller; ?>/getMcolor/',
-	                data: {"id_mgen":id_mgen}, //your form datas to post  
-	                dataType: 'json',        
+	                data: {"id_mgen":id_mgen}, //your form datas to post
+	                dataType: 'json',
 	                success: function(rs)
-	                {  
+	                {
 	                	var res="<option >---เลือก---</option>";
-	                	$.each(rs, function( index, value){ 
+	                	$.each(rs, function( index, value){
 
 	                		res += "<option value="+value.id_color+"> "+value.color_name+"</option>";
 	                	});
-	                	$("#id_mcolor"+num).html(res);
+	                	$("#id_mcolor"+number).html(res);
 	                },
 	                error: function()
 	                {
 	                	alert("#เกิดข้อผิดพลาด");
 	                }
-	             });                   
+	             });
 		}else{
 			var none="<option value=''>---เลือก---</option>";
-			$("#id_mcolor").html(none);
+			$("#id_mcolor"+number).html(none);
 		}
 	});
 }
