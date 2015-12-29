@@ -90,8 +90,8 @@ function saveData()
 	                // dataType:'json',
 	                success: function(rs)
 	                {
-	                	// $('.modal').modal('hide');
-	                	// location.reload();
+	                	$('.modal').modal('hide');
+	                	location.reload();
 	                	alert("#บันทึกข้อมูล เรียบร้อย !");
 	                },
 	                error: function(err)
@@ -329,7 +329,7 @@ function delObjective(num)
 			<p>หมายเลขลูกค้าคาดหวัง</p>
 			<p class="required">*</p>
 			<!--  -->
-			<input type="text" class="form-control" name="memp_code" value="<?php echo$getCode;?>" />
+			<input type="text" class="form-control" name="memp_code" placeholder="----ออกโดยระบบ----" disabled />
 		</div>
 		<div class="col-sm-3" >
 			<p>วันที่ลูกค้าเยี่ยมชม</p>

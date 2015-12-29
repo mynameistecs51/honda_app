@@ -57,11 +57,11 @@ class Customer extends CI_Controller
 		$this->datatables->getDatatables($requestData,$sqlQuery);
 	}
 
-	public function getCode()		//รหัสลูกค้าคาดหวัง
-	{
-		$lastCode=$this->mdl_customer->getCodeCustomer($this->id_mbranch);
-		return  $lastCode;
-	}
+	// public function getCode()		//รหัสลูกค้าคาดหวัง
+	// {
+	// 	$lastCode=$this->mdl_customer->getCodeCustomer($this->id_mbranch);
+	// 	return  $lastCode;
+	// }
 
 
 	public function getMgen()		//get model Car
@@ -141,11 +141,11 @@ class Customer extends CI_Controller
 	{
 		$SCREENID="A001";
 		$this->mainpage($SCREENID);
-		$this->data['listSale'] = $this->mdl_customer->getTypeSale();  //ที่ปรึกษาด้านการขาย
+		// $this->data['listSale'] = $this->mdl_customer->getTypeSale();  //ที่ปรึกษาด้านการขาย
 		$this->data["datenow"] =$this->datenow;
 		$this->data['mmember_code']=$this->mmember_code;
 		$this->data["id_mbranch"] = $this->id_mposition;
-		$this->data['getCode']=$this->getCode();
+		// $this->data['getCode']=$this->getCode();
 		$this->load->view('customer/'.$SCREENID,$this->data);
 	}
 	public function DETAIL($id)
@@ -168,9 +168,10 @@ class Customer extends CI_Controller
 
 	public function saveadd()
 	{
+		$customerCode = $this->mdl_customer->getCodeCustomer();
 		if($_POST):
 			parse_str($_POST['form'], $post);
-				//$code= $this->getCode();
+			//$code= $this->getCode();
 		$objective = "";
 		$ob = count($post['objective']);
 		for ($i=0; $i < $ob; $i++) {
@@ -183,9 +184,27 @@ class Customer extends CI_Controller
 			$origin .=$post['origin'][$j].',';
 		}
 
+		$countModel =  count($post['id_mmodel']);
+		for ($k=0; $k < $countModel ; $k++) { 
+			$modelAtt[$k] = array(
+				'id_customer_car_att' =>	'',
+				'customer_code' 	=> 	$customerCode,
+				'id_model' 		=>	$post['id_mmodel'][$k],
+				'id_gen'			=>	$post['id_mgen'][$k],
+				'id_color'		=>	$post['id_mcolor'][$k],
+				"comment"	=> 	str_replace("\n", "<br>\n",$post['comment']),
+				"status"		=>	 1,
+				"id_create"	=>	 $this->id_mmember,
+				"dt_create"	=> 	$this->dt_now,
+				"id_update"	=> 	$this->id_mmember,
+				"dt_update"	=> 	$this->dt_now,
+				);
+			$this->mdl_customer->insert_customerAtt($modelAtt[$k]);
+		}
+
 		$data = array(
 			// "id_customer" =>'',
-			"customer_code"  =>	$this->getCode(),
+			"customer_code"  =>	$customerCode,
 			"customer_date" =>	$this->convert_date($post['customer_date']),
 			"bye_date" 	=>	'0000-00-00 ',
 			"accounts_receivable"	 =>	$post['accounts_receivable'],
@@ -214,17 +233,18 @@ class Customer extends CI_Controller
 			"status"		=>	 1,
 			"id_create"	=>	 $this->id_mmember,
 			"dt_create"	=> 	$this->dt_now,
-			"id_update"	=> 	$this->dt_now,
+			"id_update"	=> 	$this->id_mmember,
 			"dt_update"	=> 	$this->dt_now
 			);
 			// echo "<pre>";
-			// print_r($data);exit();
+			// print_r($data);exit;
 
 $this->mdl_customer->addcustomer($data);
 $massage = "บันทึกข้อมูล เรียบร้อย !";
 $this->alert($massage);
 // echo json_encode($data);
 endif;
+
 }
 
 public function saveUpdate()

@@ -11,13 +11,18 @@ class Mdl_customer extends CI_Model
 		$sql = 'SELECT m.firstname,m.lastname,m.mmember_code,m.id_mmember,p.mposition_code
 		FROM mmember m
 		INNER JOIN mposition p ON m.id_mposition = p.id_mposition
-		WHERE p.mposition_code ="PS002"  ';
+		WHERE p.mposition_code ="SALE"  ';
 		$query_sql = $this->db->query($sql)->result_array();
 		return  $query_sql;
 	}
 
 	public function addcustomer($data){
 		$this->db->insert('tcustomer', $data);
+	}
+
+	public function insert_customerAtt($model_Att)
+	{
+		$this->db->insert('tcustomer_car_att',$model_Att);
 	}
 
 	public function updatemmember($id,$data){
@@ -175,18 +180,20 @@ class Mdl_customer extends CI_Model
      	return  $query->result();
      }
 
-     public function getCodeCustomer($id_mbranch){
-     	$sql = "SELECT
-     	IFNULL(CONCAT('CU',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),lpad( (co.num+1), 4, '0')),CONCAT('CU',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),'0001'))AS CODE
-     	FROM  mbranch b
+     public function getCodeCustomer(){
+     	$sql = "
+     	SELECT
+     	IFNULL(CONCAT('CU',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),lpad( (co.num+1), 4, '0')),CONCAT('ST',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),'0001'))AS CODE
+     	FROM  mbranch b  
      	LEFT JOIN (
-     		SELECT COUNT(id_customer) AS NUM,id_mbranch
-     		FROM tcustomer
-     		WHERE id_mbranch='".$id_mbranch."'
-     		AND DATE_FORMAT(customer_date,'%Y')=DATE_FORMAT(NOW(),'%Y')
-     		AND DATE_FORMAT(customer_date,'%m')=DATE_FORMAT(NOW(),'%m')
+     		SELECT COUNT(id_stock) AS NUM,id_mbranch
+     		FROM tstock
+     		WHERE id_mbranch='$this->id_mbranch' 
+     		AND DATE_FORMAT(stock_date,'%Y')=DATE_FORMAT(NOW(),'%Y')
+     		AND DATE_FORMAT(stock_date,'%m')=DATE_FORMAT(NOW(),'%m')
      		) AS co ON b.id_mbranch=co.id_mbranch
-WHERE b.id_mbranch='".$id_mbranch."' ";
+WHERE b.id_mbranch='$this->id_mbranch'
+";
 $query = $this->db->query($sql)->result();
 foreach ($query as $rowQuery) {
 	$getCode = $rowQuery->CODE;
