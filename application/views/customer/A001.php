@@ -69,7 +69,7 @@
 			});
 });
 saveData();		//saveadd
- // getdataCar();		//getdata car form stock
+// getdataCar();	//get data car show 
 });
 
 function saveData()
@@ -107,9 +107,9 @@ function saveData()
 // ADD field รุ่นรถที่สนใจ
 $(function(){
 	$('#addCar_').click(function(){	
-		var  row=$('.car').length+1;
+		var  row=$('.car').length+2;
 		var  html  = '<div class="car" ID="car'+row+'">';
-		html += '<div class="col-sm-4">';
+		html += '<div class="col-sm-4" >';
 		html += '<p>แบบ</p><p class="required">*</p>';
 		html += '<select name="id_mmodel[]"  id="id_mmodel'+row+'" class ="form-control id_mmodel" required>';
 		html +='<option value="" selected>--เลือก--</option>';
@@ -130,7 +130,7 @@ $(function(){
 	html += '</div>';
 	html += '<div class="col-sm-2" >  ';
 	html += '<p>&nbsp;</p>';
-	html += '<h4><i class="glyphicon glyphicon-trash btn btn-danger" ID="delCar'+row+'"></i> </h4>';
+	html += '<h4><i class="glyphicon glyphicon-trash btn btn-danger" id="delCar'+row+'"></i> </h4>';
 	html += '</div> ';
 	html += '</div>';
 	if(row<=20){
@@ -139,18 +139,15 @@ $(function(){
 	}else{
 		alert("เพิ่มไม่เกิน 20 ");
 	}
-
+});
+runnumCar();
 });
 
-runnumrow();
-});
-
-function runnumrow(){
-	var  row=$('.car').length;
-	for(i=0;i<row;i++){
-		delCar(i);
+function runnumCar(){
+	var  row=$('.car').length;	for(i=0;i<=row;i++){
 		keyIdcard(i);
-		getdataCar(i);
+		getdataCar(i);	
+		delCar(i);
 	}
 }
 
@@ -168,75 +165,71 @@ function delCar(num)
 
 function keyIdcard(num)
 {
+		console.log(num);
+
 	$('#idcard'+num).change(function(){
 		alert('Key');
 	});
 }
+function getdataCar(num)
+{ 	
+	$('#id_mmodel'+num).change(function(){ 
+		var id_mmodel= $(this).val();
+		if(id_mmodel!=''){  
+			$.ajax(
+			{
+				type: 'POST',
+				url: '<?php echo base_url().$controller; ?>/getMgen/',
+	               		 data: {"id_mmodel":id_mmodel}, //your form datas to post  
+	               		 dataType: 'json',        
+	               		 success: function(rs)
+	               		 {  
+	               		 	alert(num);
+	               		 	var res="<option >---เลือก---</option>";
+	               		 	$.each(rs, function( index, value){ 
 
-function getdataCar(){	//get data form stock car
-	var  row=$('.id_mmodel').length;
-	for(i=1;i<row;i++){
-		$('#id_mmodel'+i).change(function() {
-			alert($(this).val());
-		});
-	}
-		// var id_mmodel= $(this).val();
-		// if(id_mmodel!=''){
-		// 	$.ajax(
-		// 	{
-		// 		type: 'POST',
-		// 		url: '<?php echo base_url().$controller; ?>/getMgen/',
-	 //                		data: {"id_mmodel":id_mmodel}, //your form datas to post
-	 //                		dataType: 'json',
-	 //                		success: function(rs)
-	 //                		{alert(id_mmodel);
-	 //                			var res="<option >---เลือก---</option>";
-	 //                			$.each(rs, function( index, value){
-
-	 //                				res += "<option value="+value.id_gen+"> "+value.gen_name+"</option>";
-	 //                			});
-	 //                			$(".id_mgen").html(res);
-	 //                		},
-	 //                		error: function()
-	 //                		{
-	 //                			alert("#เกิดข้อผิดพลาด");
-	 //                		}
-	 //                	});
-		// }else{
-		// 	var none="<option value=''>---เลือก---</option>";
-		// 	$(".id_mgen").html(none);
-		// }
-		
-/*
-
-		$('.id_mgen'+num).change(function(){
-			var id_mgen= $(this).val();
-			if(id_mgen!=''){
-				$.ajax(
-				{
-					type: 'POST',
-					url: '<?php echo base_url().$controller; ?>/getMcolor/',
-	                data: {"id_mgen":id_mgen}, //your form datas to post
-	                dataType: 'json',
+	               		 		res += "<option value="+value.id_gen+"> "+value.gen_name+"</option>";
+	               		 	});
+	               		 	$("#id_mgen"+num).html(res);
+	               		 },
+	               		 error: function()
+	               		 {
+	               		 	alert("#เกิดข้อผิดพลาด");
+	               		 }
+	               		});                   
+		}else{
+			var none="<option value=''>---เลือก---</option>";
+			$("#id_mgen"+num).html(none);
+		}
+	});
+	$('#id_mgen'+num).change(function(){ 
+		var id_mgen= $(this).val();
+		if(id_mgen!=''){  
+			$.ajax(
+			{
+				type: 'POST',
+				url: '<?php echo base_url().$controller; ?>/getMcolor/',
+	                data: {"id_mgen":id_mgen}, //your form datas to post  
+	                dataType: 'json',        
 	                success: function(rs)
-	                {
+	                {  
 	                	var res="<option >---เลือก---</option>";
-	                	$.each(rs, function( index, value){
+	                	$.each(rs, function( index, value){ 
 
 	                		res += "<option value="+value.id_color+"> "+value.color_name+"</option>";
 	                	});
-	                	$(".id_mcolor").html(res);
+	                	$("#id_mcolor"+num).html(res);
 	                },
 	                error: function()
 	                {
 	                	alert("#เกิดข้อผิดพลาด");
 	                }
-	             });
-			}else{
-				var none="<option value=''>---เลือก---</option>";
-				$(".id_mcolor").html(none);
-			}
-		});*/
+	             });                   
+		}else{
+			var none="<option value=''>---เลือก---</option>";
+			$("#id_mcolor").html(none);
+		}
+	});
 }
 // ----------
 // --- add origin
@@ -305,10 +298,10 @@ $(function(){
 			alert("เพิ่มไม่เกิน 20 ");
 		}
 	});
-	runnumOrgin();
+	runnumrowObjectiv();
 });
 
-function runnumOrgin(){
+function runnumrowObjectiv(){
 	var  row=$('.objective').length;
 	for(i=0;i<row;i++){
 		delObjective(i);
@@ -502,7 +495,7 @@ function delObjective(num)
 		</div>
 		<div class="col-md-3" >
 			<p>แบบ</p><p class="required">*</p>
-			<select name="id_mmodel[]"  id="id_mmodel" class ="form-control id_mmodel" required>
+			<select name="id_mmodel[]"  id="id_mmodel0" class ="form-control id_mmodel" required>
 				<option value="" selected>--เลือก--</option>
 				<?php
 				foreach ($listMmodel as $Mmodel)
@@ -514,17 +507,17 @@ function delObjective(num)
 		</div>
 		<div class="col-md-3" >
 			<p>รุ่น</p><p class="required">*</p>
-			<select name="id_mgen[]" class ="form-control id_mgen" required>
+			<select name="id_mgen[]" id="id_mgen0" class ="form-control id_mgen" required>
 			</select>
 		</div>
 		<div class="col-md-2" >
 			<p>สี</p><p class="required">*</p>
-			<select name="id_mcolor" class ="form-control id_mcolor" required>
+			<select name="id_mcolor[]"  id="id_mcolor0" class ="form-control id_mcolor" required>
 			</select>
 		</div>
 		<div class="col-sm-2">
 			<p>&nbsp;</p>
-			<div class="btn btn-primary" id="addCar_" style="width:120px;"> เพิ่มรุ่นที่สนใจ</div>
+			<div class="btn btn-primary" id="addCar_" style="width:120px;" > เพิ่มรุ่นที่สนใจ</div>
 		</div>
 		<div class="addRows">
 			<!-- show data colum  รุ่นรถที่สนใจ-->
