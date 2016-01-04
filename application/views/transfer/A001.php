@@ -204,7 +204,9 @@ function getdata(){
 			<?php 
 			foreach ($listMbranch as $Mbranch)
 			{ 
-				echo "<option value='".$Mbranch->id_mbranch."'>".$Mbranch->mbranch_name."</option>";
+				if($Mbranch->id_mbranch != $id_mbranch){
+					echo "<option value='".$Mbranch->id_mbranch."'>".$Mbranch->mbranch_name."</option>"; 
+                }
 			}
 			?>
 		</select> 

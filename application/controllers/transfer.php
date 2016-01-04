@@ -81,6 +81,7 @@ public function mainpage($SCREENID)
 		$this->data["lastLogin"] = $this->session->userdata('lastLogin');
 		$this->data["id_mmember"] =$this->session->userdata("id_mmember");
 		$this->data["id_mposition"] =$this->session->userdata("id_mposition");  
+		$this->data['id_mbranch'] = $this->id_mbranch;
 		$this->data['listMbranch']= $this->mdl_transfer->getmbranch(); 
 		$this->data["datenow"] = $this->datenow;
 		$this->data["datefrom"] =$this->datefrom;

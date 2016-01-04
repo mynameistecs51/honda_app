@@ -49,29 +49,30 @@
         return $data;
 	  }
 
-public function getStock($id){
+	public function getmbranch(){
 	  $sql = "
 			SELECT
-				a.id_mbranch,
-				a.mbranch_code,
-				a.mbranch_name, 
-				a.status,
-				a.comment,
-				concat(i.firstname,' ',i.lastname) AS name_create,
-				concat(i2.firstname,' ',i2.lastname) AS name_update,
-				DATE_FORMAT(a.dt_create,'%d/%m/%Y %H:%i:%s') AS dt_create,
-				DATE_FORMAT(a.dt_update,'%d/%m/%Y %H:%i:%s') AS dt_update
-				FROM
-					mbranch a
-				LEFT JOIN mmember i ON a.id_create=i.id_mmember
-				LEFT JOIN mmember i2 ON a.id_update=i2.id_mmember ";
-				
-				if($id != ""){
-					 $sql .= " WHERE a.id_mbranch='$id' ";
-			}
- // echo "<pre>".$sql;
-			$query = $this->db->query($sql);
-			return  $query->result();
- 	  }
-   }
-?>
+			a.id_mbranch,a.mbranch_name
+			FROM
+			mbranch a
+			WHERE a.status = 1 ";
+		// echo $sql;
+		$query = $this->db->query($sql);
+		return  $query->result();
+ 	}
+
+
+ 	public function getmzone($id_mbranch){
+	  $sql = "
+			SELECT
+			a.id_zone,a.zone_name
+			FROM
+			mzone a
+			WHERE a.status = 1 
+			AND a.id_mbranch='$id_mbranch' ";
+		// echo $sql;
+		$query = $this->db->query($sql);
+		return  $query->result();
+ 	}
+ 	
+}?>

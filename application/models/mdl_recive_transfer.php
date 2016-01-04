@@ -7,7 +7,7 @@
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok')); 
 		$this->datefrom = $now->format('Y-m-')."01";
 		$this->dateto = $now->format('Y-m-d');
-		$this->id_mbranch = $this->session->userdata("id_mbranch") != '' ? $this->session->userdata("id_mbranch"):1;
+		$this->id_mbranch = $this->session->userdata("id_mbranch");
     }
 
 	public function addStock($data){
@@ -37,6 +37,7 @@
 					WHEN 2 THEN 'รับโอนจากสาขาอื่น'
 				END AS is_recive_type,
 				a.id_transfer,
+				tf.id_mbranch,
 				a.chassis_number, 
 				a.engine_number,
 				c.mmodel_name,
@@ -57,6 +58,7 @@
 					WHEN 0 THEN 'ยกเลิกการรับ'
 				END AS status
 			FROM tstock a
+			INNER JOIN ttransfer tf ON tf.id_transfer=a.id_transfer
 			INNER JOIN mbranch b ON a.id_mbranch=b.id_mbranch
 			INNER JOIN mmodel c ON a.id_mmodel=c.id_model
 			INNER JOIN mgen d ON a.id_mgen=d.id_gen
@@ -68,34 +70,41 @@
         if( !empty($requestData['columns'][0]['search']['value']) ){ //name
         	$sql_search.=" AND a.stock_code LIKE '%".$requestData['columns'][0]['search']['value']."%' ";
         } 
-        if( !empty($requestData['columns'][5]['search']['value']) ){ //name
-        	$sql_search.=" AND a.chassis_number LIKE '%".$requestData['columns'][5]['search']['value']."%' ";
+        if( !empty($requestData['columns'][1]['search']['value']) ){ //name
+        	$sql_search.=" AND a.chassis_number LIKE '%".$requestData['columns'][1]['search']['value']."%' ";
         } 
-        if( !empty($requestData['columns'][1]['search']['value']) ){  //salary
-        	$sql_search.=" AND a.id_mbranch =".$requestData['columns'][1]['search']['value']."";
+        if(!empty($requestData['columns'][2]['search']['value']) ){ 
+        	if($requestData['columns'][2]['search']['value'] !='all'){
+        		$sql_search.=" AND a.id_mbranch= ".$requestData['columns'][2]['search']['value'];
+        	}
         }else{
-        	$sql_search.=" AND a.id_mbranch =".$this->id_mbranch."";
+        	$sql_search.=" AND a.id_mbranch = '$this->id_mbranch' ";
         } 
-        if( !empty($requestData['columns'][2]['search']['value']) ){  //salary
-        	$datefrom = $this->convert_date($requestData['columns'][2]['search']['value']);
+         if(!empty($requestData['columns'][3]['search']['value']) ){ 
+        	if($requestData['columns'][3]['search']['value'] !='all'){
+        		$sql_search.=" AND tf.id_mbranch= ".$requestData['columns'][3]['search']['value'];
+        	}
+        }
+        if( !empty($requestData['columns'][4]['search']['value']) ){  //salary
+        	$datefrom = $this->convert_date($requestData['columns'][4]['search']['value']);
         }else{
         	$datefrom = $this->datefrom;
         }
-        if( !empty($requestData['columns'][3]['search']['value']) ){  //salary
-        	$dateto = $this->convert_date($requestData['columns'][3]['search']['value']);
+        if( !empty($requestData['columns'][5]['search']['value']) ){  //salary
+        	$dateto = $this->convert_date($requestData['columns'][5]['search']['value']);
         }else{
         	$dateto = $this->dateto;
         }
-        if($requestData['columns'][4]['search']['value'] =='all'){  //salary
-        	$sql_search.=" AND a.status IN (0,1,2,3,4)";
-        }else if($requestData['columns'][4]['search']['value'] ==''){
-        	$sql_search.=" AND a.status=1";
+        if($requestData['columns'][6]['search']['value']!=''){
+        	if( $requestData['columns'][6]['search']['value'] !='all'){  //salary
+        		$sql_search.=" AND a.status= ".$requestData['columns'][6]['search']['value'];
+       		}
         }else{
-        	$sql_search.=" AND a.status= ".$requestData['columns'][4]['search']['value'];
+        	$sql_search.=" AND a.status=1 ";
         }
         $sql_search.=" AND a.stock_date BETWEEN '".$datefrom."' AND '".$dateto."' ";
 
-      // echo "<pre>".$sql_search;
+    // echo "<pre>".$sql_search;
         $data = array(
         	'sql_full' => $sql_full,
         	'sql_search' => $sql_search 
@@ -106,8 +115,8 @@
 	public function convert_date($val_date)
 	{
 		$date = str_replace('/', '-',$val_date);
-		$date = (date("Y", strtotime($date))-543).date("-m-d", strtotime($date));
-		return $date;
+		$date2 = (date("Y", strtotime($date))-543).date("-m-d", strtotime($date));
+		return $date2;
 	}
 
 	public function getStock($id){

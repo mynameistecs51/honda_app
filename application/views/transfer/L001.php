@@ -100,20 +100,20 @@ function rundatatable(){
              "sWidth": "6%",
               "mData": 'zone_name' 
             }, {
-             "sWidth": "7%",
+             "sWidth": "6%",
               "mData": 'mbranch_name_from' 
             }, {
-             "sWidth": "7%",
+             "sWidth": "6%",
               "mData": 'mbranch_name_to' 
             }, {
               "sWidth": "5%",
               "mData": 'status_name'
             }, {
-              "sWidth": "10%",
+              "sWidth": "7%",
               "mData": 'comment',
               "bSortable": false,
             }, {
-              "sWidth": "10%",
+              "sWidth": "7%",
               "mData": null,
               "bSortable": false,
               "mRender": function(data, type, full) {
@@ -260,19 +260,38 @@ function modal_form_view(n,screenname)
   <?php if($btn['add']==1){ echo "<div class='add' ID='add'>+ รับเข้าสต๊อก</div>"; }else{ echo "<div class='noneadd' title='ไม่ได้รับสิทธิ์รับรถ'>+ รับเข้าสต๊อก</div>";} ?>
   <div class="search">ค้นหา : 
       <input type="text" data-column="0"  class="search-input-text" placeholder="--เลขที่ใบโยกรถ--">  
-      <input type="text" data-column="1"  class="search-input-text" placeholder="--หมายเลขตัวถัง--"> 
+      <input type="text" data-column="1"  class="search-input-text" placeholder="--หมายเลขตัวถัง--">  
       <select data-column="2" class="search-input-text">
+      <?php 
+        if($id_mposition==1){
+          echo "<option value='all' >--เลือกสาขาเดิม--</option>";
+          foreach ($listMbranch as $Mbranch)
+          { 
+            if($Mbranch->id_mbranch==$id_mbranch){
+              echo "<option value='".$Mbranch->id_mbranch."' selected>".$Mbranch->mbranch_name."</option>";
+            }else{
+              echo "<option value='".$Mbranch->id_mbranch."'>".$Mbranch->mbranch_name."</option>";
+            } 
+          }
+        }else{
+          echo "<option value='".$id_mbranch."' selected>".$mbranch_name."</option>";
+        }
+      ?>
+      </select> 
+      <select data-column="3" class="search-input-text">
         <option value="" selected>--เลือกสาขาที่โยกไป--</option> 
         <?php 
         foreach ($listMbranch as $Mbranch)
         { 
+          if($Mbranch->id_mbranch != $id_mbranch){
           echo "<option value='".$Mbranch->id_mbranch."'>".$Mbranch->mbranch_name."</option>";
+          }
         }
         ?>
-      </select> 
-      <lable class="lable"> From :</lable><input type="text" data-column="3" ID="datefrom"  class="search-input-text" value="<?php echo $datefrom; ?>" > 
-      <lable class="lable"> To :</lable><input type="text" data-column="4"  ID="dateto" class="search-input-text" value="<?php echo $dateto; ?>" > 
-      <select data-column="5" class="search-input-text">
+      </select><br/>
+      <lable class="lable"> From :</lable><input type="text" data-column="4" ID="datefrom"  class="search-input-text" value="<?php echo $datefrom; ?>" > 
+      <lable class="lable"> To :</lable><input type="text" data-column="5"  ID="dateto" class="search-input-text" value="<?php echo $dateto; ?>" > 
+      <select data-column="6" class="search-input-text">
         <option value="all" >----ทั้งหมด----</option>
         <option value="1" selected>โยกรถแล้ว</option> 
         <option value="2">ทำรับแล้ว</option>  
@@ -280,7 +299,7 @@ function modal_form_view(n,screenname)
       </select>
   </div>
 </div> 
-<table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover"  width="2500">
+<table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover"  width="2800">
   <thead>        
     <tr>
       <th>ลำดับที่</th>

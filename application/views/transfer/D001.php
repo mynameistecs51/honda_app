@@ -34,7 +34,7 @@ foreach ($listtransfer as $detail)
 		<input type="text" class="form-control" id="stock_date" name="stock_date" value="<?php echo $detail->stock_date; ?>" readonly>
 	</div> 
 	<div class="col-md-3" >
-		<p>หมายเลขตัวถัง <b ID="er_cha_code"></p>
+		<p>หมายเลขตัวถัง <b ID="er_cha_code"></b></p>
 		<p class="required">*</p>
 		<input type="text" class="form-control" id="chassis_number" name="chassis_number" value="<?php echo $detail->chassis_number; ?>" readonly >
 	</div>

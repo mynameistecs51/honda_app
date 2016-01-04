@@ -253,19 +253,38 @@ function modal_form_view(n,screenname)
   <?php if($btn['add']==1){ echo "<div class='add' ID='add'>+ รับรถที่โยกมา</div>"; }else{ echo "<div class='noneadd' title='ไม่ได้รับสิทธิ์รับรถ'>+ รับรถที่โยกมา</div>";} ?>
   <div class="search">ค้นหา : 
       <input type="text" data-column="0"  class="search-input-text" placeholder="--เลขที่ใบรับเข้าสต๊อก--">  
-      <input type="text" data-column="5"  class="search-input-text" placeholder="--หมายเลขตัวถัง--"> 
-      <select data-column="1" class="search-input-text">
-        <option value="" selected>--เลือกสาขา--</option> 
+      <input type="text" data-column="1"  class="search-input-text" placeholder="--หมายเลขตัวถัง--"> 
+      <select data-column="2" class="search-input-text">
+      <?php 
+        if($id_mposition==1){
+          echo "<option value='' selected>--สาขาที่รับเข้า--</option>";
+          foreach ($listMbranch as $Mbranch)
+          { 
+            if($Mbranch->id_mbranch==$id_mbranch){
+              echo "<option value='".$Mbranch->id_mbranch."' >".$Mbranch->mbranch_name."</option>";
+            }else{
+              echo "<option value='".$Mbranch->id_mbranch."'>".$Mbranch->mbranch_name."</option>";
+            } 
+          }
+        }else{
+          echo "<option value='".$id_mbranch."'>".$mbranch_name."</option>";
+        }
+      ?>
+      </select>
+      <select data-column="3" class="search-input-text">
+        <option value="" selected>--สาขาที่โยกมา--</option> 
         <?php 
         foreach ($listMbranch as $Mbranch)
         { 
+          if($Mbranch->id_mbranch != $id_mbranch){
           echo "<option value='".$Mbranch->id_mbranch."'>".$Mbranch->mbranch_name."</option>";
+          }
         }
         ?>
-      </select> 
-      <lable class="lable"> From :</lable><input type="text" data-column="2" ID="datefrom"  class="search-input-text" value="<?php echo $datefrom; ?>" > 
-      <lable class="lable"> To :</lable><input type="text" data-column="3"  ID="dateto" class="search-input-text" value="<?php echo $dateto; ?>" > 
-      <select data-column="4" class="search-input-text">
+      </select><br/>
+      <lable class="lable"> From :</lable><input type="text" data-column="4" ID="datefrom"  class="search-input-text" value="<?php echo $datefrom; ?>" > 
+      <lable class="lable"> To :</lable><input type="text" data-column="5"  ID="dateto" class="search-input-text" value="<?php echo $dateto; ?>" > 
+      <select data-column="6" class="search-input-text">
         <option style="font-size:12px;" value="" >----ทั้งหมด----</option>
         <option style="font-size:12px;" value="1" selected>รับเข้าสต๊อก</option> 
         <option style="font-size:12px;" value="2">จองแล้ว</option> 

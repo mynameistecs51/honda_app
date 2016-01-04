@@ -32,13 +32,12 @@ class Mdl_transfer extends CI_Model
 		return $date;
 	}
 
- 
  	public function getList($requestData){
 
 	 	$sql_full = "
-            	SELECT 
+            	SELECT
 					a.id_transfer,
-					a.transfer_code, 
+					a.transfer_code,
 					CONCAT(DATE_FORMAT(a.transfer_date,'%d/%m/'),DATE_FORMAT(a.transfer_date,'%Y')+543 ) AS transfer_date,
 					st.stock_code,
 					CONCAT(DATE_FORMAT(st.stock_date,'%d/%m/'),DATE_FORMAT(st.stock_date,'%Y')+543 ) AS stock_date,
@@ -52,11 +51,11 @@ class Mdl_transfer extends CI_Model
 					bt.mbranch_name AS mbranch_name_to,
 					CASE a.status
 						WHEN 1 THEN 'โยกรถแล้ว'
-						WHEN 2 THEN 'รับเข้าแล้ว' 
+						WHEN 2 THEN 'ทำรับเข้าสต๊อกแล้ว'
 						WHEN 0 THEN 'ยกเลิกโยกรถ'
 					END AS status_name,
 					a.status,
-					a.comment 
+					a.comment
 				FROM ttransfer a 
 				INNER JOIN mbranch b ON a.id_mbranch=b.id_mbranch
 				INNER JOIN mbranch bt ON a.id_mbranch_recive=bt.id_mbranch
@@ -68,35 +67,44 @@ class Mdl_transfer extends CI_Model
 	 			WHERE 1 = 1 ";
         
         $sql_search=$sql_full;
-        // getting records as per search parameters
-        if( !empty($requestData['columns'][0]['search']['value']) ){ //name
+        if( !empty($requestData['columns'][0]['search']['value']) ){ 
         	$sql_search.=" AND a.transfer_code LIKE '%".$requestData['columns'][0]['search']['value']."%' ";
         } 
-        if( !empty($requestData['columns'][1]['search']['value']) ){  //salary
+        if( !empty($requestData['columns'][1]['search']['value']) ){ 
         	$sql_search.=" AND st.chassis_number LIKE '%".$requestData['columns'][1]['search']['value']."%' ";
         } 
-        if( $requestData['columns'][2]['search']['value']!=""){  //salary
-       		$sql_search.=" AND a.id_mbranch_recive LIKE '%".$requestData['columns'][2]['search']['value']."%' ";
+        if(!empty($requestData['columns'][2]['search']['value']) ){ 
+        	if($requestData['columns'][2]['search']['value'] !='all'){
+        		$sql_search.=" AND a.id_mbranch= ".$requestData['columns'][2]['search']['value'];
+        	}
+        }else{
+        	$sql_search.=" AND a.id_mbranch = '$this->id_mbranch' ";
         } 
-        
-        if( !empty($requestData['columns'][3]['search']['value']) ){  //salary
-        	$datefrom = $this->convert_date($requestData['columns'][3]['search']['value']);
+        if(!empty($requestData['columns'][3]['search']['value']) ){ 
+        	if($requestData['columns'][3]['search']['value'] !='all'){
+        		$sql_search.=" AND a.id_mbranch_recive= ".$requestData['columns'][3]['search']['value'];
+        	}
+        } 
+        if( !empty($requestData['columns'][4]['search']['value']) ){  
+        	$datefrom = $this->convert_date($requestData['columns'][4]['search']['value']);
         }else{
         	$datefrom = $this->datefrom;
         }
-        if( !empty($requestData['columns'][4]['search']['value']) ){  //salary
-        	$dateto = $this->convert_date($requestData['columns'][4]['search']['value']);
+        if( !empty($requestData['columns'][5]['search']['value']) ){ 
+        	$dateto = $this->convert_date($requestData['columns'][5]['search']['value']);
         }else{
         	$dateto = $this->dateto;
         }
-        if($requestData['columns'][3]['search']['value'] !=''){  //salary
-        	$sql_search.=" AND a.status= ".$requestData['columns'][3]['search']['value'];
+        if(!empty($requestData['columns'][6]['search']['value']) ){ 
+        	if($requestData['columns'][6]['search']['value'] !='all'){
+        		$sql_search.=" AND a.status= ".$requestData['columns'][6]['search']['value'];
+        	}
         }else{
         	$sql_search.=" AND a.status='1' ";
-        } 
-        if($this->id_mposition > 1){
-        	$sql_search.=" AND a.id_mbranch = '$this->id_mbranch' ";
-        }
+        }  
+        $sql_search.=" AND a.transfer_date BETWEEN '".$datefrom."' AND '".$dateto."' ";
+
+    //  echo "<pre>".$sql_search;
         $data = array(
         	'sql_full' => $sql_full,
         	'sql_search' => $sql_search 
@@ -216,8 +224,7 @@ class Mdl_transfer extends CI_Model
 			a.id_mbranch,a.mbranch_name
 			FROM
 			mbranch a
-			WHERE a.status = 1 
-			AND a.id_mbranch <> '$this->id_mbranch' ";
+			WHERE a.status = 1 ";
 		// echo $sql;
 		$query = $this->db->query($sql);
 		return  $query->result();

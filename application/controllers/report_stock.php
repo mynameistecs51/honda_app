@@ -6,14 +6,15 @@ class Report_stock extends CI_Controller
 		parent::__construct();
 		$this->ctl="report_stock";
 		$this->load->model('mdl_report_stock'); 
-		date_default_timezone_set('Asia/Bangkok');
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok')); 
 		$this->dt_now = $now->format('Y-m-d H:i:s');
-		$this->datenow =$now->format('d/m/').($now->format('Y')+543);
-		$this->datefrom = "01/".$now->format('m/Y');
-		$this->dateto = $now->format('d/m/Y');
+		$Y=$now->format('Y')+543;
+		$this->datefrom = "01/".$now->format('m/').$Y;
+		$this->dateto = $now->format('d/m/').$Y;
+		$this->datenow = $now->format('d/m/').$Y;
 		$this->id_mmember = $this->session->userdata('id_mmember');
 		$this->id_mposition=$this->session->userdata("id_mposition");
+		$this->id_mbranch=$this->session->userdata("id_mbranch");
 		$this->SCREENNAME=$this->template->getScreenName($this->ctl);
 		if($this->session->userdata("id_mmember")==""){
 			redirect('authen/');
@@ -53,19 +54,22 @@ public function convert_date($val_date)
 
 public function mainpage($SCREENID)
 { 
-		$SCREENNAME="EMPLOYEE report_stock";
-		$this->data["namepage"] ='รับเข้าสต๊อก';
+		$SCREENNAME="รายงาน สต๊อกรถยนต์";
+		$this->data["namepage"] ='รายงาน สต๊อกรถยนต์';
 		$this->data['controller'] = $this->ctl;
 		$this->data['pagename']=$this->template->getPageName($this->ctl);
 		$this->data['base_url'] = base_url();
 		$this->data['mmember_name'] = $this->session->userdata("mmember_name");
-		$this->data['mreport_stock_name'] = $this->session->userdata("mreport_stock_name");
+		$this->data['mbranch_name'] = $this->session->userdata("mbranch_name");
 		$this->data["lastLogin"] = $this->session->userdata('lastLogin');
 		$this->data["id_mmember"] =$this->session->userdata("id_mmember");
-		$this->data["id_mposition"] =$this->session->userdata("id_mposition");
+		$this->data["id_mposition"] =$this->session->userdata("id_mposition");  
+		$this->data['listMbranch']= $this->mdl_report_stock->getmbranch();
+		$this->data['listMzone']= $this->mdl_report_stock->getmZone($this->session->userdata("id_mbranch"));
+		$this->data["datenow"] = $this->datenow;
 		$this->data["datefrom"] =$this->datefrom;
 		$this->data["dateto"] =$this->dateto;
-		$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->data["id_mposition"],$this->data['mreport_stock_name']);
+		$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->data["id_mposition"],$this->data['mbranch_name']);
 		$this->data["btn"] =$this->template->checkBtnAuthen($this->data["id_mposition"],$this->ctl);
 		$this->data['url_add']=$this->data['base_url'].$this->ctl."/add/";
 		$this->data['url_edit']=$this->data['base_url'].$this->ctl."/edit/";

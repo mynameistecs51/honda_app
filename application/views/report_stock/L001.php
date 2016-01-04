@@ -46,7 +46,7 @@ function rundatatable(){
                         "sPrevious": "<?php echo $sPrevious="ย้อนกลับ" ;?>"                      
                         }},
         "bLengthChange": false, 
-        "iDisplayLength": 15,
+        "iDisplayLength": 80,
         "order": [[ '0', "ASC" ]], 
         "processing": true,
         "serverSide": true,
@@ -81,14 +81,16 @@ function rundatatable(){
 <div class='col-sm-12'>
   <br/>
   <div class="nev_url"><?php echo $NAV; ?> </div>
-  <?php if($btn['add']==1){ echo "<div class='add' ID='add'>EXPORT TO EXCEL</div>"; }else{ echo "<div class='noneadd' title='ไม่ได้รับสิทธิ์การ EXPORT'>EXPORT TO EXCEL</div>";} ?>
+  <?php if($btn['print']==1){ echo "<div class='add' ID='print'>EXPORT TO EXCEL</div>"; }else{ echo "<div class='noneadd' title='ไม่ได้รับสิทธิ์การ EXPORT'>EXPORT TO EXCEL</div>";} ?>
   <div class="search">ค้นหา : 
       <select data-column="0" class="search-input-text">
         <option value="" selected>--เลือกสำนักงาน/สาขา--</option> 
-        <option value="1" > อุดรธานี </option>
-        <option value="2"> หนองบัวลำภู </option>
-        <option value="3"> หนองคาย </option>
-        <option value="3"> สว่างแดนดิน </option>
+        <?php 
+        foreach ($listMbranch as $Mbranch)
+        { 
+          echo "<option value='".$Mbranch->id_mbranch."'>".$Mbranch->mbranch_name."</option>";
+        }
+        ?>
       </select>  
       <lable class="lable"> From :</lable><input type="text" data-column="5" ID="datefrom"  class="search-input-text" value="<?php echo $datefrom; ?>" > 
       <lable class="lable"> To :</lable><input type="text" data-column="6"  ID="dateto" class="search-input-text" value="<?php echo $dateto; ?>" > 

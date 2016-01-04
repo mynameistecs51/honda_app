@@ -79,6 +79,7 @@ public function mainpage($SCREENID)
 	$this->data['base_url'] = base_url();
 	$this->data['mmember_name'] = $this->session->userdata("mmember_name");
 	$this->data['mbranch_name'] = $this->session->userdata("mbranch_name");
+	$this->data['id_mbranch'] = $this->id_mbranch;
 	$this->data["lastLogin"] = $this->session->userdata('lastLogin');
 	$this->data["id_mmember"] =$this->session->userdata("id_mmember");
 	$this->data["id_mposition"] =$this->session->userdata("id_mposition");  

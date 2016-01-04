@@ -207,11 +207,13 @@ foreach ($listtransfer as $detail)
             <?php
             foreach ($listMbranch as $Mbranch)
             { 
-                if($detail->id_mbranch_recive==$Mbranch->id_mbranch){
-                    echo "<option value='".$Mbranch->id_mbranch."' selected>".$Mbranch->mbranch_name."</option>";
-                }else{
-                    echo "<option value='".$Mbranch->id_mbranch."'>".$Mbranch->mbranch_name."</option>";  
-                } 
+                if($Mbranch->id_mbranch != $id_mbranch){
+                    if($detail->id_mbranch_recive==$Mbranch->id_mbranch){
+                        echo "<option value='".$Mbranch->id_mbranch."' selected>".$Mbranch->mbranch_name."</option>";
+                    }else{
+                        echo "<option value='".$Mbranch->id_mbranch."'>".$Mbranch->mbranch_name."</option>";  
+                    } 
+                }
             } 
             ?>
         </select> 
@@ -229,7 +231,7 @@ foreach ($listtransfer as $detail)
         <input type="text" class="form-control" id="stock_date" name="stock_date" value="<?php echo $detail->stock_date; ?>" readonly>
     </div> 
     <div class="col-md-3" >
-        <p>หมายเลขตัวถัง <b ID="er_cha_code"></p>
+        <p>หมายเลขตัวถัง <b ID="er_cha_code"></b></p>
         <p class="required">*</p>
         <input type="text" class="form-control" id="chassis_number" name="chassis_number" value="<?php echo $detail->chassis_number; ?>" required>
         <input type="hidden" name="chassis_old" id="chassis_old" value="<?php echo $detail->chassis_number; ?>"  required>

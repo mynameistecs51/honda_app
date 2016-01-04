@@ -8,7 +8,6 @@ class Customer extends CI_Controller
 		$this->load->model('mdl_customer');
 		$this->load->model('mdl_getProvince');
 		$this->load->model('mdl_stock');
-		date_default_timezone_set('Asia/Bangkok');
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok'));
 		$this->dt_now = $now->format('Y-m-d H:i:s');
 		$this->datenow =$now->format('d/m/').($now->format('Y')+543);
@@ -33,7 +32,7 @@ class Customer extends CI_Controller
 		$this->load->view('customer/'.$SCREENID,$this->data);
 	}
 
-	public function getProvince()		//แสดงรายการ รหัสไปรษณีย์ จังหวัด อำเภอ ตำบล
+	public function getProvince() //แสดงรายการ รหัสไปรษณีย์ จังหวัด อำเภอ ตำบล
 	{
 		$zipcode =  $_POST['zipcode'];
 		$showdata = $this->mdl_getProvince->getProvince($zipcode);
@@ -169,8 +168,8 @@ class Customer extends CI_Controller
 	public function saveadd()
 	{
 		if($_POST):
-			parse_str($_POST['form'], $post);
-				//$code= $this->getCode();
+		parse_str($_POST['form'], $post);
+		//$code= $this->getCode();
 		$objective = "";
 		$ob = count($post['objective']);
 		for ($i=0; $i < $ob; $i++) {
