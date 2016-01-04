@@ -356,9 +356,9 @@ function delObjective(num)
 		</div>
 		<div class="col-sm-4">
 			<p>ชนิดลูกค้า</p>
-			<label class="radio-inline"><input type="radio" name="is_type" value="1" checked>ลูกค้า VIP</label>
+			<label class="radio-inline"><input type="radio" name="is_type" value="3" checked>ลูกค้าทั่วไป</label>
+			<label class="radio-inline"><input type="radio" name="is_type" value="1" >ลูกค้า VIP</label>
 			<label class="radio-inline"><input type="radio" name="is_type" value="2">ลูกค้าจงรักภักดี</label>
-			<label class="radio-inline"><input type="radio" name="is_type" value="3">ลูกค้าทั่วไป</label>
 		</div>
 		<div class="col-sm-3" >
 			<p >ประเภท</p>
@@ -373,9 +373,9 @@ function delObjective(num)
 			<p class="required">*</p>
 			<select name="is_tit" class ="form-control"  required>
 				<option>--เลือก--</option>
-				<option value="1"> นาย </option>
-				<option value="2"> นาง </option>
-				<option value="3"> นางสาว </option>
+				<option value="2"> นาย </option>
+				<option value="3"> นาง </option>
+				<option value="4"> นางสาว </option>
 			</select>
 		</div>
 		<div class="col-sm-3" >
@@ -463,7 +463,7 @@ function delObjective(num)
 			<select name="adviser" class ="form-control" required>
 				<option value="">--เลือก--</option>
 				<?php foreach($listSale as $rowSale): ?>
-					<option value="<?php echo $rowSale['mmember_code'];?>"><?php echo $rowSale['firstname'].'  '.$rowSale['lastname'];?></option>
+					<option value="<?php echo $rowSale['id_mmember'];?>"><?php echo $rowSale['firstname'].'  '.$rowSale['lastname'];?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>
