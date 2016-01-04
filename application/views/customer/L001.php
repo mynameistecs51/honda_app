@@ -47,39 +47,42 @@
             }
           },
           "aoColumns": [{
-            "sWidth": "5%",
+            "sWidth": "2%",
             "mData": null
           }, {
             "sWidth": "7%",
-            "mData": 'stock_code'
-          }, {
-            "sWidth": "7%",
-            "mData": 'stock_date'
-          }, {
-            "sWidth": "5%",
-            "mData": 'mmodel_name'
-          }, {
-            "sWidth": "7%",
-            "mData": 'gen_name'
-          }, {
-            "sWidth": "5%",
-            "mData": 'color_name'
+            "mData": 'customer_code'
           }, {
             "sWidth": "10%",
-            "mData": 'chassis_number'
+            "mData": 'cusName'
+          }, {
+            "sWidth": "5%",
+            "mData": 'type'
+          }, {
+            "sWidth": "7%",
+            "mData": 'cus_new'
+          }, {
+            "sWidth": "10%",
+            "mData": 'company'
           }, {
             "sWidth": "8%",
-            "mData": 'engine_number'
+            "mData": 'mobile'
           }, {
            "sWidth": "7%",
-           "mData": 'recive_doc_date'
+           "mData": 'mmodel_name'
          }, {
            "sWidth": "7%",
-           "mData": 'zone_name'
+           "mData": 'gen_name'
          }, {
           "sWidth": "5%",
-          "mData": 'status'
+          "mData": 'color_name'
+        },{
+        	"sWidth":"10%",
+        	"mData":'consultants'
         }, {
+            "sWidth": "5%",
+            "mData": 'mbranch_name'
+          }, {
           "sWidth": "10%",
           "mData": 'comment',
           "bSortable": false,
@@ -253,17 +256,19 @@
     		<table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" style="table-layout: fixed;word-wrap: break-word;" >
     			<thead>
     				<tr>
-    					<th width="50px;">ที่</th>
+    					<th width="40px;">ที่</th>
     					<th width="80px">หมายเลขลูกค้า</th>
     					<th width="120px">ชื่อ - สกุล(ภาษาไทย)</th>
     					<th width="90px">ลูกค้า</th>
     					<th width="80px">ประเภท</th>
+    					<th width="80px">ชนิดลูกค้า</th>
     					<th width="90px">เบอร์โทร</th>
-    					<th width="80px">ที่ปรึกษาด้านการขาย</th>
     					<th width="90px">ประเภทรถที่สนใจ</th>
     					<th width="90px">รุ่นรถ</th>
     					<th width="90px">สี</th>
-    					<th width="150px">ที่อยู่</th>
+    					<th width="80px">ที่ปรึกษาด้านการขาย</th>
+    					<th width="90px">สาขา</th>
+    					<!-- <th width="150px">ที่อยู่</th> -->
     					<th width="90px;">หมายเหตุ</th>
     					<th width="90px;">ดำเนินการ</th>
     				</tr>

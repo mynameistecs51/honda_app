@@ -53,16 +53,9 @@ class Customer extends CI_Controller
 	public function getList()
 	{
 		$requestData= $_REQUEST;
-		$sqlQuery= $this->mdl_stock->getList($requestData);
+		$sqlQuery= $this->mdl_customer->getList($requestData);
 		$this->datatables->getDatatables($requestData,$sqlQuery);
 	}
-
-	// public function getCode()		//รหัสลูกค้าคาดหวัง
-	// {
-	// 	$lastCode=$this->mdl_customer->getCodeCustomer($this->id_mbranch);
-	// 	return  $lastCode;
-	// }
-
 
 	public function getMgen()		//get model Car
 	{
@@ -124,6 +117,7 @@ class Customer extends CI_Controller
 		$this->data["id_mposition"] =$this->session->userdata("id_mposition");
 		$this->data["datefrom"] =$this->datefrom;
 		$this->data["dateto"] =$this->dateto;
+		$this->data["datenow"] =$this->datenow;
 		$this->data['listMmodel']= $this->mdl_stock->getmmodel();
 		$this->data['listSale']= $this->mdl_customer->getTypeSale();
 		$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->data["id_mposition"],$this->data['mbranch_name']);
@@ -141,8 +135,6 @@ class Customer extends CI_Controller
 	{
 		$SCREENID="A001";
 		$this->mainpage($SCREENID);
-		// $this->data['listSale'] = $this->mdl_customer->getTypeSale();  //ที่ปรึกษาด้านการขาย
-		$this->data["datenow"] =$this->datenow;
 		$this->data['mmember_code']=$this->mmember_code;
 		$this->data["id_mbranch"] = $this->id_mposition;
 		// $this->data['getCode']=$this->getCode();
@@ -152,7 +144,6 @@ class Customer extends CI_Controller
 	{
 		$SCREENID="D001";
 		$this->mainpage($SCREENID);
-		$this->data["datenow"] =$this->datenow;
 		$this->data['listemployee']= $this->mdl_customer->getemployee($id);
 		$this->load->view('customer/'.$SCREENID,$this->data);
 	}
@@ -160,7 +151,6 @@ class Customer extends CI_Controller
 	{
 		$SCREENID="E001";
 		$this->mainpage($SCREENID);
-		$this->data["datenow"] =$this->datenow;
 		$this->data['idx']=$idx;
 		$this->data['listTypeSale']= $this->mdl_customer->getemployee($id);
 		$this->load->view('customer/'.$SCREENID,$this->data);
@@ -185,7 +175,7 @@ class Customer extends CI_Controller
 		}
 
 		$countModel =  count($post['id_mmodel']);
-		for ($k=0; $k < $countModel ; $k++) { 
+		for ($k=0; $k < $countModel ; $k++) {
 			$modelAtt[$k] = array(
 				'id_customer_car_att' =>	'',
 				'customer_code' 	=> 	$customerCode,

@@ -10,7 +10,6 @@
 			dateFormat: 'dd/mm/yy',
 		});
 		$("#startdate").datepicker();
-		$("#resigndate").datepicker();
 		$(".today").datepicker({
 			changeMonth: true,
 			changeYear: true
@@ -69,7 +68,6 @@
 			});
 });
 saveData();		//saveadd
-// getdataCar();	//get data car show
 });
 
 function saveData()

@@ -34,72 +34,43 @@ class Mdl_customer extends CI_Model
 
 		$sql_full = "
 		SELECT
-		a.id_stock,
-		a.stock_code,
-		CONCAT(DATE_FORMAT(a.stock_date,'%d/%m/'),DATE_FORMAT(a.stock_date,'%Y')+543 ) AS stock_date,
-		b.mbranch_name,
-		CASE a.is_recive_type
-		WHEN 1 THEN 'รับเข้าใหม่'
-		WHEN 2 THEN 'รับโอนจากสาขาอื่น'
-		END AS is_recive_type,
-		a.id_transfer,
-		a.chassis_number,
-		a.engine_number,
-		c.mmodel_name,
-		d.gen_name,
-		e.color_name,
-		a.chassis_number,
-		a.engine_number,
-		CONCAT(DATE_FORMAT(a.recive_doc_date,'%d/%m/'),DATE_FORMAT(a.recive_doc_date,'%Y')+543 ) AS recive_doc_date,
-		a.doc_reference_code,
-		f.zone_name,
-		a.comment,
-		a.status AS sta,
-		CASE a.status
-		WHEN 1 THEN 'รับเข้าสต๊อก'
-		WHEN 2 THEN 'จองแล้ว'
-		WHEN 3 THEN 'จำหน่ายแล้ว'
-		WHEN 4 THEN 'โยกไปสาขาอื่น'
-		WHEN 0 THEN 'ยกเลิกการรับ'
-		END AS status
-		FROM tstock a
-		INNER JOIN mbranch b ON a.id_mbranch=b.id_mbranch
-		INNER JOIN mmodel c ON a.id_mmodel=c.id_model
-		INNER JOIN mgen d ON a.id_mgen=d.id_gen
-		INNER JOIN mcolor e ON a.id_mcolor=e.id_color
-		INNER JOIN mzone f ON a.id_zone=f.id_zone
-		WHERE 1 = 1 ";
-		$sql_search=$sql_full;
+		cus.customer_code,
+		CONCAT((CASE cus.id_tit
+			WHEN 1 THEN 'ไม่ระบบ'
+			WHEN 2 THEN 'นาย'
+			WHEN 3 THEN 'นาง'
+			WHEN 4 THEN 'นางสาว'
+			END),' ',cus.firstname,' ',cus.lastname) AS cusName,CASE cus.is_cus_new WHEN 1 THEN 'ลูกค้าใหม่' WHEN 2 THEN 'ลูกค้าเก่า' END AS type,
+			CASE cus.is_cus_new WHEN 1 THEN 'ลูกค้า VIP' WHEN 2 THEN 'ลูกค้าจงรักภักดี' WHEN 3 THEN 'ลูกค้าทั่วไป' END AS cus_new,br.mbranch_name,
+			CASE cus.is_company WHEN 1 THEN 'บุคคล' WHEN 2 THEN 'บริษัท' END AS company,
+			cus.mobile,cus.status,cus.customer_date,
+     CONCAT(( CASE mem.id_mmember_tit
+			WHEN 1 THEN 'นาย'
+			WHEN 2 THEN 'นาง'
+			WHEN 3 THEN 'นางสาว'
+			END),' ',mem.firstname,' ',mem.lastname) AS consultants,mo.mmodel_name,gen.gen_name,color.color_name,cus.comment
+			FROM tcustomer cus
+			INNER JOIN mbranch br ON cus.id_mbranch = br.id_mbranch
+      INNER JOIN mmember mem ON cus.sales_consultants = mem.id_mmember
+			INNER JOIN tcustomer_car_att cus_att ON cus.customer_code = cus_att.customer_code
+			INNER JOIN mmodel mo ON cus_att.id_model = mo.id_model
+			INNER JOIN mgen gen ON cus_att.id_gen = gen.id_gen
+			INNER JOIN mcolor color ON cus_att.id_color = color.id_color
+			WHERE 1 = 1";
+$sql_search=$sql_full;
         // getting records as per search parameters
-        if( !empty($requestData['columns'][0]['search']['value']) ){ //name
-        	$sql_search.=" AND a.stock_code LIKE '%".$requestData['columns'][0]['search']['value']."%' ";
+        if( !empty($requestData['columns'][0]['search']['value']) ){ //customer code
+        	$sql_search.=" AND cus_att.customer_code LIKE '%".$requestData['columns'][0]['search']['value']."%' ";
         }
-        if( !empty($requestData['columns'][5]['search']['value']) ){ //name
-        	$sql_search.=" AND a.chassis_number LIKE '%".$requestData['columns'][5]['search']['value']."%' ";
+        if( !empty($requestData['columns'][1]['search']['value']) ){ //name
+        	$sql_search.=" AND cusName LIKE '%".$requestData['columns'][1]['search']['value']."%' ";
         }
-        if( !empty($requestData['columns'][1]['search']['value']) ){  //salary
-        	$sql_search.=" AND a.id_mbranch =".$requestData['columns'][1]['search']['value']."";
+        if( !empty($requestData['columns'][2]['search']['value']) ){  //mobile
+        	$sql_search.=" AND cus.mobile =".$requestData['columns'][2]['search']['value']."";
         }else{
-        	$sql_search.=" AND a.id_mbranch =".$this->id_mbranch."";
+        	$sql_search.=" AND cus.id_mbranch =".$this->id_mbranch."";
         }
-        if( !empty($requestData['columns'][2]['search']['value']) ){  //salary
-        	$datefrom = $this->convert_date($requestData['columns'][2]['search']['value']);
-        }else{
-        	$datefrom = $this->datefrom;
-        }
-        if( !empty($requestData['columns'][3]['search']['value']) ){  //salary
-        	$dateto = $this->convert_date($requestData['columns'][3]['search']['value']);
-        }else{
-        	$dateto = $this->dateto;
-        }
-        if($requestData['columns'][4]['search']['value'] =='all'){  //salary
-        	$sql_search.=" AND a.status IN (0,1,2,3,4)";
-        }else if($requestData['columns'][4]['search']['value'] ==''){
-        	$sql_search.=" AND a.status=1";
-        }else{
-        	$sql_search.=" AND a.status= ".$requestData['columns'][4]['search']['value'];
-        }
-        $sql_search.=" AND a.stock_date BETWEEN '".$datefrom."' AND '".$dateto."' ";
+
 
       // echo "<pre>".$sql_search;
         $data = array(
@@ -184,11 +155,11 @@ class Mdl_customer extends CI_Model
      	$sql = "
      	SELECT
      	IFNULL(CONCAT('CU',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),lpad( (co.num+1), 4, '0')),CONCAT('ST',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),'0001'))AS CODE
-     	FROM  mbranch b  
+     	FROM  mbranch b
      	LEFT JOIN (
      		SELECT COUNT(id_customer) AS NUM,id_mbranch
      		FROM tcustomer
-     		WHERE id_mbranch='$this->id_mbranch' 
+     		WHERE id_mbranch='$this->id_mbranch'
      		AND DATE_FORMAT(customer_date,'%Y')=DATE_FORMAT(NOW(),'%Y')
      		AND DATE_FORMAT(customer_date,'%m')=DATE_FORMAT(NOW(),'%m')
      		) AS co ON b.id_mbranch=co.id_mbranch
