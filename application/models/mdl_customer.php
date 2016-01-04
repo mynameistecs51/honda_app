@@ -8,16 +8,23 @@ class Mdl_customer extends CI_Model
 
 	public function getTypeSale()
 	{
-		$sql = 'SELECT m.firstname,m.lastname,m.mmember_code,m.id_mmember,p.mposition_code
+		$sql = 'SELECT m.firstname,m.lastname,m.id_mmember,m.mmember_code,m.id_mmember,p.mposition_code
 		FROM mmember m
 		INNER JOIN mposition p ON m.id_mposition = p.id_mposition
-		WHERE p.mposition_code ="PS002"  ';
+		WHERE p.mposition_code ="SALE"  ';
 		$query_sql = $this->db->query($sql)->result_array();
 		return  $query_sql;
 	}
 
 	public function addcustomer($data){
 		$this->db->insert('tcustomer', $data);
+		$last_id = $this->db->insert_id();
+		return $last_id;
+	}
+
+	public function insert_customerAtt($model_Att)
+	{
+		$this->db->insert('tcustomer_car_att',$model_Att);
 	}
 
 	public function updatemmember($id,$data){
@@ -29,44 +36,50 @@ class Mdl_customer extends CI_Model
 
 		$sql_full = "
 		SELECT
-		a.id_mmember,
-		a.mmember_code,
-		concat(a.firstname,' ',a.lastname) AS mmember_name,
-		a.email,
-		a.mobile,
-		a.username AS user,
-		a.status,
-		a.comment,
-		c.mposition_name ,
-		DATE_FORMAT(a.dt_create,'%d-%m-%Y %H:%m') AS dt_create
-		FROM
-		mmember a
-		LEFT JOIN mposition AS c ON a.id_mposition=c.id_mposition
-		WHERE 1 = 1 ";
-
-		$sql_search=$sql_full;
+		cus.customer_code,
+		CONCAT((CASE cus.id_tit
+			WHEN 1 THEN 'ไม่ระบบ'
+			WHEN 2 THEN 'นาย'
+			WHEN 3 THEN 'นาง'
+			WHEN 4 THEN 'นางสาว'
+			END),' ',cus.firstname,' ',cus.lastname) AS cusName,CASE cus.is_cus_new WHEN 1 THEN 'ลูกค้าใหม่' WHEN 2 THEN 'ลูกค้าเก่า' END AS type,
+CASE cus.is_cus_new WHEN 1 THEN 'ลูกค้า VIP' WHEN 2 THEN 'ลูกค้าจงรักภักดี' WHEN 3 THEN 'ลูกค้าทั่วไป' END AS cus_new,br.mbranch_name,
+CASE cus.is_company WHEN 1 THEN 'บุคคล' WHEN 2 THEN 'บริษัท' END AS company,
+cus.mobile,cus.status,cus.customer_date,
+CONCAT(( CASE mem.id_mmember_tit
+	WHEN 1 THEN 'นาย'
+	WHEN 2 THEN 'นาง'
+	WHEN 3 THEN 'นางสาว'
+	END),' ',mem.firstname,' ',mem.lastname) AS consultants,mo.mmodel_name,gen.gen_name,color.color_name,cus.comment
+FROM tcustomer cus
+INNER JOIN mbranch br ON cus.id_mbranch = br.id_mbranch
+INNER JOIN mmember mem ON cus.sales_consultants = mem.id_mmember
+INNER JOIN tcustomer_car_att cus_att ON cus.id_customer = cus_att.id_customer
+INNER JOIN mmodel mo ON cus_att.id_model = mo.id_model
+INNER JOIN mgen gen ON cus_att.id_gen = gen.id_gen
+INNER JOIN mcolor color ON cus_att.id_color = color.id_color
+WHERE 1 = 1";
+$sql_search=$sql_full;
         // getting records as per search parameters
-        if( !empty($requestData['columns'][0]['search']['value']) ){ //name
-        	$sql_search.=" AND a.mmember_code LIKE '%".$requestData['columns'][0]['search']['value']."%' ";
+        if( !empty($requestData['columns'][0]['search']['value']) ){ //customer code
+        	$sql_search.=" AND cus.id_customer LIKE '%".$requestData['columns'][0]['search']['value']."%' ";
         }
-        if( !empty($requestData['columns'][1]['search']['value']) ){  //salary
-        	$sql_search.=" AND concat(a.firstname,a.lastname) LIKE '%".$requestData['columns'][1]['search']['value']."%' ";
+        if( !empty($requestData['columns'][1]['search']['value']) ){ //name
+        	$sql_search.=" AND cusName LIKE '%".$requestData['columns'][1]['search']['value']."%' ";
         }
-        if( !empty($requestData['columns'][2]['search']['value']) ){  //salary
-        	$sql_search.=" AND a.username LIKE '%".$requestData['columns'][2]['search']['value']."%' ";
+        if( !empty($requestData['columns'][2]['search']['value']) ){  //mobile
+        	$sql_search.=" AND cus.mobile =".$requestData['columns'][2]['search']['value']."";
+        }else{
+        	$sql_search.=" AND cus.id_mbranch =".$this->id_mbranch."";
         }
-        if( !empty($requestData['columns'][3]['search']['value']) ){  //salary
-        	$sql_search.=" AND a.mobile LIKE '%".$requestData['columns'][3]['search']['value']."%' ";
-        }
-     	if($requestData['columns'][4]['search']['value'] !=''){  //salary
-     		$sql_search.=" AND a.status= ".$requestData['columns'][4]['search']['value'];
-     	}
 
-     	$data = array(
-     		'sql_full' => $sql_full,
-     		'sql_search' => $sql_search
-     		);
-     	return $data;
+
+      // echo "<pre>".$sql_search;
+        $data = array(
+        	'sql_full' => $sql_full,
+        	'sql_search' => $sql_search
+        	);
+        return $data;
      }
 
      public function getemployee($id){
@@ -140,18 +153,20 @@ class Mdl_customer extends CI_Model
      	return  $query->result();
      }
 
-     public function getCodeCustomer($id_mbranch){
-     	$sql = "SELECT
-     	IFNULL(CONCAT('CU',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),lpad( (co.num+1), 4, '0')),CONCAT('CU',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),'0001'))AS CODE
+     public function getCodeCustomer(){
+     	$sql = "
+     	SELECT
+     	IFNULL(CONCAT('CU',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),lpad( (co.num+1), 4, '0')),CONCAT('ST',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),'0001'))AS CODE
      	FROM  mbranch b
      	LEFT JOIN (
      		SELECT COUNT(id_customer) AS NUM,id_mbranch
      		FROM tcustomer
-     		WHERE id_mbranch='".$id_mbranch."'
+     		WHERE id_mbranch='$this->id_mbranch'
      		AND DATE_FORMAT(customer_date,'%Y')=DATE_FORMAT(NOW(),'%Y')
      		AND DATE_FORMAT(customer_date,'%m')=DATE_FORMAT(NOW(),'%m')
      		) AS co ON b.id_mbranch=co.id_mbranch
-WHERE b.id_mbranch='".$id_mbranch."' ";
+WHERE b.id_mbranch='$this->id_mbranch'
+";
 $query = $this->db->query($sql)->result();
 foreach ($query as $rowQuery) {
 	$getCode = $rowQuery->CODE;

@@ -10,7 +10,6 @@
 			dateFormat: 'dd/mm/yy',
 		});
 		$("#startdate").datepicker();
-		$("#resigndate").datepicker();
 		$(".today").datepicker({
 			changeMonth: true,
 			changeYear: true
@@ -69,7 +68,6 @@
 			});
 });
 saveData();		//saveadd
-getdataCar();		//getdata car form stock
 });
 
 function saveData()
@@ -90,8 +88,8 @@ function saveData()
 	                // dataType:'json',
 	                success: function(rs)
 	                {
-	                	// $('.modal').modal('hide');
-	                	// location.reload();
+	                	$('.modal').modal('hide');
+	                	location.reload();
 	                	alert("#บันทึกข้อมูล เรียบร้อย !");
 	                },
 	                error: function(err)
@@ -104,36 +102,105 @@ function saveData()
         });
 }
 
-function getdataCar(){	//get data form stock car
-	$('.id_mmodel').change(function(){
+// ADD field รุ่นรถที่สนใจ
+$(function(){
+	$('#addCar_').click(function(){
+		var  row=$('.car').length+1;
+		var  html  = '<div class="car" ID="car'+row+'">';
+		html += '<div class="col-sm-4" >';
+		html += '<p>แบบ</p><p class="required">*</p>';
+		html += '<select name="id_mmodel[]"  id="id_mmodel'+row+'" class ="form-control id_mmodel" required>';
+		html +='<option value="" selected>--เลือก--</option>';
+		<?php foreach ($listMmodel as $Mmodel):?>
+		html += "<option value='<?php echo $Mmodel->id_model;?>'><?php echo $Mmodel->mmodel_name;?></option>";
+	<?php endforeach;?>
+	html += '</select>';
+	html += '</div>';
+	html += '<div class="col-sm-4">';
+	html += '<p>รุ่น</p><p class="required">*</p>';
+	html +='<select name="id_mgen[]" id="id_mgen'+row+'" class ="form-control id_mgen" required>';
+	html +='</select>';
+	html += '</div>';
+	html += '<div class="col-sm-2">';
+	html += '<p>สี</p><p class="required">*</p>';
+	html +='<select name="id_mcolor[]" id="id_mcolor'+row+'" class ="form-control id_mcolor" required>';
+	html +='</select>';
+	html += '</div>';
+	html += '<div class="col-sm-2" >  ';
+	html += '<p>&nbsp;</p>';
+	html += '<h4><i class="glyphicon glyphicon-trash btn btn-danger" id="delCar'+row+'"></i> </h4>';
+	html += '</div> ';
+	html += '</div>';
+	if(row<=20){
+		$('.addRows').append(html);
+		delCar(row);
+	}else{
+		alert("เพิ่มไม่เกิน 20 ");
+	}
+});
+runnumCar();
+});
+
+function runnumCar(){
+	var  row=$('.car').length;
+	for(i=0;i<=row;i++){
+		keyIdcard(i);
+		// getdataCar(i);
+		delCar(i);
+	}
+}
+
+function delCar(num)
+{
+	$('#delCar'+num ).click(function(){
+		var chk =  confirm('คุณต้องการย้อนกลับ ใช่หรือไม่ ?');
+		if(chk==true){
+			$('#car'+num).remove();
+		}else{
+			return false;
+		}
+	});
+	getdataCar(num);
+}
+
+function keyIdcard(num)
+{
+	$('#idcard'+num).change(function(){
+		alert('Key');
+	});
+}
+function getdataCar(number)
+{
+	$('#id_mmodel'+number).change(function(){
 		var id_mmodel= $(this).val();
 		if(id_mmodel!=''){
 			$.ajax(
 			{
 				type: 'POST',
 				url: '<?php echo base_url().$controller; ?>/getMgen/',
-	                		data: {"id_mmodel":id_mmodel}, //your form datas to post
-	                		dataType: 'json',
-	                		success: function(rs)
-	                		{alert(id_mmodel);
-	                			var res="<option >---เลือก---</option>";
-	                			$.each(rs, function( index, value){
+	               		 data: {"id_mmodel":id_mmodel}, //your form datas to post
+	               		 dataType: 'json',
+	               		 success: function(rs)
+	               		 {
+	               		 	// alert(number);
+	               		 	var res="<option >---เลือก---</option>";
+	               		 	$.each(rs, function( index, value){
 
-	                				res += "<option value="+value.id_gen+"> "+value.gen_name+"</option>";
-	                			});
-	                			$(".id_mgen").html(res);
-	                		},
-	                		error: function()
-	                		{
-	                			alert("#เกิดข้อผิดพลาด");
-	                		}
-	                	});
+	               		 		res += "<option value="+value.id_gen+"> "+value.gen_name+"</option>";
+	               		 	});
+	               		 	$("#id_mgen"+number).html(res);
+	               		 },
+	               		 error: function()
+	               		 {
+	               		 	alert("#เกิดข้อผิดพลาด");
+	               		 }
+	               		});
 		}else{
 			var none="<option value=''>---เลือก---</option>";
-			$(".id_mgen").html(none);
+			$("#id_mgen"+number).html(none);
 		}
 	});
-	$('.id_mgen').change(function(){
+	$('#id_mgen'+number).change(function(){
 		var id_mgen= $(this).val();
 		if(id_mgen!=''){
 			$.ajax(
@@ -149,7 +216,7 @@ function getdataCar(){	//get data form stock car
 
 	                		res += "<option value="+value.id_color+"> "+value.color_name+"</option>";
 	                	});
-	                	$(".id_mcolor").html(res);
+	                	$("#id_mcolor"+number).html(res);
 	                },
 	                error: function()
 	                {
@@ -158,78 +225,10 @@ function getdataCar(){	//get data form stock car
 	             });
 		}else{
 			var none="<option value=''>---เลือก---</option>";
-			$(".id_mcolor").html(none);
+			$("#id_mcolor"+number).html(none);
 		}
 	});
 }
-// ADD field รุ่นรถที่สนใจ
-$(function(){
-	$('#addCar_').click(function(){	
-		var  row=$('.car').length+1;
-		var  html  = '<div class="car" ID="car'+row+'">';
-		html += '<div class="col-sm-4">';
-		html += '<p>แบบ</p><p class="required">*</p>';
-		html += '<select name="id_mmodel[]"  class ="form-control id_mmodel" required>';
-		html +='<option value="" selected>--เลือก--</option>';
-		<?php foreach ($listMmodel as $Mmodel):?>
-		html += "<option value='<?php echo $Mmodel->id_model;?>'><?php echo $Mmodel->mmodel_name;?></option>";
-	<?php endforeach;?>		
-	html += '</select>';
-	html += '</div>';
-	html += '<div class="col-sm-4">';
-	html += '<p>รุ่น</p><p class="required">*</p>';
-	html +='<select name="id_mgen[]" class ="form-control id_mgen" required>';
-	html +='</select>';
-	html += '</div>';
-	html += '<div class="col-sm-2">';
-	html += '<p>สี</p><p class="required">*</p>';
-	html +='<select name="id_mcolor[]" class ="form-control id_mcolor" required>';
-	html +='</select>';
-	html += '</div>';
-	html += '<div class="col-sm-2" >  ';
-	html += '<p>&nbsp;</p>';
-	html += '<h4><i class="glyphicon glyphicon-trash btn btn-danger" ID="delCar'+row+'"></i> </h4>';
-	html += '</div> ';
-	html += '</div>';
-	if(row<=20){
-		$('.addRows').append(html);
-		delCar(row);
-	}else{
-		alert("เพิ่มไม่เกิน 20 ");
-	}
-
-});
-// getdataCar($(this).val());
-runnumrow();
-});
-
-function runnumrow(){
-	var  row=$('.car').length;
-	for(i=0;i<row;i++){
-		delCar(i);
-		keyIdcard(i);
-	}
-}
-
-function delCar(num)
-{
-	$('#delCar'+num ).click(function(){
-		var chk =  confirm('คุณต้องการย้อนกลับ ใช่หรือไม่ ?');
-		if(chk==true){
-			$('#car'+num).remove();
-		}else{
-			return false;
-		}
-	});
-}
-
-function keyIdcard(num)
-{
-	$('#idcard'+num).change(function(){
-		alert('Key');
-	});
-}
-
 // ----------
 // --- add origin
 $(function(){
@@ -297,10 +296,10 @@ $(function(){
 			alert("เพิ่มไม่เกิน 20 ");
 		}
 	});
-	runnumOrgin();
+	runnumrowObjectiv();
 });
 
-function runnumOrgin(){
+function runnumrowObjectiv(){
 	var  row=$('.objective').length;
 	for(i=0;i<row;i++){
 		delObjective(i);
@@ -328,7 +327,7 @@ function delObjective(num)
 			<p>หมายเลขลูกค้าคาดหวัง</p>
 			<p class="required">*</p>
 			<!--  -->
-			<input type="text" class="form-control" name="memp_code" value="<?php echo$getCode;?>" />
+			<input type="text" class="form-control" name="memp_code" placeholder="----ออกโดยระบบ----" disabled />
 		</div>
 		<div class="col-sm-3" >
 			<p>วันที่ลูกค้าเยี่ยมชม</p>
@@ -355,9 +354,9 @@ function delObjective(num)
 		</div>
 		<div class="col-sm-4">
 			<p>ชนิดลูกค้า</p>
-			<label class="radio-inline"><input type="radio" name="is_type" value="1" checked>ลูกค้า VIP</label>
+			<label class="radio-inline"><input type="radio" name="is_type" value="3" checked>ลูกค้าทั่วไป</label>
+			<label class="radio-inline"><input type="radio" name="is_type" value="1" >ลูกค้า VIP</label>
 			<label class="radio-inline"><input type="radio" name="is_type" value="2">ลูกค้าจงรักภักดี</label>
-			<label class="radio-inline"><input type="radio" name="is_type" value="3">ลูกค้าทั่วไป</label>
 		</div>
 		<div class="col-sm-3" >
 			<p >ประเภท</p>
@@ -372,9 +371,9 @@ function delObjective(num)
 			<p class="required">*</p>
 			<select name="is_tit" class ="form-control"  required>
 				<option>--เลือก--</option>
-				<option value="1"> นาย </option>
-				<option value="2"> นาง </option>
-				<option value="3"> นางสาว </option>
+				<option value="2"> นาย </option>
+				<option value="3"> นาง </option>
+				<option value="4"> นางสาว </option>
 			</select>
 		</div>
 		<div class="col-sm-3" >
@@ -462,7 +461,7 @@ function delObjective(num)
 			<select name="adviser" class ="form-control" required>
 				<option value="">--เลือก--</option>
 				<?php foreach($listSale as $rowSale): ?>
-					<option value="<?php echo $rowSale['mmember_code'];?>"><?php echo $rowSale['firstname'].'  '.$rowSale['lastname'];?></option>
+					<option value="<?php echo $rowSale['id_mmember'];?>"><?php echo $rowSale['firstname'].'  '.$rowSale['lastname'];?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>
@@ -494,7 +493,7 @@ function delObjective(num)
 		</div>
 		<div class="col-md-3" >
 			<p>แบบ</p><p class="required">*</p>
-			<select name="id_mmodel[]"  class ="form-control id_mmodel" required>
+			<select name="id_mmodel[]"  id="id_mmodel0" class ="form-control id_mmodel" required>
 				<option value="" selected>--เลือก--</option>
 				<?php
 				foreach ($listMmodel as $Mmodel)
@@ -506,17 +505,17 @@ function delObjective(num)
 		</div>
 		<div class="col-md-3" >
 			<p>รุ่น</p><p class="required">*</p>
-			<select name="id_mgen[]" class ="form-control id_mgen" required>
+			<select name="id_mgen[]" id="id_mgen0" class ="form-control id_mgen" required>
 			</select>
 		</div>
 		<div class="col-md-2" >
 			<p>สี</p><p class="required">*</p>
-			<select name="id_mcolor" class ="form-control id_mcolor" required>
+			<select name="id_mcolor[]"  id="id_mcolor0" class ="form-control id_mcolor" required>
 			</select>
 		</div>
 		<div class="col-sm-2">
 			<p>&nbsp;</p>
-			<div class="btn btn-primary" id="addCar_" style="width:120px;"> เพิ่มรุ่นที่สนใจ</div>
+			<div class="btn btn-primary" id="addCar_" style="width:120px;" > เพิ่มรุ่นที่สนใจ</div>
 		</div>
 		<div class="addRows">
 			<!-- show data colum  รุ่นรถที่สนใจ-->
