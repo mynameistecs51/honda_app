@@ -58,7 +58,8 @@ INNER JOIN tcustomer_car_att cus_att ON cus.id_customer = cus_att.id_customer
 INNER JOIN mmodel mo ON cus_att.id_model = mo.id_model
 INNER JOIN mgen gen ON cus_att.id_gen = gen.id_gen
 INNER JOIN mcolor color ON cus_att.id_color = color.id_color
-WHERE 1 = 1";
+WHERE 1 = 1
+";
 $sql_search=$sql_full;
         // getting records as per search parameters
         if( !empty($requestData['columns'][0]['search']['value']) ){ //customer code
@@ -70,7 +71,7 @@ $sql_search=$sql_full;
         if( !empty($requestData['columns'][2]['search']['value']) ){  //mobile
         	$sql_search.=" AND cus.mobile =".$requestData['columns'][2]['search']['value']."";
         }else{
-        	$sql_search.=" AND cus.id_mbranch =".$this->id_mbranch."";
+        	$sql_search.=" AND cus.id_mbranch =".$this->id_mbranch." GROUP BY cus_att.id_customer";
         }
 
 
