@@ -18,6 +18,8 @@ class Mdl_customer extends CI_Model
 
 	public function addcustomer($data){
 		$this->db->insert('tcustomer', $data);
+		$last_id = $this->db->insert_id();
+		return $last_id;
 	}
 
 	public function insert_customerAtt($model_Att)
@@ -41,26 +43,26 @@ class Mdl_customer extends CI_Model
 			WHEN 3 THEN 'นาง'
 			WHEN 4 THEN 'นางสาว'
 			END),' ',cus.firstname,' ',cus.lastname) AS cusName,CASE cus.is_cus_new WHEN 1 THEN 'ลูกค้าใหม่' WHEN 2 THEN 'ลูกค้าเก่า' END AS type,
-			CASE cus.is_cus_new WHEN 1 THEN 'ลูกค้า VIP' WHEN 2 THEN 'ลูกค้าจงรักภักดี' WHEN 3 THEN 'ลูกค้าทั่วไป' END AS cus_new,br.mbranch_name,
-			CASE cus.is_company WHEN 1 THEN 'บุคคล' WHEN 2 THEN 'บริษัท' END AS company,
-			cus.mobile,cus.status,cus.customer_date,
-     CONCAT(( CASE mem.id_mmember_tit
-			WHEN 1 THEN 'นาย'
-			WHEN 2 THEN 'นาง'
-			WHEN 3 THEN 'นางสาว'
-			END),' ',mem.firstname,' ',mem.lastname) AS consultants,mo.mmodel_name,gen.gen_name,color.color_name,cus.comment
-			FROM tcustomer cus
-			INNER JOIN mbranch br ON cus.id_mbranch = br.id_mbranch
-      INNER JOIN mmember mem ON cus.sales_consultants = mem.id_mmember
-			INNER JOIN tcustomer_car_att cus_att ON cus.customer_code = cus_att.customer_code
-			INNER JOIN mmodel mo ON cus_att.id_model = mo.id_model
-			INNER JOIN mgen gen ON cus_att.id_gen = gen.id_gen
-			INNER JOIN mcolor color ON cus_att.id_color = color.id_color
-			WHERE 1 = 1";
+CASE cus.is_cus_new WHEN 1 THEN 'ลูกค้า VIP' WHEN 2 THEN 'ลูกค้าจงรักภักดี' WHEN 3 THEN 'ลูกค้าทั่วไป' END AS cus_new,br.mbranch_name,
+CASE cus.is_company WHEN 1 THEN 'บุคคล' WHEN 2 THEN 'บริษัท' END AS company,
+cus.mobile,cus.status,cus.customer_date,
+CONCAT(( CASE mem.id_mmember_tit
+	WHEN 1 THEN 'นาย'
+	WHEN 2 THEN 'นาง'
+	WHEN 3 THEN 'นางสาว'
+	END),' ',mem.firstname,' ',mem.lastname) AS consultants,mo.mmodel_name,gen.gen_name,color.color_name,cus.comment
+FROM tcustomer cus
+INNER JOIN mbranch br ON cus.id_mbranch = br.id_mbranch
+INNER JOIN mmember mem ON cus.sales_consultants = mem.id_mmember
+INNER JOIN tcustomer_car_att cus_att ON cus.id_customer = cus_att.id_customer
+INNER JOIN mmodel mo ON cus_att.id_model = mo.id_model
+INNER JOIN mgen gen ON cus_att.id_gen = gen.id_gen
+INNER JOIN mcolor color ON cus_att.id_color = color.id_color
+WHERE 1 = 1";
 $sql_search=$sql_full;
         // getting records as per search parameters
         if( !empty($requestData['columns'][0]['search']['value']) ){ //customer code
-        	$sql_search.=" AND cus_att.customer_code LIKE '%".$requestData['columns'][0]['search']['value']."%' ";
+        	$sql_search.=" AND cus.id_customer LIKE '%".$requestData['columns'][0]['search']['value']."%' ";
         }
         if( !empty($requestData['columns'][1]['search']['value']) ){ //name
         	$sql_search.=" AND cusName LIKE '%".$requestData['columns'][1]['search']['value']."%' ";

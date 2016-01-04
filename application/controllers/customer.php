@@ -173,25 +173,6 @@ class Customer extends CI_Controller
 		for ($j=0; $j < $orig; $j++) {
 			$origin .=$post['origin'][$j].',';
 		}
-
-		$countModel =  count($post['id_mmodel']);
-		for ($k=0; $k < $countModel ; $k++) {
-			$modelAtt[$k] = array(
-				'id_customer_car_att' =>	'',
-				'customer_code' 	=> 	$customerCode,
-				'id_model' 		=>	$post['id_mmodel'][$k],
-				'id_gen'			=>	$post['id_mgen'][$k],
-				'id_color'		=>	$post['id_mcolor'][$k],
-				"comment"	=> 	str_replace("\n", "<br>\n",$post['comment']),
-				"status"		=>	 1,
-				"id_create"	=>	 $this->id_mmember,
-				"dt_create"	=> 	$this->dt_now,
-				"id_update"	=> 	$this->id_mmember,
-				"dt_update"	=> 	$this->dt_now,
-				);
-			$this->mdl_customer->insert_customerAtt($modelAtt[$k]);
-		}
-
 		$data = array(
 			// "id_customer" =>'',
 			"customer_code"  =>	$customerCode,
@@ -226,13 +207,31 @@ class Customer extends CI_Controller
 			"id_update"	=> 	$this->id_mmember,
 			"dt_update"	=> 	$this->dt_now
 			);
-			// echo "<pre>";
-			// print_r($data);exit;
-
-$this->mdl_customer->addcustomer($data);
+				// echo "<pre>";
+				// print_r($data);exit;
+//$this->mdl_customer->addcustomer($data);
 $massage = "บันทึกข้อมูล เรียบร้อย !";
 $this->alert($massage);
-// echo json_encode($data);
+				// echo json_encode($data);
+
+$countModel =  count($post['id_mmodel']);
+for ($k=0; $k < $countModel ; $k++) {
+	$modelAtt[$k] = array(
+		'id_customer_car_att' =>	'',
+		'id_customer' 	=> 	$this->mdl_customer->addcustomer($data),
+		'id_model' 		=>	$post['id_mmodel'][$k],
+		'id_gen'			=>	$post['id_mgen'][$k],
+		'id_color'		=>	$post['id_mcolor'][$k],
+		"comment"	=> 	str_replace("\n", "<br>\n",$post['comment']),
+		"status"		=>	 1,
+		"id_create"	=>	 $this->id_mmember,
+		"dt_create"	=> 	$this->dt_now,
+		"id_update"	=> 	$this->id_mmember,
+		"dt_update"	=> 	$this->dt_now,
+		);
+	$this->mdl_customer->insert_customerAtt($modelAtt[$k]);
+}
+
 endif;
 
 }
