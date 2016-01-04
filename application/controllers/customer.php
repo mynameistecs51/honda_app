@@ -209,7 +209,7 @@ class Customer extends CI_Controller
 			);
 				// echo "<pre>";
 				// print_r($data);exit;
-//$this->mdl_customer->addcustomer($data);
+$insert = $this->mdl_customer->addcustomer($data);
 $massage = "บันทึกข้อมูล เรียบร้อย !";
 $this->alert($massage);
 				// echo json_encode($data);
@@ -218,7 +218,7 @@ $countModel =  count($post['id_mmodel']);
 for ($k=0; $k < $countModel ; $k++) {
 	$modelAtt[$k] = array(
 		'id_customer_car_att' =>	'',
-		'id_customer' 	=> 	$this->mdl_customer->addcustomer($data),
+		'id_customer' 	=> 	$insert,
 		'id_model' 		=>	$post['id_mmodel'][$k],
 		'id_gen'			=>	$post['id_mgen'][$k],
 		'id_color'		=>	$post['id_mcolor'][$k],
