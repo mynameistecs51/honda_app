@@ -93,20 +93,20 @@
           "mRender": function(data, type, full) {
             var html ='';
             if($('#btn_view').val()==1){
-              html +='<img src="<?php echo base_url(); ?>images/list_view.png"   title="รายละเอียด" class="btnopt view" data-idview="' + full['id_stock'] + '" />';
+              html +='<img src="<?php echo base_url(); ?>images/list_view.png"   title="รายละเอียด" class="btnopt view" data-idview="' + full['id_customer'] + '" />';
             }else{
-              html +='<img src="<?php echo base_url(); ?>images/un_list_view.png"   title="ไม่ได้รับสิทธิ์ดูรายละเอียด" class="btnoptUnclick" data-idview="' + full['id_stock'] + '" />';
+              html +='<img src="<?php echo base_url(); ?>images/un_list_view.png"   title="ไม่ได้รับสิทธิ์ดูรายละเอียด" class="btnoptUnclick" data-idview="' + full['id_customer'] + '" />';
             }
             if($('#btn_edit').val()==1){
               if(full['sta']==1 || full['sta']==0){
-                html +='<img src="<?php echo base_url(); ?>images/list_edit.png"   title="แก้ไข" class="btnopt edit" data-idedit="' + full['id_stock'] + '" />';
+                html +='<img src="<?php echo base_url(); ?>images/list_edit.png"   title="แก้ไข" class="btnopt edit" data-idedit="' + full['id_customer'] + '" />';
               }else{
-                html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="'+full['status']+'" class="btnoptUnclick" data-idedit="' + full['id_stock'] + '" />';
+                html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="'+full['status']+'" class="btnoptUnclick" data-idedit="' + full['id_customer'] + '" />';
               }
             }else{
-              html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="ไม่ได้รับสิทธิ์แก้ไขข้อมูล" class="btnoptUnclick" data-idedit="' + full['id_stock'] + '" />';
+              html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="ไม่ได้รับสิทธิ์แก้ไขข้อมูล" class="btnoptUnclick" data-idedit="' + full['id_customer'] + '" />';
             }
-            html +='<input type="hidden" ID="id_stock' + full['id_stock'] + '" value="' + full['id_stock'] + '" />';
+            html +='<input type="hidden" ID="id_customer' + full['id_customer'] + '" value="' + full['id_customer'] + '" />';
             return html;
           }
         }]

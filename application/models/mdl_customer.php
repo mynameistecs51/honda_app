@@ -36,7 +36,7 @@ class Mdl_customer extends CI_Model
 
 		$sql_full = "
 		SELECT
-		cus.customer_code,
+		cus.id_customer,cus.customer_code,
 		CONCAT((CASE cus.id_tit
 			WHEN 1 THEN 'ไม่ระบบ'
 			WHEN 2 THEN 'นาย'
@@ -83,47 +83,27 @@ $sql_search=$sql_full;
         return $data;
      }
 
-     public function getemployee($id){
+     public function getCustomer($id){
      	$sql = "
      	SELECT
-     	a.id_mmember,
-     	a.id_mposition,
-     	c.id_mbranch,
-     	a.sex,
-     	a.mmember_code,
-     	a.id_mmember_tit,
-     	concat(a.firstname,' ',a.lastname) AS mmember_name,
-     	a.firstname,
-     	a.lastname,
-     	CONCAT(DATE_FORMAT(a.birthdate,'%d/'),DATE_FORMAT(a.birthdate,'%m/'),DATE_FORMAT(a.birthdate,'%Y')+543) as birthdate,
-     	CONCAT(DATE_FORMAT(a.startdate,'%d/'),DATE_FORMAT(a.startdate,'%m/'),DATE_FORMAT(a.startdate,'%Y')+543) as startdate,
-     	CONCAT(DATE_FORMAT(a.resigndate,'%d/'),DATE_FORMAT(a.resigndate,'%m/'),DATE_FORMAT(a.resigndate,'%Y')+543) as resigndate,
-     	a.idcard_num,
-     	a.drv_lcn_num,
-     	a.email,
-     	a.telephone,
-     	a.mobile,
-     	a.fax,
-     	a.username AS user,
-     	a.status,
-     	a.adr_line1,
-     	a.adr_line2,
-     	a.comment,
-     	c.mposition_name,
-     	d.mbranch_name,
-     	concat(i.firstname,' ',i.lastname) AS name_create,
-     	concat(i2.firstname,' ',i2.lastname) AS name_update,
-     	DATE_FORMAT(a.dt_create,'%d/%m/%Y %H:%i:%s') AS dt_create,
-     	DATE_FORMAT(a.dt_update,'%d/%m/%Y %H:%i:%s') AS dt_update
-     	FROM
-     	mmember a
-     	LEFT JOIN mposition c ON a.id_mposition=c.id_mposition
-     	LEFT JOIN mbranch d ON c.id_mbranch=d.id_mbranch
-     	LEFT JOIN mmember i ON a.id_create=i.id_mmember
-     	LEFT JOIN mmember i2 ON a.id_update=i2.id_mmember
+     	cus.id_customer,cus.customer_code,CONCAT(DATE_FORMAT(cus.customer_date,'%d/%m/'),DATE_FORMAT(cus.customer_date,'%Y')+543 ) AS customer_date,
+     	cus.bye_date,cus.accounts_receivable,cus.is_cus_new,cus.is_type,cus.is_company,cus.id_tit,
+     	cus.firstname,cus.lastname,
+     	CONCAT(DATE_FORMAT(cus.birth_date,'%d/%m/'),DATE_FORMAT(cus.birth_date,'%Y')+543 ) AS birth_date,
+     	cus.adr_line,cus.post_code,cus.idcard_number,cus.driver_card_number,cus.email,cus.telephone,cus.mobile,
+     	CONCAT((CASE mem.id_mmember_tit WHEN 1 THEN 'นาย' WHEN 2 THEN 'นาง' WHEN 3 THEN 'นางสาว' END),' ',mem.firstname,' ',mem.lastname)AS member_name,
+     	cus.customer_source,cus.reason,cus.id_mbranch,cus.comment,cus.status,
+     	br.mbranch_name,mo.mmodel_name,gen.gen_name,color.color_name
+     	FROM tcustomer cus
+     	INNER JOIN mbranch br ON cus.id_mbranch = br.id_mbranch
+     	INNER JOIN mmember mem ON cus.sales_consultants = mem.id_mmember
+     	INNER JOIN tcustomer_car_att cus_att ON cus.id_customer = cus_att.id_customer
+     	INNER JOIN mmodel mo ON cus_att.id_model = mo.id_model
+     	INNER JOIN mgen gen ON cus_att.id_gen = gen.id_gen
+     	INNER JOIN mcolor color ON cus_att.id_color = color.id_color
      	";
      	if($id != ""){
-     		$sql .= " WHERE a.id_mmember='$id' ";
+     		$sql .= "WHERE cus.id_customer='$id' ";
      	}
 // echo $sql;
      	$query = $this->db->query($sql);

@@ -143,7 +143,7 @@ class Customer extends CI_Controller
 	{
 		$SCREENID="D001";
 		$this->mainpage($SCREENID);
-		$this->data['listemployee']= $this->mdl_customer->getemployee($id);
+		$this->data['listcustomer']= $this->mdl_customer->getCustomer($id);
 		$this->load->view('customer/'.$SCREENID,$this->data);
 	}
 	public function EDIT($id,$idx)
@@ -151,7 +151,7 @@ class Customer extends CI_Controller
 		$SCREENID="E001";
 		$this->mainpage($SCREENID);
 		$this->data['idx']=$idx;
-		$this->data['listTypeSale']= $this->mdl_customer->getemployee($id);
+		$this->data['listcustomer']= $this->mdl_customer->getCustomer($id);
 		$this->load->view('customer/'.$SCREENID,$this->data);
 	}
 
@@ -159,13 +159,8 @@ class Customer extends CI_Controller
 	{
 		$customerCode = $this->mdl_customer->getCodeCustomer();
 		if($_POST):
-<<<<<<< HEAD
-		parse_str($_POST['form'], $post);
-		//$code= $this->getCode();
-=======
 			parse_str($_POST['form'], $post);
 			//$code= $this->getCode();
->>>>>>> origin/master
 		$objective = "";
 		$ob = count($post['objective']);
 		for ($i=0; $i < $ob; $i++) {
@@ -189,7 +184,7 @@ class Customer extends CI_Controller
 			"id_tit"		=> 	$post['is_tit'],
 			"firstname" 	=>	$post['firstname_th'],
 			"lastname" 	=>	$post['lastname_th'],
-			"birth_date"	=>	$post['birthdate'],
+			"birth_date"	=>	$this->convert_date($post['birthdate']),
 			"adr_line" 	=>	$post['address'],
 			"post_code" 	=>	$post['zipcode'],
 			"id_mprovince" 	=>	$post['province'],
