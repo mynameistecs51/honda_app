@@ -141,6 +141,7 @@ class Customer extends CI_Controller
 	}
 	public function DETAIL($id)
 	{
+
 		$SCREENID="D001";
 		$this->mainpage($SCREENID);
 		$this->data['listcustomer']= $this->mdl_customer->getCustomer($id);
@@ -196,6 +197,7 @@ class Customer extends CI_Controller
 			"telephone"	=> 	$post['telephone'],
 			"mobile"		=>	$post['mobile'],
 			"sales_consultants"	=>	$post['adviser'],
+			"is_car_type" 	=> $post['typeCar'],
 			"customer_source"		=>	substr($origin,0,-1),
 			"reason"	=>	substr($objective,0,-1),
 			"id_mbranch"	=>	$post['branch'],
