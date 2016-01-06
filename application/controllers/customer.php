@@ -141,73 +141,121 @@ class Customer extends CI_Controller
 	}
 	public function DETAIL($id)
 	{
+		$data_array = array();
+		$cars = array();
+		foreach($this->mdl_customer->getCustomer($id) as $key=>$row_customer){
+			
+			if(isset($data_array[$row_customer->id_customer])){
+				array_push($data_array[$row_customer->id_customer]['cars'], array(
+					'model_name' =>$row_customer->mmodel_name,
+					'gen_name'=>$row_customer->gen_name,
+					'color'=>$row_customer->color_name));
+				continue;
+			}
+			if( !isset($data_array[$row_customer->id_customer])){
+				$data_array[$row_customer->id_customer] = array('id_customer_att' =>$row_customer->att_id_customer,
+					'id_customer'=>$row_customer->id_customer,
+					'customer_code' =>$row_customer->customer_code,
+					'customer_date' => $row_customer->customer_date,
+					'accounts_receivable' => $row_customer->accounts_receivable,
+					'is_cus_new' => $row_customer->is_cus_new,
+					'is_type' => $row_customer->is_type,
+					'is_company' =>$row_customer->is_company,
+					'is_tit' =>$row_customer->id_tit,
+					'is_car_type' => $row_customer->is_car_type,
+					'firstname' => $row_customer->firstname,
+					'lastname' => $row_customer->lastname,
+					'birth_date' => $row_customer->birth_date,
+					'adr_line' =>$row_customer->adr_line,
+					'post_code' =>$row_customer->post_code,
+					'id_mdistric' => $row_customer->id_mdistric,
+					'idcard_number' => $row_customer->idcard_number,
+					'driver_card_number' =>$row_customer->driver_card_number,
+					'email' =>$row_customer->email,
+					'telephone' =>$row_customer->telephone,
+					'mobile' =>$row_customer->mobile,
+					'member_name' => $row_customer->member_name,
+					'id_mbranch' =>$row_customer->id_mbranch,
+					'comment' =>$row_customer->comment,
+					'status' =>$row_customer->status,
+					'mbranch_name'=>$row_customer->mbranch_name,
+					'cars' => array(
+						$key => array(
+							'model_name' =>$row_customer->mmodel_name,
+							'gen_name'=>$row_customer->gen_name,
+							'color'=>$row_customer->color_name
+							)
+						)							
+					);
+				}
+				}
+				$SCREENID="D001";
+				$this->mainpage($SCREENID);
+				$this->data['listcustomer']= $data_array;
+				// $this->data['listcustomer']= $this->mdl_customer->getCustomer($id);
+				$this->load->view('customer/'.$SCREENID,$this->data);
+}
+public function EDIT($id,$idx)
+{
+	$SCREENID="E001";
+	$this->mainpage($SCREENID);
+	$this->data['idx']=$idx;
+		// $this->data['listcustomer']= $this->mdl_customer->getCustomer($id);
+		// $this->load->view('customer/'.$SCREENID,$this->data);
+}
 
-		$SCREENID="D001";
-		$this->mainpage($SCREENID);
-		$this->data['listcustomer']= $this->mdl_customer->getCustomer($id);
-		$this->load->view('customer/'.$SCREENID,$this->data);
-	}
-	public function EDIT($id,$idx)
-	{
-		$SCREENID="E001";
-		$this->mainpage($SCREENID);
-		$this->data['idx']=$idx;
-		$this->data['listcustomer']= $this->mdl_customer->getCustomer($id);
-		$this->load->view('customer/'.$SCREENID,$this->data);
-	}
-
-	public function saveadd()
-	{
-		$customerCode = $this->mdl_customer->getCodeCustomer();
-		if($_POST):
-			parse_str($_POST['form'], $post);
+public function saveadd()
+{
+	$customerCode = $this->mdl_customer->getCodeCustomer();
+	if($_POST):
+		parse_str($_POST['form'], $post);
 			//$code= $this->getCode();
-		$objective = "";
-		$ob = count($post['objective']);
-		for ($i=0; $i < $ob; $i++) {
-			$objective .=$post['objective'][$i].',';
-		}
+	$objective = "";
+	$ob = count($post['objective']);
+	for ($i=0; $i < $ob; $i++) {
+		$objective .=$post['objective'][$i].',';
+	}
 
-		$origin = "";
-		$orig = count($post['origin']);
-		for ($j=0; $j < $orig; $j++) {
-			$origin .=$post['origin'][$j].',';
-		}
-		$data = array(
+	$origin = "";
+	$orig = count($post['origin']);
+	for ($j=0; $j < $orig; $j++) {
+		$origin .=$post['origin'][$j].',';
+	}
+	$data = array(
 			// "id_customer" =>'',
-			"customer_code"  =>	$customerCode,
-			"customer_date" =>	$this->convert_date($post['customer_date']),
-			"bye_date" 	=>	'0000-00-00 ',
-			"accounts_receivable"	 =>	$post['accounts_receivable'],
-			"is_cus_new" 	=> $post['customer'],
-			"is_type"		=>	$post['is_type'],
-			"is_company" 	=>	$post['is_company'],
-			"id_tit"		=> 	$post['is_tit'],
-			"firstname" 	=>	$post['firstname_th'],
-			"lastname" 	=>	$post['lastname_th'],
-			"birth_date"	=>	$this->convert_date($post['birthdate']),
-			"adr_line" 	=>	$post['address'],
-			"post_code" 	=>	$post['zipcode'],
-			"id_mprovince" 	=>	$post['province'],
-			"id_mamphur"	=>	$post['amphur'],
-			"id_mdistric"	=>	$post['district'],
-			"idcard_number"	=>	$post['idcard_number'],
-			"driver_card_number"	=>	$post['drv_card_num'],
-			"email"		=>	$post['email'],
-			"telephone"	=> 	$post['telephone'],
-			"mobile"		=>	$post['mobile'],
-			"sales_consultants"	=>	$post['adviser'],
-			"is_car_type" 	=> $post['typeCar'],
-			"customer_source"		=>	substr($origin,0,-1),
-			"reason"	=>	substr($objective,0,-1),
-			"id_mbranch"	=>	$post['branch'],
-			"comment"	=> 	str_replace("\n", "<br>\n",$post['comment']),
-			"status"		=>	 1,
-			"id_create"	=>	 $this->id_mmember,
-			"dt_create"	=> 	$this->dt_now,
-			"id_update"	=> 	$this->id_mmember,
-			"dt_update"	=> 	$this->dt_now
-			);
+		"customer_code"  =>	$customerCode,
+		"customer_date" =>	$this->convert_date($post['customer_date']),
+		"bye_date" 	=>	'0000-00-00 ',
+		"accounts_receivable"	 =>	$post['accounts_receivable'],
+		"is_cus_new" 	=> $post['customer'],
+		"is_type"		=>	$post['is_type'],
+		"is_company" 	=>	$post['is_company'],
+		"id_tit"		=> 	$post['is_tit'],
+		"firstname" 	=>	$post['firstname_th'],
+		"lastname" 	=>	$post['lastname_th'],
+		"birth_date"	=>	$this->convert_date($post['birthdate']),
+		"adr_line" 	=>	$post['address'],
+		"post_code" 	=>	$post['zipcode'],
+		"id_mprovince" 	=>	$post['province'],
+		"id_mamphur"	=>	$post['amphur'],
+		"id_mdistric"	=>	$post['district'],
+		"idcard_number"	=>	$post['idcard_number'],
+		"driver_card_number"	=>	$post['drv_card_num'],
+		"email"		=>	$post['email'],
+		"telephone"	=> 	$post['telephone'],
+		"mobile"		=>	$post['mobile'],
+		"sales_consultants"	=>	$post['adviser'],
+		"is_car_type" 	=> $post['typeCar'],
+		"customer_source"		=>	substr($origin,0,-1),
+		"reason"	=>	substr($objective,0,-1),
+		"id_mbranch"	=>	$post['branch'],
+		"comment"	=> 	str_replace("\n", "<br>\n",$post['comment']),
+		"status"		=>	 1,
+		"id_create"	=>	 $this->id_mmember,
+		"dt_create"	=> 	$this->dt_now,
+		"id_update"	=> 	$this->id_mmember,
+		"dt_update"	=> 	$this->dt_now
+		);
 				// echo "<pre>";
 				// print_r($data);exit;
 $insert = $this->mdl_customer->addcustomer($data);

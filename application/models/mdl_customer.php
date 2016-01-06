@@ -93,7 +93,7 @@ $sql_search=$sql_full;
      	cus.adr_line,cus.post_code,cus.id_mdistric,cus.idcard_number,cus.driver_card_number,cus.email,cus.telephone,cus.mobile,
      	CONCAT((CASE mem.id_mmember_tit WHEN 1 THEN 'นาย' WHEN 2 THEN 'นาง' WHEN 3 THEN 'นางสาว' END),' ',mem.firstname,' ',mem.lastname)AS member_name,
      	cus.customer_source,cus.reason,cus.id_mbranch,cus.comment,cus.status,
-     	br.mbranch_name,mo.mmodel_name,gen.gen_name,color.color_name,cus_att.id_customer_car_att,cus_att.id_customer AS att_id_customer
+     	br.mbranch_name,mo.mmodel_name,gen.gen_name,color.color_name,cus_att.id_customer_car_att AS att_id_customer
      	FROM tcustomer cus
      	INNER JOIN mbranch br ON cus.id_mbranch = br.id_mbranch
      	INNER JOIN mmember mem ON cus.sales_consultants = mem.id_mmember
