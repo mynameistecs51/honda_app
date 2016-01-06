@@ -61,94 +61,94 @@ INNER JOIN mcolor color ON cus_att.id_color = color.id_color
 WHERE 1 = 1
 ";
 $sql_search=$sql_full;
-        // getting records as per search parameters
-        if( !empty($requestData['columns'][0]['search']['value']) ){ //customer code
-        	$sql_search.=" AND cus.id_customer LIKE '%".$requestData['columns'][0]['search']['value']."%' ";
-        }
-        if( !empty($requestData['columns'][1]['search']['value']) ){ //name
-        	$sql_search.=" AND cusName LIKE '%".$requestData['columns'][1]['search']['value']."%' ";
-        }
-        if( !empty($requestData['columns'][2]['search']['value']) ){  //mobile
-        	$sql_search.=" AND cus.mobile =".$requestData['columns'][2]['search']['value']."";
-        }else{
-        	$sql_search.=" AND cus.id_mbranch =".$this->id_mbranch." GROUP BY cus_att.id_customer";
-        }
+			        // getting records as per search parameters
+			        if( !empty($requestData['columns'][0]['search']['value']) ){ //customer code
+			        	$sql_search.=" AND cus.id_customer LIKE '%".$requestData['columns'][0]['search']['value']."%' ";
+			        }
+			        if( !empty($requestData['columns'][1]['search']['value']) ){ //name
+			        	$sql_search.=" AND cusName LIKE '%".$requestData['columns'][1]['search']['value']."%' ";
+			        }
+			        if( !empty($requestData['columns'][2]['search']['value']) ){  //mobile
+			        	$sql_search.=" AND cus.mobile =".$requestData['columns'][2]['search']['value']."";
+			        }else{
+			        	$sql_search.=" AND cus.id_mbranch =".$this->id_mbranch." GROUP BY cus_att.id_customer";
+			        }
 
 
-      // echo "<pre>".$sql_search;
-        $data = array(
-        	'sql_full' => $sql_full,
-        	'sql_search' => $sql_search
-        	);
-        return $data;
-     }
+			      // echo "<pre>".$sql_search;
+			        $data = array(
+			        	'sql_full' => $sql_full,
+			        	'sql_search' => $sql_search
+			        	);
+			        return $data;
+			     }
 
-     public function getCustomer($id){
-     	$sql = "
-     	SELECT
-		     	cus.id_customer,cus.customer_code,CONCAT(DATE_FORMAT(cus.customer_date,'%d/%m/'),
-		     		DATE_FORMAT(cus.customer_date,'%Y')+543 ) AS customer_date,
-		cus.bye_date,cus.accounts_receivable,cus.is_cus_new,cus.is_type,cus.is_company,cus.id_tit,cus.is_car_type,
-		cus.firstname,cus.lastname,
-		CONCAT(DATE_FORMAT(cus.birth_date,'%d/%m/'),
-			DATE_FORMAT(cus.birth_date,'%Y')+543 ) AS birth_date,
-		cus.adr_line,cus.post_code,cus.id_mdistric,cus.idcard_number,cus.driver_card_number,
-		cus.email,cus.telephone,cus.mobile,
-		CONCAT((CASE mem.id_mmember_tit WHEN 1 THEN 'นาย' WHEN 2 THEN 'นาง' WHEN 3 THEN 'นางสาว' END),' ',mem.firstname,' ',mem.lastname)AS member_name,
-		cus.customer_source,cus.reason,cus.id_mbranch,cus.comment,cus.status,
-		br.mbranch_name,mo.mmodel_name,gen.gen_name,color.color_name,cus_att.id_customer_car_att AS att_id_customer
-		FROM tcustomer cus
-		INNER JOIN mbranch br ON cus.id_mbranch = br.id_mbranch
-		INNER JOIN mmember mem ON cus.sales_consultants = mem.id_mmember
-		INNER JOIN tcustomer_car_att cus_att ON cus.id_customer = cus_att.id_customer
-		INNER JOIN mmodel mo ON cus_att.id_model = mo.id_model
-		INNER JOIN mgen gen ON cus_att.id_gen = gen.id_gen
-		INNER JOIN mcolor color ON cus_att.id_color = color.id_color
-     	";
-     	if($id != ""){
-     		$sql .= "WHERE cus.id_customer='$id' ";
-     	}
+			     public function getCustomer($id){
+			     	$sql = "
+			     	SELECT
+			     	cus.id_customer,cus.customer_code,CONCAT(DATE_FORMAT(cus.customer_date,'%d/%m/'),
+			     		DATE_FORMAT(cus.customer_date,'%Y')+543 ) AS customer_date,
+cus.bye_date,cus.accounts_receivable,cus.is_cus_new,cus.is_type,cus.is_company,cus.id_tit,cus.is_car_type,
+cus.firstname,cus.lastname,
+CONCAT(DATE_FORMAT(cus.birth_date,'%d/%m/'),
+	DATE_FORMAT(cus.birth_date,'%Y')+543 ) AS birth_date,
+cus.adr_line,cus.post_code,cus.id_mdistric,cus.idcard_number,cus.driver_card_number,
+cus.email,cus.telephone,cus.mobile,
+CONCAT((CASE mem.id_mmember_tit WHEN 1 THEN 'นาย' WHEN 2 THEN 'นาง' WHEN 3 THEN 'นางสาว' END),' ',mem.firstname,' ',mem.lastname)AS member_name,
+cus.customer_source,cus.reason,cus.id_mbranch,cus.comment,cus.status,
+br.mbranch_name,mo.mmodel_name,gen.gen_name,color.color_name,cus_att.id_customer_car_att AS att_id_customer
+FROM tcustomer cus
+INNER JOIN mbranch br ON cus.id_mbranch = br.id_mbranch
+INNER JOIN mmember mem ON cus.sales_consultants = mem.id_mmember
+INNER JOIN tcustomer_car_att cus_att ON cus.id_customer = cus_att.id_customer
+INNER JOIN mmodel mo ON cus_att.id_model = mo.id_model
+INNER JOIN mgen gen ON cus_att.id_gen = gen.id_gen
+INNER JOIN mcolor color ON cus_att.id_color = color.id_color
+";
+if($id != ""){
+	$sql .= "WHERE cus.id_customer='$id' ";
+}
 // echo $sql;
-     	$query = $this->db->query($sql);
-     	return  $query->result();
-     }
+$query = $this->db->query($sql);
+return  $query->result();
+}
 
-     public function getmposition(){
-     	$sql = "
-     	SELECT
-     	a.id_mposition,a.mposition_name
-     	FROM
-     	mposition a
-     	WHERE a.status=1 ";
+public function getmposition(){
+	$sql = "
+	SELECT
+	a.id_mposition,a.mposition_name
+	FROM
+	mposition a
+	WHERE a.status=1 ";
 // echo $sql;
-     	$query = $this->db->query($sql);
-     	return  $query->result();
-     }
+	$query = $this->db->query($sql);
+	return  $query->result();
+}
 
-     public function getMbranch(){
-     	$sql = "
-     	SELECT
-     	a.id_mbranch,a.mbranch_code,a.mbranch_name
-     	FROM
-     	mbranch a
-     	WHERE a.status=1 ";
+public function getMbranch(){
+	$sql = "
+	SELECT
+	a.id_mbranch,a.mbranch_code,a.mbranch_name
+	FROM
+	mbranch a
+	WHERE a.status=1 ";
 // echo $sql;
-     	$query = $this->db->query($sql);
-     	return  $query->result();
-     }
+	$query = $this->db->query($sql);
+	return  $query->result();
+}
 
-     public function getCodeCustomer(){
-     	$sql = "
-     	SELECT
-     	IFNULL(CONCAT('CU',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),lpad( (co.num+1), 4, '0')),CONCAT('ST',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),'0001'))AS CODE
-     	FROM  mbranch b
-     	LEFT JOIN (
-     		SELECT COUNT(id_customer) AS NUM,id_mbranch
-     		FROM tcustomer
-     		WHERE id_mbranch='$this->id_mbranch'
-     		AND DATE_FORMAT(customer_date,'%Y')=DATE_FORMAT(NOW(),'%Y')
-     		AND DATE_FORMAT(customer_date,'%m')=DATE_FORMAT(NOW(),'%m')
-     		) AS co ON b.id_mbranch=co.id_mbranch
+public function getCodeCustomer(){
+	$sql = "
+	SELECT
+	IFNULL(CONCAT('CU',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),lpad( (co.num+1), 4, '0')),CONCAT('ST',b.mbranch_code,DATE_FORMAT(NOW(),'%yy')+43,DATE_FORMAT(NOW(),'%m'),'0001'))AS CODE
+	FROM  mbranch b
+	LEFT JOIN (
+		SELECT COUNT(id_customer) AS NUM,id_mbranch
+		FROM tcustomer
+		WHERE id_mbranch='$this->id_mbranch'
+		AND DATE_FORMAT(customer_date,'%Y')=DATE_FORMAT(NOW(),'%Y')
+		AND DATE_FORMAT(customer_date,'%m')=DATE_FORMAT(NOW(),'%m')
+		) AS co ON b.id_mbranch=co.id_mbranch
 WHERE b.id_mbranch='$this->id_mbranch'
 ";
 $query = $this->db->query($sql)->result();

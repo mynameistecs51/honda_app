@@ -7,111 +7,111 @@
 	});
 
 	function rundatatable(){
-    var dataTable = $('#employee-grid').DataTable({
-      "fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
-       var page = this.fnPagingInfo().iPage;
-       var length = this.fnPagingInfo().iLength;
-       var index = (page * length + (iDisplayIndex +1));
-       $('td:eq(0)', nRow).html(index);
-     },
+		var dataTable = $('#employee-grid').DataTable({
+			"fnRowCallback": function( nRow, aData, iDisplayIndex, iDisplayIndexFull ) {
+				var page = this.fnPagingInfo().iPage;
+				var length = this.fnPagingInfo().iLength;
+				var index = (page * length + (iDisplayIndex +1));
+				$('td:eq(0)', nRow).html(index);
+			},
         scrollX: true,//2
         responsive: true,
         serverSide: true,
         tableTools: {
-          "sRowSelect": "os",
-          "aButtons": [ "select_all", "select_none" ]
+        	"sRowSelect": "os",
+        	"aButtons": [ "select_all", "select_none" ]
         },
         "oLanguage": {
-          "sProcessing": "<img height='32' width='32' src='<?php echo base_url(); ?>images/ajax-loader.gif'>",
-          "sSearch": "<?php echo $sSearch="ค้นหาจากผลลัพธ์ :" ;?>",
-          "sInfo": "<?php echo $Showing="แสดงรายการที่";?> _START_ <?php echo $to="ถึง";?> _END_ <?php echo $total=" จากผลการค้นหาทั้งหมด";?> _TOTAL_  <?php echo $total="รายการ";?>",
-          "sInfoFiltered": "(ข้อมูลทั้งหมด _MAX_ รายการ)",
-          "oPaginate": {
-            "sFirst": "<?php echo $sFirst="ไปหน้าแรก" ;?>",
-            "sLast": "<?php echo $sLast="ไปหน้าสุดท้าย" ;?>",
-            "sNext": "<?php echo $sNext="ถัดไป" ;?>",
-            "sPrevious": "<?php echo $sPrevious="ย้อนกลับ" ;?>"
-          }},
-          "bLengthChange": false,
-          "iDisplayLength": 20,
-          "order": [[ '0', "DESC" ]],
-          "processing": true,
-          "serverSide": true,
-          "ajax":{
+        	"sProcessing": "<img height='32' width='32' src='<?php echo base_url(); ?>images/ajax-loader.gif'>",
+        	"sSearch": "<?php echo $sSearch="ค้นหาจากผลลัพธ์ :" ;?>",
+        	"sInfo": "<?php echo $Showing="แสดงรายการที่";?> _START_ <?php echo $to="ถึง";?> _END_ <?php echo $total=" จากผลการค้นหาทั้งหมด";?> _TOTAL_  <?php echo $total="รายการ";?>",
+        	"sInfoFiltered": "(ข้อมูลทั้งหมด _MAX_ รายการ)",
+        	"oPaginate": {
+        		"sFirst": "<?php echo $sFirst="ไปหน้าแรก" ;?>",
+        		"sLast": "<?php echo $sLast="ไปหน้าสุดท้าย" ;?>",
+        		"sNext": "<?php echo $sNext="ถัดไป" ;?>",
+        		"sPrevious": "<?php echo $sPrevious="ย้อนกลับ" ;?>"
+        	}},
+        	"bLengthChange": false,
+        	"iDisplayLength": 20,
+        	"order": [[ '0', "DESC" ]],
+        	"processing": true,
+        	"serverSide": true,
+        	"ajax":{
             url :"<?php echo base_url().$controller; ?>/getList", // json datasource
             type: "post",  // method  , by default get
             error: function(){  // error handling
-              $(".employee-grid-error").html("");
-              $("#employee-grid tbody tr").remove();
-              $("#employee-grid_processing").css("display","none");
+            	$(".employee-grid-error").html("");
+            	$("#employee-grid tbody tr").remove();
+            	$("#employee-grid_processing").css("display","none");
             }
           },
           "aoColumns": [{
-            "sWidth": "2%",
-            "mData": null
+          	"sWidth": "2%",
+          	"mData": null
           }, {
-            "sWidth": "7%",
-            "mData": 'customer_code'
+          	"sWidth": "7%",
+          	"mData": 'customer_code'
           }, {
-            "sWidth": "10%",
-            "mData": 'cusName'
+          	"sWidth": "10%",
+          	"mData": 'cusName'
           }, {
-            "sWidth": "5%",
-            "mData": 'type'
+          	"sWidth": "5%",
+          	"mData": 'type'
           }, {
-            "sWidth": "7%",
-            "mData": 'cus_new'
+          	"sWidth": "7%",
+          	"mData": 'cus_new'
           }, {
-            "sWidth": "10%",
-            "mData": 'company'
+          	"sWidth": "10%",
+          	"mData": 'company'
           }, {
-            "sWidth": "8%",
-            "mData": 'mobile'
+          	"sWidth": "8%",
+          	"mData": 'mobile'
           }, {
-           "sWidth": "7%",
-           "mData": 'mmodel_name'
-         }, {
-           "sWidth": "7%",
-           "mData": 'gen_name'
-         }, {
-          "sWidth": "5%",
-          "mData": 'color_name'
-        },{
-        	"sWidth":"10%",
-        	"mData":'consultants'
-        }, {
-            "sWidth": "5%",
-            "mData": 'mbranch_name'
+          	"sWidth": "7%",
+          	"mData": 'mmodel_name'
           }, {
-          "sWidth": "10%",
-          "mData": 'comment',
-          "bSortable": false,
-        }, {
-          "sWidth": "6%",
-          "mData": null,
-          "bSortable": false,
-          "mRender": function(data, type, full) {
-            var html ='';
-            if($('#btn_view').val()==1){
-              html +='<img src="<?php echo base_url(); ?>images/list_view.png"   title="รายละเอียด" class="btnopt view" data-idview="' + full['id_customer'] + '" />';
-            }else{
-              html +='<img src="<?php echo base_url(); ?>images/un_list_view.png"   title="ไม่ได้รับสิทธิ์ดูรายละเอียด" class="btnoptUnclick" data-idview="' + full['id_customer'] + '" />';
-            }
-            if($('#btn_edit').val()==1){
-              if(full['sta']==1 || full['sta']==0){
-                html +='<img src="<?php echo base_url(); ?>images/list_edit.png"   title="แก้ไข" class="btnopt edit" data-idedit="' + full['id_customer'] + '" />';
-              }else{
-                html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="'+full['status']+'" class="btnoptUnclick" data-idedit="' + full['id_customer'] + '" />';
-              }
-            }else{
-              html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="ไม่ได้รับสิทธิ์แก้ไขข้อมูล" class="btnoptUnclick" data-idedit="' + full['id_customer'] + '" />';
-            }
-            html +='<input type="hidden" ID="id_customer' + full['id_customer'] + '" value="' + full['id_customer'] + '" />';
-            return html;
-          }
-        }]
+          	"sWidth": "7%",
+          	"mData": 'gen_name'
+          }, {
+          	"sWidth": "5%",
+          	"mData": 'color_name'
+          },{
+          	"sWidth":"10%",
+          	"mData":'consultants'
+          }, {
+          	"sWidth": "5%",
+          	"mData": 'mbranch_name'
+          }, {
+          	"sWidth": "10%",
+          	"mData": 'comment',
+          	"bSortable": false,
+          }, {
+          	"sWidth": "6%",
+          	"mData": null,
+          	"bSortable": false,
+          	"mRender": function(data, type, full) {
+          		var html ='';
+          		if($('#btn_view').val()==1){
+          			html +='<img src="<?php echo base_url(); ?>images/list_view.png"   title="รายละเอียด" class="btnopt view" data-idview="' + full['id_customer'] + '" />';
+          		}else{
+          			html +='<img src="<?php echo base_url(); ?>images/un_list_view.png"   title="ไม่ได้รับสิทธิ์ดูรายละเอียด" class="btnoptUnclick" data-idview="' + full['id_customer'] + '" />';
+          		}
+          		if($('#btn_edit').val()==1){
+          			if(full['sta']==1 || full['sta']==0){
+          				html +='<img src="<?php echo base_url(); ?>images/list_edit.png"   title="แก้ไข" class="btnopt edit" data-idedit="' + full['id_customer'] + '" />';
+          			}else{
+          				html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="'+full['status']+'" class="btnoptUnclick" data-idedit="' + full['id_customer'] + '" />';
+          			}
+          		}else{
+          			html +='<img src="<?php echo base_url(); ?>images/un_list_edit.png"   title="ไม่ได้รับสิทธิ์แก้ไขข้อมูล" class="btnoptUnclick" data-idedit="' + full['id_customer'] + '" />';
+          		}
+          		html +='<input type="hidden" ID="id_customer' + full['id_customer'] + '" value="' + full['id_customer'] + '" />';
+          		return html;
+          	}
+          }]
 
-      } );
+        } );
         $("#employee-grid_filter").css("display","none");  // hiding global search box
         $('.search-input-text').on('change', function () {   // for text boxes
             var i =$(this).attr('data-column');  // getting column index
@@ -123,8 +123,8 @@
           edit($(this).data('idedit'),idx);
         } );
         $('#employee-grid tbody').on( 'click', 'img.view', function () {
-         view($(this).data('idview'));
-       } );
+        	view($(this).data('idview'));
+        } );
 
         $('#employee-grid tbody').on( 'click', 'img.print', function () {
         var idx=$(this).closest('tr').index(); // หาลำดับแถวของ TR ที่คลิกแก้ไข
@@ -252,30 +252,30 @@
     </div>
 
     <!-- <div class='col-sm-12'> -->
-    	<!-- <div style="overflow-x:scroll;overflow-y: hidden;"> -->
-    		<table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" style="table-layout: fixed;word-wrap: break-word;" >
-    			<thead>
-    				<tr>
-    					<th width="40px;">ที่</th>
-    					<th width="80px">หมายเลขลูกค้า</th>
-    					<th width="120px">ชื่อ - สกุล(ภาษาไทย)</th>
-    					<th width="90px">ลูกค้า</th>
-    					<th width="80px">ประเภท</th>
-    					<th width="80px">ชนิดลูกค้า</th>
-    					<th width="90px">เบอร์โทร</th>
-    					<th width="90px">ประเภทรถที่สนใจ</th>
-    					<th width="90px">รุ่นรถ</th>
-    					<th width="90px">สี</th>
-    					<th width="80px">ที่ปรึกษาด้านการขาย</th>
-    					<th width="90px">สาขา</th>
-    					<!-- <th width="150px">ที่อยู่</th> -->
-    					<th width="90px;">หมายเหตุ</th>
-    					<th width="90px;">ดำเนินการ</th>
-    				</tr>
-    			</thead>
+    <!-- <div style="overflow-x:scroll;overflow-y: hidden;"> -->
+    <table id="employee-grid"  cellpadding="0" cellspacing="0" class="table table-striped table-hover" style="table-layout: fixed;word-wrap: break-word;" >
+    	<thead>
+    		<tr>
+    			<th width="40px;">ที่</th>
+    			<th width="80px">หมายเลขลูกค้า</th>
+    			<th width="120px">ชื่อ - สกุล(ภาษาไทย)</th>
+    			<th width="90px">ลูกค้า</th>
+    			<th width="80px">ประเภท</th>
+    			<th width="80px">ชนิดลูกค้า</th>
+    			<th width="90px">เบอร์โทร</th>
+    			<th width="90px">ประเภทรถที่สนใจ</th>
+    			<th width="90px">รุ่นรถ</th>
+    			<th width="90px">สี</th>
+    			<th width="80px">ที่ปรึกษาด้านการขาย</th>
+    			<th width="90px">สาขา</th>
+    			<!-- <th width="150px">ที่อยู่</th> -->
+    			<th width="90px;">หมายเหตุ</th>
+    			<th width="90px;">ดำเนินการ</th>
+    		</tr>
+    	</thead>
 
-    		</table>
-    	<!-- </div> -->
+    </table>
+    <!-- </div> -->
     <!-- </div> -->
     <!-- <div class='col-sm-6' style="text-align:left;font-size:14px;">จำนวนข้อมูล 1 ถึง 2 จาก 2 รายการทั้งหมด</div>
     <div class='col-sm-6' style="text-align:right;"> <img src="http://localhost/utsgs/images/nextpage.jpg" height="40"> </div> -->
