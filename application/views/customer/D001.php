@@ -32,225 +32,6 @@
 $('input[name=zipcode]').val('<?php echo $row_customer["post_code"];?>');
 });
 
-
-	// ADD field รุ่นรถที่สนใจ
-	$(function(){
-		$('#addCar_').click(function(){
-			var  row=$('.car').length+1;
-			var  html  = '<div class="car" ID="car'+row+'">';
-			html += '<div class="col-sm-4" >';
-			html += '<p>แบบ</p><p class="required">*</p>';
-			html += '<select name="id_mmodel[]"  id="id_mmodel'+row+'" class ="form-control id_mmodel" required>';
-			html +='<option value="" selected>--เลือก--</option>';
-			<?php foreach ($listMmodel as $Mmodel):?>
-			html += "<option value='<?php echo $Mmodel->id_model;?>'><?php echo $Mmodel->mmodel_name;?></option>";
-		<?php endforeach;?>
-		html += '</select>';
-		html += '</div>';
-		html += '<div class="col-sm-4">';
-		html += '<p>รุ่น</p><p class="required">*</p>';
-		html +='<select name="id_mgen[]" id="id_mgen'+row+'" class ="form-control id_mgen" required>';
-		html +='</select>';
-		html += '</div>';
-		html += '<div class="col-sm-2">';
-		html += '<p>สี</p><p class="required">*</p>';
-		html +='<select name="id_mcolor[]" id="id_mcolor'+row+'" class ="form-control id_mcolor" required>';
-		html +='</select>';
-		html += '</div>';
-		html += '<div class="col-sm-2" >  ';
-		html += '<p>&nbsp;</p>';
-		html += '<h4><i class="glyphicon glyphicon-trash btn btn-danger" id="delCar'+row+'"></i> </h4>';
-		html += '</div> ';
-		html += '</div>';
-		if(row<=20){
-			$('.addRows').append(html);
-			delCar(row);
-		}else{
-			alert("เพิ่มไม่เกิน 20 ");
-		}
-	});
-runnumCar();
-});
-
-function runnumCar(){
-	var  row=$('.car').length;
-	for(i=0;i<=row;i++){
-		keyIdcard(i);
-		// getdataCar(i);
-		delCar(i);
-	}
-}
-
-function delCar(num)
-{
-	$('#delCar'+num ).click(function(){
-		var chk =  confirm('คุณต้องการย้อนกลับ ใช่หรือไม่ ?');
-		if(chk==true){
-			$('#car'+num).remove();
-		}else{
-			return false;
-		}
-	});
-	getdataCar(num);
-}
-
-function keyIdcard(num)
-{
-	$('#idcard'+num).change(function(){
-		alert('Key');
-	});
-}
-function getdataCar(number)
-{
-	$('#id_mmodel'+number).change(function(){
-		var id_mmodel= $(this).val();
-		if(id_mmodel!=''){
-			$.ajax(
-			{
-				type: 'POST',
-				url: '<?php echo base_url().$controller; ?>/getMgen/',
-	               		 data: {"id_mmodel":id_mmodel}, //your form datas to post
-	               		 dataType: 'json',
-	               		 success: function(rs)
-	               		 {
-	               		 	// alert(number);
-	               		 	var res="<option >---เลือก---</option>";
-	               		 	$.each(rs, function( index, value){
-
-	               		 		res += "<option value="+value.id_gen+"> "+value.gen_name+"</option>";
-	               		 	});
-	               		 	$("#id_mgen"+number).html(res);
-	               		 },
-	               		 error: function()
-	               		 {
-	               		 	alert("#เกิดข้อผิดพลาด");
-	               		 }
-	               		});
-		}else{
-			var none="<option value=''>---เลือก---</option>";
-			$("#id_mgen"+number).html(none);
-		}
-	});
-	$('#id_mgen'+number).change(function(){
-		var id_mgen= $(this).val();
-		if(id_mgen!=''){
-			$.ajax(
-			{
-				type: 'POST',
-				url: '<?php echo base_url().$controller; ?>/getMcolor/',
-	                data: {"id_mgen":id_mgen}, //your form datas to post
-	                dataType: 'json',
-	                success: function(rs)
-	                {
-	                	var res="<option >---เลือก---</option>";
-	                	$.each(rs, function( index, value){
-
-	                		res += "<option value="+value.id_color+"> "+value.color_name+"</option>";
-	                	});
-	                	$("#id_mcolor"+number).html(res);
-	                },
-	                error: function()
-	                {
-	                	alert("#เกิดข้อผิดพลาด");
-	                }
-	             });
-		}else{
-			var none="<option value=''>---เลือก---</option>";
-			$("#id_mcolor"+number).html(none);
-		}
-	});
-}
-// ----------
-// --- add origin
-$(function(){
-	$('#addOrigin').click(function(){
-		var  row=$('.origin').length+1;
-		var  html  = '<div class="origin" ID="origin'+row+'">';
-		html += '<div class="col-sm-9">';
-		html += '<p>แหล่งที่มาของลูกค้า</p>';
-		html += '<input type="text" class="form-control" name="origin[]"/>';
-		html += '</div>';
-		html += '<div class="col-sm-2" >  ';
-		html += '<p><br/></p>';
-		html += '<h4><i class="glyphicon glyphicon-trash btn btn-danger" ID="delOrigin'+row+'"></i> </h4>';
-		html += '</div> ';
-		html += '</div>';
-		if(row<=20){
-			$('.add_origin').append(html);
-			delOrigin(row);
-		}else{
-			alert("เพิ่มไม่เกิน 20 ");
-		}
-	});
-	runnumOrgin();
-});
-
-function runnumOrgin(){
-	var  row=$('.car').length;
-	for(i=0;i<row;i++){
-		delOrigin(i);
-		keyIdcard(i);
-	}
-}
-
-function delOrigin(num)
-{
-	$('#delOrigin'+num ).click(function(){
-		var chk =  confirm('คุณต้องการย้อนกลับ ใช่หรือไม่ ?');
-		if(chk==true){
-			$('#origin'+num).remove();
-		}else{
-			return false;
-		}
-	});
-}
-// ---end origin
-//
-// --- add objective
-$(function(){
-	$('#addObjective').click(function(){
-		var  row=$('.objective').length+1;
-		var  html  = '<div class="objective" ID="objective'+row+'">';
-		html += '<div class="col-sm-8">';
-		html += '<p>วัตถุประสงค์ของการซื้อ</p>';
-		html += '<input type="text" class="form-control" name="objective[]"/>';
-		html += '</div>';
-		html += '<div class="col-sm-3" >  ';
-		html += '<p><br/></p>';
-		html += '<h4><i class="glyphicon glyphicon-trash btn btn-danger" ID="delObjective'+row+'"></i> </h4>';
-		html += '</div> ';
-		html += '</div>';
-		if(row<=20){
-			$('.add_objective').append(html);
-			delObjective(row);
-		}else{
-			alert("เพิ่มไม่เกิน 20 ");
-		}
-	});
-	runnumrowObjectiv();
-});
-
-function runnumrowObjectiv(){
-	var  row=$('.objective').length;
-	for(i=0;i<row;i++){
-		delObjective(i);
-		keyIdcard(i);
-	}
-}
-
-function delObjective(num)
-{
-	$('#delObjective'+num ).click(function(){
-		var chk =  confirm('คุณต้องการย้อนกลับ ใช่หรือไม่ ?');
-		if(chk==true){
-			$('#objective'+num).remove();
-		}else{
-			return false;
-		}
-	});
-}
-// ---end origin
-
 </script>
 
 <div class="row form_input" style="text-align:left; margin-bottom:20px">
@@ -373,17 +154,13 @@ function delObjective(num)
 		<div class="col-sm-3">
 			<p>จังหวัด</p>
 			<p class="required">*</p>
-			<!-- <input type="text" class="form-control" name="province"  /> -->
 			<select name="province" id="province" class="form-control"  >
-				<!-- <option value="">----เลือกอำเภอ----</option> -->
 			</select>
 		</div>
 		<div class="col-sm-3">
 			<p>เขต/อำเภอ</p>
 			<p class="required">*</p>
-			<!-- <input type="text" class="form-control" name="amphur"   /> -->
 			<select name="amphur" id="amphur" class="form-control"  >
-				<!-- <option value="">----เลือกอำเภอ----</option> -->
 			</select>
 		</div>
 		<div class="col-sm-3">
@@ -412,78 +189,67 @@ function delObjective(num)
 			</select>
 		</div>
 	</div>
-	
-	<div class="form-group col-sm-12">
+	<div class="form-group ">
 		<p><u>รุ่นรถที่สนใจ</u></p>
 		<div class="col-sm-2">
 			<p>สาขา</p>
 			<p class="required">*</p>
 			<select name="branch" class ="form-control" required>
 				<option value="">--เลือก--</option>
-				<option value="1" selected >อุดรธานี</option>
-				<option value="2"> หนองบัวลำภู</option>
-				<option value="3"> หนองคาย</option>
-				<option value="4" > บึงกาฬ</option>
-				<option value="5"> สว่างแดนดิน</option>
-				<option value="6"> สกลนคร</option>
+				<?php  foreach ($listBranch as $row_branch) {
+					$select_branch=($row_customer['id_mbranch'] == $row_branch->id_mbranch?'selected':'');
+					echo '<option value="'.$row_branch->id_mbranch.'"'.$select_branch.'>'.$row_branch->mbranch_name.'</option>';
+				}
+				?>
 			</select>
 		</div>
-		<div class="col-md-3" >
-			<p>แบบ</p><p class="required">*</p>
-			<?php
-			$count_car = count($row_customer['cars']);
-			for($i=0;$i< $count_car ; $i++){
-				echo '<input type="text" name="id_mmodel[]"  id="id_mmodel0" class ="form-control id_mmodel" value="'.$row_customer['cars'][$i]['model_name'].'"/>';
-			}
+		<?php
+		$count_car = count($row_customer['cars']);
+		for($i=0;$i< $count_car ; $i++){
 			?>
+			<div class="form-group col-sm-12">
+				<div class="col-md-3" >
+					<p>แบบ</p><p class="required">*</p>
+					<input type="text" name="id_mmodel[]"  id="id_mmodel0" class ="form-control id_mmodel" value="<?php echo $row_customer['cars'][$i]['model_name'];?>"/>
+				</div>
+				<div class="col-md-3" >
+					<p>รุ่น</p><p class="required">*</p>
+					<input type="text" name="id_mgen[]" id="id_mgen0" class ="form-control id_mgen" value="<?php echo $row_customer['cars'][$i]['gen_name'];?>" />
+				</div>
+				<div class="col-md-2" >
+					<p>สี</p><p class="required">*</p>
+					<input type="text" name="id_mcolor[]"  id="id_mcolor0" class ="form-control id_mcolor" value="<?php echo $row_customer['cars'][$i]['color'];?>" />
+				</div>
+			</div>
+			<?php } ?>
 		</div>
-		<div class="col-md-3" >
-			<p>รุ่น</p><p class="required">*</p>
-			<select name="id_mgen[]" id="id_mgen0" class ="form-control id_mgen" required>
-			</select>
+		<div class="form-group col-sm-6">
+		<?php
+		$data_source = explode(',',$row_customer['customer_source']);
+		$a =count($data_source);
+		for($j=0;$j < $a ;$j++){
+			?>
+			<div class="col-sm-9">
+				<p>แหล่งที่มาของลูกค้า</p>
+				<input type="text" class="form-control"  name="origin[]" value="<?php echo $data_source[$j];?>" />
+			</div>
+		<?php  }	?>
 		</div>
-		<div class="col-md-2" >
-			<p>สี</p><p class="required">*</p>
-			<select name="id_mcolor[]"  id="id_mcolor0" class ="form-control id_mcolor" required>
-			</select>
+		<div class="form-group col-sm-6">
+			<?php
+				$data_reason = explode(',', $row_customer['reason']);
+				$b = count($data_reason);
+				for($k=0;$k < $b ;$k++){
+			?>
+			<div class="col-sm-8">
+				<p>วัตถุประสงค์ของการซื้อ</p>
+				<input type="text" class="form-control"  name="objective[]" value="<?php echo $data_reason[$k];?>" />
+			</div>
+		<?php  } 	?>
 		</div>
-		<div class="col-sm-2">
-			<p>&nbsp;</p>
-			<div class="btn btn-primary" id="addCar_" style="width:120px;" > เพิ่มรุ่นที่สนใจ</div>
-		</div>
-		<div class="addRows">
-			<!-- show data colum  รุ่นรถที่สนใจ-->
+		<div class="col-sm-12" >
+			<p>หมายเหตุ</p>
+			<textarea  class="form-control" rows='3' name="comment"><?php echo $row_customer['comment'];?></textarea>
 		</div>
 	</div>
-	<div class="form-group col-sm-6">
-		<div class="col-sm-9">
-			<p>แหล่งที่มาของลูกค้า</p>
-			<input type="text" class="form-control"  name="origin[]"/>
-		</div>
-		<div class="col-sm-2">
-			<p>&nbsp;</p>
-			<div class="btn btn-primary" id="addOrigin" style="width:120px;"> เพิ่มที่มา</div>
-		</div>
-		<div class="add_origin">
-			<!-- show ddata add origin -->
-		</div>
-	</div>
-	<div class="form-group col-sm-6">
-		<div class="col-sm-8">
-			<p>วัตถุประสงค์ของการซื้อ</p>
-			<input type="text" class="form-control"  name="objective[]"/>
-		</div>
-		<div class="col-sm-2">
-			<p>&nbsp;</p>
-			<div class="btn btn-primary" id="addObjective" style="width:120px;"> เพิ่มวัตถุประสงค์</div>
-		</div>
-		<div class="add_objective">
-			<!-- show ddata add objective -->
-		</div>
-	</div>
-	<div class="col-sm-12" >
-		<p>หมายเหตุ</p>
-		<textarea  class="form-control" rows='3' name="comment"></textarea>
-	</div>
-</div>
-<?php } ?>
+	<?php } ?>

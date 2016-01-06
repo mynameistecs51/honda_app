@@ -483,12 +483,11 @@ function delObjective(num)
 			<p class="required">*</p>
 			<select name="branch" class ="form-control" required>
 				<option value="">--เลือก--</option>
-				<option value="1" selected >อุดรธานี</option>
-				<option value="2"> หนองบัวลำภู</option>
-				<option value="3"> หนองคาย</option>
-				<option value="4" > บึงกาฬ</option>
-				<option value="5"> สว่างแดนดิน</option>
-				<option value="6"> สกลนคร</option>
+				<option value="">--เลือก--</option>
+				<?php  foreach ($listBranch as $row_branch) {
+					echo '<option value="'.$row_branch->id_mbranch.'">'.$row_branch->mbranch_name.'</option>';
+				}
+				?>
 			</select>
 		</div>
 		<div class="col-md-3" >

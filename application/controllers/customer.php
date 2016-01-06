@@ -117,6 +117,7 @@ class Customer extends CI_Controller
 		$this->data["datefrom"] =$this->datefrom;
 		$this->data["dateto"] =$this->dateto;
 		$this->data["datenow"] =$this->datenow;
+		$this->data["listBranch"] = $this->mdl_customer->getMbranch();
 		$this->data['listMmodel']= $this->mdl_stock->getmmodel();
 		$this->data['listSale']= $this->mdl_customer->getTypeSale();
 		$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->data["id_mposition"],$this->data['mbranch_name']);
@@ -144,7 +145,7 @@ class Customer extends CI_Controller
 		$data_array = array();
 		$cars = array();
 		foreach($this->mdl_customer->getCustomer($id) as $key=>$row_customer){
-			
+
 			if(isset($data_array[$row_customer->id_customer])){
 				array_push($data_array[$row_customer->id_customer]['cars'], array(
 					'model_name' =>$row_customer->mmodel_name,
@@ -176,6 +177,8 @@ class Customer extends CI_Controller
 					'mobile' =>$row_customer->mobile,
 					'member_name' => $row_customer->member_name,
 					'id_mbranch' =>$row_customer->id_mbranch,
+					'customer_source' => $row_customer->customer_source,
+					'reason' => $row_customer->reason,
 					'comment' =>$row_customer->comment,
 					'status' =>$row_customer->status,
 					'mbranch_name'=>$row_customer->mbranch_name,
@@ -185,7 +188,7 @@ class Customer extends CI_Controller
 							'gen_name'=>$row_customer->gen_name,
 							'color'=>$row_customer->color_name
 							)
-						)							
+						)
 					);
 				}
 				}
@@ -194,96 +197,96 @@ class Customer extends CI_Controller
 				$this->data['listcustomer']= $data_array;
 				// $this->data['listcustomer']= $this->mdl_customer->getCustomer($id);
 				$this->load->view('customer/'.$SCREENID,$this->data);
-}
-public function EDIT($id,$idx)
-{
-	$SCREENID="E001";
-	$this->mainpage($SCREENID);
-	$this->data['idx']=$idx;
-		// $this->data['listcustomer']= $this->mdl_customer->getCustomer($id);
-		// $this->load->view('customer/'.$SCREENID,$this->data);
-}
+		}
+		public function EDIT($id,$idx)
+		{
+			$SCREENID="E001";
+			$this->mainpage($SCREENID);
+			$this->data['idx']=$idx;
+			$this->data['listcustomer']= $this->mdl_customer->getCustomer($id);
+			$this->load->view('customer/'.$SCREENID,$this->data);
+		}
 
-public function saveadd()
-{
-	$customerCode = $this->mdl_customer->getCodeCustomer();
-	if($_POST):
-		parse_str($_POST['form'], $post);
-			//$code= $this->getCode();
-	$objective = "";
-	$ob = count($post['objective']);
-	for ($i=0; $i < $ob; $i++) {
-		$objective .=$post['objective'][$i].',';
-	}
+		public function saveadd()
+		{
+			$customerCode = $this->mdl_customer->getCodeCustomer();
+			if($_POST):
+				parse_str($_POST['form'], $post);
+					//$code= $this->getCode();
+			$objective = "";
+			$ob = count($post['objective']);
+			for ($i=0; $i < $ob; $i++) {
+				$objective .=$post['objective'][$i].',';
+			}
 
-	$origin = "";
-	$orig = count($post['origin']);
-	for ($j=0; $j < $orig; $j++) {
-		$origin .=$post['origin'][$j].',';
-	}
-	$data = array(
-			// "id_customer" =>'',
-		"customer_code"  =>	$customerCode,
-		"customer_date" =>	$this->convert_date($post['customer_date']),
-		"bye_date" 	=>	'0000-00-00 ',
-		"accounts_receivable"	 =>	$post['accounts_receivable'],
-		"is_cus_new" 	=> $post['customer'],
-		"is_type"		=>	$post['is_type'],
-		"is_company" 	=>	$post['is_company'],
-		"id_tit"		=> 	$post['is_tit'],
-		"firstname" 	=>	$post['firstname_th'],
-		"lastname" 	=>	$post['lastname_th'],
-		"birth_date"	=>	$this->convert_date($post['birthdate']),
-		"adr_line" 	=>	$post['address'],
-		"post_code" 	=>	$post['zipcode'],
-		"id_mprovince" 	=>	$post['province'],
-		"id_mamphur"	=>	$post['amphur'],
-		"id_mdistric"	=>	$post['district'],
-		"idcard_number"	=>	$post['idcard_number'],
-		"driver_card_number"	=>	$post['drv_card_num'],
-		"email"		=>	$post['email'],
-		"telephone"	=> 	$post['telephone'],
-		"mobile"		=>	$post['mobile'],
-		"sales_consultants"	=>	$post['adviser'],
-		"is_car_type" 	=> $post['typeCar'],
-		"customer_source"		=>	substr($origin,0,-1),
-		"reason"	=>	substr($objective,0,-1),
-		"id_mbranch"	=>	$post['branch'],
-		"comment"	=> 	str_replace("\n", "<br>\n",$post['comment']),
-		"status"		=>	 1,
-		"id_create"	=>	 $this->id_mmember,
-		"dt_create"	=> 	$this->dt_now,
-		"id_update"	=> 	$this->id_mmember,
-		"dt_update"	=> 	$this->dt_now
-		);
-				// echo "<pre>";
-				// print_r($data);exit;
-$insert = $this->mdl_customer->addcustomer($data);
-$massage = "บันทึกข้อมูล เรียบร้อย !";
-$this->alert($massage);
-				// echo json_encode($data);
+			$origin = "";
+			$orig = count($post['origin']);
+			for ($j=0; $j < $orig; $j++) {
+				$origin .=$post['origin'][$j].',';
+			}
+			$data = array(
+					// "id_customer" =>'',
+				"customer_code"  =>	$customerCode,
+				"customer_date" =>	$this->convert_date($post['customer_date']),
+				"bye_date" 	=>	'0000-00-00 ',
+				"accounts_receivable"	 =>	$post['accounts_receivable'],
+				"is_cus_new" 	=> $post['customer'],
+				"is_type"		=>	$post['is_type'],
+				"is_company" 	=>	$post['is_company'],
+				"id_tit"		=> 	$post['is_tit'],
+				"firstname" 	=>	$post['firstname_th'],
+				"lastname" 	=>	$post['lastname_th'],
+				"birth_date"	=>	$this->convert_date($post['birthdate']),
+				"adr_line" 	=>	$post['address'],
+				"post_code" 	=>	$post['zipcode'],
+				"id_mprovince" 	=>	$post['province'],
+				"id_mamphur"	=>	$post['amphur'],
+				"id_mdistric"	=>	$post['district'],
+				"idcard_number"	=>	$post['idcard_number'],
+				"driver_card_number"	=>	$post['drv_card_num'],
+				"email"		=>	$post['email'],
+				"telephone"	=> 	$post['telephone'],
+				"mobile"		=>	$post['mobile'],
+				"sales_consultants"	=>	$post['adviser'],
+				"is_car_type" 	=> $post['typeCar'],
+				"customer_source"		=>	substr($origin,0,-1),
+				"reason"	=>	substr($objective,0,-1),
+				"id_mbranch"	=>	$post['branch'],
+				"comment"	=> 	str_replace("\n", "<br>\n",$post['comment']),
+				"status"		=>	 1,
+				"id_create"	=>	 $this->id_mmember,
+				"dt_create"	=> 	$this->dt_now,
+				"id_update"	=> 	$this->id_mmember,
+				"dt_update"	=> 	$this->dt_now
+				);
+						// echo "<pre>";
+						// print_r($data);exit;
+		$insert = $this->mdl_customer->addcustomer($data);
+		$massage = "บันทึกข้อมูล เรียบร้อย !";
+		$this->alert($massage);
+						// echo json_encode($data);
 
-$countModel =  count($post['id_mmodel']);
-for ($k=0; $k < $countModel ; $k++) {
-	$modelAtt[$k] = array(
-		'id_customer_car_att' =>	'',
-		'id_customer' 	=> 	$insert,
-		'id_model' 		=>	$post['id_mmodel'][$k],
-		'id_gen'			=>	$post['id_mgen'][$k],
-		'id_color'		=>	$post['id_mcolor'][$k],
-		"comment"	=> 	str_replace("\n", "<br>\n",$post['comment']),
-		"status"		=>	 1,
-		"id_create"	=>	 $this->id_mmember,
-		"dt_create"	=> 	$this->dt_now,
-		"id_update"	=> 	$this->id_mmember,
-		"dt_update"	=> 	$this->dt_now,
-		);
-	$this->mdl_customer->insert_customerAtt($modelAtt[$k]);
-}
+		$countModel =  count($post['id_mmodel']);
+		for ($k=0; $k < $countModel ; $k++) {
+			$modelAtt[$k] = array(
+				'id_customer_car_att' =>	'',
+				'id_customer' 	=> 	$insert,
+				'id_model' 		=>	$post['id_mmodel'][$k],
+				'id_gen'			=>	$post['id_mgen'][$k],
+				'id_color'		=>	$post['id_mcolor'][$k],
+				"comment"	=> 	str_replace("\n", "<br>\n",$post['comment']),
+				"status"		=>	 1,
+				"id_create"	=>	 $this->id_mmember,
+				"dt_create"	=> 	$this->dt_now,
+				"id_update"	=> 	$this->id_mmember,
+				"dt_update"	=> 	$this->dt_now,
+				);
+			$this->mdl_customer->insert_customerAtt($modelAtt[$k]);
+		}
 
-endif;
+		endif;
 
-}
+		}
 
 public function saveUpdate()
 {
