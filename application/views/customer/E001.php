@@ -126,7 +126,10 @@ function saveData()
            }
         });
 }
-
+// function show_car(){
+// 	var arr= "<?php echo $row_customer['cars'][0]['model_name'];?>";
+// 	console.log(arr);
+// }
 // ADD field รุ่นรถที่สนใจ
 $(function(){
 	$('#addCar_').click(function(){
@@ -528,13 +531,13 @@ function delObjective(num)
 			</select>
 		</div>
 		<?php
+		
 			$count_car = count($row_customer['cars']);
-			// print_r($row_customer['cars']);
-
-			for($i=0;$i< $count_car ; $i++){
-				echo implode(',', $row_customer['cars'][$i]),"<br/>";
+			for($i=1 ;$i<= $count_car ; $i++){
+				//echo implode(',', $row_customer['cars'][$i]),"<br/>";
 		?>
-			<div class="col-md-3" >
+		<div class="car" ID="car<?php echo $i;?>">
+			<div class="col-md-3 ">
 				<p>แบบ</p><p class="required">*</p>
 				<select name="id_mmodel[]"  id="id_mmodel<?php echo $i;?>" class ="form-control id_mmodel" required>
 					<option value="" selected>--เลือก--</option>
@@ -546,21 +549,25 @@ function delObjective(num)
 					?>
 				</select>
 			</div>
-		<div class="col-md-3" >
-			<p>รุ่น</p><p class="required">*</p>
-			<select name="id_mgen[]" id="id_mgen0" class ="form-control id_mgen" required>
-			</select>
-		</div>
-		<div class="col-md-2" >
-			<p>สี</p><p class="required">*</p>
-			<select name="id_mcolor[]"  id="id_mcolor0" class ="form-control id_mcolor" required>
-			</select>
-		</div>
+			<div class="col-md-3" >
+				<p>รุ่น</p><p class="required">*</p>
+				<select name="id_mgen[]" id="id_mgen<?php echo $i;?>" class ="form-control id_mgen" required>
+				</select>
+			</div>
+			<div class="col-md-2" >
+				<p>สี</p><p class="required">*</p>
+				<select name="id_mcolor[]"  id="id_mcolor<?php echo $i;?>" class ="form-control id_mcolor" required>
+				</select>
+			</div>
 		<div class="col-sm-2">
 			<p>&nbsp;</p>
 			<div class="btn btn-primary" id="addCar_" style="width:120px;" > เพิ่มรุ่นที่สนใจ</div>
+			<h4><i class="glyphicon glyphicon-trash btn btn-danger" id="delCar<?php echo $i;?>"></i> </h4>
 		</div>
-	<?php } ?>
+	<?php
+		 }  
+	?>
+		</div>
 		<div class="addRows">
 			<!-- show data colum  รุ่นรถที่สนใจ-->
 		</div>
