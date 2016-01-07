@@ -174,6 +174,7 @@ class Customer extends CI_Controller
 					'email' =>$row_customer->email,
 					'telephone' =>$row_customer->telephone,
 					'mobile' =>$row_customer->mobile,
+					'sales_consultants' => $row_customer->sales_consultants,
 					'member_name' => $row_customer->member_name,
 					'id_mbranch' =>$row_customer->id_mbranch,
 					'customer_source' => $row_customer->customer_source,

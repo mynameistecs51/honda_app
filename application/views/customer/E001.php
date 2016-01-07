@@ -36,39 +36,64 @@
 				$("#valid_mobile").html("");
 			}
 		});
+		if(!! $("input[name=zipcode]").keyup() ){
+			$("input[name=zipcode]").keyup(function(){
+				$.ajax({
+					url: '<?php echo base_url().$controller; ?>/getProvince/',
+					data:"zipcode="+$("input[name=zipcode]").val(),
+					type: 'POST',
+					dataType: 'json',
+					success:function(res){
+						var district="<option >---เลือกตำบล---</option>";
+						$.each(res, function( index, value ) {
+							province = "<option value="+value['PROVINCE_ID']+"> "+value['PROVINCE_NAME']+"</option>";
+							amphur = "<option value="+value['AMPHUR_ID']+"> "+value['AMPHUR_NAME']+"</option>";
+							district += "<option value="+value['DISTRICT_ID']+"> "+value['DISTRICT_NAME']+"</option>";
+						});
+						$('#province').html(province);
+						$('#amphur').html(amphur);
+						$('#district').html(district);
+						$('#district option[value=<?php echo $row_customer["id_mdistric"];?>]').attr('selected','selected');
 
-		$("input[name=zipcode]").keyup(function(){
-			$.ajax({
-				url: '<?php echo base_url().$controller; ?>/getProvince/',
-				data:"zipcode="+$("input[name=zipcode]").val(),
-				type: 'POST',
-				dataType: 'json',
-				success:function(res){
-					// var amphur="<option >----เลือกอำเภอ----</option>";
-					var district="<option >---เลือกตำบล---</option>";
-					$.each(res, function( index, value ) {
-						// $('input[name=province]').val(value['PROVINCE_NAME']);
-						// $('input[name=amphur]').val(value["AMPHUR_NAME"]);
-						province = "<option value="+value['PROVINCE_ID']+"> "+value['PROVINCE_NAME']+"</option>";
-						amphur = "<option value="+value['AMPHUR_ID']+"> "+value['AMPHUR_NAME']+"</option>";
-						district += "<option value="+value['DISTRICT_ID']+"> "+value['DISTRICT_NAME']+"</option>";
-					});
-					$('#province').html(province);
-					$('#amphur').html(amphur);
-					$('#district').html(district);
-
-				},
-				error:function(err){
-					//alert("รหัสไปรษณีย์ไม่ถูกต้อง");
-					//$('input[name=zipcode]').val('');
-					$('#province').html('');
-					$('#amphur').html('');
-					$('#district').html('');
-				}
+					},
+					error:function(err){
+						$('#province').html('');
+						$('#amphur').html('');
+						$('#district').html('');
+					}
+				});
 			});
-});
-saveData();		//saveadd
-});
+		}
+		if($("input[name=zipcode]").val() !== null){
+			$("input[name=zipcode]").val(function(){
+				$.ajax({
+					url: '<?php echo base_url().$controller; ?>/getProvince/',
+					data:"zipcode="+$("input[name=zipcode]").val(),
+					type: 'POST',
+					dataType: 'json',
+					success:function(res){
+						var district="<option >---เลือกตำบล---</option>";
+						$.each(res, function( index, value ) {
+							province = "<option value="+value['PROVINCE_ID']+"> "+value['PROVINCE_NAME']+"</option>";
+							amphur = "<option value="+value['AMPHUR_ID']+"> "+value['AMPHUR_NAME']+"</option>";
+							district += "<option value="+value['DISTRICT_ID']+"> "+value['DISTRICT_NAME']+"</option>";
+						});
+						$('#province').html(province);
+						$('#amphur').html(amphur);
+						$('#district').html(district);
+						$('#district option[value=<?php echo $row_customer["id_mdistric"];?>]').attr('selected','selected');
+					},
+					error:function(err){
+						$('#province').html('');
+						$('#amphur').html('');
+						$('#district').html('');
+					}
+				});
+			});
+			$('input[name=zipcode]').val('<?php echo $row_customer["post_code"];?>');
+		}
+	saveData();		//saveadd
+	});
 
 function saveData()
 {
@@ -112,34 +137,34 @@ $(function(){
 		html += '<select name="id_mmodel[]"  id="id_mmodel'+row+'" class ="form-control id_mmodel" required>';
 		html +='<option value="" selected>--เลือก--</option>';
 		<?php foreach ($listMmodel as $Mmodel):?>
-		html += "<option value='<?php echo $Mmodel->id_model;?>'><?php echo $Mmodel->mmodel_name;?></option>";
-	<?php endforeach;?>
-	html += '</select>';
-	html += '</div>';
-	html += '<div class="col-sm-4">';
-	html += '<p>รุ่น</p><p class="required">*</p>';
-	html +='<select name="id_mgen[]" id="id_mgen'+row+'" class ="form-control id_mgen" required>';
-	html +='</select>';
-	html += '</div>';
-	html += '<div class="col-sm-2">';
-	html += '<p>สี</p><p class="required">*</p>';
-	html +='<select name="id_mcolor[]" id="id_mcolor'+row+'" class ="form-control id_mcolor" required>';
-	html +='</select>';
-	html += '</div>';
-	html += '<div class="col-sm-2" >  ';
-	html += '<p>&nbsp;</p>';
-	html += '<h4><i class="glyphicon glyphicon-trash btn btn-danger" id="delCar'+row+'"></i> </h4>';
-	html += '</div> ';
-	html += '</div>';
-	if(row<=20){
-		$('.addRows').append(html);
-		delCar(row);
-	}else{
-		alert("เพิ่มไม่เกิน 20 ");
-	}
-});
-runnumCar();
-});
+			html += "<option value='<?php echo $Mmodel->id_model;?>'><?php echo $Mmodel->mmodel_name;?></option>";
+		<?php endforeach;?>
+		html += '</select>';
+		html += '</div>';
+		html += '<div class="col-sm-4">';
+		html += '<p>รุ่น</p><p class="required">*</p>';
+		html +='<select name="id_mgen[]" id="id_mgen'+row+'" class ="form-control id_mgen" required>';
+		html +='</select>';
+		html += '</div>';
+		html += '<div class="col-sm-2">';
+		html += '<p>สี</p><p class="required">*</p>';
+		html +='<select name="id_mcolor[]" id="id_mcolor'+row+'" class ="form-control id_mcolor" required>';
+		html +='</select>';
+		html += '</div>';
+		html += '<div class="col-sm-2" >  ';
+		html += '<p>&nbsp;</p>';
+		html += '<h4><i class="glyphicon glyphicon-trash btn btn-danger" id="delCar'+row+'"></i> </h4>';
+		html += '</div> ';
+		html += '</div>';
+		if(row<=20){
+			$('.addRows').append(html);
+			delCar(row);
+		}else{
+			alert("เพิ่มไม่เกิน 20 ");
+		}
+	});
+	runnumCar();
+	});
 
 function runnumCar(){
 	var  row=$('.car').length;
@@ -429,12 +454,12 @@ function delObjective(num)
 		<div class="col-sm-3">
 			<p>รหัสไปรษณีย์</p>
 			<p class="required">*</p>
-			<input type="text" class="form-control" name="zipcode"  />
+			<input type="text" class="form-control" name="zipcode" value="<?php echo $row_customer['post_code'];?>" />
 		</div>
 		<div class="col-sm-6">
 			<p>ที่อยู่</p>
 			<p class="required">*</p>
-			<input tye="text" class="form-control" name="address" required />
+			<input tye="text" class="form-control" name="address" value="<?php echo $row_customer['adr_line'];?>" required />
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
@@ -469,8 +494,11 @@ function delObjective(num)
 			<p class="required">*</p>
 			<select name="adviser" class ="form-control" required>
 				<option value="">--เลือก--</option>
-				<?php foreach($listSale as $rowSale): ?>
-					<option value="<?php echo $rowSale['id_mmember'];?>"><?php echo $rowSale['firstname'].'  '.$rowSale['lastname'];?></option>
+				<?php
+					foreach($listSale as $rowSale):
+					$selected_member = ($rowSale->id_mmember ==  $row_customer['sales_consultants']?'selected':'');
+				?>
+					<option value="<?php echo $rowSale['id_mmember'];?>" <?php echo $selected_member;?> ><?php echo $rowSale['firstname'].'  '.$rowSale['lastname'];?></option>
 				<?php endforeach; ?>
 			</select>
 		</div>
@@ -478,10 +506,10 @@ function delObjective(num)
 			<p>ประเภทรถ</p>
 			<p class="required">*</p>
 			<select name="typeCar" class ="form-control" required >
-				<option value="">--เลือก--</option>
-				<option value="1"> รถใหม่ </option>
-				<option value="2"> รถเก่า</option>
-				<option value="3"> รถมือสอง</option>
+				<option >--เลือก--</option>
+				<option value="1" <?php echo $selected_typeCar=($row_customer['is_car_type']==1?'selected':'');?>> รถใหม่ </option>
+				<option value="2" <?php echo $checkType_car=($row_customer['is_car_type']==2?'selected':'');?>> รถเก่า</option>
+				<option value="3" <?php echo $checkType_car=($row_customer['is_car_type']==3?'selected':'');?>> รถมือสอง</option>
 			</select>
 		</div>
 	</div>
@@ -492,26 +520,32 @@ function delObjective(num)
 			<p class="required">*</p>
 			<select name="branch" class ="form-control" required>
 				<option value="">--เลือก--</option>
-				<option value="1" selected >อุดรธานี</option>
-				<option value="2"> หนองบัวลำภู</option>
-				<option value="3"> หนองคาย</option>
-				<option value="4" > บึงกาฬ</option>
-				<option value="5"> สว่างแดนดิน</option>
-				<option value="6"> สกลนคร</option>
-			</select>
-		</div>
-		<div class="col-md-3" >
-			<p>แบบ</p><p class="required">*</p>
-			<select name="id_mmodel[]"  id="id_mmodel0" class ="form-control id_mmodel" required>
-				<option value="" selected>--เลือก--</option>
-				<?php
-				foreach ($listMmodel as $Mmodel)
-				{
-					echo "<option value='".$Mmodel->id_model."'>".$Mmodel->mmodel_name."</option>";
+				<?php  foreach ($listBranch as $row_branch) {
+					$select_branch=($row_customer['id_mbranch'] == $row_branch->id_mbranch?'selected':'');
+					echo '<option value="'.$row_branch->id_mbranch.'"'.$select_branch.'>'.$row_branch->mbranch_name.'</option>';
 				}
 				?>
 			</select>
 		</div>
+		<?php
+			$count_car = count($row_customer['cars']);
+			// print_r($row_customer['cars']);
+
+			for($i=0;$i< $count_car ; $i++){
+				echo implode(',', $row_customer['cars'][$i]),"<br/>";
+		?>
+			<div class="col-md-3" >
+				<p>แบบ</p><p class="required">*</p>
+				<select name="id_mmodel[]"  id="id_mmodel<?php echo $i;?>" class ="form-control id_mmodel" required>
+					<option value="" selected>--เลือก--</option>
+					<?php
+					foreach ($listMmodel as $Mmodel)
+					{
+						echo "<option value='".$Mmodel->id_model."'>".$Mmodel->mmodel_name."</option>";
+					}
+					?>
+				</select>
+			</div>
 		<div class="col-md-3" >
 			<p>รุ่น</p><p class="required">*</p>
 			<select name="id_mgen[]" id="id_mgen0" class ="form-control id_mgen" required>
@@ -526,6 +560,7 @@ function delObjective(num)
 			<p>&nbsp;</p>
 			<div class="btn btn-primary" id="addCar_" style="width:120px;" > เพิ่มรุ่นที่สนใจ</div>
 		</div>
+	<?php } ?>
 		<div class="addRows">
 			<!-- show data colum  รุ่นรถที่สนใจ-->
 		</div>

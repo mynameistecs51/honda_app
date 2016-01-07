@@ -43,23 +43,24 @@ class Mdl_customer extends CI_Model
 					WHEN 3 THEN 'นาง'
 					WHEN 4 THEN 'นางสาว'
 				END),' ',cus.firstname,' ',cus.lastname) AS cusName,
-				CASE cus.is_cus_new 
-					WHEN 1 THEN 'ลูกค้าใหม่' 
-					WHEN 2 THEN 'ลูกค้าเก่า' 
+				CASE cus.is_cus_new
+					WHEN 1 THEN 'ลูกค้าใหม่'
+					WHEN 2 THEN 'ลูกค้าเก่า'
 				END AS type,
-				CASE cus.is_cus_new 
-					WHEN 1 THEN 'ลูกค้า VIP' 
-					WHEN 2 THEN 'ลูกค้าจงรักภักดี' 
-					WHEN 3 THEN 'ลูกค้าทั่วไป' 
+				CASE cus.is_cus_new
+					WHEN 1 THEN 'ลูกค้า VIP'
+					WHEN 2 THEN 'ลูกค้าจงรักภักดี'
+					WHEN 3 THEN 'ลูกค้าทั่วไป'
 				END AS cus_new,
 				br.mbranch_name,
-				CASE cus.is_company 
-					WHEN 1 THEN 'บุคคล' 
-					WHEN 2 THEN 'บริษัท' 
+				CASE cus.is_company
+					WHEN 1 THEN 'บุคคล'
+					WHEN 2 THEN 'บริษัท'
 				END AS company,
 				cus.mobile,
 				cus.status,
 				cus.customer_date,
+				cus.sales_consultants,
 				CONCAT(( CASE mem.id_mmember_tit
 					WHEN 1 THEN 'นาย'
 					WHEN 2 THEN 'นาง'
