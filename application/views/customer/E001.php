@@ -1,3 +1,4 @@
+<?php foreach($listcustomer as $key => $row_customer){?>
 <script type='text/javascript'>
 	$(function(){
 
@@ -14,7 +15,6 @@
 			changeMonth: true,
 			changeYear: true
 		});
-		$('.today').val('<?php echo $datenow;?>');
 
 		$("#email").change(function(){
 			var email = $("#email").val();
@@ -37,7 +37,7 @@
 			}
 		});
 
-		$("input[name=zipcode]").change(function(){
+		$("input[name=zipcode]").keyup(function(){
 			$.ajax({
 				url: '<?php echo base_url().$controller; ?>/getProvince/',
 				data:"zipcode="+$("input[name=zipcode]").val(),
@@ -59,8 +59,8 @@
 
 				},
 				error:function(err){
-					alert("รหัสไปรษณีย์ไม่ถูกต้อง");
-					$('input[name=zipcode]').val('');
+					//alert("รหัสไปรษณีย์ไม่ถูกต้อง");
+					//$('input[name=zipcode]').val('');
 					$('#province').html('');
 					$('#amphur').html('');
 					$('#district').html('');
@@ -326,13 +326,12 @@ function delObjective(num)
 		<div class="col-sm-3" >
 			<p>หมายเลขลูกค้าคาดหวัง</p>
 			<p class="required">*</p>
-			<!--  -->
-			<input type="text" class="form-control" name="memp_code" placeholder="----ออกโดยระบบ----" disabled />
+			<input type="text" class="form-control" name="memp_code" value="<?php echo $row_customer['customer_code'];?>" disabled/>
 		</div>
 		<div class="col-sm-3" >
 			<p>วันที่ลูกค้าเยี่ยมชม</p>
 			<p class="required">*</p>
-			<input  type="text" class="form-control today" name="customer_date"  required >
+			<input  type="text" class="form-control today" name="customer_date" value="<?php echo $row_customer['customer_date'];?>" required >
 		</div>
 		<div class="col-sm-3" >
 			<p><u>ระยะเวลาในการตัดสินใจซื้อ</u> *</p>
@@ -342,27 +341,37 @@ function delObjective(num)
 		<div class="col-sm-3" >
 			<p>บัญชีลูกหนี้</p>
 			<p class="required">*</p>
-			<input type="text" class="form-control" name="accounts_receivable"  >
+			<input type="text" class="form-control" name="accounts_receivable"  value="<?php echo $row_customer['accounts_receivable'];?>"/>
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="col-sm-3" >
 			<p >ลูกค้า</p>
-			<!-- <p class="required">*</p> -->
-			<label class="radio-inline"><input type="radio" name="customer" value="1" checked>ลูกค้าใหม่</label>
-			<label class="radio-inline"><input type="radio" name="customer" value="2">ลูกค้าเก่า</label>
+			<p class="required">*</p>
+			<label class="radio-inline">
+				<input type="radio" name="customer" value="1" <?php echo $check_isCus_new=($row_customer['is_cus_new'] ==1 ?'checked':'');?> />ลูกค้าใหม่
+			</label>
+			<label class="radio-inline">
+				<input type="radio" name="customer" value="2" <?php echo$check_isCus_new=($row_customer['is_cus_new']  ==2 ?'checked':'');?> />ลูกค้าเก่า
+			</label>
 		</div>
 		<div class="col-sm-4">
 			<p>ชนิดลูกค้า</p>
-			<label class="radio-inline"><input type="radio" name="is_type" value="3" checked>ลูกค้าทั่วไป</label>
-			<label class="radio-inline"><input type="radio" name="is_type" value="1" >ลูกค้า VIP</label>
-			<label class="radio-inline"><input type="radio" name="is_type" value="2">ลูกค้าจงรักภักดี</label>
+			<label class="radio-inline">
+				<input type="radio" name="is_type" value="3" <?php echo $check_type=($row_customer['is_type'] ==3 ?'checked':'');?> />ลูกค้าทั่วไป
+			</label>
+			<label class="radio-inline">
+				<input type="radio" name="is_type" value="1" <?php echo $check_type=($row_customer['is_type'] ==1 ?'checked':'');?> />ลูกค้า VIP
+			</label>
+			<label class="radio-inline">
+				<input type="radio" name="is_type" value="2" <?php echo $check_type=($row_customer['is_type'] ==2 ?'checked':'');?> />ลูกค้าจงรักภักดี
+			</label>
 		</div>
 		<div class="col-sm-3" >
 			<p >ประเภท</p>
-			<!-- <p class="required">*</p> -->
-			<label class="radio-inline"><input type="radio" name="is_company" value="1" checked>บุคคล</label>
-			<label class="radio-inline"><input type="radio" name="is_company" value="2">บริษัท</label>
+			<p class="required">*</p>
+			<label class="radio-inline"><input type="radio" name="is_company" value="1" <?php echo $ckeck_company=($row_customer['is_company']==1?'checked':'');?> />บุคคล</label>
+			<label class="radio-inline"><input type="radio" name="is_company" value="2" <?php echo $ckeck_company=($row_customer['is_company']==2?'checked':'');?> />บริษัท</label>
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
@@ -371,56 +380,56 @@ function delObjective(num)
 			<p class="required">*</p>
 			<select name="is_tit" class ="form-control"  required>
 				<option>--เลือก--</option>
-				<option value="2"> นาย </option>
-				<option value="3"> นาง </option>
-				<option value="4"> นางสาว </option>
+				<option value="2" <?php echo $selected_tit=($row_customer['id_tit']==2?'selected':'');?> > นาย </option>
+				<option value="3" <?php echo $selected_tit=($row_customer['id_tit']==3?'selected':'');?>> นาง </option>
+				<option value="4"  <?php echo $selected_tit=($row_customer['id_tit']==4?'selected':'');?>> นางสาว </option>
 			</select>
 		</div>
 		<div class="col-sm-3" >
 			<p>ชื่อ </p>
 			<p class="required">*</p>
-			<input type="text" class="form-control"  name="firstname_th" placeholder="ชื่อ" required>
+			<input type="text" class="form-control"  name="firstname_th" value='<?php echo $row_customer['firstname'];?>' />
 		</div>
 		<div class="col-sm-3" >
 			<p>นามสกุล </p>
 			<p class="required">*</p>
-			<input type="text" class="form-control"  name="lastname_th" placeholder="สกุล" required>
+			<input type="text" class="form-control"  name="lastname_th" placeholder="สกุล" value="<?php echo $row_customer['lastname'];?>" />
 		</div>
 		<div class="col-sm-3" >
 			<p>วันเกิด</p>
 			<p class="required"></p>
-			<input type="text" class="form-control " name="birthdate" id='startdate'   required>
+			<input type="text" class="form-control " name="birthdate" id='startdate' value="<?php echo $row_customer['birth_date'];?>" />
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="col-sm-3">
 			<p>เลยประจำตัวผู้เสียภาษีอากร</p>
-			<input type="text" class="form-control" name="idcard_number"  />
+			<input type="text" class="form-control" name="idcard_number" value="<?php echo $row_customer['idcard_number'];?>" />
 		</div>
 		<div class="col-sm-3" >
 			<p>เลขใบอนุญาตขับขี่</p>
-			<input type="text" class="form-control" name="drv_card_num" >
+			<input type="text" class="form-control" name="drv_card_num" value="<?php echo $row_customer['driver_card_number'];?>" />
 		</div>
 		<div class="col-sm-3" >
 			<p>อีเมลล์ <b ID="valid_email"></b></p>
 			<p class="required">*</p>
-			<input type="email" class="form-control" name="email" ID="email" >
+			<input type="email" class="form-control" name="email" ID="email" value="<?php echo $row_customer['email'];?>" />
 		</div>
 		<div class="col-sm-3" >
 			<p>โทรศัพท์บ้าน/สำนักงาน</p>
-			<input type="text" class="form-control" name="telephone"  >
+			<input type="text" class="form-control" name="telephone" value="<?php echo $row_customer['telephone'];?>" />
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
 		<div class="col-sm-3" >
 			<p>มือถือ <b ID="valid_mobile"></b></p>
 			<p class="required">*</p>
-			<input type="text" class="form-control" ID="mobile" name="mobile" >
+			<input type="text" class="form-control" ID="mobile" name="mobile" value="<?php echo $row_customer['mobile'];?>" />
 		</div>
 		<div class="col-sm-3">
 			<p>รหัสไปรษณีย์</p>
 			<p class="required">*</p>
-			<input type="text" class="form-control" name="zipcode" required/>
+			<input type="text" class="form-control" name="zipcode"  />
 		</div>
 		<div class="col-sm-6">
 			<p>ที่อยู่</p>
@@ -552,3 +561,4 @@ function delObjective(num)
 		<textarea  class="form-control" rows='3' name="comment"></textarea>
 	</div>
 </div>
+<?php } ?>

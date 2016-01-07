@@ -143,7 +143,6 @@ class Customer extends CI_Controller
 	public function DETAIL($id)
 	{
 		$data_array = array();
-		$cars = array();
 		foreach($this->mdl_customer->getCustomer($id) as $key=>$row_customer){
 
 			if(isset($data_array[$row_customer->id_customer])){
@@ -200,10 +199,61 @@ class Customer extends CI_Controller
 		}
 		public function EDIT($id,$idx)
 		{
+			$data_array = array();
+			foreach($this->mdl_customer->getCustomer($id) as $key=>$row_customer){
+
+				if(isset($data_array[$row_customer->id_customer])){
+					array_push($data_array[$row_customer->id_customer]['cars'], array(
+						'model_name' =>$row_customer->mmodel_name,
+						'gen_name'=>$row_customer->gen_name,
+						'color'=>$row_customer->color_name));
+					continue;
+				}
+				if( !isset($data_array[$row_customer->id_customer])){
+					$data_array[$row_customer->id_customer] = array('id_customer_att' =>$row_customer->att_id_customer,
+						'id_customer'=>$row_customer->id_customer,
+						'customer_code' =>$row_customer->customer_code,
+						'customer_date' => $row_customer->customer_date,
+						'accounts_receivable' => $row_customer->accounts_receivable,
+						'is_cus_new' => $row_customer->is_cus_new,
+						'is_type' => $row_customer->is_type,
+						'is_company' =>$row_customer->is_company,
+						'is_tit' =>$row_customer->id_tit,
+						'is_car_type' => $row_customer->is_car_type,
+						'firstname' => $row_customer->firstname,
+						'lastname' => $row_customer->lastname,
+						'birth_date' => $row_customer->birth_date,
+						'adr_line' =>$row_customer->adr_line,
+						'post_code' =>$row_customer->post_code,
+						'id_mdistric' => $row_customer->id_mdistric,
+						'idcard_number' => $row_customer->idcard_number,
+						'driver_card_number' =>$row_customer->driver_card_number,
+						'email' =>$row_customer->email,
+						'telephone' =>$row_customer->telephone,
+						'mobile' =>$row_customer->mobile,
+						'member_name' => $row_customer->member_name,
+						'id_mbranch' =>$row_customer->id_mbranch,
+						'customer_source' => $row_customer->customer_source,
+						'reason' => $row_customer->reason,
+						'comment' =>$row_customer->comment,
+						'status' =>$row_customer->status,
+						'mbranch_name'=>$row_customer->mbranch_name,
+						'cars' => array(
+							$key => array(
+								'model_name' =>$row_customer->mmodel_name,
+								'gen_name'=>$row_customer->gen_name,
+								'color'=>$row_customer->color_name
+								)
+							)
+						);
+					}
+					}
+					$SCREENID="D001";
+				$this->mainpage($SCREENID);
 			$SCREENID="E001";
 			$this->mainpage($SCREENID);
 			$this->data['idx']=$idx;
-			$this->data['listcustomer']= $this->mdl_customer->getCustomer($id);
+			$this->data['listcustomer']= $data_array;
 			$this->load->view('customer/'.$SCREENID,$this->data);
 		}
 

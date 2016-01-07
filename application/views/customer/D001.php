@@ -83,8 +83,8 @@ $('input[name=zipcode]').val('<?php echo $row_customer["post_code"];?>');
 		<div class="col-sm-3" >
 			<p >ประเภท</p>
 			<!-- <p class="required">*</p> -->
-			<label class="radio-inline"><input type="radio" name="is_company" value="1" checked>บุคคล</label>
-			<label class="radio-inline"><input type="radio" name="is_company" value="2">บริษัท</label>
+			<label class="radio-inline"><input type="radio" name="is_company" value="1" <?php echo $ckeck_company=($row_customer['is_company']==1?'checked':'');?> />บุคคล</label>
+			<label class="radio-inline"><input type="radio" name="is_company" value="2" <?php echo $ckeck_company=($row_customer['is_company']==2?'checked':'');?> />บริษัท</label>
 		</div>
 	</div>
 	<div class="form-group col-sm-12">
