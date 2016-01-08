@@ -174,7 +174,7 @@ class Customer extends CI_Controller
 					'email' =>$row_customer->email,
 					'telephone' =>$row_customer->telephone,
 					'mobile' =>$row_customer->mobile,
-					'sales_consultants' => $row_customer->sales_consultants,
+					// 'sales_consultants' => $row_customer->sales_consultants,
 					'member_name' => $row_customer->member_name,
 					'id_mbranch' =>$row_customer->id_mbranch,
 					'customer_source' => $row_customer->customer_source,
@@ -198,6 +198,7 @@ class Customer extends CI_Controller
 				// $this->data['listcustomer']= $this->mdl_customer->getCustomer($id);
 				$this->load->view('customer/'.$SCREENID,$this->data);
 		}
+		
 		public function EDIT($id,$idx)
 		{
 			$data_array = array();
@@ -205,6 +206,7 @@ class Customer extends CI_Controller
 
 				if(isset($data_array[$row_customer->id_customer])){
 					array_push($data_array[$row_customer->id_customer]['cars'], array(
+						'id_model' => $row_customer->id_model,
 						'model_name' =>$row_customer->mmodel_name,
 						'gen_name'=>$row_customer->gen_name,
 						'color'=>$row_customer->color_name));
@@ -233,6 +235,7 @@ class Customer extends CI_Controller
 						'telephone' =>$row_customer->telephone,
 						'mobile' =>$row_customer->mobile,
 						'member_name' => $row_customer->member_name,
+						'sales_consultants' => $row_customer->sales_consultants,
 						'id_mbranch' =>$row_customer->id_mbranch,
 						'customer_source' => $row_customer->customer_source,
 						'reason' => $row_customer->reason,
@@ -241,6 +244,7 @@ class Customer extends CI_Controller
 						'mbranch_name'=>$row_customer->mbranch_name,
 						'cars' => array(
 							$key => array(
+								'id_model' => $row_customer->id_model,
 								'model_name' =>$row_customer->mmodel_name,
 								'gen_name'=>$row_customer->gen_name,
 								'color'=>$row_customer->color_name
@@ -249,8 +253,6 @@ class Customer extends CI_Controller
 						);
 					}
 					}
-					$SCREENID="D001";
-				$this->mainpage($SCREENID);
 			$SCREENID="E001";
 			$this->mainpage($SCREENID);
 			$this->data['idx']=$idx;

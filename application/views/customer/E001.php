@@ -499,7 +499,7 @@ function delObjective(num)
 				<option value="">--เลือก--</option>
 				<?php
 					foreach($listSale as $rowSale):
-					$selected_member = ($rowSale->id_mmember ==  $row_customer['sales_consultants']?'selected':'');
+					$selected_member = ($rowSale['id_mmember'] ==  $row_customer['sales_consultants']?'selected':'');
 				?>
 					<option value="<?php echo $rowSale['id_mmember'];?>" <?php echo $selected_member;?> ><?php echo $rowSale['firstname'].'  '.$rowSale['lastname'];?></option>
 				<?php endforeach; ?>
@@ -533,44 +533,72 @@ function delObjective(num)
 		<?php
 		
 			$count_car = count($row_customer['cars']);
-			for($i=1 ;$i<= $count_car ; $i++){
-				//echo implode(',', $row_customer['cars'][$i]),"<br/>";
+			for($i=0 ;$i< $count_car ; $i++){
+				if($i==0){
 		?>
-		<div class="car" ID="car<?php echo $i;?>">
+		<div class="car" ID="car<?php echo $i+1;?>">
 			<div class="col-md-3 ">
 				<p>แบบ</p><p class="required">*</p>
-				<select name="id_mmodel[]"  id="id_mmodel<?php echo $i;?>" class ="form-control id_mmodel" required>
-					<option value="" selected>--เลือก--</option>
+				<select name="id_mmodel[]"  id="id_mmodel<?php echo $i+1;?>" class ="form-control id_mmodel" required>
+					<option >--เลือก--</option>
 					<?php
 					foreach ($listMmodel as $Mmodel)
 					{
-						echo "<option value='".$Mmodel->id_model."'>".$Mmodel->mmodel_name."</option>";
+						echo "<option value='".$Mmodel->id_model."'".$select_model=($row_customer['cars'][0]['id_model'] == $Mmodel->id_model?'selected':'').">".$Mmodel->mmodel_name."</option>";
 					}
 					?>
 				</select>
 			</div>
 			<div class="col-md-3" >
 				<p>รุ่น</p><p class="required">*</p>
-				<select name="id_mgen[]" id="id_mgen<?php echo $i;?>" class ="form-control id_mgen" required>
+				<select name="id_mgen[]" id="id_mgen<?php echo $i+1;?>" class ="form-control id_mgen" required>
 				</select>
 			</div>
 			<div class="col-md-2" >
 				<p>สี</p><p class="required">*</p>
-				<select name="id_mcolor[]"  id="id_mcolor<?php echo $i;?>" class ="form-control id_mcolor" required>
+				<select name="id_mcolor[]"  id="id_mcolor<?php echo $i+1;?>" class ="form-control id_mcolor" required>
 				</select>
 			</div>
+			<div class="col-sm-2">
+				<p>&nbsp;</p>
+				<div class="btn btn-primary" id="addCar_" style="width:120px;" > เพิ่มรุ่นที่สนใจ</div>
+			</div>
+		</div>
+	<?php }else{ ?>
+	<div class="car" ID="car<?php echo $i+1;?>">
+		<div class="col-sm-4" >
+			<p>แบบ</p><p class="required">*</p>
+			<select name="id_mmodel[]"  id="id_mmodel<?php echo $i+1;?>" class ="form-control id_mmodel" required>
+				<option >--เลือก--</option>
+				<?php
+				foreach ($listMmodel as $Mmodel)
+				{	
+					echo "<option value='".$Mmodel->id_model."'".$select_model=($row_customer['cars'][$i]['id_model'] == $Mmodel->id_model?'selected':'').">".$Mmodel->mmodel_name."</option>";
+				}
+				?>
+			</select>
+		</div>
+		<div class="col-sm-4" >
+			<p>รุ่น</p><p class="required">*</p>
+			<select name="id_mgen[]" id="id_mgen<?php echo $i+1;?>" class ="form-control id_mgen" required>
+			</select>
+		</div>
+		<div class="col-md-2" >
+			<p>สี</p><p class="required">*</p>
+			<select name="id_mcolor[]"  id="id_mcolor<?php echo $i+1;?>" class ="form-control id_mcolor" required>
+			</select>
+		</div>
 		<div class="col-sm-2">
 			<p>&nbsp;</p>
-			<div class="btn btn-primary" id="addCar_" style="width:120px;" > เพิ่มรุ่นที่สนใจ</div>
-			<h4><i class="glyphicon glyphicon-trash btn btn-danger" id="delCar<?php echo $i;?>"></i> </h4>
+			<h4><i class="glyphicon glyphicon-trash btn btn-danger" id="delCar<?php echo $i+1;?>"></i> </h4>
 		</div>
+	</div>
 	<?php
+		}
 		 }  
 	?>
-		</div>
-		<div class="addRows">
-			<!-- show data colum  รุ่นรถที่สนใจ-->
-		</div>
+	<div class="addRows">
+	<!-- show data colum  รุ่นรถที่สนใจ-->
 	</div>
 	<div class="form-group col-sm-6">
 		<div class="col-sm-9">
