@@ -199,13 +199,14 @@ function keyIdcard(num)
 }
 function getdataCar(number)
 {
-	$('#id_mmodel'+number).val(function(){
-		var id_mmodel= $(this).val();
-		if(id_mmodel!=''){
+	var num = number;
+	 $('#id_mmodel'+number).html(function(){
+	 	var id_mmodel = $(this).val();
+	 	if(id_mmodel != ''){
 			$.ajax(
 			{
 				type: 'POST',
-				url: '<?php echo base_url().$controller; ?>/getMmodel/',
+				url: '<?php echo base_url().$controller; ?>/getMgen/',
 	               		 data: {"id_mmodel":id_mmodel}, //your form datas to post
 	               		 dataType: 'json',
 	               		 success: function(rs)
@@ -214,48 +215,46 @@ function getdataCar(number)
 	               		 	var res="<option >---เลือก---</option>";
 	               		 	$.each(rs, function( index, value){
 	               		 		// alert(value.id_model);
-	               		 		res += "<option value="+value.id_model+" <?php echo $select_model=("+value.id_model+"=="+id_mmodel+"?'selected':'');?> > "+value.mmodel_name+"</option>";
+	               		 		res += "<option value="+value.id_gen+"  > "+value.gen_name+"</option>";
 	               		 	});
-	               		 	// $("#id_mmodel"+number).html(res);	      
-	               		 	alert(res);
+	               		 	$("#id_mgen"+number).html(res);
+      		 			$("#id_mgen"+number+' option[value="'+id_mmodel+'"]').attr('selected','selected');
+      		 			$('#id_mgen'+number).val($("#id_mgen"+number+' option:selected').text());
+      		 			// $("#id_mgen"+number).val(id_mmodel);
+	               		 	$('#id_mgen'+number).val(function(){
+	               		 		var id_mgen = $(this).val();
+	               		 		$.ajax(
+	               		 		{
+	               		 			type: 'POST',
+	               		 			url: '<?php echo base_url().$controller; ?>/getMcolor/',
+					                data: {"id_mgen":id_mgen}, //your form datas to post
+					                dataType: 'json',
+					                success: function(rsl)
+					                {
+					                	var res="<option >---เลือก---</option>";
+					                	$.each(rsl, function( index, value){
+
+					                		res += "<option value="+value.id_color+"> "+value.color_name+"</option>";
+					                	});
+					                	$("#id_mcolor"+number).html(res);
+					               	$("#id_mcolor"+number+' option[value="'+id_mgen+'"]').attr('selected','selected');
+					               // $("#id_mcolor"+number).val(id_mgen);
+					                },
+					                error: function()
+					                {
+					                	alert("#เกิดข้อผิดพลาด");
+					                }
+		             			});
+	               		 	});
 	               		 },
 	               		 error: function()
 	               		 {
 	               		 	alert("#เกิดข้อผิดพลาด");
 	               		 }
-	               		});
+	               	});
 		}else{
 			var none="<option value=''>---เลือก---</option>";
 			$("#id_mgen"+number).html(none);
-		}
-	});
-	// $("#id_mmodel"+number).html(res);
-	$('#id_mgen'+number).change(function(){
-		var id_mgen= $(this).val();
-		if(id_mgen!=''){
-			$.ajax(
-			{
-				type: 'POST',
-				url: '<?php echo base_url().$controller; ?>/getMcolor/',
-	                data: {"id_mgen":id_mgen}, //your form datas to post
-	                dataType: 'json',
-	                success: function(rs)
-	                {
-	                	var res="<option >---เลือก---</option>";
-	                	$.each(rs, function( index, value){
-
-	                		res += "<option value="+value.id_color+"> "+value.color_name+"</option>";
-	                	});
-	                	$("#id_mcolor"+number).html(res);
-	                },
-	                error: function()
-	                {
-	                	alert("#เกิดข้อผิดพลาด");
-	                }
-	             });
-		}else{
-			var none="<option value=''>---เลือก---</option>";
-			$("#id_mcolor"+number).html(none);
 		}
 	});
 }
@@ -533,7 +532,7 @@ function delObjective(num)
 			</select>
 		</div>
 		<?php
-		
+
 			$count_car = count($row_customer['cars']);
 			for($i=0 ;$i< $count_car ; $i++){
 				if($i==0){
@@ -574,7 +573,7 @@ function delObjective(num)
 				<option >--เลือก--</option>
 				<?php
 				foreach ($listMmodel as $Mmodel)
-				{	
+				{
 					echo "<option value='".$Mmodel->id_model."'".$select_model=($row_customer['cars'][$i]['id_model'] == $Mmodel->id_model?'selected':'').">".$Mmodel->mmodel_name."</option>";
 				}
 				?>
@@ -597,7 +596,7 @@ function delObjective(num)
 	</div>
 	<?php
 		}
-		 }  
+		 }
 	?>
 	<div class="addRows">
 	<!-- show data colum  รุ่นรถที่สนใจ-->
