@@ -199,13 +199,13 @@ function keyIdcard(num)
 }
 function getdataCar(number)
 {
-	$('#id_mmodel'+number).change(function(){
+	$('#id_mmodel'+number).val(function(){
 		var id_mmodel= $(this).val();
 		if(id_mmodel!=''){
 			$.ajax(
 			{
 				type: 'POST',
-				url: '<?php echo base_url().$controller; ?>/getMgen/',
+				url: '<?php echo base_url().$controller; ?>/getMmodel/',
 	               		 data: {"id_mmodel":id_mmodel}, //your form datas to post
 	               		 dataType: 'json',
 	               		 success: function(rs)
@@ -213,10 +213,11 @@ function getdataCar(number)
 	               		 	// alert(number);
 	               		 	var res="<option >---เลือก---</option>";
 	               		 	$.each(rs, function( index, value){
-
-	               		 		res += "<option value="+value.id_gen+"> "+value.gen_name+"</option>";
+	               		 		// alert(value.id_model);
+	               		 		res += "<option value="+value.id_model+" <?php echo $select_model=("+value.id_model+"=="+id_mmodel+"?'selected':'');?> > "+value.mmodel_name+"</option>";
 	               		 	});
-	               		 	$("#id_mgen"+number).html(res);
+	               		 	// $("#id_mmodel"+number).html(res);	      
+	               		 	alert(res);
 	               		 },
 	               		 error: function()
 	               		 {
@@ -228,6 +229,7 @@ function getdataCar(number)
 			$("#id_mgen"+number).html(none);
 		}
 	});
+	// $("#id_mmodel"+number).html(res);
 	$('#id_mgen'+number).change(function(){
 		var id_mgen= $(this).val();
 		if(id_mgen!=''){

@@ -56,6 +56,13 @@ class Customer extends CI_Controller
 		$this->datatables->getDatatables($requestData,$sqlQuery);
 	}
 
+	public function getMmodel()
+	{
+		if($_POST['id_mmodel']){
+			$rs = $this->mdl_stock->getmmodel($_POST['id_mmodel']);
+			echo json_encode($rs);
+		}
+	}
 	public function getMgen()		//get model Car
 	{
 		if ($_POST['id_mmodel'])
@@ -205,11 +212,16 @@ class Customer extends CI_Controller
 			foreach($this->mdl_customer->getCustomer($id) as $key=>$row_customer){
 
 				if(isset($data_array[$row_customer->id_customer])){
-					array_push($data_array[$row_customer->id_customer]['cars'], array(
+					array_push($data_array[$row_customer->id_customer]['cars'], 
+						array(
 						'id_model' => $row_customer->id_model,
+						'id_gen' => $row_customer->id_gen,
+						'id_color' => $row_customer->id_color,
 						'model_name' =>$row_customer->mmodel_name,
 						'gen_name'=>$row_customer->gen_name,
-						'color'=>$row_customer->color_name));
+						'color'=>$row_customer->color_name
+						)
+					);
 					continue;
 				}
 				if( !isset($data_array[$row_customer->id_customer])){
@@ -245,6 +257,8 @@ class Customer extends CI_Controller
 						'cars' => array(
 							$key => array(
 								'id_model' => $row_customer->id_model,
+								'id_gen' => $row_customer->id_gen,
+								'id_color' => $row_customer->id_color,
 								'model_name' =>$row_customer->mmodel_name,
 								'gen_name'=>$row_customer->gen_name,
 								'color'=>$row_customer->color_name
