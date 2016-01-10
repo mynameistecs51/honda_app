@@ -92,10 +92,10 @@
 			});
 			$('input[name=zipcode]').val('<?php echo $row_customer["post_code"];?>');
 		}
-	saveData();		//saveadd
+	saveData_update();		//saveadd
 	});
 
-function saveData()
+function saveData_update()
 {
 	$('#form').on('submit', function (e) {
 		if (e.isDefaultPrevented()) {
@@ -108,7 +108,7 @@ function saveData()
               $.ajax(
               {
               	type: 'POST',
-              	url: '<?php echo base_url().$controller; ?>/saveadd/',
+              	url: '<?php echo base_url().$controller; ?>/saveUpdate/',
 	                data: {form}, //your form datas to post
 	                // dataType:'json',
 	                success: function(rs)
@@ -199,53 +199,47 @@ function keyIdcard(num)
 }
 function getdataCar(number)
 {
-	var num = number;
 	 $('#id_mmodel'+number).html(function(){
 	 	var id_mmodel = $(this).val();
 	 	if(id_mmodel != ''){
-			$.ajax(
-			{
+			$.ajax({
 				type: 'POST',
 				url: '<?php echo base_url().$controller; ?>/getMgen/',
 	               		 data: {"id_mmodel":id_mmodel}, //your form datas to post
 	               		 dataType: 'json',
 	               		 success: function(rs)
 	               		 {
-	               		 	// alert(number);
 	               		 	var res="<option >---เลือก---</option>";
 	               		 	$.each(rs, function( index, value){
-	               		 		// alert(value.id_model);
 	               		 		res += "<option value="+value.id_gen+"  > "+value.gen_name+"</option>";
 	               		 	});
 	               		 	$("#id_mgen"+number).html(res);
-      		 			$("#id_mgen"+number+' option[value="'+id_mmodel+'"]').attr('selected','selected');
-      		 			$('#id_mgen'+number).val($("#id_mgen"+number+' option:selected').text());
-      		 			// $("#id_mgen"+number).val(id_mmodel);
-	               		 	$('#id_mgen'+number).val(function(){
-	               		 		var id_mgen = $(this).val();
-	               		 		$.ajax(
-	               		 		{
-	               		 			type: 'POST',
-	               		 			url: '<?php echo base_url().$controller; ?>/getMcolor/',
-					                data: {"id_mgen":id_mgen}, //your form datas to post
-					                dataType: 'json',
-					                success: function(rsl)
-					                {
-					                	var res="<option >---เลือก---</option>";
-					                	$.each(rsl, function( index, value){
+      		 			$("#id_mgen"+number+' option[value="'+id_mmodel+'"]').attr('selected','selected');	 
+      		 			$('#id_mgen'+number).val(function(){
+				              var id_mgen = $(this).val();
+				              $.ajax(
+				              {
+				              type: 'POST',
+				              url: '<?php echo base_url().$controller; ?>/getMcolor/',
+				               data: {"id_mgen":id_mgen}, //your form datas to post
+				               dataType: 'json',
+				               success: function(rsl)
+				               {
+				               	var res="<option >---เลือก---</option>";
+				               	$.each(rsl, function( index, value){
 
-					                		res += "<option value="+value.id_color+"> "+value.color_name+"</option>";
-					                	});
-					                	$("#id_mcolor"+number).html(res);
-					               	$("#id_mcolor"+number+' option[value="'+id_mgen+'"]').attr('selected','selected');
-					               // $("#id_mcolor"+number).val(id_mgen);
-					                },
-					                error: function()
-					                {
-					                	alert("#เกิดข้อผิดพลาด");
-					                }
-		             			});
-	               		 	});
+				               	res += "<option value="+value.id_color+"> "+value.color_name+"</option>";
+				               	});
+				               	$("#id_mcolor"+number).html(res);
+				              $("#id_mcolor"+number+' option[value="'+id_mgen+'"]').attr('selected','selected');
+				              // $("#id_mcolor"+number).val(id_mgen);
+				               },
+				               error: function()
+				               {
+				               	alert("#เกิดข้อผิดพลาด");
+				               }
+				            });
+				              });
 	               		 },
 	               		 error: function()
 	               		 {
@@ -284,7 +278,7 @@ $(function(){
 });
 
 function runnumOrgin(){
-	var  row=$('.car').length;
+	var  row=$('.origin').length;
 	for(i=0;i<row;i++){
 		delOrigin(i);
 		keyIdcard(i);
@@ -602,14 +596,34 @@ function delObjective(num)
 	<!-- show data colum  รุ่นรถที่สนใจ-->
 	</div>
 	<div class="form-group col-sm-6">
+	<?php 
+	$data_source = explode(',',$row_customer['customer_source']);
+		$a =count($data_source);
+		for($j=0;$j < $a ;$j++){
+			if( $j == 0){
+	?>
+	<div class="origin" id="origin<?php echo $j+1;?>">
 		<div class="col-sm-9">
 			<p>แหล่งที่มาของลูกค้า</p>
-			<input type="text" class="form-control"  name="origin[]"/>
+			<input type="text" class="form-control"  name="origin[]" value="<?php echo  $data_source[$j];?>" />
 		</div>
 		<div class="col-sm-2">
 			<p>&nbsp;</p>
 			<div class="btn btn-primary" id="addOrigin" style="width:120px;"> เพิ่มที่มา</div>
 		</div>
+	</div>
+		<?php }else{?>
+		<div class="origin" id="origin<?php echo $j+1;?>">
+			<div class="col-sm-9">
+				<p>แหล่งที่มาของลูกค้า</p>
+				<input type="text" class="form-control" id="origin"  name="origin[]" value="<?php echo  $data_source[$j];?>" />
+			</div>
+			<div class="col-sm-2">
+				<p>&nbsp;</p>
+				<h4><i class="glyphicon glyphicon-trash btn btn-danger" ID="delOrigin<?php echo $j+1;?>"></i> </h4>
+			</div>
+		</div>
+		<?php } } ?>
 		<div class="add_origin">
 			<!-- show ddata add origin -->
 		</div>
