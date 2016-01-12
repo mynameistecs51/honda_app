@@ -114,7 +114,7 @@ function saveData_update()
 	                success: function(rs)
 	                {
 	                	$('.modal').modal('hide');
-	                	location.reload();
+	                	// location.reload();
 	                	alert("#บันทึกข้อมูล เรียบร้อย !");
 	                },
 	                error: function(err)
@@ -126,10 +126,7 @@ function saveData_update()
            }
         });
 }
-// function show_car(){
-// 	var arr= "<?php echo $row_customer['cars'][0]['model_name'];?>";
-// 	console.log(arr);
-// }
+
 // ADD field รุ่นรถที่สนใจ
 $(function(){
 	$('#addCar_').click(function(){
@@ -251,6 +248,69 @@ function getdataCar(number)
 			$("#id_mgen"+number).html(none);
 		}
 	});
+
+	// change model car
+	if($('#id_mmodel').change()){
+	 $('#id_mmodel'+number).change(function(){
+	 	// alert($(this).val());
+		var id_mmodel= $(this).val();
+		if(id_mmodel!=''){
+		$.ajax(
+		{
+		type: 'POST',
+		url: '<?php echo base_url().$controller; ?>/getMgen/',
+		              data: {"id_mmodel":id_mmodel}, //your form datas to post
+		              dataType: 'json',
+		              success: function(rs)
+		              {
+		              // alert(number);
+		              var res="<option >---เลือก---</option>";
+		              $.each(rs, function( index, value){
+		              // alert(value.mmodel_name);
+		              res += "<option value="+value.id_gen+" <?php echo $select_model=("+value.id_gen+"=="+$(this).val()+"?'selected':'');?> > "+value.gen_name+"</option>";
+		              });
+		              $("#id_mgen"+number).html(res);
+		              },
+		              error: function()
+		              {
+		              alert("#เกิดข้อผิดพลาด");
+		              }
+		              });
+		}else{
+		var none="<option value=''>---เลือก---</option>";
+		$("#id_mgen"+number).html(none);
+		}
+		});
+		// alert($('#id_mmodel'+number).val());
+		$('#id_mgen'+number).change(function(){
+		var id_mgen= $(this).val();
+		if(id_mgen!=''){
+		$.ajax(
+		{
+		type: 'POST',
+		url: '<?php echo base_url().$controller; ?>/getMcolor/',
+		               data: {"id_mgen":id_mgen}, //your form datas to post
+		               dataType: 'json',
+		               success: function(rs)
+		               {
+		               	var res="<option >---เลือก---</option>";
+		               	$.each(rs, function( index, value){
+
+		               	res += "<option value="+value.id_color+"> "+value.color_name+"</option>";
+		               	});
+		               	$("#id_mcolor"+number).html(res);
+		               },
+		               error: function()
+		               {
+		               	alert("#เกิดข้อผิดพลาด");
+		               }
+		            });
+		}else{
+		var none="<option value=''>---เลือก---</option>";
+		$("#id_mcolor"+number).html(none);
+		}
+	});
+	}
 }
 // ----------
 // --- add origin
@@ -350,6 +410,7 @@ function delObjective(num)
 			<p>หมายเลขลูกค้าคาดหวัง</p>
 			<p class="required">*</p>
 			<input type="text" class="form-control" name="memp_code" value="<?php echo $row_customer['customer_code'];?>" disabled/>
+			    <input type="hidden" name="id_customer"  value="<?php echo $row_customer['id_customer']; ?>"  >
 		</div>
 		<div class="col-sm-3" >
 			<p>วันที่ลูกค้าเยี่ยมชม</p>
@@ -403,9 +464,9 @@ function delObjective(num)
 			<p class="required">*</p>
 			<select name="is_tit" class ="form-control"  required>
 				<option>--เลือก--</option>
-				<option value="2" <?php echo $selected_tit=($row_customer['id_tit']==2?'selected':'');?> > นาย </option>
-				<option value="3" <?php echo $selected_tit=($row_customer['id_tit']==3?'selected':'');?>> นาง </option>
-				<option value="4"  <?php echo $selected_tit=($row_customer['id_tit']==4?'selected':'');?>> นางสาว </option>
+				<option value="2" <?php echo $selected_tit=($row_customer['is_tit']==2?'selected':'');?> > นาย </option>
+				<option value="3" <?php echo $selected_tit=($row_customer['is_tit']==3?'selected':'');?>> นาง </option>
+				<option value="4"  <?php echo $selected_tit=($row_customer['is_tit']==4?'selected':'');?>> นางสาว </option>
 			</select>
 		</div>
 		<div class="col-sm-3" >
@@ -602,7 +663,7 @@ function delObjective(num)
 		for($j=0;$j < $a ;$j++){
 			if( $j == 0){
 	?>
-	<div class="origin" id="origin<?php echo $j+1;?>">
+	<div class="origin" id="origin<?php echo $j;?>">
 		<div class="col-sm-9">
 			<p>แหล่งที่มาของลูกค้า</p>
 			<input type="text" class="form-control"  name="origin[]" value="<?php echo  $data_source[$j];?>" />
@@ -613,14 +674,14 @@ function delObjective(num)
 		</div>
 	</div>
 		<?php }else{?>
-		<div class="origin" id="origin<?php echo $j+1;?>">
+		<div class="origin" id="origin<?php echo $j;?>">
 			<div class="col-sm-9">
 				<p>แหล่งที่มาของลูกค้า</p>
-				<input type="text" class="form-control" id="origin"  name="origin[]" value="<?php echo  $data_source[$j];?>" />
+				<input type="text" class="form-control" id="origin<?php echo $j;?>"  name="origin[]" value="<?php echo  $data_source[$j];?>" />
 			</div>
 			<div class="col-sm-2">
 				<p>&nbsp;</p>
-				<h4><i class="glyphicon glyphicon-trash btn btn-danger" ID="delOrigin<?php echo $j+1;?>"></i> </h4>
+				<h4><i class="glyphicon glyphicon-trash btn btn-danger" ID="delOrigin<?php echo $j;?>"></i> </h4>
 			</div>
 		</div>
 		<?php } } ?>
@@ -629,21 +690,41 @@ function delObjective(num)
 		</div>
 	</div>
 	<div class="form-group col-sm-6">
-		<div class="col-sm-8">
-			<p>วัตถุประสงค์ของการซื้อ</p>
-			<input type="text" class="form-control"  name="objective[]"/>
+		<?php
+			$data_reason = explode(',', $row_customer['reason']);
+			$b = count($data_reason);
+			for($k=0;$k < $b ;$k++){
+				if($k==0){
+		?>
+		<div class="objective" ID="objective<?php echo $k;?>">
+			<div class="col-sm-8">
+				<p>วัตถุประสงค์ของการซื้อ</p>
+				<input type="text" class="form-control" id="objective<?php echo $k?>" name="objective[]" value="<?php echo $data_reason[$k];?>" />
+			</div>
+			<div class="col-sm-2">
+				<p>&nbsp;</p>
+				<div class="btn btn-primary" id="addObjective" style="width:120px;"> เพิ่มวัตถุประสงค์</div>
+			</div>
 		</div>
-		<div class="col-sm-2">
-			<p>&nbsp;</p>
-			<div class="btn btn-primary" id="addObjective" style="width:120px;"> เพิ่มวัตถุประสงค์</div>
+		<?php } else {?>
+		<div class="objective" ID="objective<?php echo $k;?>">
+			<div class="col-sm-8">
+				<p>วัตถุประสงค์ของการซื้อ</p>
+				<input type="text" class="form-control" id="objective<?php echo $k;?>" name="objective[]" value="<?php echo $data_reason[$k];?>" />
+			</div>
+			<div class="col-sm-3" >  
+				<p><br/></p>
+				<h4><i class="glyphicon glyphicon-trash btn btn-danger" ID="delObjective<?php echo $k;?>"></i> </h4>
+			</div> 
 		</div>
+		<?php } } ?>
 		<div class="add_objective">
 			<!-- show ddata add objective -->
 		</div>
 	</div>
 	<div class="col-sm-12" >
 		<p>หมายเหตุ</p>
-		<textarea  class="form-control" rows='3' name="comment"></textarea>
+		<textarea  class="form-control" rows='3' name="comment"><?php echo $row_customer['comment'];?></textarea>
 	</div>
 </div>
 <?php } ?>

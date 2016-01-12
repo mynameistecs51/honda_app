@@ -93,9 +93,9 @@ $('input[name=zipcode]').val('<?php echo $row_customer["post_code"];?>');
 			<p class="required">*</p>
 			<select name="is_tit" class ="form-control"  required>
 				<option>--เลือก--</option>
-				<option value="2" <?php echo $selected_tit=($row_customer['id_tit']==2?'selected':'');?> > นาย </option>
-				<option value="3" <?php echo $selected_tit=($row_customer['id_tit']==3?'selected':'');?>> นาง </option>
-				<option value="4"  <?php echo $selected_tit=($row_customer['id_tit']==4?'selected':'');?>> นางสาว </option>
+				<option value="2" <?php echo $selected_tit=($row_customer['is_tit']==2?'selected':'');?> > นาย </option>
+				<option value="3" <?php echo $selected_tit=($row_customer['is_tit']==3?'selected':'');?>> นาง </option>
+				<option value="4"  <?php echo $selected_tit=($row_customer['is_tit']==4?'selected':'');?>> นางสาว </option>
 			</select>
 		</div>
 		<div class="col-sm-3" >

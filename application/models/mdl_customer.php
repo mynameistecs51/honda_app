@@ -28,6 +28,24 @@ class Mdl_customer extends CI_Model
 		$this->db->insert('tcustomer_car_att',$model_Att);
 	}
 
+	public function update_customer($id,$data)
+	{
+		$this->db->where('id_customer',$id);
+		$this->db->update('tcustomer',$data);
+	}
+
+	public function update_customerAtt($id,$data_carAtt)
+	{
+		// delete array car Att
+		$this->db->where('id_customer',$id);
+		$this->db->delete('tcustomer_car_att');
+		// update data_carAtt //
+		$this->db->where('id_customer',$id);
+		$this->db->insert('tcustomer_car_att',$data_carAtt);
+		// echo $id,"<----";
+		// print_r($data_carAtt);
+	}
+
 	public function updatemmember($id,$data){
 		$this->db->where('id_mmember', $id);
 		$this->db->update('mmember', $data);
