@@ -144,7 +144,6 @@ class Customer extends CI_Controller
 		$this->mainpage($SCREENID);
 		$this->data['mmember_code']=$this->mmember_code;
 		$this->data["id_mbranch"] = $this->id_mposition;
-		// $this->data['getCode']=$this->getCode();
 		$this->load->view('customer/'.$SCREENID,$this->data);
 	}
 	public function DETAIL($id)

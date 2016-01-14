@@ -3,7 +3,7 @@
 	$(function(){
 		add();
 		// rundatatable();
-		runmodaledit();
+		// runmodaledit();
 	});
 
 	function rundatatable(){

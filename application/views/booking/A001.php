@@ -103,32 +103,78 @@ function saveData()
            }
         });
 }
+
+$(function(){
+	$('.memp_code').click(function () {
+		var screenname="ค้นหาข้อมูลข้อมูล :: ลูกค้าคาดหวัง";
+		var url = "<?php echo $show_cusCode; ?>";
+		var n=3;
+		$('.div_modal').html('');
+		modal_form(n,screenname);
+		$('#myModal'+n+' .modal-body').html('<img id="ajaxLoaderModal" src="<?php echo base_url(); ?>images/loader.gif"/>');
+		var modal = $('#myModal'+n), modalBody = $('#myModal'+n+' .modal-body');
+		modal.on('show.bs.modal', function () {
+			modalBody.load(url);
+		}).modal({backdrop: 'static',keyboard: true});
+		setInterval(function(){$('#ajaxLoaderModal').remove()},5100);
+	});
+});
+
+function modal_form(n,screenname)
+{
+	var div='';
+	div+='<form name="main" role="form" data-toggle="validator" id="form" method="post">';
+		div+='<!-- Modal -->';
+		div+='<div class="modal modal-wide fade" id="myModal'+n+'" tabindex="-3" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">';
+			div+='<div class="modal-dialog">';
+				div+='<div class="modal-content">';
+					div+='<div class="modal-header" style="background:#d9534f;color:#FFFFFF;">';
+						div+='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+						div+='<h4 class="modal-title">'+screenname+'</h4>';
+					div+='</div>';
+					div+='<div class="modal-body">';
+					div+='</div>';
+					div+='<div class="modal-footer" style="text-align:center; background:#F6CECE;">';
+						div+='<button type="submit" id="save" class="btn btn-modal"><span class="   glyphicon glyphicon-floppy-saved"> บันทึก</span></button>';
+					div+='<button type="reset" class="btn btn-modal" data-dismiss="modal"><span class="   glyphicon glyphicon-floppy-remove"> ยกเลิก</span></button>';
+					div+='</div>';
+				div+='</div><!-- /.modal-content -->';
+			div+='</div><!-- /.modal-dialog -->';
+		div+='</div><!-- /.modal -->';
+	div+='</form>';
+	$('.div_modal').html(div);
+}
+
 </script>
 <div class="row form_input" style="text-align:left; margin-bottom:10px">
-		<div class="col-sm-3">
-			<p>เลขที่ใบจอง</p>
-			<input type="text" class="form-control" name="number_booking" placeholder="--สร้างโดยระบบ--"  readonly>
-		</div>
-		<div class="col-sm-3">
-			<p>วันที่จอง</p>
-			<!-- <input type="text" class="form-control testtoday" name="testdate" value="<?php echo $datenow;?>"/> -->
-			<input  type="text" class="form-control today" name="date_booking" value="<?php echo $datenow;?>"/>
-		</div>
-		<div class="col-sm-3">
-			<p>รหัสพนักงาน</p>
-			<input type="text" class="form-control" name="id_employee" />
-		</div>
-		<div class="col-sm-3">
-			<p>ชื่อพนักงาน</p>
-			<input type="text" class="form-control" name="name_employee" />
-		</div>
+	<div class="col-sm-3">
+		<p>เลขที่ใบจอง</p>
+		<input type="text" class="form-control" name="number_booking" placeholder="--สร้างโดยระบบ--"  readonly>
+	</div>
+	<div class="col-sm-3">
+		<p>วันที่จอง</p>
+		<!-- <input type="text" class="form-control testtoday" name="testdate" value="<?php echo $datenow;?>"/> -->
+		<input  type="text" class="form-control today" name="date_booking" value="<?php echo $datenow;?>"/>
+	</div>
+	<div class="col-sm-3">
+		<p>รหัสพนักงาน</p>
+		<input type="text" class="form-control" name="id_employee" value="<?php echo $mmember_code;?>"/>
+	</div>
+	<div class="col-sm-3">
+		<p>ชื่อพนักงาน</p>
+		<?php
+			foreach ($Sale as $rowSale) {
+				echo '<input type="text" class="form-control" name="name_employee" value="'.$rowSale->salename.'"/>';
+			}
+		?>
+	</div>
 </div>
 <div class="row form_input"> 
 		<p><u>ลูกค้า</u></p>
 		<div class="col-sm-3" >
 			<p>หมายเลขลูกค้าคาดหวัง</p>
 			<p class="required">*</p>
-			<input type="text" class="form-control" name="memp_code" placeholder="----เลือก-----" required >
+			<input type="text" class="form-control memp_code" id="memp_code" name="memp_code" placeholder="----เลือก-----" required >
 		</div> 
 		<div class="col-sm-3" >
 			<p >ลูกค้า</p>
@@ -311,4 +357,6 @@ function saveData()
 		<p>หมายเหตุ</p>
 		<textarea  class="form-control" rows='3' name="comment"></textarea>
 	</div>
+</div>
+<div class="div_modal">
 </div>

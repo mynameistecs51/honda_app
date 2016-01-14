@@ -5,7 +5,8 @@ class Booking extends CI_Controller
 	{
 		parent::__construct();
 		$this->ctl="booking";
-		$this->load->model('mdl_employee');
+		$this->load->model('mdl_customer');
+		$this->load->model('mdl_booking');
 		date_default_timezone_set('Asia/Bangkok');
 		$now = new DateTime(null, new DateTimeZone('Asia/Bangkok'));
 		$this->dt_now = $now->format('Y-m-d H:i:s');
@@ -13,6 +14,7 @@ class Booking extends CI_Controller
 		$this->datefrom = "01/".$now->format('m/Y');
 		$this->dateto = $now->format('d/m/Y');
 		$this->id_mmember = $this->session->userdata('id_mmember');
+		$this->mmember_code = $this->session->userdata('mmember_code');
 		$this->id_mposition=$this->session->userdata("id_mposition");
 		$this->SCREENNAME=$this->template->getScreenName($this->ctl);
 		if($this->session->userdata("id_mmember")==""){
@@ -31,14 +33,14 @@ class Booking extends CI_Controller
 	public function getList()
 	{
 		$requestData= $_REQUEST;
-		$sqlQuery= $this->mdl_employee->getList($requestData);
+		$sqlQuery= $this->mdl_booking->getList($requestData);
 		$this->datatables->getDatatables($requestData,$sqlQuery);
 	}
 
 	public function getCode()
 	{
 		$mcmp_code='M';
-		$lastCode=$this->mdl_employee->getCodeLast($mcmp_code);
+		$lastCode=$this->mdl_booking->getCodeLast($mcmp_code);
 		return $lastCode;
 	}
 
@@ -46,7 +48,7 @@ class Booking extends CI_Controller
 	{
 		if ($_POST['user'])
 		{
-			echo $this->mdl_employee->getUser($_POST['user']);
+			echo $this->mdl_booking->getUser($_POST['user']);
 		}
 	}
 
@@ -79,12 +81,16 @@ class Booking extends CI_Controller
 		$this->data['mbranch_name'] = $this->session->userdata("mbranch_name");
 		$this->data["lastLogin"] = $this->session->userdata('lastLogin');
 		$this->data["id_mmember"] =$this->session->userdata("id_mmember");
+		$this->data['mmember_code'] = $this->session->userdata('mmember_code');
 		$this->data["id_mposition"] =$this->session->userdata("id_mposition");
 		$this->data["datefrom"] =$this->datefrom;
 		$this->data["dateto"] =$this->dateto;
-		$this->data['listmposition']= $this->mdl_employee->getmposition();
+		$this->data['listSale']= $this->mdl_customer->getTypeSale();
+		$this->data['Sale'] = $this->mdl_booking->getSale($this->id_mmember);
+		// $this->data['listmposition']= $this->mdl_booking->getmposition();
 		$this->data["header"]=$this->template->getHeader(base_url(),$SCREENNAME,$this->data['mmember_name'],$this->data["lastLogin"],$this->data["id_mposition"],$this->data['mbranch_name']);
 		$this->data["btn"] =$this->template->checkBtnAuthen($this->data["id_mposition"],$this->ctl);
+		$this->data["show_cusCode"] = base_url().$this->ctl."/show_cusCode/";
 		$this->data['url_add']=base_url().$this->ctl."/add/";
 		$this->data['url_edit']=base_url().$this->ctl."/edit/";
 		$this->data['url_detail']=base_url().$this->ctl."/detail/";
@@ -106,7 +112,7 @@ class Booking extends CI_Controller
 	{
 		$SCREENID="D001";
 		$this->mainpage($SCREENID);
-		$this->data['listemployee']= $this->mdl_employee->getemployee($id);
+		$this->data['listemployee']= $this->mdl_booking->getemployee($id);
 		$this->load->view('booking/'.$SCREENID,$this->data);
 	}
 	public function EDIT($id,$idx)
@@ -114,7 +120,7 @@ class Booking extends CI_Controller
 		$SCREENID="E001";
 		$this->mainpage($SCREENID);
 		$this->data['idx']=$idx;
-		$this->data['listemployee']= $this->mdl_employee->getemployee($id);
+		$this->data['listemployee']= $this->mdl_booking->getemployee($id);
 		$this->load->view('booking/'.$SCREENID,$this->data);
 	}
 
@@ -156,7 +162,7 @@ class Booking extends CI_Controller
 			"dt_update"			=> $this->dt_now
 			);
          ///print_r($data);exit();
-$this->mdl_employee->addemployee($data);
+$this->mdl_booking->addemployee($data);
 $massage = "บันทึกข้อมูล เรียบร้อย !";
 $this->alert($massage);
 	//echo json_encode($getId_tmnf);
@@ -170,7 +176,7 @@ public function saveUpdate()
 
 	$id=$post['id_employee'];
 	if($post['old_pass']!=''){
-		$old_pass=$this->mdl_employee->checkOldPass($id,MD5($post['old_pass']));
+		$old_pass=$this->mdl_booking->checkOldPass($id,MD5($post['old_pass']));
 	}else{
 		$old_pass=1;
 	}
@@ -232,7 +238,7 @@ public function saveUpdate()
 		"dt_update"			=> $this->dt_now
 		);
 }
-$this->mdl_employee->updateemployee($id,$data);
+$this->mdl_booking->updateemployee($id,$data);
 
 $massage = "แก้ไขข้อมูล เรียบร้อย !";
 $this->alert($massage);
