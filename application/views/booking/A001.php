@@ -71,6 +71,13 @@
 				$("#valid").html("");
 			}
 		});
+
+		$('.selectpicker').selectpicker("keyup",function(e){
+			//alert($(this).val());
+			//style: 'btn-info',
+			 //size: 4
+		});
+
 		saveData();
 	});
 
@@ -169,13 +176,37 @@ function modal_form(n,screenname)
 		?>
 	</div>
 </div>
-<div class="row form_input"> 
+<div class="row form_input">
 		<p><u>ลูกค้า</u></p>
 		<div class="col-sm-3" >
 			<p>หมายเลขลูกค้าคาดหวัง</p>
 			<p class="required">*</p>
+		        <div class="form-group">
+		          <select class="selectpicker"  data-live-search="true" data-live-search-placeholder="Search" data-actions-box="true">
+			          <option>---------select---------</option>
+			          option
+			            <optgroup label="filter1">
+			              <option>option1</option>
+			              <option>option2</option>
+			              <option>option3</option>
+			              <option>option4</option>
+			            </optgroup>
+			            <optgroup label="filter2">
+			              <option>option1</option>
+			              <option>option2</option>
+			              <option>option3</option>
+			              <option>option4</option>
+			            </optgroup>
+			            <optgroup label="filter3">
+			              <option>option1</option>
+			              <option>option2</option>
+			              <option>option3</option>
+			              <option>option4</option>
+			            </optgroup>
+		          </select>
+		        </div>
 			<input type="text" class="form-control memp_code" id="memp_code" name="memp_code" placeholder="----เลือก-----" required >
-		</div> 
+		</div>
 		<div class="col-sm-3" >
 			<p >ลูกค้า</p>
 			<!-- <p class="required">*</p> -->
@@ -192,9 +223,9 @@ function modal_form(n,screenname)
 			<p>เหตุผลที่จอง</p>
 			<label class="radio-inline"><input type="radio" name="car_detail" value="" checked> ตัวรถ</label>
 			<label class="radio-inline"><input type="radio" name="car_detail" value="" > แคมเปญและของแถม</label>
-		</div> 
+		</div>
 </div>
-<div class="row form_input"> 
+<div class="row form_input">
 		<div class="col-sm-3">
 			<p>คำนำหน้าชื่อ</p>
 			<select name="id_memp_tit" class ="form-control" required>
@@ -220,7 +251,7 @@ function modal_form(n,screenname)
 			<input type="text" class="form-control" name="birthdate" id="birthdate"  >
 		</div>
 </div>
-<div class="row form_input"> 
+<div class="row form_input">
 		<div class="col-sm-3" >
 			<p>เลขใบอนุญาตขับขี่</p>
 			<p class="required">*</p>
@@ -241,7 +272,7 @@ function modal_form(n,screenname)
 			<input type="text" class="form-control" ID="mobile" name="mobile" >
 		</div>
 </div>
-<div class="row form_input"> 
+<div class="row form_input">
 		<div class="col-sm-3">
 			<p>รหัสไปรษณีย์</p>
 			<input type="text" class="form-control" />
@@ -251,7 +282,7 @@ function modal_form(n,screenname)
 			<input tye="text" class="form-control" name="address" />
 		</div>
 </div>
-<div class="row form_input"> 
+<div class="row form_input">
 		<div class="col-sm-3">
 			<p>จังหวัด</p>
 			<input type="text" class="form-control" name="provice"/>
@@ -265,7 +296,7 @@ function modal_form(n,screenname)
 			<input type="text" class="form-control" name="tumbon" />
 		</div>
 </div>
-<div class="row form_input"> 
+<div class="row form_input">
 		<div class="col-sm-3">
 			<p>อาชีพ/ธุรกิจ</p>
 			<input type="text" class="form-control" name="jon" />
@@ -275,7 +306,7 @@ function modal_form(n,screenname)
 			<input type="text" class="form-control" name="origin" />
 		</div>
 </div>
-<div class="row form_input"> 
+<div class="row form_input">
 		<p><u>เลือกรถ</u>  <input type="checkbox" name="select_in_stock" value="newCustomer" checked>เลือกจากสต๊อก </p>
 		<div class="col-md-3" >
 			<p>เลขที่รับเข้าสต๊อก</p>
@@ -294,7 +325,7 @@ function modal_form(n,screenname)
 			<input type="text" class="form-control today" name="tstock_date" value="<?php echo $datenow; ?>" required>
 		</div>
 </div>
-<div class="row form_input"> 
+<div class="row form_input">
 		<div class="col-sm-3">
 			<p>แบบ</p>
 			<select name="modelcar" class ="form-control" required>
@@ -303,7 +334,7 @@ function modal_form(n,screenname)
 				<option value="2"> HONDA City </option>
 				<option value="3"> HONDA BR-V </option>
 			</select>
-		</div> 
+		</div>
 		<div class="col-sm-3">
 			<p>รุ่น</p>
 			<select name="modelcar" class ="form-control" required>
@@ -322,9 +353,9 @@ function modal_form(n,screenname)
 				<option value="3" style="background-color: black"> สีดำ</option>
 				<option value="3" style="background-color: gray"> สีเทา</option>
 			</select>
-		</div> 
+		</div>
 </div>
-<div class="row form_input"> 
+<div class="row form_input">
 		<div class="col-sm-3">
 			<p>ราคา</p>
 			<input type="text" name="price" class="form-control" />
@@ -337,7 +368,7 @@ function modal_form(n,screenname)
 			</div>
 		</div>
 </div>
-<div class="row form_input"> 
+<div class="row form_input">
 	<p style="color:red;"><u>ใบจองที่โอนมา</u></p>
 		<div class="col-sm-3">
 			<p style="color:red;">เลขที่ใบจองที่โอนมา</p>
@@ -352,7 +383,7 @@ function modal_form(n,screenname)
 			<input type="text" class="form-control" name="whatCancel" />
 		</div>
 </div>
-<div class="row form_input"> 
+<div class="row form_input">
 	<div class="col-sm-12">
 		<p>หมายเหตุ</p>
 		<textarea  class="form-control" rows='3' name="comment"></textarea>
