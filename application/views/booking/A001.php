@@ -72,33 +72,27 @@
 			}
 		});
 
-		$('.selectpicker').selectpicker({
-			
-		});
-
-		$('.selectpicker').keyup(function(){
-			$.ajax({
-				url: '<?php echo base_url().$controller; ?>/getCustomer/',
-				//data:"zipcode="+$("input[name=zipcode]").val(),
-				type: 'POST',
-				dataType: 'json',
-				success:function(res){
-					console.log(res);
-					// var amphur="<option >----เลือกอำเภอ----</option>";
-					// var district="<option >---เลือกตำบล---</option>";
-					// $.each(res, function( index, value ) {
-						// $('input[name=province]').val(value['PROVINCE_NAME']);
-						// $('input[name=amphur]').val(value["AMPHUR_NAME"]);
-						// province = "<option value="+value['PROVINCE_ID']+"> "+value['PROVINCE_NAME']+"</option>";
-						// amphur = "<option value="+value['AMPHUR_ID']+"> "+value['AMPHUR_NAME']+"</option>";
-						// district += "<option value="+value['DISTRICT_ID']+"> "+value['DISTRICT_NAME']+"</option>";
-					// });
-					// $('#province').html(province);
-				}
-			});			
+		$('.selectpicker').change(function() {
+			alert($(this).val());	//ให้นำข้อมูลไปแสดงใน text filed อื่น
 		});
 
 		saveData();
+	});
+
+	$(function(){
+		$.ajax({
+			url: '<?php echo base_url().$controller; ?>/getCustomer/',
+			data:"",
+			type: 'POST',
+			dataType: 'json',
+			success:function(resp){
+				var selected="<option>----------select----------</option>";
+				$.each(resp, function( index, value ) {
+					selected+="<option value='"+value['id_customer']+"' data-subtext='"+value['customer_code']+"'>"+value['firstname']+" "+value['lastname']+"</option>";
+				});
+				$('.selectpicker').html(selected).selectpicker({size: 4});
+			}
+		});
 	});
 
 function saveData()
@@ -202,11 +196,11 @@ function modal_form(n,screenname)
 			<p>หมายเลขลูกค้าคาดหวัง</p>
 			<p class="required">*</p>
 		        <div class="form-group">
-		          <select class="selectpicker form-control" name="selectCustomer" data-live-search="true" data-live-search-placeholder="Search" d>
-			          <option>---------ค้นหาลูกค้า---------</option>
+		          <select class="selectpicker form-control" name="selectCustomer" data-live-search="true" data-live-search-placeholder="Search" >
+			          <!-- <option>---------ค้นหาลูกค้า---------</option> -->
 		          </select>
 		        </div>
-			<input type="text" class="form-control memp_code" id="memp_code" name="memp_code" placeholder="----เลือก-----" required >
+			<!-- <input type="text" class="form-control memp_code" id="memp_code" name="memp_code" placeholder="----เลือก-----" required > -->
 		</div>
 		<div class="col-sm-3" >
 			<p >ลูกค้า</p>

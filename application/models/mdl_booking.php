@@ -6,14 +6,14 @@ class Mdl_booking extends CI_Model {
 	public function __construct()
 	{
 		parent::__construct();
-		
+
 	}
 
 	public function getSale($idSale)
 	{
-		$sql = 
+		$sql =
 			"
-			SELECT 
+			SELECT
 			CONCAT(m.firstname,' ',m.lastname) AS salename,
 			m.id_mmember,
 			m.mmember_code
@@ -32,7 +32,7 @@ class Mdl_booking extends CI_Model {
 			     	cus.customer_code,
 			     	CONCAT(
 			     		DATE_FORMAT(cus.customer_date,'%d/%m/'),
-			     		DATE_FORMAT(cus.customer_date,'%Y')+543 ) 
+			     		DATE_FORMAT(cus.customer_date,'%Y')+543 )
 				AS customer_date,
 				cus.bye_date,
 				cus.accounts_receivable,
@@ -45,7 +45,7 @@ class Mdl_booking extends CI_Model {
 				cus.lastname,
 				CONCAT(
 					DATE_FORMAT(cus.birth_date,'%d/%m/'),
-					DATE_FORMAT(cus.birth_date,'%Y')+543 ) 
+					DATE_FORMAT(cus.birth_date,'%Y')+543 )
 				AS birth_date,
 				cus.adr_line,
 				cus.post_code,
@@ -56,10 +56,10 @@ class Mdl_booking extends CI_Model {
 				cus.telephone,
 				cus.mobile,
 				CONCAT(
-					(CASE mem.id_mmember_tit 
-						WHEN 1 THEN 'นาย' 
-						WHEN 2 THEN 'นาง' 
-						WHEN 3 THEN 'นางสาว' 
+					(CASE mem.id_mmember_tit
+						WHEN 1 THEN 'นาย'
+						WHEN 2 THEN 'นาง'
+						WHEN 3 THEN 'นางสาว'
 					END),' ',mem.firstname,' ',mem.lastname)
 				AS member_name,
 				cus.sales_consultants,
@@ -83,7 +83,7 @@ class Mdl_booking extends CI_Model {
 			INNER JOIN mmodel mo ON cus_att.id_model = mo.id_model
 			INNER JOIN mgen gen ON cus_att.id_gen = gen.id_gen
 			INNER JOIN mcolor color ON cus_att.id_color = color.id_color
-			WHERE 1=1
+			GROUP BY cus.id_customer
 		";
 		$query_sql = $this->db->query($sql)->result();
 		return  $query_sql;
