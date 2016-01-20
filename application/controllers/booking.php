@@ -44,6 +44,14 @@ class Booking extends CI_Controller
 		return $lastCode;
 	}
 
+	public function getCustomer()
+	{
+		// $name = $_POST['cus_name'];
+		// echo $name;
+		$listCustomer = $this->mdl_booking->getCustomer();
+		echo json_encode($listCustomer);
+	}
+
 	public function checkUser()
 	{
 		if ($_POST['user'])
@@ -161,13 +169,13 @@ class Booking extends CI_Controller
 			"id_update"			=> $this->id_employee,
 			"dt_update"			=> $this->dt_now
 			);
-         ///print_r($data);exit();
-$this->mdl_booking->addemployee($data);
-$massage = "บันทึกข้อมูล เรียบร้อย !";
-$this->alert($massage);
-	//echo json_encode($getId_tmnf);
-endif;
-}
+		         ///print_r($data);exit();
+		$this->mdl_booking->addemployee($data);
+		$massage = "บันทึกข้อมูล เรียบร้อย !";
+		$this->alert($massage);
+			//echo json_encode($getId_tmnf);
+		endif;
+		}
 
 public function saveUpdate()
 {
